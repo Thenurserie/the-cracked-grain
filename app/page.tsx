@@ -6,6 +6,10 @@ import { supabase } from '@/lib/supabase';
 import { Product, Category } from '@/lib/types';
 import { ArrowRight } from 'lucide-react';
 
+// Force this route to be dynamic (not statically generated)
+// This prevents database access during build time
+export const dynamic = 'force-dynamic';
+
 async function getCategories(): Promise<Category[]> {
   const { data, error } = await supabase
     .from('categories')

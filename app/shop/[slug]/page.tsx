@@ -8,6 +8,10 @@ import { supabase } from '@/lib/supabase';
 import { Product } from '@/lib/types';
 import type { Metadata } from 'next';
 
+// Force this route to be dynamic (not statically generated)
+// This prevents database access during build time
+export const dynamic = 'force-dynamic';
+
 interface ProductPageProps {
   params: {
     slug: string;
