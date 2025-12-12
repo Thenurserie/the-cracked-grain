@@ -1316,15 +1316,15 @@ export namespace Prisma {
    */
 
   export type ProductCountOutputType = {
-    orderItems: number
-    inventoryTransactions: number
     inventoryAlerts: number
+    inventoryTransactions: number
+    orderItems: number
   }
 
   export type ProductCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    orderItems?: boolean | ProductCountOutputTypeCountOrderItemsArgs
-    inventoryTransactions?: boolean | ProductCountOutputTypeCountInventoryTransactionsArgs
     inventoryAlerts?: boolean | ProductCountOutputTypeCountInventoryAlertsArgs
+    inventoryTransactions?: boolean | ProductCountOutputTypeCountInventoryTransactionsArgs
+    orderItems?: boolean | ProductCountOutputTypeCountOrderItemsArgs
   }
 
   // Custom InputTypes
@@ -1341,8 +1341,8 @@ export namespace Prisma {
   /**
    * ProductCountOutputType without action
    */
-  export type ProductCountOutputTypeCountOrderItemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: OrderItemWhereInput
+  export type ProductCountOutputTypeCountInventoryAlertsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: InventoryAlertWhereInput
   }
 
   /**
@@ -1355,8 +1355,8 @@ export namespace Prisma {
   /**
    * ProductCountOutputType without action
    */
-  export type ProductCountOutputTypeCountInventoryAlertsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: InventoryAlertWhereInput
+  export type ProductCountOutputTypeCountOrderItemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: OrderItemWhereInput
   }
 
 
@@ -1677,9 +1677,9 @@ export namespace Prisma {
     isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    orderItems?: boolean | Product$orderItemsArgs<ExtArgs>
-    inventoryTransactions?: boolean | Product$inventoryTransactionsArgs<ExtArgs>
     inventoryAlerts?: boolean | Product$inventoryAlertsArgs<ExtArgs>
+    inventoryTransactions?: boolean | Product$inventoryTransactionsArgs<ExtArgs>
+    orderItems?: boolean | Product$orderItemsArgs<ExtArgs>
     _count?: boolean | ProductCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["product"]>
 
@@ -1739,9 +1739,9 @@ export namespace Prisma {
 
   export type ProductOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "slug" | "description" | "category" | "subcategory" | "price" | "unit" | "stockQuantity" | "lowStockThreshold" | "imageUrl" | "specifications" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["product"]>
   export type ProductInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    orderItems?: boolean | Product$orderItemsArgs<ExtArgs>
-    inventoryTransactions?: boolean | Product$inventoryTransactionsArgs<ExtArgs>
     inventoryAlerts?: boolean | Product$inventoryAlertsArgs<ExtArgs>
+    inventoryTransactions?: boolean | Product$inventoryTransactionsArgs<ExtArgs>
+    orderItems?: boolean | Product$orderItemsArgs<ExtArgs>
     _count?: boolean | ProductCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ProductIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -1750,9 +1750,9 @@ export namespace Prisma {
   export type $ProductPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Product"
     objects: {
-      orderItems: Prisma.$OrderItemPayload<ExtArgs>[]
-      inventoryTransactions: Prisma.$InventoryTransactionPayload<ExtArgs>[]
       inventoryAlerts: Prisma.$InventoryAlertPayload<ExtArgs>[]
+      inventoryTransactions: Prisma.$InventoryTransactionPayload<ExtArgs>[]
+      orderItems: Prisma.$OrderItemPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -2164,9 +2164,9 @@ export namespace Prisma {
    */
   export interface Prisma__ProductClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    orderItems<T extends Product$orderItemsArgs<ExtArgs> = {}>(args?: Subset<T, Product$orderItemsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrderItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    inventoryTransactions<T extends Product$inventoryTransactionsArgs<ExtArgs> = {}>(args?: Subset<T, Product$inventoryTransactionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InventoryTransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     inventoryAlerts<T extends Product$inventoryAlertsArgs<ExtArgs> = {}>(args?: Subset<T, Product$inventoryAlertsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InventoryAlertPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    inventoryTransactions<T extends Product$inventoryTransactionsArgs<ExtArgs> = {}>(args?: Subset<T, Product$inventoryTransactionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InventoryTransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    orderItems<T extends Product$orderItemsArgs<ExtArgs> = {}>(args?: Subset<T, Product$orderItemsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrderItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2599,27 +2599,27 @@ export namespace Prisma {
   }
 
   /**
-   * Product.orderItems
+   * Product.inventoryAlerts
    */
-  export type Product$orderItemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Product$inventoryAlertsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the OrderItem
+     * Select specific fields to fetch from the InventoryAlert
      */
-    select?: OrderItemSelect<ExtArgs> | null
+    select?: InventoryAlertSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the OrderItem
+     * Omit specific fields from the InventoryAlert
      */
-    omit?: OrderItemOmit<ExtArgs> | null
+    omit?: InventoryAlertOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: OrderItemInclude<ExtArgs> | null
-    where?: OrderItemWhereInput
-    orderBy?: OrderItemOrderByWithRelationInput | OrderItemOrderByWithRelationInput[]
-    cursor?: OrderItemWhereUniqueInput
+    include?: InventoryAlertInclude<ExtArgs> | null
+    where?: InventoryAlertWhereInput
+    orderBy?: InventoryAlertOrderByWithRelationInput | InventoryAlertOrderByWithRelationInput[]
+    cursor?: InventoryAlertWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: OrderItemScalarFieldEnum | OrderItemScalarFieldEnum[]
+    distinct?: InventoryAlertScalarFieldEnum | InventoryAlertScalarFieldEnum[]
   }
 
   /**
@@ -2647,27 +2647,27 @@ export namespace Prisma {
   }
 
   /**
-   * Product.inventoryAlerts
+   * Product.orderItems
    */
-  export type Product$inventoryAlertsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Product$orderItemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the InventoryAlert
+     * Select specific fields to fetch from the OrderItem
      */
-    select?: InventoryAlertSelect<ExtArgs> | null
+    select?: OrderItemSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the InventoryAlert
+     * Omit specific fields from the OrderItem
      */
-    omit?: InventoryAlertOmit<ExtArgs> | null
+    omit?: OrderItemOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: InventoryAlertInclude<ExtArgs> | null
-    where?: InventoryAlertWhereInput
-    orderBy?: InventoryAlertOrderByWithRelationInput | InventoryAlertOrderByWithRelationInput[]
-    cursor?: InventoryAlertWhereUniqueInput
+    include?: OrderItemInclude<ExtArgs> | null
+    where?: OrderItemWhereInput
+    orderBy?: OrderItemOrderByWithRelationInput | OrderItemOrderByWithRelationInput[]
+    cursor?: OrderItemWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: InventoryAlertScalarFieldEnum | InventoryAlertScalarFieldEnum[]
+    distinct?: OrderItemScalarFieldEnum | OrderItemScalarFieldEnum[]
   }
 
   /**
@@ -8873,9 +8873,9 @@ export namespace Prisma {
     isActive?: BoolFilter<"Product"> | boolean
     createdAt?: DateTimeFilter<"Product"> | Date | string
     updatedAt?: DateTimeFilter<"Product"> | Date | string
-    orderItems?: OrderItemListRelationFilter
-    inventoryTransactions?: InventoryTransactionListRelationFilter
     inventoryAlerts?: InventoryAlertListRelationFilter
+    inventoryTransactions?: InventoryTransactionListRelationFilter
+    orderItems?: OrderItemListRelationFilter
   }
 
   export type ProductOrderByWithRelationInput = {
@@ -8894,9 +8894,9 @@ export namespace Prisma {
     isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    orderItems?: OrderItemOrderByRelationAggregateInput
-    inventoryTransactions?: InventoryTransactionOrderByRelationAggregateInput
     inventoryAlerts?: InventoryAlertOrderByRelationAggregateInput
+    inventoryTransactions?: InventoryTransactionOrderByRelationAggregateInput
+    orderItems?: OrderItemOrderByRelationAggregateInput
   }
 
   export type ProductWhereUniqueInput = Prisma.AtLeast<{
@@ -8918,9 +8918,9 @@ export namespace Prisma {
     isActive?: BoolFilter<"Product"> | boolean
     createdAt?: DateTimeFilter<"Product"> | Date | string
     updatedAt?: DateTimeFilter<"Product"> | Date | string
-    orderItems?: OrderItemListRelationFilter
-    inventoryTransactions?: InventoryTransactionListRelationFilter
     inventoryAlerts?: InventoryAlertListRelationFilter
+    inventoryTransactions?: InventoryTransactionListRelationFilter
+    orderItems?: OrderItemListRelationFilter
   }, "id" | "slug">
 
   export type ProductOrderByWithAggregationInput = {
@@ -9441,9 +9441,9 @@ export namespace Prisma {
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
-    orderItems?: OrderItemCreateNestedManyWithoutProductInput
-    inventoryTransactions?: InventoryTransactionCreateNestedManyWithoutProductInput
     inventoryAlerts?: InventoryAlertCreateNestedManyWithoutProductInput
+    inventoryTransactions?: InventoryTransactionCreateNestedManyWithoutProductInput
+    orderItems?: OrderItemCreateNestedManyWithoutProductInput
   }
 
   export type ProductUncheckedCreateInput = {
@@ -9462,9 +9462,9 @@ export namespace Prisma {
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
-    orderItems?: OrderItemUncheckedCreateNestedManyWithoutProductInput
-    inventoryTransactions?: InventoryTransactionUncheckedCreateNestedManyWithoutProductInput
     inventoryAlerts?: InventoryAlertUncheckedCreateNestedManyWithoutProductInput
+    inventoryTransactions?: InventoryTransactionUncheckedCreateNestedManyWithoutProductInput
+    orderItems?: OrderItemUncheckedCreateNestedManyWithoutProductInput
   }
 
   export type ProductUpdateInput = {
@@ -9483,9 +9483,9 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    orderItems?: OrderItemUpdateManyWithoutProductNestedInput
-    inventoryTransactions?: InventoryTransactionUpdateManyWithoutProductNestedInput
     inventoryAlerts?: InventoryAlertUpdateManyWithoutProductNestedInput
+    inventoryTransactions?: InventoryTransactionUpdateManyWithoutProductNestedInput
+    orderItems?: OrderItemUpdateManyWithoutProductNestedInput
   }
 
   export type ProductUncheckedUpdateInput = {
@@ -9504,9 +9504,9 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    orderItems?: OrderItemUncheckedUpdateManyWithoutProductNestedInput
-    inventoryTransactions?: InventoryTransactionUncheckedUpdateManyWithoutProductNestedInput
     inventoryAlerts?: InventoryAlertUncheckedUpdateManyWithoutProductNestedInput
+    inventoryTransactions?: InventoryTransactionUncheckedUpdateManyWithoutProductNestedInput
+    orderItems?: OrderItemUncheckedUpdateManyWithoutProductNestedInput
   }
 
   export type ProductCreateManyInput = {
@@ -10191,10 +10191,10 @@ export namespace Prisma {
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
-  export type OrderItemListRelationFilter = {
-    every?: OrderItemWhereInput
-    some?: OrderItemWhereInput
-    none?: OrderItemWhereInput
+  export type InventoryAlertListRelationFilter = {
+    every?: InventoryAlertWhereInput
+    some?: InventoryAlertWhereInput
+    none?: InventoryAlertWhereInput
   }
 
   export type InventoryTransactionListRelationFilter = {
@@ -10203,10 +10203,10 @@ export namespace Prisma {
     none?: InventoryTransactionWhereInput
   }
 
-  export type InventoryAlertListRelationFilter = {
-    every?: InventoryAlertWhereInput
-    some?: InventoryAlertWhereInput
-    none?: InventoryAlertWhereInput
+  export type OrderItemListRelationFilter = {
+    every?: OrderItemWhereInput
+    some?: OrderItemWhereInput
+    none?: OrderItemWhereInput
   }
 
   export type SortOrderInput = {
@@ -10214,7 +10214,7 @@ export namespace Prisma {
     nulls?: NullsOrder
   }
 
-  export type OrderItemOrderByRelationAggregateInput = {
+  export type InventoryAlertOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -10222,7 +10222,7 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
-  export type InventoryAlertOrderByRelationAggregateInput = {
+  export type OrderItemOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -10866,11 +10866,11 @@ export namespace Prisma {
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
-  export type OrderItemCreateNestedManyWithoutProductInput = {
-    create?: XOR<OrderItemCreateWithoutProductInput, OrderItemUncheckedCreateWithoutProductInput> | OrderItemCreateWithoutProductInput[] | OrderItemUncheckedCreateWithoutProductInput[]
-    connectOrCreate?: OrderItemCreateOrConnectWithoutProductInput | OrderItemCreateOrConnectWithoutProductInput[]
-    createMany?: OrderItemCreateManyProductInputEnvelope
-    connect?: OrderItemWhereUniqueInput | OrderItemWhereUniqueInput[]
+  export type InventoryAlertCreateNestedManyWithoutProductInput = {
+    create?: XOR<InventoryAlertCreateWithoutProductInput, InventoryAlertUncheckedCreateWithoutProductInput> | InventoryAlertCreateWithoutProductInput[] | InventoryAlertUncheckedCreateWithoutProductInput[]
+    connectOrCreate?: InventoryAlertCreateOrConnectWithoutProductInput | InventoryAlertCreateOrConnectWithoutProductInput[]
+    createMany?: InventoryAlertCreateManyProductInputEnvelope
+    connect?: InventoryAlertWhereUniqueInput | InventoryAlertWhereUniqueInput[]
   }
 
   export type InventoryTransactionCreateNestedManyWithoutProductInput = {
@@ -10880,18 +10880,18 @@ export namespace Prisma {
     connect?: InventoryTransactionWhereUniqueInput | InventoryTransactionWhereUniqueInput[]
   }
 
-  export type InventoryAlertCreateNestedManyWithoutProductInput = {
-    create?: XOR<InventoryAlertCreateWithoutProductInput, InventoryAlertUncheckedCreateWithoutProductInput> | InventoryAlertCreateWithoutProductInput[] | InventoryAlertUncheckedCreateWithoutProductInput[]
-    connectOrCreate?: InventoryAlertCreateOrConnectWithoutProductInput | InventoryAlertCreateOrConnectWithoutProductInput[]
-    createMany?: InventoryAlertCreateManyProductInputEnvelope
-    connect?: InventoryAlertWhereUniqueInput | InventoryAlertWhereUniqueInput[]
-  }
-
-  export type OrderItemUncheckedCreateNestedManyWithoutProductInput = {
+  export type OrderItemCreateNestedManyWithoutProductInput = {
     create?: XOR<OrderItemCreateWithoutProductInput, OrderItemUncheckedCreateWithoutProductInput> | OrderItemCreateWithoutProductInput[] | OrderItemUncheckedCreateWithoutProductInput[]
     connectOrCreate?: OrderItemCreateOrConnectWithoutProductInput | OrderItemCreateOrConnectWithoutProductInput[]
     createMany?: OrderItemCreateManyProductInputEnvelope
     connect?: OrderItemWhereUniqueInput | OrderItemWhereUniqueInput[]
+  }
+
+  export type InventoryAlertUncheckedCreateNestedManyWithoutProductInput = {
+    create?: XOR<InventoryAlertCreateWithoutProductInput, InventoryAlertUncheckedCreateWithoutProductInput> | InventoryAlertCreateWithoutProductInput[] | InventoryAlertUncheckedCreateWithoutProductInput[]
+    connectOrCreate?: InventoryAlertCreateOrConnectWithoutProductInput | InventoryAlertCreateOrConnectWithoutProductInput[]
+    createMany?: InventoryAlertCreateManyProductInputEnvelope
+    connect?: InventoryAlertWhereUniqueInput | InventoryAlertWhereUniqueInput[]
   }
 
   export type InventoryTransactionUncheckedCreateNestedManyWithoutProductInput = {
@@ -10901,11 +10901,11 @@ export namespace Prisma {
     connect?: InventoryTransactionWhereUniqueInput | InventoryTransactionWhereUniqueInput[]
   }
 
-  export type InventoryAlertUncheckedCreateNestedManyWithoutProductInput = {
-    create?: XOR<InventoryAlertCreateWithoutProductInput, InventoryAlertUncheckedCreateWithoutProductInput> | InventoryAlertCreateWithoutProductInput[] | InventoryAlertUncheckedCreateWithoutProductInput[]
-    connectOrCreate?: InventoryAlertCreateOrConnectWithoutProductInput | InventoryAlertCreateOrConnectWithoutProductInput[]
-    createMany?: InventoryAlertCreateManyProductInputEnvelope
-    connect?: InventoryAlertWhereUniqueInput | InventoryAlertWhereUniqueInput[]
+  export type OrderItemUncheckedCreateNestedManyWithoutProductInput = {
+    create?: XOR<OrderItemCreateWithoutProductInput, OrderItemUncheckedCreateWithoutProductInput> | OrderItemCreateWithoutProductInput[] | OrderItemUncheckedCreateWithoutProductInput[]
+    connectOrCreate?: OrderItemCreateOrConnectWithoutProductInput | OrderItemCreateOrConnectWithoutProductInput[]
+    createMany?: OrderItemCreateManyProductInputEnvelope
+    connect?: OrderItemWhereUniqueInput | OrderItemWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -10940,18 +10940,18 @@ export namespace Prisma {
     set?: Date | string
   }
 
-  export type OrderItemUpdateManyWithoutProductNestedInput = {
-    create?: XOR<OrderItemCreateWithoutProductInput, OrderItemUncheckedCreateWithoutProductInput> | OrderItemCreateWithoutProductInput[] | OrderItemUncheckedCreateWithoutProductInput[]
-    connectOrCreate?: OrderItemCreateOrConnectWithoutProductInput | OrderItemCreateOrConnectWithoutProductInput[]
-    upsert?: OrderItemUpsertWithWhereUniqueWithoutProductInput | OrderItemUpsertWithWhereUniqueWithoutProductInput[]
-    createMany?: OrderItemCreateManyProductInputEnvelope
-    set?: OrderItemWhereUniqueInput | OrderItemWhereUniqueInput[]
-    disconnect?: OrderItemWhereUniqueInput | OrderItemWhereUniqueInput[]
-    delete?: OrderItemWhereUniqueInput | OrderItemWhereUniqueInput[]
-    connect?: OrderItemWhereUniqueInput | OrderItemWhereUniqueInput[]
-    update?: OrderItemUpdateWithWhereUniqueWithoutProductInput | OrderItemUpdateWithWhereUniqueWithoutProductInput[]
-    updateMany?: OrderItemUpdateManyWithWhereWithoutProductInput | OrderItemUpdateManyWithWhereWithoutProductInput[]
-    deleteMany?: OrderItemScalarWhereInput | OrderItemScalarWhereInput[]
+  export type InventoryAlertUpdateManyWithoutProductNestedInput = {
+    create?: XOR<InventoryAlertCreateWithoutProductInput, InventoryAlertUncheckedCreateWithoutProductInput> | InventoryAlertCreateWithoutProductInput[] | InventoryAlertUncheckedCreateWithoutProductInput[]
+    connectOrCreate?: InventoryAlertCreateOrConnectWithoutProductInput | InventoryAlertCreateOrConnectWithoutProductInput[]
+    upsert?: InventoryAlertUpsertWithWhereUniqueWithoutProductInput | InventoryAlertUpsertWithWhereUniqueWithoutProductInput[]
+    createMany?: InventoryAlertCreateManyProductInputEnvelope
+    set?: InventoryAlertWhereUniqueInput | InventoryAlertWhereUniqueInput[]
+    disconnect?: InventoryAlertWhereUniqueInput | InventoryAlertWhereUniqueInput[]
+    delete?: InventoryAlertWhereUniqueInput | InventoryAlertWhereUniqueInput[]
+    connect?: InventoryAlertWhereUniqueInput | InventoryAlertWhereUniqueInput[]
+    update?: InventoryAlertUpdateWithWhereUniqueWithoutProductInput | InventoryAlertUpdateWithWhereUniqueWithoutProductInput[]
+    updateMany?: InventoryAlertUpdateManyWithWhereWithoutProductInput | InventoryAlertUpdateManyWithWhereWithoutProductInput[]
+    deleteMany?: InventoryAlertScalarWhereInput | InventoryAlertScalarWhereInput[]
   }
 
   export type InventoryTransactionUpdateManyWithoutProductNestedInput = {
@@ -10968,21 +10968,7 @@ export namespace Prisma {
     deleteMany?: InventoryTransactionScalarWhereInput | InventoryTransactionScalarWhereInput[]
   }
 
-  export type InventoryAlertUpdateManyWithoutProductNestedInput = {
-    create?: XOR<InventoryAlertCreateWithoutProductInput, InventoryAlertUncheckedCreateWithoutProductInput> | InventoryAlertCreateWithoutProductInput[] | InventoryAlertUncheckedCreateWithoutProductInput[]
-    connectOrCreate?: InventoryAlertCreateOrConnectWithoutProductInput | InventoryAlertCreateOrConnectWithoutProductInput[]
-    upsert?: InventoryAlertUpsertWithWhereUniqueWithoutProductInput | InventoryAlertUpsertWithWhereUniqueWithoutProductInput[]
-    createMany?: InventoryAlertCreateManyProductInputEnvelope
-    set?: InventoryAlertWhereUniqueInput | InventoryAlertWhereUniqueInput[]
-    disconnect?: InventoryAlertWhereUniqueInput | InventoryAlertWhereUniqueInput[]
-    delete?: InventoryAlertWhereUniqueInput | InventoryAlertWhereUniqueInput[]
-    connect?: InventoryAlertWhereUniqueInput | InventoryAlertWhereUniqueInput[]
-    update?: InventoryAlertUpdateWithWhereUniqueWithoutProductInput | InventoryAlertUpdateWithWhereUniqueWithoutProductInput[]
-    updateMany?: InventoryAlertUpdateManyWithWhereWithoutProductInput | InventoryAlertUpdateManyWithWhereWithoutProductInput[]
-    deleteMany?: InventoryAlertScalarWhereInput | InventoryAlertScalarWhereInput[]
-  }
-
-  export type OrderItemUncheckedUpdateManyWithoutProductNestedInput = {
+  export type OrderItemUpdateManyWithoutProductNestedInput = {
     create?: XOR<OrderItemCreateWithoutProductInput, OrderItemUncheckedCreateWithoutProductInput> | OrderItemCreateWithoutProductInput[] | OrderItemUncheckedCreateWithoutProductInput[]
     connectOrCreate?: OrderItemCreateOrConnectWithoutProductInput | OrderItemCreateOrConnectWithoutProductInput[]
     upsert?: OrderItemUpsertWithWhereUniqueWithoutProductInput | OrderItemUpsertWithWhereUniqueWithoutProductInput[]
@@ -10994,6 +10980,20 @@ export namespace Prisma {
     update?: OrderItemUpdateWithWhereUniqueWithoutProductInput | OrderItemUpdateWithWhereUniqueWithoutProductInput[]
     updateMany?: OrderItemUpdateManyWithWhereWithoutProductInput | OrderItemUpdateManyWithWhereWithoutProductInput[]
     deleteMany?: OrderItemScalarWhereInput | OrderItemScalarWhereInput[]
+  }
+
+  export type InventoryAlertUncheckedUpdateManyWithoutProductNestedInput = {
+    create?: XOR<InventoryAlertCreateWithoutProductInput, InventoryAlertUncheckedCreateWithoutProductInput> | InventoryAlertCreateWithoutProductInput[] | InventoryAlertUncheckedCreateWithoutProductInput[]
+    connectOrCreate?: InventoryAlertCreateOrConnectWithoutProductInput | InventoryAlertCreateOrConnectWithoutProductInput[]
+    upsert?: InventoryAlertUpsertWithWhereUniqueWithoutProductInput | InventoryAlertUpsertWithWhereUniqueWithoutProductInput[]
+    createMany?: InventoryAlertCreateManyProductInputEnvelope
+    set?: InventoryAlertWhereUniqueInput | InventoryAlertWhereUniqueInput[]
+    disconnect?: InventoryAlertWhereUniqueInput | InventoryAlertWhereUniqueInput[]
+    delete?: InventoryAlertWhereUniqueInput | InventoryAlertWhereUniqueInput[]
+    connect?: InventoryAlertWhereUniqueInput | InventoryAlertWhereUniqueInput[]
+    update?: InventoryAlertUpdateWithWhereUniqueWithoutProductInput | InventoryAlertUpdateWithWhereUniqueWithoutProductInput[]
+    updateMany?: InventoryAlertUpdateManyWithWhereWithoutProductInput | InventoryAlertUpdateManyWithWhereWithoutProductInput[]
+    deleteMany?: InventoryAlertScalarWhereInput | InventoryAlertScalarWhereInput[]
   }
 
   export type InventoryTransactionUncheckedUpdateManyWithoutProductNestedInput = {
@@ -11010,18 +11010,18 @@ export namespace Prisma {
     deleteMany?: InventoryTransactionScalarWhereInput | InventoryTransactionScalarWhereInput[]
   }
 
-  export type InventoryAlertUncheckedUpdateManyWithoutProductNestedInput = {
-    create?: XOR<InventoryAlertCreateWithoutProductInput, InventoryAlertUncheckedCreateWithoutProductInput> | InventoryAlertCreateWithoutProductInput[] | InventoryAlertUncheckedCreateWithoutProductInput[]
-    connectOrCreate?: InventoryAlertCreateOrConnectWithoutProductInput | InventoryAlertCreateOrConnectWithoutProductInput[]
-    upsert?: InventoryAlertUpsertWithWhereUniqueWithoutProductInput | InventoryAlertUpsertWithWhereUniqueWithoutProductInput[]
-    createMany?: InventoryAlertCreateManyProductInputEnvelope
-    set?: InventoryAlertWhereUniqueInput | InventoryAlertWhereUniqueInput[]
-    disconnect?: InventoryAlertWhereUniqueInput | InventoryAlertWhereUniqueInput[]
-    delete?: InventoryAlertWhereUniqueInput | InventoryAlertWhereUniqueInput[]
-    connect?: InventoryAlertWhereUniqueInput | InventoryAlertWhereUniqueInput[]
-    update?: InventoryAlertUpdateWithWhereUniqueWithoutProductInput | InventoryAlertUpdateWithWhereUniqueWithoutProductInput[]
-    updateMany?: InventoryAlertUpdateManyWithWhereWithoutProductInput | InventoryAlertUpdateManyWithWhereWithoutProductInput[]
-    deleteMany?: InventoryAlertScalarWhereInput | InventoryAlertScalarWhereInput[]
+  export type OrderItemUncheckedUpdateManyWithoutProductNestedInput = {
+    create?: XOR<OrderItemCreateWithoutProductInput, OrderItemUncheckedCreateWithoutProductInput> | OrderItemCreateWithoutProductInput[] | OrderItemUncheckedCreateWithoutProductInput[]
+    connectOrCreate?: OrderItemCreateOrConnectWithoutProductInput | OrderItemCreateOrConnectWithoutProductInput[]
+    upsert?: OrderItemUpsertWithWhereUniqueWithoutProductInput | OrderItemUpsertWithWhereUniqueWithoutProductInput[]
+    createMany?: OrderItemCreateManyProductInputEnvelope
+    set?: OrderItemWhereUniqueInput | OrderItemWhereUniqueInput[]
+    disconnect?: OrderItemWhereUniqueInput | OrderItemWhereUniqueInput[]
+    delete?: OrderItemWhereUniqueInput | OrderItemWhereUniqueInput[]
+    connect?: OrderItemWhereUniqueInput | OrderItemWhereUniqueInput[]
+    update?: OrderItemUpdateWithWhereUniqueWithoutProductInput | OrderItemUpdateWithWhereUniqueWithoutProductInput[]
+    updateMany?: OrderItemUpdateManyWithWhereWithoutProductInput | OrderItemUpdateManyWithWhereWithoutProductInput[]
+    deleteMany?: OrderItemScalarWhereInput | OrderItemScalarWhereInput[]
   }
 
   export type OrderItemCreateNestedManyWithoutOrderInput = {
@@ -11495,33 +11495,31 @@ export namespace Prisma {
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
-  export type OrderItemCreateWithoutProductInput = {
+  export type InventoryAlertCreateWithoutProductInput = {
     id?: string
-    productName: string
-    quantity: number
-    unitPrice: Decimal | DecimalJsLike | number | string
-    subtotal: Decimal | DecimalJsLike | number | string
+    alertType: string
+    message: string
+    isResolved?: boolean
     createdAt?: Date | string
-    order: OrderCreateNestedOneWithoutItemsInput
+    resolvedAt?: Date | string | null
   }
 
-  export type OrderItemUncheckedCreateWithoutProductInput = {
+  export type InventoryAlertUncheckedCreateWithoutProductInput = {
     id?: string
-    orderId: string
-    productName: string
-    quantity: number
-    unitPrice: Decimal | DecimalJsLike | number | string
-    subtotal: Decimal | DecimalJsLike | number | string
+    alertType: string
+    message: string
+    isResolved?: boolean
     createdAt?: Date | string
+    resolvedAt?: Date | string | null
   }
 
-  export type OrderItemCreateOrConnectWithoutProductInput = {
-    where: OrderItemWhereUniqueInput
-    create: XOR<OrderItemCreateWithoutProductInput, OrderItemUncheckedCreateWithoutProductInput>
+  export type InventoryAlertCreateOrConnectWithoutProductInput = {
+    where: InventoryAlertWhereUniqueInput
+    create: XOR<InventoryAlertCreateWithoutProductInput, InventoryAlertUncheckedCreateWithoutProductInput>
   }
 
-  export type OrderItemCreateManyProductInputEnvelope = {
-    data: OrderItemCreateManyProductInput | OrderItemCreateManyProductInput[]
+  export type InventoryAlertCreateManyProductInputEnvelope = {
+    data: InventoryAlertCreateManyProductInput | InventoryAlertCreateManyProductInput[]
     skipDuplicates?: boolean
   }
 
@@ -11561,62 +11559,63 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type InventoryAlertCreateWithoutProductInput = {
+  export type OrderItemCreateWithoutProductInput = {
     id?: string
-    alertType: string
-    message: string
-    isResolved?: boolean
+    productName: string
+    quantity: number
+    unitPrice: Decimal | DecimalJsLike | number | string
+    subtotal: Decimal | DecimalJsLike | number | string
     createdAt?: Date | string
-    resolvedAt?: Date | string | null
+    order: OrderCreateNestedOneWithoutItemsInput
   }
 
-  export type InventoryAlertUncheckedCreateWithoutProductInput = {
+  export type OrderItemUncheckedCreateWithoutProductInput = {
     id?: string
-    alertType: string
-    message: string
-    isResolved?: boolean
+    orderId: string
+    productName: string
+    quantity: number
+    unitPrice: Decimal | DecimalJsLike | number | string
+    subtotal: Decimal | DecimalJsLike | number | string
     createdAt?: Date | string
-    resolvedAt?: Date | string | null
   }
 
-  export type InventoryAlertCreateOrConnectWithoutProductInput = {
-    where: InventoryAlertWhereUniqueInput
-    create: XOR<InventoryAlertCreateWithoutProductInput, InventoryAlertUncheckedCreateWithoutProductInput>
-  }
-
-  export type InventoryAlertCreateManyProductInputEnvelope = {
-    data: InventoryAlertCreateManyProductInput | InventoryAlertCreateManyProductInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type OrderItemUpsertWithWhereUniqueWithoutProductInput = {
+  export type OrderItemCreateOrConnectWithoutProductInput = {
     where: OrderItemWhereUniqueInput
-    update: XOR<OrderItemUpdateWithoutProductInput, OrderItemUncheckedUpdateWithoutProductInput>
     create: XOR<OrderItemCreateWithoutProductInput, OrderItemUncheckedCreateWithoutProductInput>
   }
 
-  export type OrderItemUpdateWithWhereUniqueWithoutProductInput = {
-    where: OrderItemWhereUniqueInput
-    data: XOR<OrderItemUpdateWithoutProductInput, OrderItemUncheckedUpdateWithoutProductInput>
+  export type OrderItemCreateManyProductInputEnvelope = {
+    data: OrderItemCreateManyProductInput | OrderItemCreateManyProductInput[]
+    skipDuplicates?: boolean
   }
 
-  export type OrderItemUpdateManyWithWhereWithoutProductInput = {
-    where: OrderItemScalarWhereInput
-    data: XOR<OrderItemUpdateManyMutationInput, OrderItemUncheckedUpdateManyWithoutProductInput>
+  export type InventoryAlertUpsertWithWhereUniqueWithoutProductInput = {
+    where: InventoryAlertWhereUniqueInput
+    update: XOR<InventoryAlertUpdateWithoutProductInput, InventoryAlertUncheckedUpdateWithoutProductInput>
+    create: XOR<InventoryAlertCreateWithoutProductInput, InventoryAlertUncheckedCreateWithoutProductInput>
   }
 
-  export type OrderItemScalarWhereInput = {
-    AND?: OrderItemScalarWhereInput | OrderItemScalarWhereInput[]
-    OR?: OrderItemScalarWhereInput[]
-    NOT?: OrderItemScalarWhereInput | OrderItemScalarWhereInput[]
-    id?: UuidFilter<"OrderItem"> | string
-    orderId?: UuidFilter<"OrderItem"> | string
-    productId?: UuidNullableFilter<"OrderItem"> | string | null
-    productName?: StringFilter<"OrderItem"> | string
-    quantity?: IntFilter<"OrderItem"> | number
-    unitPrice?: DecimalFilter<"OrderItem"> | Decimal | DecimalJsLike | number | string
-    subtotal?: DecimalFilter<"OrderItem"> | Decimal | DecimalJsLike | number | string
-    createdAt?: DateTimeFilter<"OrderItem"> | Date | string
+  export type InventoryAlertUpdateWithWhereUniqueWithoutProductInput = {
+    where: InventoryAlertWhereUniqueInput
+    data: XOR<InventoryAlertUpdateWithoutProductInput, InventoryAlertUncheckedUpdateWithoutProductInput>
+  }
+
+  export type InventoryAlertUpdateManyWithWhereWithoutProductInput = {
+    where: InventoryAlertScalarWhereInput
+    data: XOR<InventoryAlertUpdateManyMutationInput, InventoryAlertUncheckedUpdateManyWithoutProductInput>
+  }
+
+  export type InventoryAlertScalarWhereInput = {
+    AND?: InventoryAlertScalarWhereInput | InventoryAlertScalarWhereInput[]
+    OR?: InventoryAlertScalarWhereInput[]
+    NOT?: InventoryAlertScalarWhereInput | InventoryAlertScalarWhereInput[]
+    id?: UuidFilter<"InventoryAlert"> | string
+    productId?: UuidFilter<"InventoryAlert"> | string
+    alertType?: StringFilter<"InventoryAlert"> | string
+    message?: StringFilter<"InventoryAlert"> | string
+    isResolved?: BoolFilter<"InventoryAlert"> | boolean
+    createdAt?: DateTimeFilter<"InventoryAlert"> | Date | string
+    resolvedAt?: DateTimeNullableFilter<"InventoryAlert"> | Date | string | null
   }
 
   export type InventoryTransactionUpsertWithWhereUniqueWithoutProductInput = {
@@ -11652,33 +11651,34 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"InventoryTransaction"> | Date | string
   }
 
-  export type InventoryAlertUpsertWithWhereUniqueWithoutProductInput = {
-    where: InventoryAlertWhereUniqueInput
-    update: XOR<InventoryAlertUpdateWithoutProductInput, InventoryAlertUncheckedUpdateWithoutProductInput>
-    create: XOR<InventoryAlertCreateWithoutProductInput, InventoryAlertUncheckedCreateWithoutProductInput>
+  export type OrderItemUpsertWithWhereUniqueWithoutProductInput = {
+    where: OrderItemWhereUniqueInput
+    update: XOR<OrderItemUpdateWithoutProductInput, OrderItemUncheckedUpdateWithoutProductInput>
+    create: XOR<OrderItemCreateWithoutProductInput, OrderItemUncheckedCreateWithoutProductInput>
   }
 
-  export type InventoryAlertUpdateWithWhereUniqueWithoutProductInput = {
-    where: InventoryAlertWhereUniqueInput
-    data: XOR<InventoryAlertUpdateWithoutProductInput, InventoryAlertUncheckedUpdateWithoutProductInput>
+  export type OrderItemUpdateWithWhereUniqueWithoutProductInput = {
+    where: OrderItemWhereUniqueInput
+    data: XOR<OrderItemUpdateWithoutProductInput, OrderItemUncheckedUpdateWithoutProductInput>
   }
 
-  export type InventoryAlertUpdateManyWithWhereWithoutProductInput = {
-    where: InventoryAlertScalarWhereInput
-    data: XOR<InventoryAlertUpdateManyMutationInput, InventoryAlertUncheckedUpdateManyWithoutProductInput>
+  export type OrderItemUpdateManyWithWhereWithoutProductInput = {
+    where: OrderItemScalarWhereInput
+    data: XOR<OrderItemUpdateManyMutationInput, OrderItemUncheckedUpdateManyWithoutProductInput>
   }
 
-  export type InventoryAlertScalarWhereInput = {
-    AND?: InventoryAlertScalarWhereInput | InventoryAlertScalarWhereInput[]
-    OR?: InventoryAlertScalarWhereInput[]
-    NOT?: InventoryAlertScalarWhereInput | InventoryAlertScalarWhereInput[]
-    id?: UuidFilter<"InventoryAlert"> | string
-    productId?: UuidFilter<"InventoryAlert"> | string
-    alertType?: StringFilter<"InventoryAlert"> | string
-    message?: StringFilter<"InventoryAlert"> | string
-    isResolved?: BoolFilter<"InventoryAlert"> | boolean
-    createdAt?: DateTimeFilter<"InventoryAlert"> | Date | string
-    resolvedAt?: DateTimeNullableFilter<"InventoryAlert"> | Date | string | null
+  export type OrderItemScalarWhereInput = {
+    AND?: OrderItemScalarWhereInput | OrderItemScalarWhereInput[]
+    OR?: OrderItemScalarWhereInput[]
+    NOT?: OrderItemScalarWhereInput | OrderItemScalarWhereInput[]
+    id?: UuidFilter<"OrderItem"> | string
+    orderId?: UuidFilter<"OrderItem"> | string
+    productId?: UuidNullableFilter<"OrderItem"> | string | null
+    productName?: StringFilter<"OrderItem"> | string
+    quantity?: IntFilter<"OrderItem"> | number
+    unitPrice?: DecimalFilter<"OrderItem"> | Decimal | DecimalJsLike | number | string
+    subtotal?: DecimalFilter<"OrderItem"> | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFilter<"OrderItem"> | Date | string
   }
 
   export type OrderItemCreateWithoutOrderInput = {
@@ -11784,8 +11784,8 @@ export namespace Prisma {
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
-    inventoryTransactions?: InventoryTransactionCreateNestedManyWithoutProductInput
     inventoryAlerts?: InventoryAlertCreateNestedManyWithoutProductInput
+    inventoryTransactions?: InventoryTransactionCreateNestedManyWithoutProductInput
   }
 
   export type ProductUncheckedCreateWithoutOrderItemsInput = {
@@ -11804,8 +11804,8 @@ export namespace Prisma {
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
-    inventoryTransactions?: InventoryTransactionUncheckedCreateNestedManyWithoutProductInput
     inventoryAlerts?: InventoryAlertUncheckedCreateNestedManyWithoutProductInput
+    inventoryTransactions?: InventoryTransactionUncheckedCreateNestedManyWithoutProductInput
   }
 
   export type ProductCreateOrConnectWithoutOrderItemsInput = {
@@ -11887,8 +11887,8 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    inventoryTransactions?: InventoryTransactionUpdateManyWithoutProductNestedInput
     inventoryAlerts?: InventoryAlertUpdateManyWithoutProductNestedInput
+    inventoryTransactions?: InventoryTransactionUpdateManyWithoutProductNestedInput
   }
 
   export type ProductUncheckedUpdateWithoutOrderItemsInput = {
@@ -11907,8 +11907,8 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    inventoryTransactions?: InventoryTransactionUncheckedUpdateManyWithoutProductNestedInput
     inventoryAlerts?: InventoryAlertUncheckedUpdateManyWithoutProductNestedInput
+    inventoryTransactions?: InventoryTransactionUncheckedUpdateManyWithoutProductNestedInput
   }
 
   export type ProductCreateWithoutInventoryTransactionsInput = {
@@ -11927,8 +11927,8 @@ export namespace Prisma {
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
-    orderItems?: OrderItemCreateNestedManyWithoutProductInput
     inventoryAlerts?: InventoryAlertCreateNestedManyWithoutProductInput
+    orderItems?: OrderItemCreateNestedManyWithoutProductInput
   }
 
   export type ProductUncheckedCreateWithoutInventoryTransactionsInput = {
@@ -11947,8 +11947,8 @@ export namespace Prisma {
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
-    orderItems?: OrderItemUncheckedCreateNestedManyWithoutProductInput
     inventoryAlerts?: InventoryAlertUncheckedCreateNestedManyWithoutProductInput
+    orderItems?: OrderItemUncheckedCreateNestedManyWithoutProductInput
   }
 
   export type ProductCreateOrConnectWithoutInventoryTransactionsInput = {
@@ -11983,8 +11983,8 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    orderItems?: OrderItemUpdateManyWithoutProductNestedInput
     inventoryAlerts?: InventoryAlertUpdateManyWithoutProductNestedInput
+    orderItems?: OrderItemUpdateManyWithoutProductNestedInput
   }
 
   export type ProductUncheckedUpdateWithoutInventoryTransactionsInput = {
@@ -12003,8 +12003,8 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    orderItems?: OrderItemUncheckedUpdateManyWithoutProductNestedInput
     inventoryAlerts?: InventoryAlertUncheckedUpdateManyWithoutProductNestedInput
+    orderItems?: OrderItemUncheckedUpdateManyWithoutProductNestedInput
   }
 
   export type ProductCreateWithoutInventoryAlertsInput = {
@@ -12023,8 +12023,8 @@ export namespace Prisma {
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
-    orderItems?: OrderItemCreateNestedManyWithoutProductInput
     inventoryTransactions?: InventoryTransactionCreateNestedManyWithoutProductInput
+    orderItems?: OrderItemCreateNestedManyWithoutProductInput
   }
 
   export type ProductUncheckedCreateWithoutInventoryAlertsInput = {
@@ -12043,8 +12043,8 @@ export namespace Prisma {
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
-    orderItems?: OrderItemUncheckedCreateNestedManyWithoutProductInput
     inventoryTransactions?: InventoryTransactionUncheckedCreateNestedManyWithoutProductInput
+    orderItems?: OrderItemUncheckedCreateNestedManyWithoutProductInput
   }
 
   export type ProductCreateOrConnectWithoutInventoryAlertsInput = {
@@ -12079,8 +12079,8 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    orderItems?: OrderItemUpdateManyWithoutProductNestedInput
     inventoryTransactions?: InventoryTransactionUpdateManyWithoutProductNestedInput
+    orderItems?: OrderItemUpdateManyWithoutProductNestedInput
   }
 
   export type ProductUncheckedUpdateWithoutInventoryAlertsInput = {
@@ -12099,18 +12099,17 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    orderItems?: OrderItemUncheckedUpdateManyWithoutProductNestedInput
     inventoryTransactions?: InventoryTransactionUncheckedUpdateManyWithoutProductNestedInput
+    orderItems?: OrderItemUncheckedUpdateManyWithoutProductNestedInput
   }
 
-  export type OrderItemCreateManyProductInput = {
+  export type InventoryAlertCreateManyProductInput = {
     id?: string
-    orderId: string
-    productName: string
-    quantity: number
-    unitPrice: Decimal | DecimalJsLike | number | string
-    subtotal: Decimal | DecimalJsLike | number | string
+    alertType: string
+    message: string
+    isResolved?: boolean
     createdAt?: Date | string
+    resolvedAt?: Date | string | null
   }
 
   export type InventoryTransactionCreateManyProductInput = {
@@ -12126,43 +12125,41 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
-  export type InventoryAlertCreateManyProductInput = {
+  export type OrderItemCreateManyProductInput = {
     id?: string
-    alertType: string
-    message: string
-    isResolved?: boolean
+    orderId: string
+    productName: string
+    quantity: number
+    unitPrice: Decimal | DecimalJsLike | number | string
+    subtotal: Decimal | DecimalJsLike | number | string
     createdAt?: Date | string
-    resolvedAt?: Date | string | null
   }
 
-  export type OrderItemUpdateWithoutProductInput = {
+  export type InventoryAlertUpdateWithoutProductInput = {
     id?: StringFieldUpdateOperationsInput | string
-    productName?: StringFieldUpdateOperationsInput | string
-    quantity?: IntFieldUpdateOperationsInput | number
-    unitPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    subtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    alertType?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    isResolved?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    order?: OrderUpdateOneRequiredWithoutItemsNestedInput
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
-  export type OrderItemUncheckedUpdateWithoutProductInput = {
+  export type InventoryAlertUncheckedUpdateWithoutProductInput = {
     id?: StringFieldUpdateOperationsInput | string
-    orderId?: StringFieldUpdateOperationsInput | string
-    productName?: StringFieldUpdateOperationsInput | string
-    quantity?: IntFieldUpdateOperationsInput | number
-    unitPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    subtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    alertType?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    isResolved?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
-  export type OrderItemUncheckedUpdateManyWithoutProductInput = {
+  export type InventoryAlertUncheckedUpdateManyWithoutProductInput = {
     id?: StringFieldUpdateOperationsInput | string
-    orderId?: StringFieldUpdateOperationsInput | string
-    productName?: StringFieldUpdateOperationsInput | string
-    quantity?: IntFieldUpdateOperationsInput | number
-    unitPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    subtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    alertType?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    isResolved?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type InventoryTransactionUpdateWithoutProductInput = {
@@ -12204,31 +12201,34 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type InventoryAlertUpdateWithoutProductInput = {
+  export type OrderItemUpdateWithoutProductInput = {
     id?: StringFieldUpdateOperationsInput | string
-    alertType?: StringFieldUpdateOperationsInput | string
-    message?: StringFieldUpdateOperationsInput | string
-    isResolved?: BoolFieldUpdateOperationsInput | boolean
+    productName?: StringFieldUpdateOperationsInput | string
+    quantity?: IntFieldUpdateOperationsInput | number
+    unitPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    subtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    order?: OrderUpdateOneRequiredWithoutItemsNestedInput
   }
 
-  export type InventoryAlertUncheckedUpdateWithoutProductInput = {
+  export type OrderItemUncheckedUpdateWithoutProductInput = {
     id?: StringFieldUpdateOperationsInput | string
-    alertType?: StringFieldUpdateOperationsInput | string
-    message?: StringFieldUpdateOperationsInput | string
-    isResolved?: BoolFieldUpdateOperationsInput | boolean
+    orderId?: StringFieldUpdateOperationsInput | string
+    productName?: StringFieldUpdateOperationsInput | string
+    quantity?: IntFieldUpdateOperationsInput | number
+    unitPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    subtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
-  export type InventoryAlertUncheckedUpdateManyWithoutProductInput = {
+  export type OrderItemUncheckedUpdateManyWithoutProductInput = {
     id?: StringFieldUpdateOperationsInput | string
-    alertType?: StringFieldUpdateOperationsInput | string
-    message?: StringFieldUpdateOperationsInput | string
-    isResolved?: BoolFieldUpdateOperationsInput | boolean
+    orderId?: StringFieldUpdateOperationsInput | string
+    productName?: StringFieldUpdateOperationsInput | string
+    quantity?: IntFieldUpdateOperationsInput | number
+    unitPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    subtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type OrderItemCreateManyOrderInput = {

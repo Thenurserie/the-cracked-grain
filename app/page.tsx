@@ -15,7 +15,7 @@ async function getCategories(): Promise<Category[]> {
     // Extract unique categories from products (no Category table exists)
     const uniqueCategories = await prisma.product.findMany({
       select: { category: true },
-      where: { isActive: true, category: { not: null } },
+      where: { isActive: true },
       distinct: ['category'],
       orderBy: { category: 'asc' },
     });
@@ -24,10 +24,12 @@ async function getCategories(): Promise<Category[]> {
     return uniqueCategories
       .filter(item => item.category !== null)
       .map((item, index) => ({
-        id: index + 1,
+        id: (index + 1).toString(),
         name: item.category as string,
         slug: (item.category as string).toLowerCase().replace(/\s+/g, '-'),
         description: `Browse our ${item.category} products`,
+        image_url: '',
+        created_at: new Date().toISOString(),
       }));
   } catch (error) {
     console.error('Error fetching categories:', error);
@@ -38,11 +40,29 @@ async function getCategories(): Promise<Category[]> {
 async function getFeaturedProducts(): Promise<Product[]> {
   try {
     const products = await prisma.product.findMany({
-      where: { featured: true, isActive: true },
+      where: { isActive: true },
       take: 4,
     });
 
-    return products as Product[];
+    // Map Prisma Product to TypeScript Product interface
+    return products.map((p) => ({
+      id: p.id,
+      category_id: null,
+      name: p.name,
+      slug: p.slug,
+      description: p.description || '',
+      short_description: p.description?.substring(0, 100) || '',
+      price: Number(p.price),
+      image_url: p.imageUrl || '',
+      images: p.imageUrl ? [p.imageUrl] : [],
+      rating: 0,
+      review_count: 0,
+      in_stock: p.stockQuantity > 0,
+      stock_quantity: p.stockQuantity,
+      featured: false,
+      created_at: p.createdAt.toISOString(),
+      updated_at: p.updatedAt.toISOString(),
+    }));
   } catch (error) {
     console.error('Error fetching featured products:', error);
     return [];

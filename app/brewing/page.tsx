@@ -25,7 +25,7 @@ import Guides from '@/components/brewing/Guides';
 import BrewBatches from '@/components/brewing/BrewBatches';
 import Inventory from '@/components/brewing/Inventory';
 import { WaterChemistry } from '@/components/brewing/WaterChemistry';
-import { MashScheduleDesigner } from '@/components/brewing/MashScheduleDesigner';
+import MashScheduleDesigner from '@/components/brewing/MashScheduleDesigner';
 import { AdvancedCalculators } from '@/components/brewing/AdvancedCalculators';
 import { BrewSessionTracker } from '@/components/brewing/BrewSessionTracker';
 

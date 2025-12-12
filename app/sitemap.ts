@@ -17,7 +17,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Get unique categories from products (no Category table exists)
   const uniqueCategories = await prisma.product.findMany({
     select: { category: true },
-    where: { isActive: true, category: { not: null } },
+    where: { isActive: true },
     distinct: ['category'],
   });
 

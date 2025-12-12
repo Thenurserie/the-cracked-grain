@@ -94,5 +94,5 @@ export async function getCartCount(): Promise<number> {
 
   if (error) return 0;
 
-  return data.reduce((sum, item) => sum + item.quantity, 0);
+  return data.reduce((sum: number, item: any) => sum + item.quantity, 0);
 }
