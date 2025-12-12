@@ -9,25 +9,24 @@ datasource db {
 }
 
 model Product {
-  id                  String                 @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name                String
-  slug                String                 @unique
-  description         String?
-  category            String
-  subcategory         String?
-  price               Decimal                @db.Decimal(10, 2)
-  unit                String                 @default("each")
-  stockQuantity       Int                    @default(0) @map("stock_quantity")
-  lowStockThreshold   Int                    @default(10) @map("low_stock_threshold")
-  imageUrl            String?                @map("image_url")
-  specifications      Json                   @default("{}")
-  isActive            Boolean                @default(true) @map("is_active")
-  createdAt           DateTime               @default(now()) @map("created_at") @db.Timestamptz(6)
-  updatedAt           DateTime               @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
-
-  orderItems          OrderItem[]
+  id                    String                 @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name                  String
+  slug                  String                 @unique
+  description           String?
+  category              String
+  subcategory           String?
+  price                 Decimal                @db.Decimal(10, 2)
+  unit                  String                 @default("each")
+  stockQuantity         Int                    @default(0) @map("stock_quantity")
+  lowStockThreshold     Int                    @default(10) @map("low_stock_threshold")
+  imageUrl              String?                @map("image_url")
+  specifications        Json                   @default("{}")
+  isActive              Boolean                @default(true) @map("is_active")
+  createdAt             DateTime               @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt             DateTime               @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+  inventoryAlerts       InventoryAlert[]
   inventoryTransactions InventoryTransaction[]
-  inventoryAlerts     InventoryAlert[]
+  orderItems            OrderItem[]
 
   @@index([category])
   @@index([slug])
@@ -51,7 +50,6 @@ model Order {
   notes           String?
   createdAt       DateTime    @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt       DateTime    @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
-
   items           OrderItem[]
 
   @@index([userId])
@@ -70,9 +68,8 @@ model OrderItem {
   unitPrice   Decimal  @map("unit_price") @db.Decimal(10, 2)
   subtotal    Decimal  @db.Decimal(10, 2)
   createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
-
   order       Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  product     Product? @relation(fields: [productId], references: [id], onDelete: SetNull)
+  product     Product? @relation(fields: [productId], references: [id])
 
   @@index([orderId])
   @@index([productId])
@@ -92,7 +89,7 @@ model Recipe {
   abv             Decimal? @db.Decimal(4, 2)
   ibu             Decimal? @db.Decimal(5, 1)
   srm             Decimal? @db.Decimal(5, 1)
-  ingredients     Json     @default("{\"grains\":[],\"hops\":[],\"yeast\":[],\"other\":[]}")
+  ingredients     Json     @default("{\"hops\": [], \"other\": [], \"yeast\": [], \"grains\": []}")
   mashSchedule    Json     @default("[]") @map("mash_schedule")
   instructions    String?
   notes           String?
@@ -118,7 +115,6 @@ model InventoryTransaction {
   notes            String?
   createdBy        String?  @map("created_by") @db.Uuid
   createdAt        DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
-
   product          Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
 
   @@index([productId])
@@ -134,7 +130,6 @@ model InventoryAlert {
   isResolved Boolean   @default(false) @map("is_resolved")
   createdAt  DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
   resolvedAt DateTime? @map("resolved_at") @db.Timestamptz(6)
-
   product    Product   @relation(fields: [productId], references: [id], onDelete: Cascade)
 
   @@index([productId])
