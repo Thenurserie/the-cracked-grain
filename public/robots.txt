@@ -1,0 +1,11 @@
+# robots.txt for The Cracked Grain
+User-agent: *
+Allow: /
+
+# Sitemaps
+Sitemap: https://thecrackedgrain.com/sitemap.xml
+
+# Disallow admin and checkout pages
+Disallow: /checkout
+Disallow: /order-confirmation
+Disallow: /api/
