@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation';
 import { Star, Truck, Package, Shield } from 'lucide-react';
 import { ProductCard } from '@/components/ProductCard';
 import { ProductDetailClient } from '@/components/ProductDetailClient';
-import { supabase } from '@/lib/supabase';
+import { getProduct as getPrismaProduct, getProductsByCategory } from '@/lib/products';
 import { Product } from '@/lib/types';
 import type { Metadata } from 'next';
 
@@ -18,31 +18,50 @@ interface ProductPageProps {
   };
 }
 
-async function getProduct(slug: string): Promise<Product | null> {
-  const { data, error } = await supabase
-    .from('products')
-    .select('*')
-    .eq('slug', slug)
-    .maybeSingle();
+// Convert Prisma Product to legacy Product type
+function convertPrismaProduct(prismaProduct: any): Product {
+  return {
+    id: prismaProduct.id,
+    category_id: null, // Will use category string instead
+    name: prismaProduct.name,
+    slug: prismaProduct.slug,
+    description: prismaProduct.description || '',
+    short_description: prismaProduct.description?.substring(0, 150) || '',
+    price: Number(prismaProduct.price),
+    image_url: prismaProduct.imageUrl || '/images/placeholder-product.jpg',
+    images: [prismaProduct.imageUrl || '/images/placeholder-product.jpg'],
+    rating: 4.5, // Default rating for now
+    review_count: 0, // Default review count for now
+    in_stock: prismaProduct.stockQuantity > 0,
+    stock_quantity: prismaProduct.stockQuantity,
+    featured: false,
+    created_at: prismaProduct.createdAt.toISOString(),
+    updated_at: prismaProduct.updatedAt.toISOString(),
+  };
+}
 
-  if (error || !data) {
+async function getProduct(slug: string): Promise<Product | null> {
+  const prismaProduct = await getPrismaProduct(slug);
+
+  if (!prismaProduct) {
     return null;
   }
 
-  return data as Product;
+  return convertPrismaProduct(prismaProduct);
 }
 
 async function getRelatedProducts(product: Product): Promise<Product[]> {
-  if (!product.category_id) return [];
+  // Get the category from the original Prisma product
+  const prismaProduct = await getPrismaProduct(product.slug);
+  if (!prismaProduct || !prismaProduct.category) return [];
 
-  const { data } = await supabase
-    .from('products')
-    .select('*')
-    .eq('category_id', product.category_id)
-    .neq('id', product.id)
-    .limit(4);
+  const relatedPrismaProducts = await getProductsByCategory(prismaProduct.category);
 
-  return (data as Product[]) || [];
+  // Filter out the current product and limit to 4
+  return relatedPrismaProducts
+    .filter((p) => p.id !== product.id)
+    .slice(0, 4)
+    .map(convertPrismaProduct);
 }
 
 export async function generateMetadata({ params }: ProductPageProps): Promise<Metadata> {

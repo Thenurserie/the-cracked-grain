@@ -25,7 +25,6 @@ import {
   type Yeast
 } from '@/lib/brewing-calcs';
 import { findMatchingStyle } from '@/lib/bjcp-styles';
-import { supabase } from '@/lib/supabase';
 
 type BrewMethod = 'all-grain' | 'extract-lme' | 'extract-dme' | 'partial-mash';
 
@@ -147,34 +146,8 @@ export default function RecipeBuilder() {
       return;
     }
 
-    const { data: { user } } = await supabase.auth.getUser();
-
-    const recipeData = {
-      user_id: user?.id || null,
-      name: recipeName,
-      style,
-      batch_size: batchSize,
-      boil_time: boilTime,
-      efficiency,
-      fermentables: JSON.stringify(fermentables),
-      hops: JSON.stringify(hops),
-      yeast: JSON.stringify(yeast),
-      og,
-      fg,
-      abv,
-      ibu,
-      srm,
-      notes
-    };
-
-    const { error } = await supabase.from('recipes').insert([recipeData]);
-
-    if (error) {
-      toast.error('Failed to save recipe');
-      console.error(error);
-    } else {
-      toast.success('Recipe saved successfully!');
-    }
+    // Recipe saving disabled - authentication system coming soon
+    toast.info('Recipe saving will be available once the new authentication system is set up');
   };
 
   const downloadBeerXML = () => {

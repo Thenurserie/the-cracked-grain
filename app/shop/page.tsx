@@ -2,25 +2,28 @@
 
 import { useState, useEffect } from 'react';
 import { ProductCard } from '@/components/ProductCard';
-import { supabase } from '@/lib/supabase';
-import { Product, Category } from '@/lib/types';
+import { Product } from '@/lib/types';
 import { useSearchParams } from 'next/navigation';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
+
+// Available categories (hardcoded for now)
+const CATEGORIES = [
+  { id: '1', name: 'Grains & Extracts', slug: 'grains-extracts' },
+  { id: '2', name: 'Hops', slug: 'hops' },
+  { id: '3', name: 'Yeast & Bacteria', slug: 'yeast-bacteria' },
+  { id: '4', name: 'Equipment', slug: 'equipment' },
+  { id: '5', name: 'Chemicals & Additives', slug: 'chemicals-additives' },
+];
 
 export default function ShopPage() {
   const searchParams = useSearchParams();
   const categoryParam = searchParams.get('category');
 
   const [products, setProducts] = useState<Product[]>([]);
-  const [categories, setCategories] = useState<Category[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>(categoryParam || 'all');
   const [sortBy, setSortBy] = useState<string>('name');
   const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    loadCategories();
-  }, []);
 
   useEffect(() => {
     if (categoryParam) {
@@ -32,50 +35,26 @@ export default function ShopPage() {
     loadProducts();
   }, [selectedCategory, sortBy]);
 
-  async function loadCategories() {
-    const { data, error } = await supabase
-      .from('categories')
-      .select('*')
-      .order('name');
-
-    if (!error && data) {
-      setCategories(data as Category[]);
-    }
-  }
-
   async function loadProducts() {
     setLoading(true);
 
-    let query = supabase.from('products').select('*');
-
-    if (selectedCategory && selectedCategory !== 'all') {
-      const category = categories.find((c) => c.slug === selectedCategory);
-      if (category) {
-        query = query.eq('category_id', category.id);
+    try {
+      const params = new URLSearchParams();
+      if (selectedCategory && selectedCategory !== 'all') {
+        params.append('category', selectedCategory);
       }
+      params.append('sortBy', sortBy);
+
+      const response = await fetch(`/api/products?${params.toString()}`);
+      if (response.ok) {
+        const data = await response.json();
+        setProducts(data);
+      }
+    } catch (error) {
+      console.error('Error loading products:', error);
+    } finally {
+      setLoading(false);
     }
-
-    switch (sortBy) {
-      case 'price-asc':
-        query = query.order('price', { ascending: true });
-        break;
-      case 'price-desc':
-        query = query.order('price', { ascending: false });
-        break;
-      case 'rating':
-        query = query.order('rating', { ascending: false });
-        break;
-      default:
-        query = query.order('name');
-    }
-
-    const { data, error } = await query;
-
-    if (!error && data) {
-      setProducts(data as Product[]);
-    }
-
-    setLoading(false);
   }
 
   return (
@@ -103,7 +82,7 @@ export default function ShopPage() {
               >
                 All Products
               </Button>
-              {categories.map((category) => (
+              {CATEGORIES.map((category) => (
                 <Button
                   key={category.id}
                   variant={selectedCategory === category.slug ? 'default' : 'ghost'}

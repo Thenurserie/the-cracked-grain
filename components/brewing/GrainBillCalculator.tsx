@@ -16,7 +16,6 @@ import {
   GRAIN_DATABASE,
   type Fermentable
 } from '@/lib/brewing-calcs';
-import { supabase } from '@/lib/supabase';
 import { addToCart } from '@/lib/cart';
 
 export default function GrainBillCalculator() {

@@ -1,28 +1,20 @@
 'use client';
 
 import Link from 'next/link';
-import { ShoppingCart, Menu, User } from 'lucide-react';
+import { ShoppingCart, Menu } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useState, useEffect } from 'react';
 import { getCartCount } from '@/lib/cart';
-import { supabase } from '@/lib/supabase';
-import type { User as SupabaseUser } from '@supabase/supabase-js';
 
 export function Header() {
   const [cartCount, setCartCount] = useState(0);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [user, setUser] = useState<SupabaseUser | null>(null);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
     loadCartCount();
-    checkUser();
     window.addEventListener('cartUpdated', loadCartCount);
-
-    const { data: authListener } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user || null);
-    });
 
     return () => {
       window.removeEventListener('cartUpdated', loadCartCount);
@@ -32,11 +24,6 @@ export function Header() {
   async function loadCartCount() {
     const count = await getCartCount();
     setCartCount(count);
-  }
-
-  async function checkUser() {
-    const { data: { user } } = await supabase.auth.getUser();
-    setUser(user);
   }
 
   return (
@@ -65,24 +52,6 @@ export function Header() {
         </nav>
 
         <div className="flex items-center space-x-4">
-          {mounted && (
-            <>
-              {user ? (
-                <Link href="/account">
-                  <Button variant="ghost" size="icon" className="text-cream hover:text-gold hover:bg-amber/10">
-                    <User className="h-5 w-5" />
-                  </Button>
-                </Link>
-              ) : (
-                <Link href="/login" className="hidden md:block">
-                  <Button variant="ghost" className="text-cream hover:text-gold hover:bg-amber/10">
-                    Login
-                  </Button>
-                </Link>
-              )}
-            </>
-          )}
-
           <Link href="/cart">
             <Button variant="ghost" size="icon" className="relative text-cream hover:text-gold hover:bg-amber/10">
               <ShoppingCart className="h-5 w-5" />
@@ -141,27 +110,6 @@ export function Header() {
             >
               Contact
             </Link>
-            {mounted && (
-              <>
-                {user ? (
-                  <Link
-                    href="/account"
-                    className="text-sm font-medium text-cream hover:text-gold transition-colors"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    My Account
-                  </Link>
-                ) : (
-                  <Link
-                    href="/login"
-                    className="text-sm font-medium text-cream hover:text-gold transition-colors"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    Login
-                  </Link>
-                )}
-              </>
-            )}
           </nav>
         </div>
       )}

@@ -9,7 +9,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Textarea } from '@/components/ui/textarea';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
-import { supabase } from '@/lib/supabase';
 import { Calendar, Clock, Plus, Play, Pause, Check, FileText } from 'lucide-react';
 import { format } from 'date-fns';
 
