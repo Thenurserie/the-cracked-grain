@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { ProductCard } from '@/components/ProductCard';
 import { CategoryCard } from '@/components/CategoryCard';
-import { supabase } from '@/lib/supabase';
+import { prisma } from '@/lib/db';
 import { Product, Category } from '@/lib/types';
 import { ArrowRight } from 'lucide-react';
 
@@ -11,32 +11,42 @@ import { ArrowRight } from 'lucide-react';
 export const dynamic = 'force-dynamic';
 
 async function getCategories(): Promise<Category[]> {
-  const { data, error } = await supabase
-    .from('categories')
-    .select('*')
-    .order('name');
+  try {
+    // Extract unique categories from products (no Category table exists)
+    const uniqueCategories = await prisma.product.findMany({
+      select: { category: true },
+      where: { isActive: true, category: { not: null } },
+      distinct: ['category'],
+      orderBy: { category: 'asc' },
+    });
 
-  if (error) {
+    // Map to Category type with generated slugs
+    return uniqueCategories
+      .filter(item => item.category !== null)
+      .map((item, index) => ({
+        id: index + 1,
+        name: item.category as string,
+        slug: (item.category as string).toLowerCase().replace(/\s+/g, '-'),
+        description: `Browse our ${item.category} products`,
+      }));
+  } catch (error) {
     console.error('Error fetching categories:', error);
     return [];
   }
-
-  return data as Category[];
 }
 
 async function getFeaturedProducts(): Promise<Product[]> {
-  const { data, error } = await supabase
-    .from('products')
-    .select('*')
-    .eq('featured', true)
-    .limit(4);
+  try {
+    const products = await prisma.product.findMany({
+      where: { featured: true, isActive: true },
+      take: 4,
+    });
 
-  if (error) {
+    return products as Product[];
+  } catch (error) {
     console.error('Error fetching featured products:', error);
     return [];
   }
-
-  return data as Product[];
 }
 
 export default async function Home() {
