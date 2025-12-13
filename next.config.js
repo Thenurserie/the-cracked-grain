@@ -11,6 +11,15 @@ const nextConfig = {
       },
     ],
   },
+  experimental: {
+    serverComponentsExternalPackages: ['drizzle-kit'],
+  },
+  serverExternalPackages: ['drizzle-kit'],
+  webpack: (config, { isServer }) => {
+    // Exclude drizzle-kit from webpack bundling on BOTH server and client
+    config.externals.push('drizzle-kit');
+    return config;
+  },
 };
 
 module.exports = nextConfig;
