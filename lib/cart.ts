@@ -29,7 +29,33 @@ export async function getCartItems(): Promise<CartItem[]> {
       },
     });
 
-    return items as CartItem[];
+    // Map Prisma results to CartItem type
+    return items.map(item => ({
+      id: item.id,
+      sessionId: item.sessionId,
+      productId: item.productId,
+      quantity: item.quantity,
+      createdAt: item.createdAt,
+      updatedAt: item.updatedAt,
+      product: item.product ? {
+        id: item.product.id,
+        category_id: null,
+        name: item.product.name,
+        slug: item.product.slug,
+        description: item.product.description || '',
+        short_description: item.product.description?.substring(0, 150) || '',
+        price: Number(item.product.price),
+        image_url: item.product.imageUrl || '/images/placeholder-product.jpg',
+        images: [item.product.imageUrl || '/images/placeholder-product.jpg'],
+        rating: 4.5,
+        review_count: 0,
+        in_stock: item.product.stockQuantity > 0,
+        stock_quantity: item.product.stockQuantity,
+        featured: false,
+        created_at: item.product.createdAt.toISOString(),
+        updated_at: item.product.updatedAt.toISOString(),
+      } : undefined,
+    }));
   } catch (error) {
     console.error('Error fetching cart items:', error);
     return [];

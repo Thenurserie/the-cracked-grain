@@ -28,11 +28,10 @@ export interface Product {
 
 export interface CartItem {
   id: string;
-  session_id: string;
-  user_id: string | null;
-  product_id: string;
+  sessionId: string;
+  productId: string;
   quantity: number;
-  created_at: string;
-  updated_at: string;
+  createdAt: Date;
+  updatedAt: Date;
   product?: Product;
 }
