@@ -8,12 +8,13 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Button } from '@/components/ui/button';
 
 // Available categories (hardcoded for now)
+// Note: slugs must match exact category values in database
 const CATEGORIES = [
-  { id: '1', name: 'Grains & Extracts', slug: 'grains-extracts' },
-  { id: '2', name: 'Hops', slug: 'hops' },
-  { id: '3', name: 'Yeast & Bacteria', slug: 'yeast-bacteria' },
-  { id: '4', name: 'Equipment', slug: 'equipment' },
-  { id: '5', name: 'Chemicals & Additives', slug: 'chemicals-additives' },
+  { id: '1', name: 'Grains & Extracts', slug: 'Grains' },
+  { id: '2', name: 'Hops', slug: 'Hops' },
+  { id: '3', name: 'Yeast & Bacteria', slug: 'Yeast' },
+  { id: '4', name: 'Equipment', slug: 'Equipment' },
+  { id: '5', name: 'Chemicals & Additives', slug: 'Chemicals' },
 ];
 
 export default function ShopPage() {
@@ -58,12 +59,46 @@ export default function ShopPage() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-12">
-      <div className="mb-8">
-        <h1 className="text-4xl font-bold text-cream mb-4">Shop Homebrew Supplies</h1>
-        <p className="text-cream/70">
-          Browse our complete selection of premium brewing ingredients and equipment
-        </p>
+    <div>
+      {/* Hero Banner */}
+      <section className="relative h-[300px] flex items-center justify-center overflow-hidden mb-8">
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{
+            backgroundImage: 'url(https://images.unsplash.com/photo-1532634922-8fe0b757fb13?w=1920&q=80)',
+          }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-black/80" />
+
+        <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
+          <h1 className="text-5xl md:text-6xl font-bold text-cream mb-4">Shop Homebrew Supplies</h1>
+          <p className="text-xl text-cream/90">
+            Browse our complete selection of premium brewing ingredients and equipment
+          </p>
+        </div>
+      </section>
+
+      <div className="container mx-auto px-4 py-6">
+
+      {/* Featured Banner */}
+      <div className="mb-8 relative h-[200px] rounded-xl overflow-hidden border-2 border-amber/30">
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{
+            backgroundImage: 'url(https://images.unsplash.com/photo-1615332579937-4e3a2f6b4b6b?w=1200&q=80)',
+          }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-amber/90 via-amber/70 to-transparent" />
+        <div className="relative z-10 h-full flex items-center px-8">
+          <div className="max-w-xl">
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-2">
+              Fresh Ingredients Weekly
+            </h2>
+            <p className="text-white/95 text-lg mb-4">
+              Get the finest malts, hops, and yeast for your next brew. Quality guaranteed.
+            </p>
+          </div>
+        </div>
       </div>
 
       <div className="flex flex-col lg:flex-row gap-8">
@@ -173,6 +208,7 @@ export default function ShopPage() {
             </div>
           )}
         </div>
+      </div>
       </div>
     </div>
   );

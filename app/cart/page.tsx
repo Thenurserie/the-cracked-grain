@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { Trash2, Plus, Minus, ShoppingBag, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { CartItem } from '@/lib/types';
-import { getCartItems, updateCartItemQuantity, removeFromCart } from '@/lib/cart';
+import { getCartItems, updateCartItemQuantity, removeFromCart } from '@/lib/cartClient';
 import { useToast } from '@/hooks/use-toast';
 
 export default function CartPage() {
@@ -21,7 +21,7 @@ export default function CartPage() {
   async function loadCart() {
     setLoading(true);
     const items = await getCartItems();
-    setCartItems(items);
+    setCartItems(items || []);
     setLoading(false);
   }
 
@@ -178,6 +178,29 @@ export default function CartPage() {
               </div>
             );
           })}
+
+          {/* Mobile Action Buttons */}
+          <div className="lg:hidden flex flex-col gap-3 pt-4">
+            <Link href="/checkout">
+              <Button
+                size="lg"
+                className="w-full bg-amber hover:bg-gold text-white"
+              >
+                Proceed to Checkout
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
+            </Link>
+
+            <Link href="/shop">
+              <Button
+                size="lg"
+                variant="outline"
+                className="w-full border-amber/30 text-cream hover:bg-amber/10"
+              >
+                Continue Shopping
+              </Button>
+            </Link>
+          </div>
         </div>
 
         <div className="lg:col-span-1">
@@ -204,13 +227,15 @@ export default function CartPage() {
               </div>
             </div>
 
-            <Button
-              size="lg"
-              className="w-full bg-amber hover:bg-gold text-white mb-4"
-            >
-              Proceed to Checkout
-              <ArrowRight className="ml-2 h-5 w-5" />
-            </Button>
+            <Link href="/checkout">
+              <Button
+                size="lg"
+                className="w-full bg-amber hover:bg-gold text-white mb-4"
+              >
+                Proceed to Checkout
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
+            </Link>
 
             <Link href="/shop">
               <Button

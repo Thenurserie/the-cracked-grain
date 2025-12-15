@@ -1,11 +1,12 @@
 'use client';
 
 import { useState } from 'react';
-import { ShoppingCart } from 'lucide-react';
+import { ShoppingCart, ArrowLeft, ShoppingBag } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Product } from '@/lib/types';
-import { addToCart } from '@/lib/cart';
+import { addToCart } from '@/lib/cartClient';
 import { useToast } from '@/hooks/use-toast';
+import Link from 'next/link';
 
 interface ProductDetailClientProps {
   product: Product;
@@ -23,7 +24,28 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
     if (success) {
       toast({
         title: 'Added to cart',
-        description: `${quantity} x ${product.name} added to your cart.`,
+        description: (
+          <div className="space-y-3">
+            <p className="text-sm">{quantity} x {product.name} added to your cart.</p>
+            <div className="flex gap-2">
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={() => window.location.href = '/shop'}
+                className="border-amber/30 text-cream hover:bg-amber/10"
+              >
+                Continue Shopping
+              </Button>
+              <Button
+                size="sm"
+                onClick={() => window.location.href = '/cart'}
+                className="bg-amber hover:bg-gold text-white"
+              >
+                View Cart
+              </Button>
+            </div>
+          </div>
+        ),
       });
       window.dispatchEvent(new Event('cartUpdated'));
     } else {
@@ -77,6 +99,30 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
           ✓ In stock ({product.stock_quantity} available)
         </p>
       )}
+
+      {/* Navigation Buttons */}
+      <div className="flex gap-3 pt-4 border-t border-amber/20">
+        <Link href="/shop" className="flex-1">
+          <Button
+            size="lg"
+            variant="outline"
+            className="w-full border-amber/30 text-cream hover:bg-amber/10"
+          >
+            <ArrowLeft className="mr-2 h-5 w-5" />
+            Continue Shopping
+          </Button>
+        </Link>
+        <Link href="/cart" className="flex-1">
+          <Button
+            size="lg"
+            variant="outline"
+            className="w-full border-amber/30 text-cream hover:bg-amber/10"
+          >
+            <ShoppingBag className="mr-2 h-5 w-5" />
+            View Cart
+          </Button>
+        </Link>
+      </div>
     </div>
   );
 }

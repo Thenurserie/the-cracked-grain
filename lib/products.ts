@@ -34,10 +34,10 @@ export async function getProducts(params?: {
   });
 }
 
-export async function getProduct(slugOrId: string) {
-  return await prisma.product.findFirst({
+export async function getProduct(slug: string) {
+  return await prisma.product.findUnique({
     where: {
-      OR: [{ slug: slugOrId }, { id: slugOrId }],
+      slug: slug,
     },
   });
 }

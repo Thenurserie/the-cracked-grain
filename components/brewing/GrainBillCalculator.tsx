@@ -17,7 +17,7 @@ import {
   GRAIN_DATABASE,
   type Fermentable
 } from '@/lib/brewing-calcs';
-import { addToCart } from '@/lib/cart';
+import { addToCart } from '@/lib/cartClient';
 
 export default function GrainBillCalculator() {
   const [batchSize, setBatchSize] = useState(5.0);

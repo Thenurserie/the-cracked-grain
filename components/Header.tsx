@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { ShoppingCart, Menu } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useState, useEffect } from 'react';
-import { getCartCount } from '@/lib/cart';
+import { getCartCount } from '@/lib/cartClient';
 
 export function Header() {
   const [cartCount, setCartCount] = useState(0);

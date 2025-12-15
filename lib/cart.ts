@@ -1,4 +1,4 @@
-import { supabase } from './supabase';
+import { prisma } from './db';
 import { CartItem } from './types';
 
 export function getSessionId(): string {
@@ -14,86 +14,129 @@ export function getSessionId(): string {
 
 export async function getCartItems(): Promise<CartItem[]> {
   const sessionId = getSessionId();
+  if (!sessionId) return [];
 
-  const { data, error } = await supabase
-    .from('cart_items')
-    .select(`
-      *,
-      product:products (*)
-    `)
-    .eq('session_id', sessionId);
+  try {
+    const items = await prisma.cartItem.findMany({
+      where: {
+        sessionId,
+      },
+      include: {
+        product: true,
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
 
-  if (error) {
+    return items as CartItem[];
+  } catch (error) {
     console.error('Error fetching cart items:', error);
     return [];
   }
-
-  return data as CartItem[];
 }
 
 export async function addToCart(productId: string, quantity: number = 1): Promise<boolean> {
   const sessionId = getSessionId();
+  if (!sessionId) return false;
 
-  const { data: existingItem } = await supabase
-    .from('cart_items')
-    .select('*')
-    .eq('session_id', sessionId)
-    .eq('product_id', productId)
-    .maybeSingle();
+  try {
+    // Check if item already exists in cart
+    const existingItem = await prisma.cartItem.findFirst({
+      where: {
+        sessionId,
+        productId,
+      },
+    });
 
-  if (existingItem) {
-    const { error } = await supabase
-      .from('cart_items')
-      .update({ quantity: existingItem.quantity + quantity, updated_at: new Date().toISOString() })
-      .eq('id', existingItem.id);
+    if (existingItem) {
+      // Update quantity if item already exists
+      await prisma.cartItem.update({
+        where: {
+          id: existingItem.id,
+        },
+        data: {
+          quantity: existingItem.quantity + quantity,
+        },
+      });
+    } else {
+      // Create new cart item
+      await prisma.cartItem.create({
+        data: {
+          sessionId,
+          productId,
+          quantity,
+        },
+      });
+    }
 
-    return !error;
-  } else {
-    const { error } = await supabase
-      .from('cart_items')
-      .insert({ session_id: sessionId, product_id: productId, quantity });
-
-    return !error;
+    return true;
+  } catch (error) {
+    console.error('Error adding to cart:', error);
+    return false;
   }
 }
 
 export async function updateCartItemQuantity(itemId: string, quantity: number): Promise<boolean> {
-  if (quantity <= 0) {
-    const { error } = await supabase
-      .from('cart_items')
-      .delete()
-      .eq('id', itemId);
+  try {
+    if (quantity <= 0) {
+      // Delete item if quantity is 0 or less
+      await prisma.cartItem.delete({
+        where: {
+          id: itemId,
+        },
+      });
+    } else {
+      // Update quantity
+      await prisma.cartItem.update({
+        where: {
+          id: itemId,
+        },
+        data: {
+          quantity,
+        },
+      });
+    }
 
-    return !error;
+    return true;
+  } catch (error) {
+    console.error('Error updating cart item quantity:', error);
+    return false;
   }
-
-  const { error } = await supabase
-    .from('cart_items')
-    .update({ quantity, updated_at: new Date().toISOString() })
-    .eq('id', itemId);
-
-  return !error;
 }
 
 export async function removeFromCart(itemId: string): Promise<boolean> {
-  const { error } = await supabase
-    .from('cart_items')
-    .delete()
-    .eq('id', itemId);
+  try {
+    await prisma.cartItem.delete({
+      where: {
+        id: itemId,
+      },
+    });
 
-  return !error;
+    return true;
+  } catch (error) {
+    console.error('Error removing from cart:', error);
+    return false;
+  }
 }
 
 export async function getCartCount(): Promise<number> {
   const sessionId = getSessionId();
+  if (!sessionId) return 0;
 
-  const { data, error } = await supabase
-    .from('cart_items')
-    .select('quantity')
-    .eq('session_id', sessionId);
+  try {
+    const items = await prisma.cartItem.findMany({
+      where: {
+        sessionId,
+      },
+      select: {
+        quantity: true,
+      },
+    });
 
-  if (error) return 0;
-
-  if (!data) return 0;
-  return data.reduce((sum: number, item: any) => sum + item.quantity, 0);
+    return items.reduce((sum, item) => sum + item.quantity, 0);
+  } catch (error) {
+    console.error('Error getting cart count:', error);
+    return 0;
+  }
 }

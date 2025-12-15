@@ -33,12 +33,82 @@ export default function BrewingToolsPage() {
   const [activeTab, setActiveTab] = useState('recipe-builder');
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-7xl">
-      <div className="mb-8">
-        <h1 className="text-4xl font-bold mb-2">Brewing Tools Dashboard</h1>
-        <p className="text-muted-foreground">
-          Complete brewing toolkit for recipe creation, batch tracking, and more
-        </p>
+    <div>
+      {/* Hero Banner */}
+      <section className="relative h-[300px] flex items-center justify-center overflow-hidden mb-8">
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{
+            backgroundImage: 'url(https://images.unsplash.com/photo-1606761568499-6d2451b23c66?w=1920&q=80)',
+          }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/70 to-black/85" />
+
+        <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
+          <h1 className="text-5xl md:text-6xl font-bold text-cream mb-4">Brewing Tools Dashboard</h1>
+          <p className="text-xl text-cream/90">
+            Complete brewing toolkit for recipe creation, batch tracking, and more
+          </p>
+        </div>
+      </section>
+
+      <div className="container mx-auto px-4 py-8 max-w-7xl">
+
+      {/* Quick Tip Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div className="relative h-[160px] rounded-lg overflow-hidden border border-amber/20 group hover:border-gold transition-all">
+          <div
+            className="absolute inset-0 bg-cover bg-center"
+            style={{
+              backgroundImage: 'url(https://images.unsplash.com/photo-1533997192802-49667acf60bc?w=600&q=80)',
+            }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-black/30" />
+          <div className="relative z-10 h-full flex flex-col justify-end p-6">
+            <h3 className="text-xl font-bold text-cream mb-1 group-hover:text-gold transition-colors">
+              Craft Your Recipe
+            </h3>
+            <p className="text-cream/80 text-sm">
+              Build custom recipes with our powerful recipe builder
+            </p>
+          </div>
+        </div>
+
+        <div className="relative h-[160px] rounded-lg overflow-hidden border border-amber/20 group hover:border-gold transition-all">
+          <div
+            className="absolute inset-0 bg-cover bg-center"
+            style={{
+              backgroundImage: 'url(https://images.unsplash.com/photo-1615332579937-4e3a2f6b4b6b?w=600&q=80)',
+            }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-black/30" />
+          <div className="relative z-10 h-full flex flex-col justify-end p-6">
+            <h3 className="text-xl font-bold text-cream mb-1 group-hover:text-gold transition-colors">
+              Track Your Brews
+            </h3>
+            <p className="text-cream/80 text-sm">
+              Monitor every batch from grain to glass
+            </p>
+          </div>
+        </div>
+
+        <div className="relative h-[160px] rounded-lg overflow-hidden border border-amber/20 group hover:border-gold transition-all">
+          <div
+            className="absolute inset-0 bg-cover bg-center"
+            style={{
+              backgroundImage: 'url(https://images.unsplash.com/photo-1606761568499-6d2451b23c66?w=600&q=80)',
+            }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-black/30" />
+          <div className="relative z-10 h-full flex flex-col justify-end p-6">
+            <h3 className="text-xl font-bold text-cream mb-1 group-hover:text-gold transition-colors">
+              Perfect Your Process
+            </h3>
+            <p className="text-cream/80 text-sm">
+              Advanced calculators and water chemistry tools
+            </p>
+          </div>
+        </div>
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
@@ -147,6 +217,7 @@ export default function BrewingToolsPage() {
           </TabsContent>
         </div>
       </Tabs>
+      </div>
     </div>
   );
 }

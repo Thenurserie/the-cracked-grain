@@ -9,14 +9,17 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'images.pexels.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+      },
     ],
   },
   experimental: {
     serverComponentsExternalPackages: ['drizzle-kit'],
   },
-  serverExternalPackages: ['drizzle-kit'],
   webpack: (config, { isServer }) => {
-    // Exclude drizzle-kit from webpack bundling on BOTH server and client
+    // Exclude drizzle-kit from webpack bundling
     config.externals.push('drizzle-kit');
     return config;
   },

@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { Star } from 'lucide-react';
 import { Product } from '@/lib/types';
 import { Button } from '@/components/ui/button';
-import { addToCart } from '@/lib/cart';
+import { addToCart } from '@/lib/cartClient';
 import { useToast } from '@/hooks/use-toast';
 import { useState } from 'react';
 
@@ -26,7 +26,28 @@ export function ProductCard({ product }: ProductCardProps) {
     if (success) {
       toast({
         title: 'Added to cart',
-        description: `${product.name} added to your cart.`,
+        description: (
+          <div className="space-y-3">
+            <p className="text-sm">{product.name} added to your cart.</p>
+            <div className="flex gap-2">
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={() => window.location.href = '/shop'}
+                className="border-amber/30 text-cream hover:bg-amber/10"
+              >
+                Continue Shopping
+              </Button>
+              <Button
+                size="sm"
+                onClick={() => window.location.href = '/cart'}
+                className="bg-amber hover:bg-gold text-white"
+              >
+                View Cart
+              </Button>
+            </div>
+          </div>
+        ),
       });
       window.dispatchEvent(new Event('cartUpdated'));
     } else {
