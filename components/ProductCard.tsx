@@ -75,24 +75,24 @@ export function ProductCard({ product }: ProductCardProps) {
               <span className="text-cream font-semibold">Out of Stock</span>
             </div>
           )}
-          <div className="absolute top-2 left-2 flex gap-2">
+          <div className="absolute top-2 right-2 flex flex-col gap-2 items-end">
             {product.featured && (
-              <div className="bg-amber px-2 py-1 rounded text-xs font-bold text-white">
+              <div className="bg-amber px-2 py-1 rounded text-xs font-bold text-white shadow-lg">
                 Featured
               </div>
             )}
             {product.in_stock && product.stock_quantity > 10 && (
-              <div className="bg-green-600 px-2 py-1 rounded text-xs font-bold text-white">
+              <div className="bg-green-600 px-2 py-1 rounded text-xs font-bold text-white shadow-lg">
                 In Stock
               </div>
             )}
             {product.in_stock && product.stock_quantity > 0 && product.stock_quantity <= 10 && (
-              <div className="bg-yellow-600 px-2 py-1 rounded text-xs font-bold text-white">
+              <div className="bg-yellow-600 px-2 py-1 rounded text-xs font-bold text-white shadow-lg">
                 Low Stock
               </div>
             )}
             {!product.in_stock && (
-              <div className="bg-red-600 px-2 py-1 rounded text-xs font-bold text-white">
+              <div className="bg-red-600 px-2 py-1 rounded text-xs font-bold text-white shadow-lg">
                 Out of Stock
               </div>
             )}
