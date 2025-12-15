@@ -6,10 +6,12 @@ export async function GET(request: NextRequest) {
     const searchParams = request.nextUrl.searchParams;
     const category = searchParams.get('category');
     const sortBy = searchParams.get('sortBy') || 'name';
+    const limit = parseInt(searchParams.get('limit') || '50');
 
     const products = await getProducts({
       category: category && category !== 'all' ? category : undefined,
       isActive: true,
+      limit: limit,
     });
 
     // Sort products
