@@ -25,6 +25,8 @@ export default function ShopPage() {
   const [selectedCategory, setSelectedCategory] = useState<string>(categoryParam || 'all');
   const [sortBy, setSortBy] = useState<string>('name');
   const [loading, setLoading] = useState(true);
+  const [priceRanges, setPriceRanges] = useState<string[]>([]);
+  const [inStockOnly, setInStockOnly] = useState(false);
 
   useEffect(() => {
     if (categoryParam) {
@@ -34,7 +36,7 @@ export default function ShopPage() {
 
   useEffect(() => {
     loadProducts();
-  }, [selectedCategory, sortBy]);
+  }, [selectedCategory, sortBy, priceRanges, inStockOnly]);
 
   async function loadProducts() {
     setLoading(true);
@@ -48,7 +50,41 @@ export default function ShopPage() {
 
       const response = await fetch(`/api/products?${params.toString()}`);
       if (response.ok) {
-        const data = await response.json();
+        let data = await response.json();
+
+        // Apply client-side filters
+        if (priceRanges.length > 0 || inStockOnly) {
+          data = data.filter((product: Product) => {
+            // Stock filter
+            if (inStockOnly && !product.in_stock) {
+              return false;
+            }
+
+            // Price range filter
+            if (priceRanges.length > 0) {
+              const matchesPriceRange = priceRanges.some(range => {
+                switch (range) {
+                  case 'under-10':
+                    return product.price < 10;
+                  case '10-25':
+                    return product.price >= 10 && product.price <= 25;
+                  case '25-50':
+                    return product.price > 25 && product.price <= 50;
+                  case 'over-50':
+                    return product.price > 50;
+                  default:
+                    return true;
+                }
+              });
+              if (!matchesPriceRange) {
+                return false;
+              }
+            }
+
+            return true;
+          });
+        }
+
         setProducts(data);
       }
     } catch (error) {
@@ -56,6 +92,19 @@ export default function ShopPage() {
     } finally {
       setLoading(false);
     }
+  }
+
+  function togglePriceRange(range: string) {
+    setPriceRanges(prev =>
+      prev.includes(range)
+        ? prev.filter(r => r !== range)
+        : [...prev, range]
+    );
+  }
+
+  function clearFilters() {
+    setPriceRanges([]);
+    setInStockOnly(false);
   }
 
   return (
@@ -135,38 +184,69 @@ export default function ShopPage() {
           </div>
 
           <div className="bg-card border border-amber/20 rounded-lg p-6">
-            <h3 className="text-lg font-semibold text-cream mb-4">Price Range</h3>
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-lg font-semibold text-cream">Price Range</h3>
+              {(priceRanges.length > 0 || inStockOnly) && (
+                <button
+                  onClick={clearFilters}
+                  className="text-xs text-amber hover:text-gold"
+                >
+                  Clear
+                </button>
+              )}
+            </div>
             <div className="space-y-2 text-sm text-cream/80">
-              <div className="flex items-center">
-                <input type="checkbox" className="mr-2" />
-                <label>Under $10</label>
-              </div>
-              <div className="flex items-center">
-                <input type="checkbox" className="mr-2" />
-                <label>$10 - $25</label>
-              </div>
-              <div className="flex items-center">
-                <input type="checkbox" className="mr-2" />
-                <label>$25 - $50</label>
-              </div>
-              <div className="flex items-center">
-                <input type="checkbox" className="mr-2" />
-                <label>$50+</label>
-              </div>
+              <label className="flex items-center cursor-pointer hover:text-cream">
+                <input
+                  type="checkbox"
+                  className="mr-2 cursor-pointer"
+                  checked={priceRanges.includes('under-10')}
+                  onChange={() => togglePriceRange('under-10')}
+                />
+                <span>Under $10</span>
+              </label>
+              <label className="flex items-center cursor-pointer hover:text-cream">
+                <input
+                  type="checkbox"
+                  className="mr-2 cursor-pointer"
+                  checked={priceRanges.includes('10-25')}
+                  onChange={() => togglePriceRange('10-25')}
+                />
+                <span>$10 - $25</span>
+              </label>
+              <label className="flex items-center cursor-pointer hover:text-cream">
+                <input
+                  type="checkbox"
+                  className="mr-2 cursor-pointer"
+                  checked={priceRanges.includes('25-50')}
+                  onChange={() => togglePriceRange('25-50')}
+                />
+                <span>$25 - $50</span>
+              </label>
+              <label className="flex items-center cursor-pointer hover:text-cream">
+                <input
+                  type="checkbox"
+                  className="mr-2 cursor-pointer"
+                  checked={priceRanges.includes('over-50')}
+                  onChange={() => togglePriceRange('over-50')}
+                />
+                <span>$50+</span>
+              </label>
             </div>
           </div>
 
           <div className="bg-card border border-amber/20 rounded-lg p-6">
             <h3 className="text-lg font-semibold text-cream mb-4">Availability</h3>
             <div className="space-y-2 text-sm text-cream/80">
-              <div className="flex items-center">
-                <input type="checkbox" className="mr-2" />
-                <label>In Stock</label>
-              </div>
-              <div className="flex items-center">
-                <input type="checkbox" className="mr-2" />
-                <label>Featured</label>
-              </div>
+              <label className="flex items-center cursor-pointer hover:text-cream">
+                <input
+                  type="checkbox"
+                  className="mr-2 cursor-pointer"
+                  checked={inStockOnly}
+                  onChange={(e) => setInStockOnly(e.target.checked)}
+                />
+                <span>In Stock Only</span>
+              </label>
             </div>
           </div>
         </aside>
