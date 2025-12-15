@@ -28,7 +28,8 @@ export default function ShopPage() {
   const [loading, setLoading] = useState(true);
   const [priceRanges, setPriceRanges] = useState<string[]>([]);
   const [inStockOnly, setInStockOnly] = useState(false);
-  const [displayCount, setDisplayCount] = useState(50);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(50);
 
   useEffect(() => {
     if (categoryParam) {
@@ -41,12 +42,16 @@ export default function ShopPage() {
   }, [selectedCategory, sortBy]);
 
   useEffect(() => {
-    applyFilters();
-  }, [priceRanges, inStockOnly, displayCount, allProducts]);
+    applyFiltersAndPagination();
+  }, [priceRanges, inStockOnly, currentPage, itemsPerPage, allProducts]);
+
+  // Reset to page 1 when filters or category changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [selectedCategory, sortBy, priceRanges, inStockOnly, itemsPerPage]);
 
   async function loadProducts() {
     setLoading(true);
-    setDisplayCount(50); // Reset display count when loading new products
 
     try {
       const params = new URLSearchParams();
@@ -68,7 +73,7 @@ export default function ShopPage() {
     }
   }
 
-  function applyFilters() {
+  function applyFiltersAndPagination() {
     let filtered = [...allProducts];
 
     // Apply client-side filters
@@ -104,8 +109,10 @@ export default function ShopPage() {
       });
     }
 
-    // Apply display limit
-    setProducts(filtered.slice(0, displayCount));
+    // Apply pagination
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    setProducts(filtered.slice(startIndex, endIndex));
   }
 
   function togglePriceRange(range: string) {
@@ -121,11 +128,7 @@ export default function ShopPage() {
     setInStockOnly(false);
   }
 
-  function loadMore() {
-    setDisplayCount(prev => prev + 50);
-  }
-
-  const filteredTotal = (() => {
+  const getFilteredProducts = () => {
     let filtered = [...allProducts];
     if (priceRanges.length > 0 || inStockOnly) {
       filtered = filtered.filter((product: Product) => {
@@ -145,10 +148,48 @@ export default function ShopPage() {
         return true;
       });
     }
-    return filtered.length;
-  })();
+    return filtered;
+  };
 
-  const hasMore = products.length < filteredTotal;
+  const filteredTotal = getFilteredProducts().length;
+  const totalPages = Math.ceil(filteredTotal / itemsPerPage);
+  const startItem = (currentPage - 1) * itemsPerPage + 1;
+  const endItem = Math.min(currentPage * itemsPerPage, filteredTotal);
+
+  const goToPage = (page: number) => {
+    setCurrentPage(page);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const getPageNumbers = () => {
+    const pages = [];
+    const maxPagesToShow = 5;
+
+    if (totalPages <= maxPagesToShow) {
+      for (let i = 1; i <= totalPages; i++) {
+        pages.push(i);
+      }
+    } else {
+      if (currentPage <= 3) {
+        for (let i = 1; i <= 4; i++) pages.push(i);
+        pages.push('...');
+        pages.push(totalPages);
+      } else if (currentPage >= totalPages - 2) {
+        pages.push(1);
+        pages.push('...');
+        for (let i = totalPages - 3; i <= totalPages; i++) pages.push(i);
+      } else {
+        pages.push(1);
+        pages.push('...');
+        pages.push(currentPage - 1);
+        pages.push(currentPage);
+        pages.push(currentPage + 1);
+        pages.push('...');
+        pages.push(totalPages);
+      }
+    }
+    return pages;
+  };
 
   return (
     <div>
@@ -296,9 +337,24 @@ export default function ShopPage() {
 
         <div className="flex-1">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
-            <p className="text-cream/70">
-              {loading ? 'Loading...' : `Showing ${products.length} of ${filteredTotal} products`}
-            </p>
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+              <p className="text-cream/70">
+                {loading ? 'Loading...' : `Showing ${startItem}-${endItem} of ${filteredTotal} products`}
+              </p>
+              <div className="flex items-center gap-2">
+                <label className="text-sm text-cream/70">Per page:</label>
+                <Select value={itemsPerPage.toString()} onValueChange={(val) => setItemsPerPage(parseInt(val))}>
+                  <SelectTrigger className="w-[80px] bg-card border-amber/20 text-cream">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent className="bg-card border-amber/20">
+                    <SelectItem value="25">25</SelectItem>
+                    <SelectItem value="50">50</SelectItem>
+                    <SelectItem value="100">100</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
 
             <Select value={sortBy} onValueChange={setSortBy}>
               <SelectTrigger className="w-[200px] bg-card border-amber/20 text-cream">
@@ -331,17 +387,55 @@ export default function ShopPage() {
                 ))}
               </div>
 
-              {hasMore && (
-                <div className="mt-12 text-center">
-                  <Button
-                    size="lg"
-                    onClick={loadMore}
-                    className="bg-amber hover:bg-gold text-white px-12"
-                  >
-                    Load More Products
-                  </Button>
-                  <p className="text-sm text-cream/60 mt-3">
-                    Showing {products.length} of {filteredTotal} products
+              {/* Pagination */}
+              {totalPages > 1 && (
+                <div className="mt-12 flex flex-col items-center gap-4">
+                  <div className="flex items-center gap-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => goToPage(currentPage - 1)}
+                      disabled={currentPage === 1}
+                      className="border-amber/30 text-cream hover:bg-amber/10 disabled:opacity-50"
+                    >
+                      Previous
+                    </Button>
+
+                    {getPageNumbers().map((page, index) => (
+                      typeof page === 'number' ? (
+                        <Button
+                          key={index}
+                          variant={currentPage === page ? 'default' : 'outline'}
+                          size="sm"
+                          onClick={() => goToPage(page)}
+                          className={
+                            currentPage === page
+                              ? 'bg-amber hover:bg-gold text-white'
+                              : 'border-amber/30 text-cream hover:bg-amber/10'
+                          }
+                        >
+                          {page}
+                        </Button>
+                      ) : (
+                        <span key={index} className="text-cream/50 px-2">
+                          {page}
+                        </span>
+                      )
+                    ))}
+
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => goToPage(currentPage + 1)}
+                      disabled={currentPage === totalPages}
+                      className="border-amber/30 text-cream hover:bg-amber/10 disabled:opacity-50"
+                    >
+                      Next
+                    </Button>
+                  </div>
+
+                  <p className="text-sm text-cream/60">
+                    Page {currentPage} of {totalPages} ({filteredTotal} total products)
                   </p>
                 </div>
               )}
