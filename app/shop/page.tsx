@@ -22,11 +22,13 @@ export default function ShopPage() {
   const categoryParam = searchParams.get('category');
 
   const [products, setProducts] = useState<Product[]>([]);
+  const [allProducts, setAllProducts] = useState<Product[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>(categoryParam || 'all');
   const [sortBy, setSortBy] = useState<string>('name');
   const [loading, setLoading] = useState(true);
   const [priceRanges, setPriceRanges] = useState<string[]>([]);
   const [inStockOnly, setInStockOnly] = useState(false);
+  const [displayCount, setDisplayCount] = useState(50);
 
   useEffect(() => {
     if (categoryParam) {
@@ -36,10 +38,15 @@ export default function ShopPage() {
 
   useEffect(() => {
     loadProducts();
-  }, [selectedCategory, sortBy, priceRanges, inStockOnly]);
+  }, [selectedCategory, sortBy]);
+
+  useEffect(() => {
+    applyFilters();
+  }, [priceRanges, inStockOnly, displayCount, allProducts]);
 
   async function loadProducts() {
     setLoading(true);
+    setDisplayCount(50); // Reset display count when loading new products
 
     try {
       const params = new URLSearchParams();
@@ -47,51 +54,58 @@ export default function ShopPage() {
         params.append('category', selectedCategory);
       }
       params.append('sortBy', sortBy);
+      params.append('limit', '1000'); // Load all products
 
       const response = await fetch(`/api/products?${params.toString()}`);
       if (response.ok) {
-        let data = await response.json();
-
-        // Apply client-side filters
-        if (priceRanges.length > 0 || inStockOnly) {
-          data = data.filter((product: Product) => {
-            // Stock filter
-            if (inStockOnly && !product.in_stock) {
-              return false;
-            }
-
-            // Price range filter
-            if (priceRanges.length > 0) {
-              const matchesPriceRange = priceRanges.some(range => {
-                switch (range) {
-                  case 'under-10':
-                    return product.price < 10;
-                  case '10-25':
-                    return product.price >= 10 && product.price <= 25;
-                  case '25-50':
-                    return product.price > 25 && product.price <= 50;
-                  case 'over-50':
-                    return product.price > 50;
-                  default:
-                    return true;
-                }
-              });
-              if (!matchesPriceRange) {
-                return false;
-              }
-            }
-
-            return true;
-          });
-        }
-
-        setProducts(data);
+        const data = await response.json();
+        setAllProducts(data);
       }
     } catch (error) {
       console.error('Error loading products:', error);
     } finally {
       setLoading(false);
     }
+  }
+
+  function applyFilters() {
+    let filtered = [...allProducts];
+
+    // Apply client-side filters
+    if (priceRanges.length > 0 || inStockOnly) {
+      filtered = filtered.filter((product: Product) => {
+        // Stock filter
+        if (inStockOnly && !product.in_stock) {
+          return false;
+        }
+
+        // Price range filter
+        if (priceRanges.length > 0) {
+          const matchesPriceRange = priceRanges.some(range => {
+            switch (range) {
+              case 'under-10':
+                return product.price < 10;
+              case '10-25':
+                return product.price >= 10 && product.price <= 25;
+              case '25-50':
+                return product.price > 25 && product.price <= 50;
+              case 'over-50':
+                return product.price > 50;
+              default:
+                return true;
+            }
+          });
+          if (!matchesPriceRange) {
+            return false;
+          }
+        }
+
+        return true;
+      });
+    }
+
+    // Apply display limit
+    setProducts(filtered.slice(0, displayCount));
   }
 
   function togglePriceRange(range: string) {
@@ -106,6 +120,35 @@ export default function ShopPage() {
     setPriceRanges([]);
     setInStockOnly(false);
   }
+
+  function loadMore() {
+    setDisplayCount(prev => prev + 50);
+  }
+
+  const filteredTotal = (() => {
+    let filtered = [...allProducts];
+    if (priceRanges.length > 0 || inStockOnly) {
+      filtered = filtered.filter((product: Product) => {
+        if (inStockOnly && !product.in_stock) return false;
+        if (priceRanges.length > 0) {
+          const matchesPriceRange = priceRanges.some(range => {
+            switch (range) {
+              case 'under-10': return product.price < 10;
+              case '10-25': return product.price >= 10 && product.price <= 25;
+              case '25-50': return product.price > 25 && product.price <= 50;
+              case 'over-50': return product.price > 50;
+              default: return true;
+            }
+          });
+          if (!matchesPriceRange) return false;
+        }
+        return true;
+      });
+    }
+    return filtered.length;
+  })();
+
+  const hasMore = products.length < filteredTotal;
 
   return (
     <div>
@@ -254,7 +297,7 @@ export default function ShopPage() {
         <div className="flex-1">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
             <p className="text-cream/70">
-              {loading ? 'Loading...' : `${products.length} products found`}
+              {loading ? 'Loading...' : `Showing ${products.length} of ${filteredTotal} products`}
             </p>
 
             <Select value={sortBy} onValueChange={setSortBy}>
@@ -281,11 +324,28 @@ export default function ShopPage() {
               <p className="text-cream/70 text-lg">No products found in this category.</p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {products.map((product) => (
-                <ProductCard key={product.id} product={product} />
-              ))}
-            </div>
+            <>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {products.map((product) => (
+                  <ProductCard key={product.id} product={product} />
+                ))}
+              </div>
+
+              {hasMore && (
+                <div className="mt-12 text-center">
+                  <Button
+                    size="lg"
+                    onClick={loadMore}
+                    className="bg-amber hover:bg-gold text-white px-12"
+                  >
+                    Load More Products
+                  </Button>
+                  <p className="text-sm text-cream/60 mt-3">
+                    Showing {products.length} of {filteredTotal} products
+                  </p>
+                </div>
+              )}
+            </>
           )}
         </div>
       </div>
