@@ -191,6 +191,58 @@ export default function ShopPage() {
     return pages;
   };
 
+  const PaginationControls = () => (
+    <div className="flex flex-col items-center gap-4">
+      <div className="flex items-center gap-2 flex-wrap justify-center">
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => goToPage(currentPage - 1)}
+          disabled={currentPage === 1}
+          className="border-amber/30 text-cream hover:bg-amber/10 disabled:opacity-50"
+        >
+          Previous
+        </Button>
+
+        {getPageNumbers().map((page, index) => (
+          typeof page === 'number' ? (
+            <Button
+              key={index}
+              variant={currentPage === page ? 'default' : 'outline'}
+              size="sm"
+              onClick={() => goToPage(page)}
+              className={
+                currentPage === page
+                  ? 'bg-amber hover:bg-gold text-white'
+                  : 'border-amber/30 text-cream hover:bg-amber/10'
+              }
+            >
+              {page}
+            </Button>
+          ) : (
+            <span key={index} className="text-cream/50 px-2">
+              {page}
+            </span>
+          )
+        ))}
+
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => goToPage(currentPage + 1)}
+          disabled={currentPage === totalPages}
+          className="border-amber/30 text-cream hover:bg-amber/10 disabled:opacity-50"
+        >
+          Next
+        </Button>
+      </div>
+
+      <p className="text-sm text-cream/60">
+        Page {currentPage} of {totalPages} ({filteredTotal} total products)
+      </p>
+    </div>
+  );
+
   return (
     <div>
       {/* Hero Banner */}
@@ -381,62 +433,23 @@ export default function ShopPage() {
             </div>
           ) : (
             <>
+              {/* Pagination - Top */}
+              {totalPages > 1 && (
+                <div className="mb-6">
+                  <PaginationControls />
+                </div>
+              )}
+
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {products.map((product) => (
                   <ProductCard key={product.id} product={product} />
                 ))}
               </div>
 
-              {/* Pagination */}
+              {/* Pagination - Bottom */}
               {totalPages > 1 && (
-                <div className="mt-12 flex flex-col items-center gap-4">
-                  <div className="flex items-center gap-2">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => goToPage(currentPage - 1)}
-                      disabled={currentPage === 1}
-                      className="border-amber/30 text-cream hover:bg-amber/10 disabled:opacity-50"
-                    >
-                      Previous
-                    </Button>
-
-                    {getPageNumbers().map((page, index) => (
-                      typeof page === 'number' ? (
-                        <Button
-                          key={index}
-                          variant={currentPage === page ? 'default' : 'outline'}
-                          size="sm"
-                          onClick={() => goToPage(page)}
-                          className={
-                            currentPage === page
-                              ? 'bg-amber hover:bg-gold text-white'
-                              : 'border-amber/30 text-cream hover:bg-amber/10'
-                          }
-                        >
-                          {page}
-                        </Button>
-                      ) : (
-                        <span key={index} className="text-cream/50 px-2">
-                          {page}
-                        </span>
-                      )
-                    ))}
-
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => goToPage(currentPage + 1)}
-                      disabled={currentPage === totalPages}
-                      className="border-amber/30 text-cream hover:bg-amber/10 disabled:opacity-50"
-                    >
-                      Next
-                    </Button>
-                  </div>
-
-                  <p className="text-sm text-cream/60">
-                    Page {currentPage} of {totalPages} ({filteredTotal} total products)
-                  </p>
+                <div className="mt-12">
+                  <PaginationControls />
                 </div>
               )}
             </>
