@@ -1,8 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
   images: {
     remotePatterns: [
       {
@@ -13,16 +10,14 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'images.unsplash.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'admin.thecrackedgrain.com',
+        pathname: '/assets/**',
+      },
     ],
   },
-  experimental: {
-    serverComponentsExternalPackages: ['drizzle-kit'],
-  },
-  webpack: (config, { isServer }) => {
-    // Exclude drizzle-kit from webpack bundling
-    config.externals.push('drizzle-kit');
-    return config;
-  },
-};
+  serverExternalPackages: ['drizzle-kit'],
+}
 
-module.exports = nextConfig;
+module.exports = nextConfig
