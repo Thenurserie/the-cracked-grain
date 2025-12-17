@@ -1,0 +1,28 @@
+const { withPayload } = require('@payloadcms/next/withPayload')
+const path = require('path')
+
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'images.pexels.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+      },
+    ],
+  },
+  serverExternalPackages: ['drizzle-kit', '@payloadcms/db-postgres'],
+  webpack: (config) => {
+    config.resolve.alias = {
+      ...(config.resolve.alias || {}),
+      '@payload-config': path.resolve(process.cwd(), 'payload.config.ts'),
+    }
+    return config
+  },
+}
+
+module.exports = withPayload(nextConfig)

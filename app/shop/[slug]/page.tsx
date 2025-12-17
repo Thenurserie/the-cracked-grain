@@ -7,6 +7,7 @@ import { ProductDetailClient } from '@/components/ProductDetailClient';
 import { getProduct as getPrismaProduct, getProductsByCategory } from '@/lib/products';
 import { Product } from '@/lib/types';
 import type { Metadata } from 'next';
+import { getDirectusAssetUrl } from '@/lib/directus';
 
 // Force this route to be dynamic (not statically generated)
 // This prevents database access during build time
@@ -184,7 +185,7 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
           <div className="space-y-4">
             <div className="relative aspect-square rounded-lg overflow-hidden bg-[#2a2a2a] border border-amber/20">
               <Image
-                src={product.image_url}
+                src={getDirectusAssetUrl(product.image_url)}
                 alt={product.name}
                 fill
                 className="object-cover"
