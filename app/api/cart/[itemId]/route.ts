@@ -6,12 +6,12 @@ export const runtime = 'nodejs';
 // PUT /api/cart/[itemId] - Update cart item quantity
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { itemId: string } }
+  { params }: { params: Promise<{ itemId: string }> }
 ) {
   try {
     const body = await request.json();
     const { quantity } = body;
-    const { itemId } = params;
+    const { itemId } = await params;
 
     if (quantity === undefined) {
       return NextResponse.json(
@@ -52,10 +52,10 @@ export async function PUT(
 // DELETE /api/cart/[itemId] - Remove item from cart
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { itemId: string } }
+  { params }: { params: Promise<{ itemId: string }> }
 ) {
   try {
-    const { itemId } = params;
+    const { itemId } = await params;
 
     await prisma.cartItem.delete({
       where: {
