@@ -14,9 +14,9 @@ import { getDirectusAssetUrl } from '@/lib/directus';
 export const dynamic = 'force-dynamic';
 
 interface ProductPageProps {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
 // Convert Prisma Product to legacy Product type
@@ -66,7 +66,8 @@ async function getRelatedProducts(product: Product): Promise<Product[]> {
 }
 
 export async function generateMetadata({ params }: ProductPageProps): Promise<Metadata> {
-  const product = await getProduct(params.slug);
+  const { slug } = await params;
+  const product = await getProduct(slug);
 
   if (!product) {
     return {
@@ -101,7 +102,8 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
 }
 
 export default async function ProductDetailPage({ params }: ProductPageProps) {
-  const product = await getProduct(params.slug);
+  const { slug } = await params;
+  const product = await getProduct(slug);
 
   if (!product) {
     notFound();
