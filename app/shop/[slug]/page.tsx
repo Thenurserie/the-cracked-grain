@@ -187,11 +187,15 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
           <div className="space-y-4">
             <div className="relative aspect-square rounded-lg overflow-hidden bg-[#2a2a2a] border border-amber/20">
               <Image
-                src={getDirectusAssetUrl(product.image_url)}
+                src={getDirectusAssetUrl(product.image_url, {
+                  width: 800,
+                  quality: 85
+                })}
                 alt={product.name}
                 fill
                 className="object-cover"
                 priority
+                sizes="(max-width: 768px) 100vw, 50vw"
               />
             </div>
           </div>

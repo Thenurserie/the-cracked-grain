@@ -123,10 +123,16 @@ export default function CartPage() {
                   className="relative w-full sm:w-32 h-32 flex-shrink-0 rounded-lg overflow-hidden bg-[#2a2a2a]"
                 >
                   <Image
-                    src={getDirectusAssetUrl(product.image_url)}
+                    src={getDirectusAssetUrl(product.image_url, {
+                      width: 128,
+                      height: 128,
+                      fit: 'cover',
+                      quality: 80
+                    })}
                     alt={product.name}
                     fill
                     className="object-cover"
+                    sizes="128px"
                   />
                 </Link>
 

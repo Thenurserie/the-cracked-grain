@@ -98,11 +98,17 @@ export function ProductCard({ product }: ProductCardProps) {
       <div className="group bg-card border border-amber/20 rounded-lg overflow-hidden hover:border-gold transition-all duration-300 hover:shadow-lg hover:shadow-amber/10">
         <div className="relative aspect-square overflow-hidden bg-[#2a2a2a]">
           <Image
-            src={getDirectusAssetUrl(product.image_url)}
+            src={getDirectusAssetUrl(product.image_url, {
+              width: 400,
+              height: 400,
+              fit: 'cover',
+              quality: 80
+            })}
             alt={product.name}
             fill
             className="object-cover group-hover:scale-105 transition-transform duration-300"
             loading="lazy"
+            sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
           />
           {!product.in_stock && (
             <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
