@@ -6,6 +6,7 @@ import { Product } from '@/lib/types';
 import { useSearchParams } from 'next/navigation';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
+import { Search, X } from 'lucide-react';
 
 // Available categories (hardcoded for now)
 // Note: slugs must match exact category values in database
@@ -30,6 +31,7 @@ export default function ShopContent() {
   const [inStockOnly, setInStockOnly] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(50);
+  const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
     if (categoryParam) {
@@ -43,12 +45,12 @@ export default function ShopContent() {
 
   useEffect(() => {
     applyFiltersAndPagination();
-  }, [priceRanges, inStockOnly, currentPage, itemsPerPage, allProducts]);
+  }, [priceRanges, inStockOnly, currentPage, itemsPerPage, allProducts, searchQuery]);
 
   // Reset to page 1 when filters or category changes
   useEffect(() => {
     setCurrentPage(1);
-  }, [selectedCategory, sortBy, priceRanges, inStockOnly, itemsPerPage]);
+  }, [selectedCategory, sortBy, priceRanges, inStockOnly, itemsPerPage, searchQuery]);
 
   async function loadProducts() {
     setLoading(true);
@@ -75,6 +77,15 @@ export default function ShopContent() {
 
   function applyFiltersAndPagination() {
     let filtered = [...allProducts];
+
+    // Apply search filter
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase();
+      filtered = filtered.filter((product: Product) =>
+        product.name.toLowerCase().includes(query) ||
+        product.description.toLowerCase().includes(query)
+      );
+    }
 
     // Apply client-side filters
     if (priceRanges.length > 0 || inStockOnly) {
@@ -130,6 +141,16 @@ export default function ShopContent() {
 
   const getFilteredProducts = () => {
     let filtered = [...allProducts];
+
+    // Apply search filter
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase();
+      filtered = filtered.filter((product: Product) =>
+        product.name.toLowerCase().includes(query) ||
+        product.description.toLowerCase().includes(query)
+      );
+    }
+
     if (priceRanges.length > 0 || inStockOnly) {
       filtered = filtered.filter((product: Product) => {
         if (inStockOnly && !product.in_stock) return false;
@@ -388,6 +409,28 @@ export default function ShopContent() {
         </aside>
 
         <div className="flex-1">
+          {/* Search Bar */}
+          <div className="mb-6">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-cream/50" />
+              <input
+                type="text"
+                placeholder="Search products by name or description..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full pl-10 pr-10 py-3 bg-card border border-amber/20 rounded-lg text-cream placeholder:text-cream/50 focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold"
+              />
+              {searchQuery && (
+                <button
+                  onClick={() => setSearchQuery('')}
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-cream/50 hover:text-cream"
+                >
+                  <X className="h-5 w-5" />
+                </button>
+              )}
+            </div>
+          </div>
+
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
               <p className="text-cream/70">

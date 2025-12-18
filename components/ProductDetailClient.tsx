@@ -1,12 +1,12 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ShoppingCart, ArrowLeft, ShoppingBag } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Product } from '@/lib/types';
 import { addToCart } from '@/lib/cartClient';
 import { useToast } from '@/hooks/use-toast';
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 interface ProductDetailClientProps {
   product: Product;
@@ -14,8 +14,31 @@ interface ProductDetailClientProps {
 
 export function ProductDetailClient({ product }: ProductDetailClientProps) {
   const { toast } = useToast();
+  const router = useRouter();
   const [quantity, setQuantity] = useState(1);
   const [addingToCart, setAddingToCart] = useState(false);
+  const [shopReturnUrl, setShopReturnUrl] = useState('/shop');
+
+  useEffect(() => {
+    // Get the saved shop return URL
+    if (typeof window !== 'undefined') {
+      const savedUrl = sessionStorage.getItem('shopReturnUrl');
+      if (savedUrl) {
+        setShopReturnUrl(savedUrl);
+      }
+    }
+  }, []);
+
+  function handleContinueShopping() {
+    const scrollPosition = parseInt(sessionStorage.getItem('shopScrollPosition') || '0');
+
+    router.push(shopReturnUrl);
+
+    // Restore scroll position after navigation
+    setTimeout(() => {
+      window.scrollTo({ top: scrollPosition, behavior: 'instant' });
+    }, 100);
+  }
 
   async function handleAddToCart() {
     setAddingToCart(true);
@@ -31,14 +54,14 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
               <Button
                 size="sm"
                 variant="outline"
-                onClick={() => window.location.href = '/shop'}
+                onClick={handleContinueShopping}
                 className="border-amber/30 text-cream hover:bg-amber/10"
               >
                 Continue Shopping
               </Button>
               <Button
                 size="sm"
-                onClick={() => window.location.href = '/cart'}
+                onClick={() => router.push('/cart')}
                 className="bg-amber hover:bg-gold text-white"
               >
                 View Cart
@@ -102,26 +125,24 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
 
       {/* Navigation Buttons */}
       <div className="flex gap-3 pt-4 border-t border-amber/20">
-        <Link href="/shop" className="flex-1">
-          <Button
-            size="lg"
-            variant="outline"
-            className="w-full border-amber/30 text-cream hover:bg-amber/10"
-          >
-            <ArrowLeft className="mr-2 h-5 w-5" />
-            Continue Shopping
-          </Button>
-        </Link>
-        <Link href="/cart" className="flex-1">
-          <Button
-            size="lg"
-            variant="outline"
-            className="w-full border-amber/30 text-cream hover:bg-amber/10"
-          >
-            <ShoppingBag className="mr-2 h-5 w-5" />
-            View Cart
-          </Button>
-        </Link>
+        <Button
+          size="lg"
+          variant="outline"
+          className="flex-1 border-amber/30 text-cream hover:bg-amber/10"
+          onClick={handleContinueShopping}
+        >
+          <ArrowLeft className="mr-2 h-5 w-5" />
+          Continue Shopping
+        </Button>
+        <Button
+          size="lg"
+          variant="outline"
+          className="flex-1 border-amber/30 text-cream hover:bg-amber/10"
+          onClick={() => router.push('/cart')}
+        >
+          <ShoppingBag className="mr-2 h-5 w-5" />
+          View Cart
+        </Button>
       </div>
     </div>
   );

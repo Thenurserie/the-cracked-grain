@@ -7,7 +7,8 @@ import { Product } from '@/lib/types';
 import { Button } from '@/components/ui/button';
 import { addToCart } from '@/lib/cartClient';
 import { useToast } from '@/hooks/use-toast';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { getDirectusAssetUrl } from '@/lib/directus';
 
 interface ProductCardProps {
@@ -16,7 +17,29 @@ interface ProductCardProps {
 
 export function ProductCard({ product }: ProductCardProps) {
   const { toast } = useToast();
+  const router = useRouter();
   const [adding, setAdding] = useState(false);
+
+  // Save current shop state before navigating
+  useEffect(() => {
+    // Save current URL and scroll position for "Continue Shopping"
+    if (typeof window !== 'undefined' && window.location.pathname === '/shop') {
+      sessionStorage.setItem('shopReturnUrl', window.location.href);
+      sessionStorage.setItem('shopScrollPosition', window.scrollY.toString());
+    }
+  }, []);
+
+  function handleContinueShopping() {
+    const returnUrl = sessionStorage.getItem('shopReturnUrl') || '/shop';
+    const scrollPosition = parseInt(sessionStorage.getItem('shopScrollPosition') || '0');
+
+    router.push(returnUrl);
+
+    // Restore scroll position after navigation
+    setTimeout(() => {
+      window.scrollTo({ top: scrollPosition, behavior: 'instant' });
+    }, 100);
+  }
 
   async function handleAddToCart(e: React.MouseEvent) {
     e.preventDefault();
@@ -34,14 +57,14 @@ export function ProductCard({ product }: ProductCardProps) {
               <Button
                 size="sm"
                 variant="outline"
-                onClick={() => window.location.href = '/shop'}
+                onClick={handleContinueShopping}
                 className="border-amber/30 text-cream hover:bg-amber/10"
               >
                 Continue Shopping
               </Button>
               <Button
                 size="sm"
-                onClick={() => window.location.href = '/cart'}
+                onClick={() => router.push('/cart')}
                 className="bg-amber hover:bg-gold text-white"
               >
                 View Cart
@@ -61,8 +84,17 @@ export function ProductCard({ product }: ProductCardProps) {
 
     setAdding(false);
   }
+
+  function handleProductClick() {
+    // Save shop state before navigating to product detail
+    if (typeof window !== 'undefined') {
+      sessionStorage.setItem('shopReturnUrl', window.location.href);
+      sessionStorage.setItem('shopScrollPosition', window.scrollY.toString());
+    }
+  }
+
   return (
-    <Link href={`/shop/${product.slug}`}>
+    <Link href={`/shop/${product.slug}`} onClick={handleProductClick}>
       <div className="group bg-card border border-amber/20 rounded-lg overflow-hidden hover:border-gold transition-all duration-300 hover:shadow-lg hover:shadow-amber/10">
         <div className="relative aspect-square overflow-hidden bg-[#2a2a2a]">
           <Image
@@ -70,6 +102,9 @@ export function ProductCard({ product }: ProductCardProps) {
             alt={product.name}
             fill
             className="object-cover group-hover:scale-105 transition-transform duration-300"
+            loading="lazy"
+            placeholder="blur"
+            blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
           />
           {!product.in_stock && (
             <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
