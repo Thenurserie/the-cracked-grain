@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { ProductCard } from '@/components/ProductCard';
 import { Product } from '@/lib/types';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
 import { Search, X } from 'lucide-react';
@@ -20,7 +20,9 @@ const CATEGORIES = [
 
 export default function ShopContent() {
   const searchParams = useSearchParams();
+  const router = useRouter();
   const categoryParam = searchParams.get('category');
+  const pageParam = searchParams.get('page');
 
   const [products, setProducts] = useState<Product[]>([]);
   const [allProducts, setAllProducts] = useState<Product[]>([]);
@@ -29,7 +31,7 @@ export default function ShopContent() {
   const [loading, setLoading] = useState(true);
   const [priceRanges, setPriceRanges] = useState<string[]>([]);
   const [inStockOnly, setInStockOnly] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(pageParam ? parseInt(pageParam) : 1);
   const [itemsPerPage, setItemsPerPage] = useState(50);
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -38,6 +40,19 @@ export default function ShopContent() {
       setSelectedCategory(categoryParam);
     }
   }, [categoryParam]);
+
+  // Sync currentPage with URL
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (currentPage > 1) {
+      params.set('page', currentPage.toString());
+    } else {
+      params.delete('page');
+    }
+
+    const newUrl = params.toString() ? `/shop?${params.toString()}` : '/shop';
+    router.replace(newUrl, { scroll: false });
+  }, [currentPage, router]);
 
   useEffect(() => {
     loadProducts();

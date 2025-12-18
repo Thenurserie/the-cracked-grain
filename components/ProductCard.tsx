@@ -103,8 +103,6 @@ export function ProductCard({ product }: ProductCardProps) {
             fill
             className="object-cover group-hover:scale-105 transition-transform duration-300"
             loading="lazy"
-            placeholder="blur"
-            blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
           />
           {!product.in_stock && (
             <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
