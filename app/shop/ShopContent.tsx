@@ -67,6 +67,22 @@ export default function ShopContent() {
     setCurrentPage(1);
   }, [selectedCategory, sortBy, priceRanges, inStockOnly, itemsPerPage, searchQuery]);
 
+  // Restore scroll position after products load (for "Continue Shopping" navigation)
+  useEffect(() => {
+    if (!loading && products.length > 0) {
+      const savedScrollPosition = sessionStorage.getItem('shopScrollPosition');
+      if (savedScrollPosition) {
+        const scrollPos = parseInt(savedScrollPosition);
+        // Use requestAnimationFrame to ensure DOM is fully rendered
+        requestAnimationFrame(() => {
+          window.scrollTo({ top: scrollPos, behavior: 'instant' });
+        });
+        // Clear the saved position so it doesn't restore on next visit
+        sessionStorage.removeItem('shopScrollPosition');
+      }
+    }
+  }, [loading, products]);
+
   async function loadProducts() {
     setLoading(true);
 

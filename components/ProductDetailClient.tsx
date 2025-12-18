@@ -30,14 +30,8 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
   }, []);
 
   function handleContinueShopping() {
-    const scrollPosition = parseInt(sessionStorage.getItem('shopScrollPosition') || '0');
-
-    router.push(shopReturnUrl);
-
-    // Restore scroll position after navigation
-    setTimeout(() => {
-      window.scrollTo({ top: scrollPosition, behavior: 'instant' });
-    }, 100);
+    // Don't restore scroll here - let ShopContent handle it after products load
+    router.push(shopReturnUrl, { scroll: false });
   }
 
   async function handleAddToCart() {

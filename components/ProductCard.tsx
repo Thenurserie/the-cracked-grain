@@ -20,25 +20,10 @@ export function ProductCard({ product }: ProductCardProps) {
   const router = useRouter();
   const [adding, setAdding] = useState(false);
 
-  // Save current shop state before navigating
-  useEffect(() => {
-    // Save current URL and scroll position for "Continue Shopping"
-    if (typeof window !== 'undefined' && window.location.pathname === '/shop') {
-      sessionStorage.setItem('shopReturnUrl', window.location.href);
-      sessionStorage.setItem('shopScrollPosition', window.scrollY.toString());
-    }
-  }, []);
-
   function handleContinueShopping() {
     const returnUrl = sessionStorage.getItem('shopReturnUrl') || '/shop';
-    const scrollPosition = parseInt(sessionStorage.getItem('shopScrollPosition') || '0');
-
-    router.push(returnUrl);
-
-    // Restore scroll position after navigation
-    setTimeout(() => {
-      window.scrollTo({ top: scrollPosition, behavior: 'instant' });
-    }, 100);
+    // Don't restore scroll here - let ShopContent handle it after products load
+    router.push(returnUrl, { scroll: false });
   }
 
   async function handleAddToCart(e: React.MouseEvent) {
