@@ -11,14 +11,15 @@ import { Search, X } from 'lucide-react';
 
 // Available categories (hardcoded for now)
 // Note: All products currently have category='Homebrew' in database
-// TODO: Implement proper categorization in database
+// TODO: Implement proper categorization in database - products need to be tagged with specific categories
+// For now, all categories will show all Homebrew products since that's all that exists in DB
 const CATEGORIES = [
-  { id: '1', name: 'Grains & Extracts', slug: 'Homebrew' },
-  { id: '2', name: 'Hops', slug: 'Homebrew' },
-  { id: '3', name: 'Yeast & Bacteria', slug: 'Homebrew' },
-  { id: '4', name: 'Equipment', slug: 'Homebrew' },
-  { id: '5', name: 'Chemicals & Additives', slug: 'Homebrew' },
-  { id: '6', name: 'Wine Supplies', slug: 'Homebrew' },
+  { id: '1', name: 'Grains & Extracts', slug: 'grains-extracts', dbCategory: 'Homebrew' },
+  { id: '2', name: 'Hops', slug: 'hops', dbCategory: 'Homebrew' },
+  { id: '3', name: 'Yeast & Bacteria', slug: 'yeast', dbCategory: 'Homebrew' },
+  { id: '4', name: 'Equipment', slug: 'equipment', dbCategory: 'Homebrew' },
+  { id: '5', name: 'Chemicals & Additives', slug: 'chemicals', dbCategory: 'Homebrew' },
+  { id: '6', name: 'Wine Supplies', slug: 'wine', dbCategory: 'Homebrew' },
 ];
 
 export default function ShopContent() {
@@ -92,7 +93,12 @@ export default function ShopContent() {
     try {
       const params = new URLSearchParams();
       if (selectedCategory && selectedCategory !== 'all') {
-        params.append('category', selectedCategory);
+        // Map the UI slug to the actual database category
+        const categoryObj = CATEGORIES.find(cat => cat.slug === selectedCategory);
+        const dbCategory = categoryObj ? categoryObj.dbCategory : selectedCategory;
+        params.append('category', dbCategory);
+
+        console.log('Filter Debug - Selected slug:', selectedCategory, 'DB category:', dbCategory);
       }
       params.append('sortBy', sortBy);
       params.append('limit', '1000'); // Load all products
@@ -100,6 +106,7 @@ export default function ShopContent() {
       const response = await fetch(`/api/products?${params.toString()}`);
       if (response.ok) {
         const data = await response.json();
+        console.log('Products loaded:', data.length, 'for category:', selectedCategory);
         setAllProducts(data);
       }
     } catch (error) {
