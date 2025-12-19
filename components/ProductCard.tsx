@@ -28,6 +28,7 @@ export function ProductCard({ product }: ProductCardProps) {
 
   async function handleAddToCart(e: React.MouseEvent) {
     e.preventDefault();
+    e.stopPropagation();
     setAdding(true);
 
     const success = await addToCart(product.id, 1);

@@ -55,34 +55,37 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Check if item already exists in cart
-    const existingItem = await prisma.cartItem.findFirst({
-      where: {
-        sessionId,
-        productId,
-      },
-    });
-
-    if (existingItem) {
-      // Update quantity if item already exists
-      await prisma.cartItem.update({
+    // Use transaction to safely handle concurrent requests
+    await prisma.$transaction(async (tx) => {
+      // Check if item already exists in cart within transaction
+      const existingItem = await tx.cartItem.findFirst({
         where: {
-          id: existingItem.id,
-        },
-        data: {
-          quantity: existingItem.quantity + quantity,
-        },
-      });
-    } else {
-      // Create new cart item
-      await prisma.cartItem.create({
-        data: {
           sessionId,
           productId,
-          quantity,
         },
       });
-    }
+
+      if (existingItem) {
+        // Update quantity if item already exists
+        await tx.cartItem.update({
+          where: {
+            id: existingItem.id,
+          },
+          data: {
+            quantity: existingItem.quantity + quantity,
+          },
+        });
+      } else {
+        // Create new cart item
+        await tx.cartItem.create({
+          data: {
+            sessionId,
+            productId,
+            quantity,
+          },
+        });
+      }
+    });
 
     return NextResponse.json({ success: true });
   } catch (error) {
