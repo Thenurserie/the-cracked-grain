@@ -89,7 +89,7 @@ export default async function Home() {
     <div>
       <section className="relative h-[600px] flex items-center justify-center overflow-hidden">
         <Image
-          src="https://images.pexels.com/photos/1267696/pexels-photo-1267696.jpeg"
+          src="https://admin.thecrackedgrain.com/assets/9b1b8802-4431-4f0c-99e1-7979037dd087?width=1920&quality=80&format=webp"
           alt="Craft beer brewing ingredients"
           fill
           priority
