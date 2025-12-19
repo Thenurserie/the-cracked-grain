@@ -9,17 +9,16 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Button } from '@/components/ui/button';
 import { Search, X } from 'lucide-react';
 
-// Available categories (hardcoded for now)
-// Note: All products currently have category='Homebrew' in database
-// TODO: Implement proper categorization in database - products need to be tagged with specific categories
-// For now, all categories will show all Homebrew products since that's all that exists in DB
+// Available categories - mapped to database category values
+// Database categories: Grains, Hops, Yeast, Equipment, Chemicals, Wine, Homebrew
+// Products with category='Homebrew' (325) are uncategorized and only show in "All Products"
 const CATEGORIES = [
-  { id: '1', name: 'Grains & Extracts', slug: 'grains-extracts', dbCategory: 'Homebrew' },
-  { id: '2', name: 'Hops', slug: 'hops', dbCategory: 'Homebrew' },
-  { id: '3', name: 'Yeast & Bacteria', slug: 'yeast', dbCategory: 'Homebrew' },
-  { id: '4', name: 'Equipment', slug: 'equipment', dbCategory: 'Homebrew' },
-  { id: '5', name: 'Chemicals & Additives', slug: 'chemicals', dbCategory: 'Homebrew' },
-  { id: '6', name: 'Wine Supplies', slug: 'wine', dbCategory: 'Homebrew' },
+  { id: '1', name: 'Grains & Extracts', slug: 'grains-extracts', dbCategory: 'Grains' },
+  { id: '2', name: 'Hops', slug: 'hops', dbCategory: 'Hops' },
+  { id: '3', name: 'Yeast & Bacteria', slug: 'yeast', dbCategory: 'Yeast' },
+  { id: '4', name: 'Equipment', slug: 'equipment', dbCategory: 'Equipment' },
+  { id: '5', name: 'Chemicals & Additives', slug: 'chemicals', dbCategory: 'Chemicals' },
+  { id: '6', name: 'Wine Supplies', slug: 'wine', dbCategory: 'Wine' },
 ];
 
 export default function ShopContent() {
