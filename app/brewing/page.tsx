@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
   Beaker,
@@ -36,13 +37,15 @@ export default function BrewingToolsPage() {
     <div>
       {/* Hero Banner */}
       <section className="relative h-[300px] flex items-center justify-center overflow-hidden mb-8">
-        <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{
-            backgroundImage: 'url(https://images.unsplash.com/photo-1606761568499-6d2451b23c66?w=1920&q=80)',
-          }}
+        <Image
+          src="https://admin.thecrackedgrain.com/assets/c6ba14d1-392d-49c4-9405-d45f646f2a09?width=1920&quality=80&format=webp"
+          alt="Brewing tools and equipment"
+          fill
+          priority
+          className="object-cover"
+          sizes="100vw"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/70 to-black/85" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/64 via-black/53 to-black/64" />
 
         <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
           <h1 className="text-5xl md:text-6xl font-bold text-cream mb-4">Brewing Tools Dashboard</h1>

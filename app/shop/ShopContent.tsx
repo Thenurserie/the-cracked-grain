@@ -301,14 +301,14 @@ export default function ShopContent() {
       {/* Hero Banner */}
       <section className="relative h-[300px] flex items-center justify-center overflow-hidden mb-8">
         <Image
-          src="https://images.unsplash.com/photo-1532634922-8fe0b757fb13?w=1920&q=80"
+          src="https://admin.thecrackedgrain.com/assets/84fcb51f-f054-4e87-80ea-f846e3812ce9?width=1920&quality=80&format=webp"
           alt="Homebrew supplies and ingredients"
           fill
           priority
           className="object-cover"
           sizes="100vw"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-black/80" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/45 to-black/60" />
 
         <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
           <h1 className="text-5xl md:text-6xl font-bold text-cream mb-4">Shop Homebrew Supplies</h1>
