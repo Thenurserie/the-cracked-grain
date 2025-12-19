@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { ShoppingCart, Menu } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useState, useEffect } from 'react';
@@ -29,8 +30,15 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-amber/20 bg-[#1a1a1a]/95 backdrop-blur supports-[backdrop-filter]:bg-[#1a1a1a]/80">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
-        <Link href="/" className="flex items-center space-x-2">
-          <span className="text-2xl font-bold text-gold">The Cracked Grain</span>
+        <Link href="/" className="flex items-center">
+          <Image
+            src="https://admin.thecrackedgrain.com/assets/dd3f051f-5b80-475e-b8fa-13cac5d9482d"
+            alt="The Cracked Grain"
+            width={200}
+            height={50}
+            className="h-10 md:h-[50px] w-auto"
+            priority
+          />
         </Link>
 
         <nav className="hidden md:flex items-center space-x-6">
@@ -81,6 +89,15 @@ export function Header() {
 
       {mobileMenuOpen && (
         <div className="md:hidden border-t border-amber/20 bg-[#1a1a1a] px-4 py-4">
+          <div className="flex justify-center mb-4 pb-4 border-b border-amber/20">
+            <Image
+              src="https://admin.thecrackedgrain.com/assets/5a80e87b-402a-4d9b-b8f2-c1622865aa46"
+              alt="The Cracked Grain Icon"
+              width={60}
+              height={60}
+              className="w-[60px] h-[60px]"
+            />
+          </div>
           <nav className="flex flex-col space-y-3">
             <Link
               href="/"

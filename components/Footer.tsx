@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { Facebook, Instagram, Twitter, Youtube, MapPin, Phone, Mail, CreditCard } from 'lucide-react';
 
 export function Footer() {
@@ -7,7 +8,13 @@ export function Footer() {
       <div className="container mx-auto px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
           <div className="space-y-4 lg:col-span-2">
-            <h3 className="text-xl font-bold text-gold">The Cracked Grain</h3>
+            <Image
+              src="https://admin.thecrackedgrain.com/assets/dd3f051f-5b80-475e-b8fa-13cac5d9482d"
+              alt="The Cracked Grain"
+              width={150}
+              height={38}
+              className="w-[150px] h-auto mb-2"
+            />
             <p className="text-sm text-cream/80">
               Premium homebrew supplies for craft beer enthusiasts in Bryant, Arkansas.
             </p>

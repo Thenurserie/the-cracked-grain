@@ -15,6 +15,11 @@ export const metadata: Metadata = {
   title: 'The Cracked Grain | Premium Homebrew Supplies in Bryant, Arkansas',
   description: 'Shop quality brewing ingredients, equipment, and supplies. Grains, hops, yeast, and everything you need to brew better beer. Free shipping over $75.',
   keywords: 'homebrew supplies, brewing ingredients, craft beer, hops, grains, yeast, brewing equipment, Bryant Arkansas',
+  icons: {
+    icon: 'https://admin.thecrackedgrain.com/assets/5a80e87b-402a-4d9b-b8f2-c1622865aa46',
+    shortcut: 'https://admin.thecrackedgrain.com/assets/5a80e87b-402a-4d9b-b8f2-c1622865aa46',
+    apple: 'https://admin.thecrackedgrain.com/assets/5a80e87b-402a-4d9b-b8f2-c1622865aa46',
+  },
   openGraph: {
     title: 'The Cracked Grain | Premium Homebrew Supplies',
     description: 'Shop quality brewing ingredients, equipment, and supplies. Free shipping over $75.',

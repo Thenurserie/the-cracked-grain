@@ -510,6 +510,13 @@ export default function ShopContent() {
             </div>
           ) : products.length === 0 ? (
             <div className="text-center py-12">
+              <Image
+                src="https://admin.thecrackedgrain.com/assets/5a80e87b-402a-4d9b-b8f2-c1622865aa46"
+                alt="No products"
+                width={96}
+                height={96}
+                className="w-24 h-24 mx-auto mb-4 opacity-30"
+              />
               <p className="text-cream/70 text-lg">No products found in this category.</p>
             </div>
           ) : (

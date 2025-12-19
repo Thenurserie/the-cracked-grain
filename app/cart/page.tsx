@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Trash2, Plus, Minus, ShoppingBag, ArrowRight } from 'lucide-react';
+import { Trash2, Plus, Minus, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { CartItem } from '@/lib/types';
 import { getCartItems, updateCartItemQuantity, removeFromCart } from '@/lib/cartClient';
@@ -87,7 +87,13 @@ export default function CartPage() {
     return (
       <div className="container mx-auto px-4 py-12">
         <div className="max-w-2xl mx-auto text-center py-16">
-          <ShoppingBag className="h-24 w-24 text-cream/30 mx-auto mb-6" />
+          <Image
+            src="https://admin.thecrackedgrain.com/assets/5a80e87b-402a-4d9b-b8f2-c1622865aa46"
+            alt="Empty cart"
+            width={96}
+            height={96}
+            className="w-24 h-24 mx-auto mb-6 opacity-30"
+          />
           <h1 className="text-3xl font-bold text-cream mb-4">Your cart is empty</h1>
           <p className="text-cream/70 mb-8">
             Add some homebrew supplies to get started!
