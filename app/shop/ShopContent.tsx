@@ -308,7 +308,7 @@ export default function ShopContent() {
           className="object-cover"
           sizes="100vw"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/65 to-black/80" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/40 to-black/50" />
 
         <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
           <h1 className="text-5xl md:text-6xl font-bold text-cream mb-4">Shop Homebrew Supplies</h1>
