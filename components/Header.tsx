@@ -29,14 +29,14 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-amber/20 bg-[#1a1a1a]/95 backdrop-blur supports-[backdrop-filter]:bg-[#1a1a1a]/80">
-      <div className="container mx-auto flex h-20 md:h-28 items-center justify-between px-4">
+      <div className="container mx-auto flex h-24 md:h-32 items-center justify-between px-4">
         <Link href="/" className="flex items-center">
           <Image
             src="https://admin.thecrackedgrain.com/assets/d7a88cfe-5eea-405c-92de-8b7003ff3618"
             alt="The Cracked Grain"
-            width={320}
-            height={80}
-            className="h-[60px] md:h-[80px] w-auto"
+            width={400}
+            height={100}
+            className="h-[70px] md:h-[100px] w-auto"
             priority
           />
         </Link>
@@ -89,15 +89,6 @@ export function Header() {
 
       {mobileMenuOpen && (
         <div className="md:hidden border-t border-amber/20 bg-[#1a1a1a] px-4 py-4">
-          <div className="flex justify-center mb-4 pb-4 border-b border-amber/20">
-            <Image
-              src="https://admin.thecrackedgrain.com/assets/5a80e87b-402a-4d9b-b8f2-c1622865aa46"
-              alt="The Cracked Grain Icon"
-              width={60}
-              height={60}
-              className="w-[60px] h-[60px]"
-            />
-          </div>
           <nav className="flex flex-col space-y-3">
             <Link
               href="/"

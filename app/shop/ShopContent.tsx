@@ -320,29 +320,6 @@ export default function ShopContent() {
 
       <div className="container mx-auto px-4 py-6">
 
-      {/* Featured Banner */}
-      <div className="mb-8 relative h-[200px] rounded-xl overflow-hidden border-2 border-amber/30">
-        <Image
-          src="https://images.unsplash.com/photo-1615332579937-4e3a2f6b4b6b?w=1200&q=80"
-          alt="Fresh brewing ingredients"
-          fill
-          priority
-          className="object-cover"
-          sizes="(max-width: 1200px) 100vw, 1200px"
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-amber/90 via-amber/70 to-transparent" />
-        <div className="relative z-10 h-full flex items-center px-8">
-          <div className="max-w-xl">
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-2">
-              Fresh Ingredients Weekly
-            </h2>
-            <p className="text-white/95 text-lg mb-4">
-              Get the finest malts, hops, and yeast for your next brew. Quality guaranteed.
-            </p>
-          </div>
-        </div>
-      </div>
-
       <div className="flex flex-col lg:flex-row gap-8">
         <aside className="lg:w-64 space-y-6">
           <div className="bg-card border border-amber/20 rounded-lg p-6">
