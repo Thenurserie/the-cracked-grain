@@ -2,17 +2,22 @@ import { prisma } from './db';
 
 export async function getProducts(params?: {
   category?: string;
+  subcategory?: string;
   isActive?: boolean;
   limit?: number;
   offset?: number;
   search?: string;
 }) {
-  const { category, isActive = true, limit = 50, offset = 0, search } = params || {};
+  const { category, subcategory, isActive = true, limit = 50, offset = 0, search } = params || {};
 
   const where: any = {};
 
   if (category) {
     where.category = category;
+  }
+
+  if (subcategory) {
+    where.subcategory = subcategory;
   }
 
   if (isActive !== undefined) {

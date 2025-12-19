@@ -5,11 +5,13 @@ export async function GET(request: NextRequest) {
   try {
     const searchParams = request.nextUrl.searchParams;
     const category = searchParams.get('category');
+    const subcategory = searchParams.get('subcategory');
     const sortBy = searchParams.get('sortBy') || 'name';
     const limit = parseInt(searchParams.get('limit') || '50');
 
     const products = await getProducts({
       category: category && category !== 'all' ? category : undefined,
+      subcategory: subcategory || undefined,
       isActive: true,
       limit: limit,
     });

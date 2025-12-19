@@ -9,16 +9,127 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Button } from '@/components/ui/button';
 import { Search, X } from 'lucide-react';
 
-// Available categories - mapped to database category values
-// Database categories: Grains, Hops, Yeast, Equipment, Chemicals, Wine, Homebrew
-// Products with category='Homebrew' (325) are uncategorized and only show in "All Products"
+// Main categories with subcategories - mapped to database values
 const CATEGORIES = [
-  { id: '1', name: 'Grains & Extracts', slug: 'grains-extracts', dbCategory: 'Grains' },
-  { id: '2', name: 'Hops', slug: 'hops', dbCategory: 'Hops' },
-  { id: '3', name: 'Yeast & Bacteria', slug: 'yeast', dbCategory: 'Yeast' },
-  { id: '4', name: 'Equipment', slug: 'equipment', dbCategory: 'Equipment' },
-  { id: '5', name: 'Chemicals & Additives', slug: 'chemicals', dbCategory: 'Chemicals' },
-  { id: '6', name: 'Wine Supplies', slug: 'wine', dbCategory: 'Wine' },
+  {
+    id: '1',
+    name: 'Grains',
+    slug: 'grains',
+    dbCategory: 'Grains',
+    count: 89,
+    subcategories: [
+      { name: 'Base Malts', slug: 'base-malts', dbSubcategory: 'Base Malts' },
+      { name: 'Specialty Malts', slug: 'specialty-malts', dbSubcategory: 'Specialty Malts' },
+      { name: 'Malt Extract', slug: 'malt-extract', dbSubcategory: 'Malt Extract' },
+      { name: 'Sugars & Adjuncts', slug: 'sugars-adjuncts', dbSubcategory: 'Sugars & Adjuncts' },
+      { name: 'Other Grains', slug: 'other-grains', dbSubcategory: 'Other Grains' },
+    ],
+  },
+  {
+    id: '2',
+    name: 'Hops',
+    slug: 'hops',
+    dbCategory: 'Hops',
+    count: 27,
+    subcategories: [
+      { name: 'Pellet Hops', slug: 'pellet-hops', dbSubcategory: 'Pellet Hops' },
+    ],
+  },
+  {
+    id: '3',
+    name: 'Yeast',
+    slug: 'yeast',
+    dbCategory: 'Yeast',
+    count: 111,
+    subcategories: [
+      { name: 'Dry Yeast', slug: 'dry-yeast', dbSubcategory: 'Dry Yeast' },
+      { name: 'Liquid Yeast', slug: 'liquid-yeast', dbSubcategory: 'Liquid Yeast' },
+      { name: 'Other Yeast', slug: 'other-yeast', dbSubcategory: 'Other Yeast' },
+    ],
+  },
+  {
+    id: '4',
+    name: 'Equipment',
+    slug: 'equipment',
+    dbCategory: 'Equipment',
+    count: 204,
+    subcategories: [
+      { name: 'Fermentation', slug: 'fermentation', dbSubcategory: 'Fermentation' },
+      { name: 'Brewing', slug: 'brewing', dbSubcategory: 'Brewing' },
+      { name: 'Cooling', slug: 'cooling', dbSubcategory: 'Cooling' },
+      { name: 'Transfer', slug: 'transfer', dbSubcategory: 'Transfer' },
+      { name: 'Kegging', slug: 'kegging', dbSubcategory: 'Kegging' },
+      { name: 'Bottling', slug: 'bottling', dbSubcategory: 'Bottling' },
+      { name: 'Testing', slug: 'testing', dbSubcategory: 'Testing' },
+      { name: 'Other Equipment', slug: 'other-equipment', dbSubcategory: 'Other Equipment' },
+    ],
+  },
+  {
+    id: '5',
+    name: 'Chemicals',
+    slug: 'chemicals',
+    dbCategory: 'Chemicals',
+    count: 116,
+    subcategories: [
+      { name: 'Cleaning & Sanitizing', slug: 'cleaning-sanitizing', dbSubcategory: 'Cleaning & Sanitizing' },
+      { name: 'Water Treatment', slug: 'water-treatment', dbSubcategory: 'Water Treatment' },
+      { name: 'Finings & Clarifiers', slug: 'finings-clarifiers', dbSubcategory: 'Finings & Clarifiers' },
+      { name: 'Yeast Nutrients', slug: 'yeast-nutrients', dbSubcategory: 'Yeast Nutrients' },
+      { name: 'Enzymes', slug: 'enzymes', dbSubcategory: 'Enzymes' },
+      { name: 'Other Additives', slug: 'other-additives', dbSubcategory: 'Other Additives' },
+    ],
+  },
+  {
+    id: '6',
+    name: 'Flavorings',
+    slug: 'flavorings',
+    dbCategory: 'Flavorings',
+    count: 81,
+    subcategories: [
+      { name: 'Fruit', slug: 'fruit', dbSubcategory: 'Fruit' },
+      { name: 'Other Flavorings', slug: 'other-flavorings', dbSubcategory: 'Other Flavorings' },
+      { name: 'Spices & Herbs', slug: 'spices-herbs', dbSubcategory: 'Spices & Herbs' },
+    ],
+  },
+  {
+    id: '7',
+    name: 'Wine',
+    slug: 'wine',
+    dbCategory: 'Wine',
+    count: 83,
+    subcategories: [
+      { name: 'Corks & Closures', slug: 'corks-closures', dbSubcategory: 'Corks & Closures' },
+      { name: 'Wine Making', slug: 'wine-making', dbSubcategory: 'Wine Making' },
+    ],
+  },
+  {
+    id: '8',
+    name: 'Kits',
+    slug: 'kits',
+    dbCategory: 'Kits',
+    count: 33,
+    subcategories: [
+      { name: 'Beer Kits', slug: 'beer-kits', dbSubcategory: 'Beer Kits' },
+      { name: 'Equipment Kits', slug: 'equipment-kits', dbSubcategory: 'Equipment Kits' },
+      { name: 'Other Kits', slug: 'other-kits', dbSubcategory: 'Other Kits' },
+    ],
+  },
+  {
+    id: '9',
+    name: 'Books',
+    slug: 'books',
+    dbCategory: 'Books',
+    count: 7,
+    subcategories: [],
+  },
+  {
+    id: '10',
+    name: 'Garden',
+    slug: 'garden',
+    dbCategory: 'Garden',
+    count: 8,
+    subcategories: [],
+  },
 ];
 
 export default function ShopContent() {
@@ -30,6 +141,7 @@ export default function ShopContent() {
   const [products, setProducts] = useState<Product[]>([]);
   const [allProducts, setAllProducts] = useState<Product[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>(categoryParam || 'all');
+  const [selectedSubcategory, setSelectedSubcategory] = useState<string>('');
   const [sortBy, setSortBy] = useState<string>('name');
   const [loading, setLoading] = useState(true);
   const [priceRanges, setPriceRanges] = useState<string[]>([]);
@@ -37,6 +149,7 @@ export default function ShopContent() {
   const [currentPage, setCurrentPage] = useState(pageParam ? parseInt(pageParam) : 1);
   const [itemsPerPage, setItemsPerPage] = useState(50);
   const [searchQuery, setSearchQuery] = useState('');
+  const [categoriesOpen, setCategoriesOpen] = useState(false);
 
   useEffect(() => {
     if (categoryParam) {
@@ -59,16 +172,21 @@ export default function ShopContent() {
 
   useEffect(() => {
     loadProducts();
-  }, [selectedCategory, sortBy]);
+  }, [selectedCategory, selectedSubcategory, sortBy]);
 
   useEffect(() => {
     applyFiltersAndPagination();
   }, [priceRanges, inStockOnly, currentPage, itemsPerPage, allProducts, searchQuery]);
 
+  // Reset subcategory when main category changes
+  useEffect(() => {
+    setSelectedSubcategory('');
+  }, [selectedCategory]);
+
   // Reset to page 1 when filters or category changes
   useEffect(() => {
     setCurrentPage(1);
-  }, [selectedCategory, sortBy, priceRanges, inStockOnly, itemsPerPage, searchQuery]);
+  }, [selectedCategory, selectedSubcategory, sortBy, priceRanges, inStockOnly, itemsPerPage, searchQuery]);
 
   // Restore scroll position after products load (for "Continue Shopping" navigation)
   useEffect(() => {
@@ -99,13 +217,24 @@ export default function ShopContent() {
 
         console.log('Filter Debug - Selected slug:', selectedCategory, 'DB category:', dbCategory);
       }
+
+      // Add subcategory filter if selected
+      if (selectedSubcategory && selectedCategory !== 'all') {
+        const categoryObj = CATEGORIES.find(cat => cat.slug === selectedCategory);
+        const subcategoryObj = categoryObj?.subcategories.find(sub => sub.slug === selectedSubcategory);
+        const dbSubcategory = subcategoryObj ? subcategoryObj.dbSubcategory : selectedSubcategory;
+        params.append('subcategory', dbSubcategory);
+
+        console.log('Filter Debug - Selected subcategory slug:', selectedSubcategory, 'DB subcategory:', dbSubcategory);
+      }
+
       params.append('sortBy', sortBy);
       params.append('limit', '1000'); // Load all products
 
       const response = await fetch(`/api/products?${params.toString()}`);
       if (response.ok) {
         const data = await response.json();
-        console.log('Products loaded:', data.length, 'for category:', selectedCategory);
+        console.log('Products loaded:', data.length, 'for category:', selectedCategory, 'subcategory:', selectedSubcategory);
         setAllProducts(data);
       }
     } catch (error) {
@@ -330,33 +459,68 @@ export default function ShopContent() {
 
       <div className="flex flex-col lg:flex-row gap-8">
         <aside className="lg:w-64 space-y-6">
-          <div className="bg-card border border-amber/20 rounded-lg p-6">
-            <h3 className="text-lg font-semibold text-cream mb-4">Categories</h3>
-            <div className="space-y-2">
+          <div className="bg-card border border-amber/20 rounded-lg p-4 lg:p-6">
+            {/* Mobile: Collapsible header */}
+            <button
+              onClick={() => setCategoriesOpen(!categoriesOpen)}
+              className="lg:hidden w-full flex items-center justify-between text-lg font-semibold text-cream mb-2"
+            >
+              <span>Categories</span>
+              <span className="text-sm">{categoriesOpen ? '−' : '+'}</span>
+            </button>
+
+            {/* Desktop: Regular header */}
+            <h3 className="hidden lg:block text-lg font-semibold text-cream mb-4">Categories</h3>
+
+            {/* Categories list - collapsible on mobile */}
+            <div className={`space-y-2 ${categoriesOpen ? 'block' : 'hidden lg:block'}`}>
               <Button
                 variant={selectedCategory === 'all' ? 'default' : 'ghost'}
-                className={`w-full justify-start ${
+                className={`w-full justify-between ${
                   selectedCategory === 'all'
                     ? 'bg-amber hover:bg-gold text-white'
                     : 'text-cream hover:text-gold hover:bg-amber/10'
                 }`}
                 onClick={() => setSelectedCategory('all')}
               >
-                All Products
+                <span>All Products</span>
               </Button>
               {CATEGORIES.map((category) => (
-                <Button
-                  key={category.id}
-                  variant={selectedCategory === category.slug ? 'default' : 'ghost'}
-                  className={`w-full justify-start ${
-                    selectedCategory === category.slug
-                      ? 'bg-amber hover:bg-gold text-white'
-                      : 'text-cream hover:text-gold hover:bg-amber/10'
-                  }`}
-                  onClick={() => setSelectedCategory(category.slug)}
-                >
-                  {category.name}
-                </Button>
+                <div key={category.id} className="space-y-1">
+                  <Button
+                    variant={selectedCategory === category.slug ? 'default' : 'ghost'}
+                    className={`w-full justify-between ${
+                      selectedCategory === category.slug
+                        ? 'bg-amber hover:bg-gold text-white'
+                        : 'text-cream hover:text-gold hover:bg-amber/10'
+                    }`}
+                    onClick={() => setSelectedCategory(category.slug)}
+                  >
+                    <span>{category.name}</span>
+                    <span className="text-xs opacity-70">({category.count})</span>
+                  </Button>
+
+                  {/* Subcategories - show when this category is selected */}
+                  {selectedCategory === category.slug && category.subcategories.length > 0 && (
+                    <div className="ml-4 space-y-1 mt-2">
+                      {category.subcategories.map((subcategory) => (
+                        <Button
+                          key={subcategory.slug}
+                          variant={selectedSubcategory === subcategory.slug ? 'default' : 'ghost'}
+                          size="sm"
+                          className={`w-full justify-start text-xs ${
+                            selectedSubcategory === subcategory.slug
+                              ? 'bg-gold hover:bg-gold/90 text-white'
+                              : 'text-cream/80 hover:text-gold hover:bg-amber/10'
+                          }`}
+                          onClick={() => setSelectedSubcategory(subcategory.slug)}
+                        >
+                          {subcategory.name}
+                        </Button>
+                      ))}
+                    </div>
+                  )}
+                </div>
               ))}
             </div>
           </div>
