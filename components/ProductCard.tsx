@@ -80,8 +80,8 @@ export function ProductCard({ product }: ProductCardProps) {
   }
 
   return (
-    <Link href={`/shop/${product.slug}`} onClick={handleProductClick}>
-      <div className="group bg-card border border-amber/20 rounded-lg overflow-hidden hover:border-gold transition-all duration-300 hover:shadow-lg hover:shadow-amber/10">
+    <div className="group bg-card border border-amber/20 rounded-lg overflow-hidden hover:border-gold transition-all duration-300 hover:shadow-lg hover:shadow-amber/10">
+      <Link href={`/shop/${product.slug}`} onClick={handleProductClick} className="block">
         <div className="relative aspect-square overflow-hidden bg-[#2a2a2a]">
           <ProductImage
             imageUrl={product.image_url}
@@ -125,8 +125,10 @@ export function ProductCard({ product }: ProductCardProps) {
             )}
           </div>
         </div>
+      </Link>
 
-        <div className="p-4 space-y-2">
+      <div className="p-4 space-y-2">
+        <Link href={`/shop/${product.slug}`} onClick={handleProductClick} className="block">
           <h3 className="font-semibold text-cream group-hover:text-gold transition-colors line-clamp-2">
             {product.name}
           </h3>
@@ -150,22 +152,22 @@ export function ProductCard({ product }: ProductCardProps) {
               ({product.review_count})
             </span>
           </div>
+        </Link>
 
-          <div className="flex items-center justify-between pt-2">
-            <span className="text-2xl font-bold text-gold">
-              ${product.price.toFixed(2)}
-            </span>
-            <Button
-              size="sm"
-              className="bg-amber hover:bg-gold text-white"
-              onClick={handleAddToCart}
-              disabled={!product.in_stock || adding}
-            >
-              {adding ? 'Adding...' : 'Add to Cart'}
-            </Button>
-          </div>
+        <div className="flex items-center justify-between pt-2">
+          <span className="text-2xl font-bold text-gold">
+            ${product.price.toFixed(2)}
+          </span>
+          <Button
+            size="sm"
+            className="bg-amber hover:bg-gold text-white"
+            onClick={handleAddToCart}
+            disabled={!product.in_stock || adding}
+          >
+            {adding ? 'Adding...' : 'Add to Cart'}
+          </Button>
         </div>
       </div>
-    </Link>
+    </div>
   );
 }
