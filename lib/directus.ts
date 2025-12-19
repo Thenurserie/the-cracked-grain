@@ -14,7 +14,7 @@ export function getDirectusAssetUrl(
   }
 ): string {
   if (!imageId) {
-    return '/images/placeholder-product.jpg';
+    return '/images/placeholder-product.svg';
   }
 
   // If it's already a full URL, return it as-is

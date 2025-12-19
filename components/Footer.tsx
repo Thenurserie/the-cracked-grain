@@ -9,11 +9,11 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
           <div className="space-y-4 lg:col-span-2">
             <Image
-              src="https://admin.thecrackedgrain.com/assets/dd3f051f-5b80-475e-b8fa-13cac5d9482d"
+              src="https://admin.thecrackedgrain.com/assets/d7a88cfe-5eea-405c-92de-8b7003ff3618"
               alt="The Cracked Grain"
-              width={150}
-              height={38}
-              className="w-[150px] h-auto mb-2"
+              width={200}
+              height={50}
+              className="w-[200px] h-auto mb-2"
             />
             <p className="text-sm text-cream/80">
               Premium homebrew supplies for craft beer enthusiasts in Bryant, Arkansas.

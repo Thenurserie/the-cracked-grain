@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { CartItem } from '@/lib/types';
 import { getCartItems, updateCartItemQuantity, removeFromCart } from '@/lib/cartClient';
 import { useToast } from '@/hooks/use-toast';
-import { getDirectusAssetUrl } from '@/lib/directus';
+import { ProductImage } from '@/components/ProductImage';
 
 export default function CartPage() {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
@@ -128,17 +128,18 @@ export default function CartPage() {
                   href={`/shop/${product.slug}`}
                   className="relative w-full sm:w-20 h-20 flex-shrink-0 rounded-lg overflow-hidden bg-[#2a2a2a]"
                 >
-                  <Image
-                    src={getDirectusAssetUrl(product.image_url, {
-                      width: 80,
-                      height: 80,
-                      fit: 'cover',
-                      quality: 80
-                    })}
+                  <ProductImage
+                    imageUrl={product.image_url}
                     alt={product.name}
                     fill
                     className="object-cover"
                     sizes="80px"
+                    transforms={{
+                      width: 80,
+                      height: 80,
+                      fit: 'cover',
+                      quality: 80
+                    }}
                   />
                 </Link>
 

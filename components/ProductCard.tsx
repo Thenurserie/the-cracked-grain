@@ -1,15 +1,14 @@
 'use client';
 
 import Link from 'next/link';
-import Image from 'next/image';
 import { Star } from 'lucide-react';
 import { Product } from '@/lib/types';
 import { Button } from '@/components/ui/button';
 import { addToCart } from '@/lib/cartClient';
 import { useToast } from '@/hooks/use-toast';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { getDirectusAssetUrl } from '@/lib/directus';
+import { ProductImage } from '@/components/ProductImage';
 
 interface ProductCardProps {
   product: Product;
@@ -83,18 +82,19 @@ export function ProductCard({ product }: ProductCardProps) {
     <Link href={`/shop/${product.slug}`} onClick={handleProductClick}>
       <div className="group bg-card border border-amber/20 rounded-lg overflow-hidden hover:border-gold transition-all duration-300 hover:shadow-lg hover:shadow-amber/10">
         <div className="relative aspect-square overflow-hidden bg-[#2a2a2a]">
-          <Image
-            src={getDirectusAssetUrl(product.image_url, {
-              width: 400,
-              height: 400,
-              fit: 'cover',
-              quality: 80
-            })}
+          <ProductImage
+            imageUrl={product.image_url}
             alt={product.name}
             fill
             className="object-cover group-hover:scale-105 transition-transform duration-300"
             loading="lazy"
             sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+            transforms={{
+              width: 400,
+              height: 400,
+              fit: 'cover',
+              quality: 80
+            }}
           />
           {!product.in_stock && (
             <div className="absolute inset-0 bg-black/60 flex items-center justify-center">

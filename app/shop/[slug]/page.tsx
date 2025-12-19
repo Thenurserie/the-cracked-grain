@@ -4,10 +4,10 @@ import { notFound } from 'next/navigation';
 import { Star, Truck, Package, Shield } from 'lucide-react';
 import { ProductCard } from '@/components/ProductCard';
 import { ProductDetailClient } from '@/components/ProductDetailClient';
+import { ProductImage } from '@/components/ProductImage';
 import { getProduct as getPrismaProduct, getProductsByCategory } from '@/lib/products';
 import { Product } from '@/lib/types';
 import type { Metadata } from 'next';
-import { getDirectusAssetUrl } from '@/lib/directus';
 
 // Force this route to be dynamic (not statically generated)
 // This prevents database access during build time
@@ -186,16 +186,17 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
         <div className="grid md:grid-cols-2 gap-12 mb-16">
           <div className="space-y-4">
             <div className="relative aspect-square rounded-lg overflow-hidden bg-[#2a2a2a] border border-amber/20">
-              <Image
-                src={getDirectusAssetUrl(product.image_url, {
-                  width: 800,
-                  quality: 85
-                })}
+              <ProductImage
+                imageUrl={product.image_url}
                 alt={product.name}
                 fill
                 className="object-cover"
                 priority
                 sizes="(max-width: 768px) 100vw, 50vw"
+                transforms={{
+                  width: 800,
+                  quality: 85
+                }}
               />
             </div>
           </div>
