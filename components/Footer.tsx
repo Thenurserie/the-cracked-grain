@@ -1,13 +1,13 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { Facebook, Instagram, Twitter, Youtube, MapPin, Phone, Mail, CreditCard } from 'lucide-react';
+import { Facebook, Instagram, Twitter, Youtube, MapPin, Phone, Mail } from 'lucide-react';
 
 export function Footer() {
   return (
     <footer className="border-t border-amber/20 bg-[#1a1a1a] mt-auto">
-      <div className="container mx-auto px-4 py-8 md:py-12">
-        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-5 gap-6 md:gap-8">
-          <div className="col-span-2 lg:col-span-2 space-y-4">
+      <div className="container mx-auto px-4 py-6 md:py-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 md:gap-8">
+          <div className="col-span-1 md:col-span-2 lg:col-span-2 space-y-3 md:space-y-4">
             <Image
               src="https://admin.thecrackedgrain.com/assets/d7a88cfe-5eea-405c-92de-8b7003ff3618"
               alt="The Cracked Grain"

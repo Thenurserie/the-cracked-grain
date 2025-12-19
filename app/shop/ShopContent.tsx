@@ -10,13 +10,15 @@ import { Button } from '@/components/ui/button';
 import { Search, X } from 'lucide-react';
 
 // Available categories (hardcoded for now)
-// Note: slugs must match exact category values in database
+// Note: All products currently have category='Homebrew' in database
+// TODO: Implement proper categorization in database
 const CATEGORIES = [
-  { id: '1', name: 'Grains & Extracts', slug: 'Grains' },
-  { id: '2', name: 'Hops', slug: 'Hops' },
-  { id: '3', name: 'Yeast & Bacteria', slug: 'Yeast' },
-  { id: '4', name: 'Equipment', slug: 'Equipment' },
-  { id: '5', name: 'Chemicals & Additives', slug: 'Chemicals' },
+  { id: '1', name: 'Grains & Extracts', slug: 'Homebrew' },
+  { id: '2', name: 'Hops', slug: 'Homebrew' },
+  { id: '3', name: 'Yeast & Bacteria', slug: 'Homebrew' },
+  { id: '4', name: 'Equipment', slug: 'Homebrew' },
+  { id: '5', name: 'Chemicals & Additives', slug: 'Homebrew' },
+  { id: '6', name: 'Wine Supplies', slug: 'Homebrew' },
 ];
 
 export default function ShopContent() {
@@ -446,13 +448,17 @@ export default function ShopContent() {
             </div>
           </div>
 
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
-            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-              <p className="text-cream/70">
+          {/* Product Count and Sorting */}
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-3">
+            <div className="flex items-center gap-4 w-full sm:w-auto">
+              <p className="text-sm md:text-base text-cream/70">
                 {loading ? 'Loading...' : `Showing ${startItem}-${endItem} of ${filteredTotal} products`}
               </p>
-              <div className="flex items-center gap-2">
-                <label className="text-sm text-cream/70">Per page:</label>
+            </div>
+
+            <div className="flex items-center gap-3 w-full sm:w-auto">
+              <div className="hidden md:flex items-center gap-2">
+                <label className="text-sm text-cream/70 whitespace-nowrap">Per page:</label>
                 <Select value={itemsPerPage.toString()} onValueChange={(val) => setItemsPerPage(parseInt(val))}>
                   <SelectTrigger className="w-[80px] bg-card border-amber/20 text-cream">
                     <SelectValue />
@@ -464,19 +470,19 @@ export default function ShopContent() {
                   </SelectContent>
                 </Select>
               </div>
-            </div>
 
-            <Select value={sortBy} onValueChange={setSortBy}>
-              <SelectTrigger className="w-[200px] bg-card border-amber/20 text-cream">
-                <SelectValue placeholder="Sort by" />
-              </SelectTrigger>
-              <SelectContent className="bg-card border-amber/20">
-                <SelectItem value="name">Name (A-Z)</SelectItem>
-                <SelectItem value="price-asc">Price (Low to High)</SelectItem>
-                <SelectItem value="price-desc">Price (High to Low)</SelectItem>
-                <SelectItem value="rating">Highest Rated</SelectItem>
-              </SelectContent>
-            </Select>
+              <Select value={sortBy} onValueChange={setSortBy}>
+                <SelectTrigger className="w-full sm:w-[200px] bg-card border-amber/20 text-cream">
+                  <SelectValue placeholder="Sort by" />
+                </SelectTrigger>
+                <SelectContent className="bg-card border-amber/20">
+                  <SelectItem value="name">Name (A-Z)</SelectItem>
+                  <SelectItem value="price-asc">Price (Low to High)</SelectItem>
+                  <SelectItem value="price-desc">Price (High to Low)</SelectItem>
+                  <SelectItem value="rating">Highest Rated</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
           </div>
 
           {loading ? (
@@ -498,20 +504,14 @@ export default function ShopContent() {
             </div>
           ) : (
             <>
-              {/* Pagination - Top */}
-              {totalPages > 1 && (
-                <div className="mb-6">
-                  <PaginationControls />
-                </div>
-              )}
-
+              {/* Product Grid */}
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {products.map((product) => (
                   <ProductCard key={product.id} product={product} />
                 ))}
               </div>
 
-              {/* Pagination - Bottom */}
+              {/* Pagination - Bottom (centered) */}
               {totalPages > 1 && (
                 <div className="mt-12">
                   <PaginationControls />

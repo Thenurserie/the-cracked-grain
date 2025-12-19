@@ -95,58 +95,54 @@ export default function BrewingToolsPage() {
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2 h-auto bg-muted/50 p-2">
-          <TabsTrigger value="recipe-builder" className="flex items-center gap-2">
-            <Beaker className="h-4 w-4" />
-            <span className="hidden sm:inline">Recipe Builder</span>
-            <span className="sm:hidden">Builder</span>
+        <TabsList className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2 h-auto bg-muted/50 p-2 overflow-x-auto">
+          <TabsTrigger value="recipe-builder" className="flex items-center gap-1 text-xs md:text-sm whitespace-nowrap">
+            <Beaker className="h-3 w-3 md:h-4 md:w-4 flex-shrink-0" />
+            <span>Recipe</span>
           </TabsTrigger>
-          <TabsTrigger value="recipe-library" className="flex items-center gap-2">
-            <Library className="h-4 w-4" />
-            <span className="hidden sm:inline">Library</span>
+          <TabsTrigger value="recipe-library" className="flex items-center gap-1 text-xs md:text-sm whitespace-nowrap">
+            <Library className="h-3 w-3 md:h-4 md:w-4 flex-shrink-0" />
+            <span>Library</span>
           </TabsTrigger>
-          <TabsTrigger value="brew-session" className="flex items-center gap-2">
-            <Play className="h-4 w-4" />
-            <span className="hidden sm:inline">Brew Sessions</span>
-            <span className="sm:hidden">Sessions</span>
+          <TabsTrigger value="brew-session" className="flex items-center gap-1 text-xs md:text-sm whitespace-nowrap">
+            <Play className="h-3 w-3 md:h-4 md:w-4 flex-shrink-0" />
+            <span>Session</span>
           </TabsTrigger>
-          <TabsTrigger value="equipment" className="flex items-center gap-2">
-            <Settings className="h-4 w-4" />
-            <span className="hidden sm:inline">Equipment</span>
+          <TabsTrigger value="equipment" className="flex items-center gap-1 text-xs md:text-sm whitespace-nowrap">
+            <Settings className="h-3 w-3 md:h-4 md:w-4 flex-shrink-0" />
+            <span>Equipment</span>
           </TabsTrigger>
-          <TabsTrigger value="grain-bill" className="flex items-center gap-2">
-            <Package className="h-4 w-4" />
-            <span className="hidden sm:inline">Grain Bill</span>
+          <TabsTrigger value="grain-bill" className="flex items-center gap-1 text-xs md:text-sm whitespace-nowrap">
+            <Package className="h-3 w-3 md:h-4 md:w-4 flex-shrink-0" />
+            <span>Grain</span>
           </TabsTrigger>
-          <TabsTrigger value="water-chemistry" className="flex items-center gap-2">
-            <Droplet className="h-4 w-4" />
-            <span className="hidden sm:inline">Water</span>
+          <TabsTrigger value="water-chemistry" className="flex items-center gap-1 text-xs md:text-sm whitespace-nowrap">
+            <Droplet className="h-3 w-3 md:h-4 md:w-4 flex-shrink-0" />
+            <span>Water</span>
           </TabsTrigger>
-          <TabsTrigger value="mash-schedule" className="flex items-center gap-2">
-            <Flame className="h-4 w-4" />
-            <span className="hidden sm:inline">Mash</span>
+          <TabsTrigger value="mash-schedule" className="flex items-center gap-1 text-xs md:text-sm whitespace-nowrap">
+            <Flame className="h-3 w-3 md:h-4 md:w-4 flex-shrink-0" />
+            <span>Mash</span>
           </TabsTrigger>
-          <TabsTrigger value="calculators" className="flex items-center gap-2">
-            <Calculator className="h-4 w-4" />
-            <span className="hidden sm:inline">Basic Calcs</span>
-            <span className="sm:hidden">Calcs</span>
+          <TabsTrigger value="calculators" className="flex items-center gap-1 text-xs md:text-sm whitespace-nowrap">
+            <Calculator className="h-3 w-3 md:h-4 md:w-4 flex-shrink-0" />
+            <span>Calc</span>
           </TabsTrigger>
-          <TabsTrigger value="advanced-calculators" className="flex items-center gap-2">
-            <FlaskConical className="h-4 w-4" />
-            <span className="hidden sm:inline">Advanced</span>
-            <span className="sm:hidden">Adv</span>
+          <TabsTrigger value="advanced-calculators" className="flex items-center gap-1 text-xs md:text-sm whitespace-nowrap">
+            <FlaskConical className="h-3 w-3 md:h-4 md:w-4 flex-shrink-0" />
+            <span>Advanced</span>
           </TabsTrigger>
-          <TabsTrigger value="guides" className="flex items-center gap-2">
-            <BookOpen className="h-4 w-4" />
-            <span className="hidden sm:inline">Guides</span>
+          <TabsTrigger value="guides" className="flex items-center gap-1 text-xs md:text-sm whitespace-nowrap">
+            <BookOpen className="h-3 w-3 md:h-4 md:w-4 flex-shrink-0" />
+            <span>Guides</span>
           </TabsTrigger>
-          <TabsTrigger value="batches" className="flex items-center gap-2">
-            <Calendar className="h-4 w-4" />
-            <span className="hidden sm:inline">Batches</span>
+          <TabsTrigger value="batches" className="flex items-center gap-1 text-xs md:text-sm whitespace-nowrap">
+            <Calendar className="h-3 w-3 md:h-4 md:w-4 flex-shrink-0" />
+            <span>Batches</span>
           </TabsTrigger>
-          <TabsTrigger value="inventory" className="flex items-center gap-2">
-            <Timer className="h-4 w-4" />
-            <span className="hidden sm:inline">Inventory</span>
+          <TabsTrigger value="inventory" className="flex items-center gap-1 text-xs md:text-sm whitespace-nowrap">
+            <Timer className="h-3 w-3 md:h-4 md:w-4 flex-shrink-0" />
+            <span>Inventory</span>
           </TabsTrigger>
         </TabsList>
 

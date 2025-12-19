@@ -29,14 +29,14 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-amber/20 bg-[#1a1a1a]/95 backdrop-blur supports-[backdrop-filter]:bg-[#1a1a1a]/80">
-      <div className="container mx-auto flex h-28 md:h-36 items-center justify-between px-4">
+      <div className="container mx-auto flex h-32 md:h-40 items-center justify-between px-4">
         <Link href="/" className="flex items-center">
           <Image
             src="https://admin.thecrackedgrain.com/assets/d7a88cfe-5eea-405c-92de-8b7003ff3618"
             alt="The Cracked Grain"
-            width={480}
-            height={120}
-            className="h-[80px] md:h-[120px] w-auto"
+            width={560}
+            height={140}
+            className="h-[100px] md:h-[140px] w-auto"
             priority
           />
         </Link>
