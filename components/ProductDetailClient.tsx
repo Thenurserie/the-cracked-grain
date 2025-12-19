@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { ShoppingCart, ArrowLeft, ShoppingBag } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Product } from '@/lib/types';
@@ -53,13 +54,14 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
               >
                 Continue Shopping
               </Button>
-              <Button
-                size="sm"
-                onClick={() => router.push('/cart')}
-                className="bg-amber hover:bg-gold text-white"
-              >
-                View Cart
-              </Button>
+              <Link href="/cart">
+                <Button
+                  size="sm"
+                  className="bg-amber hover:bg-gold text-white"
+                >
+                  View Cart
+                </Button>
+              </Link>
             </div>
           </div>
         ),

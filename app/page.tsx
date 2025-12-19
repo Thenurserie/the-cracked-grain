@@ -42,7 +42,10 @@ async function getCategories(): Promise<Category[]> {
 async function getFeaturedProducts(): Promise<Product[]> {
   try {
     const products = await prisma.product.findMany({
-      where: { isActive: true },
+      where: {
+        isActive: true,
+        stockQuantity: { gt: 0 } // Only show in-stock products
+      },
       take: 4,
     });
 
@@ -117,6 +120,48 @@ export default async function Home() {
         </div>
       </section>
 
+      {/* Promotional Banner Slot 1 */}
+      <section className="container mx-auto px-4 py-8">
+        <div className="border-2 border-dashed border-amber/30 rounded-lg p-8 text-center">
+          <p className="text-cream/50 text-sm">Promotional Banner Slot 1</p>
+        </div>
+      </section>
+
+      {/* Brewer Experience Section */}
+      <section className="container mx-auto px-4 py-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+          {/* New to Homebrewing Card */}
+          <Link href="/brewing" className="group">
+            <div className="bg-card border-2 border-amber/20 rounded-lg p-8 hover:border-gold hover:bg-amber/5 transition-all h-full flex flex-col">
+              <h3 className="text-2xl font-bold text-cream mb-2 group-hover:text-gold transition-colors">
+                New to Homebrewing?
+              </h3>
+              <p className="text-cream/70 mb-4 flex-grow">
+                Check out our beginner guides and get started on your brewing journey
+              </p>
+              <Button className="bg-amber hover:bg-gold text-white w-full">
+                View Guides
+              </Button>
+            </div>
+          </Link>
+
+          {/* Seasoned Brewer Card */}
+          <Link href="/brewing" className="group">
+            <div className="bg-card border-2 border-amber/20 rounded-lg p-8 hover:border-gold hover:bg-amber/5 transition-all h-full flex flex-col">
+              <h3 className="text-2xl font-bold text-cream mb-2 group-hover:text-gold transition-colors">
+                Seasoned Brewer?
+              </h3>
+              <p className="text-cream/70 mb-4 flex-grow">
+                Explore our free brewing tools to perfect your recipes
+              </p>
+              <Button className="bg-amber hover:bg-gold text-white w-full">
+                Explore Tools
+              </Button>
+            </div>
+          </Link>
+        </div>
+      </section>
+
       <section className="container mx-auto px-4 py-16">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-cream mb-4">
@@ -127,10 +172,17 @@ export default async function Home() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
           {categories.map((category) => (
             <CategoryCard key={category.id} category={category} />
           ))}
+        </div>
+      </section>
+
+      {/* Promotional Banner Slot 2 */}
+      <section className="container mx-auto px-4 py-8">
+        <div className="border-2 border-dashed border-amber/30 rounded-lg p-8 text-center">
+          <p className="text-cream/50 text-sm">Promotional Banner Slot 2</p>
         </div>
       </section>
 
