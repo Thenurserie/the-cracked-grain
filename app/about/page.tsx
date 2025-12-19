@@ -17,14 +17,7 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <div>
-      <section className="relative h-[400px] flex items-center justify-center overflow-hidden">
-        <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{
-            backgroundImage: 'url(https://images.pexels.com/photos/1267697/pexels-photo-1267697.jpeg)',
-          }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/60 to-[#1a1a1a]" />
+      <section className="relative h-[400px] flex items-center justify-center overflow-hidden bg-gradient-to-br from-amber/20 via-[#1a1a1a] to-[#1a1a1a]">
 
         <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
           <h1 className="text-5xl md:text-6xl font-bold text-cream mb-4">

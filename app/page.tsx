@@ -23,14 +23,6 @@ async function getCategories(): Promise<Category[]> {
 
     // Map to Category type with generated slugs
     // Note: slug must match exact category value in database for filtering to work
-    const categoryImages: Record<string, string> = {
-      'Grains': 'https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?w=800&q=80',
-      'Hops': 'https://images.unsplash.com/photo-1608270586620-248524c67de9?w=800&q=80',
-      'Yeast': 'https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?w=800&q=80',
-      'Equipment': 'https://images.unsplash.com/photo-1532634922-8fe0b757fb13?w=800&q=80',
-      'Chemicals': 'https://images.unsplash.com/photo-1532634922-8fe0b757fb13?w=800&q=80',
-    };
-
     return uniqueCategories
       .filter(item => item.category !== null)
       .map((item, index) => ({
@@ -38,7 +30,7 @@ async function getCategories(): Promise<Category[]> {
         name: item.category as string,
         slug: item.category as string, // Keep original case to match database
         description: `Browse our ${item.category} products`,
-        image_url: categoryImages[item.category as string] || 'https://images.unsplash.com/photo-1532634922-8fe0b757fb13?w=800&q=80',
+        image_url: '/images/placeholder-product.svg',
         created_at: new Date().toISOString(),
       }));
   } catch (error) {
