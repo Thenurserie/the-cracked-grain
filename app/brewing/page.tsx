@@ -29,6 +29,7 @@ import { WaterChemistry } from '@/components/brewing/WaterChemistry';
 import MashScheduleDesigner from '@/components/brewing/MashScheduleDesigner';
 import { AdvancedCalculators } from '@/components/brewing/AdvancedCalculators';
 import { BrewSessionTracker } from '@/components/brewing/BrewSessionTracker';
+import { BrewingInstructions } from '@/components/brewing/BrewingInstructions';
 
 export default function BrewingToolsPage() {
   const [activeTab, setActiveTab] = useState('recipe-builder');
@@ -56,6 +57,9 @@ export default function BrewingToolsPage() {
       </section>
 
       <div className="container mx-auto px-4 py-8 max-w-7xl">
+
+      {/* Instructions Panel */}
+      <BrewingInstructions activeTab={activeTab} />
 
       {/* Quick Tip Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
