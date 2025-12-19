@@ -53,7 +53,12 @@ export function Header() {
 
         <div className="flex items-center space-x-4">
           <Link href="/cart">
-            <Button variant="ghost" size="icon" className="relative text-cream hover:text-gold hover:bg-amber/10">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="relative text-cream hover:text-gold hover:bg-amber/10"
+              aria-label={`Shopping cart${cartCount > 0 ? ` with ${cartCount} item${cartCount !== 1 ? 's' : ''}` : ''}`}
+            >
               <ShoppingCart className="h-5 w-5" />
               {cartCount > 0 && (
                 <span className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-red-600 text-xs font-bold text-white flex items-center justify-center">
@@ -66,6 +71,8 @@ export function Header() {
           <button
             className="md:hidden text-cream"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+            aria-expanded={mobileMenuOpen}
           >
             <Menu className="h-6 w-6" />
           </button>

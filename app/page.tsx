@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { ProductCard } from '@/components/ProductCard';
 import { CategoryCard } from '@/components/CategoryCard';
@@ -87,11 +88,13 @@ export default async function Home() {
   return (
     <div>
       <section className="relative h-[600px] flex items-center justify-center overflow-hidden">
-        <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{
-            backgroundImage: 'url(https://images.pexels.com/photos/1267696/pexels-photo-1267696.jpeg)',
-          }}
+        <Image
+          src="https://images.pexels.com/photos/1267696/pexels-photo-1267696.jpeg"
+          alt="Craft beer brewing ingredients"
+          fill
+          priority
+          className="object-cover"
+          sizes="100vw"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/60 to-[#1a1a1a]" />
 

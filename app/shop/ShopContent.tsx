@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Image from 'next/image';
 import { ProductCard } from '@/components/ProductCard';
 import { Product } from '@/lib/types';
 import { useSearchParams, useRouter } from 'next/navigation';
@@ -299,11 +300,13 @@ export default function ShopContent() {
     <div>
       {/* Hero Banner */}
       <section className="relative h-[300px] flex items-center justify-center overflow-hidden mb-8">
-        <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{
-            backgroundImage: 'url(https://images.unsplash.com/photo-1532634922-8fe0b757fb13?w=1920&q=80)',
-          }}
+        <Image
+          src="https://images.unsplash.com/photo-1532634922-8fe0b757fb13?w=1920&q=80"
+          alt="Homebrew supplies and ingredients"
+          fill
+          priority
+          className="object-cover"
+          sizes="100vw"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-black/80" />
 
@@ -319,11 +322,13 @@ export default function ShopContent() {
 
       {/* Featured Banner */}
       <div className="mb-8 relative h-[200px] rounded-xl overflow-hidden border-2 border-amber/30">
-        <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{
-            backgroundImage: 'url(https://images.unsplash.com/photo-1615332579937-4e3a2f6b4b6b?w=1200&q=80)',
-          }}
+        <Image
+          src="https://images.unsplash.com/photo-1615332579937-4e3a2f6b4b6b?w=1200&q=80"
+          alt="Fresh brewing ingredients"
+          fill
+          priority
+          className="object-cover"
+          sizes="(max-width: 1200px) 100vw, 1200px"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-amber/90 via-amber/70 to-transparent" />
         <div className="relative z-10 h-full flex items-center px-8">
@@ -378,6 +383,7 @@ export default function ShopContent() {
                 <button
                   onClick={clearFilters}
                   className="text-xs text-amber hover:text-gold"
+                  aria-label="Clear all filters"
                 >
                   Clear
                 </button>
@@ -455,6 +461,7 @@ export default function ShopContent() {
                 <button
                   onClick={() => setSearchQuery('')}
                   className="absolute right-3 top-1/2 transform -translate-y-1/2 text-cream/50 hover:text-cream"
+                  aria-label="Clear search"
                 >
                   <X className="h-5 w-5" />
                 </button>

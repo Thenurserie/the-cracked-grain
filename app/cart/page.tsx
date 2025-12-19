@@ -155,6 +155,7 @@ export default function CartPage() {
                         <button
                           onClick={() => handleUpdateQuantity(item.id, item.quantity - 1)}
                           className="px-3 py-1 text-cream hover:bg-amber/10"
+                          aria-label="Decrease quantity"
                         >
                           <Minus className="h-4 w-4" />
                         </button>
@@ -164,6 +165,7 @@ export default function CartPage() {
                         <button
                           onClick={() => handleUpdateQuantity(item.id, item.quantity + 1)}
                           className="px-3 py-1 text-cream hover:bg-amber/10"
+                          aria-label="Increase quantity"
                         >
                           <Plus className="h-4 w-4" />
                         </button>
@@ -172,6 +174,7 @@ export default function CartPage() {
                       <button
                         onClick={() => handleRemoveItem(item.id)}
                         className="text-cream/60 hover:text-red-500 transition-colors"
+                        aria-label={`Remove ${product.name} from cart`}
                       >
                         <Trash2 className="h-5 w-5" />
                       </button>
