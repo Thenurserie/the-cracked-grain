@@ -32,7 +32,7 @@ export function Header() {
       <div className="container mx-auto flex h-20 md:h-24 items-center justify-between px-4">
         <Link href="/" className="flex items-center">
           <Image
-            src="https://admin.thecrackedgrain.com/assets/3c8bcab8-a2de-4f0f-87a1-981b67164a45"
+            src="https://admin.thecrackedgrain.com/assets/d7a88cfe-5eea-405c-92de-8b7003ff3618"
             alt="The Cracked Grain"
             width={280}
             height={70}
