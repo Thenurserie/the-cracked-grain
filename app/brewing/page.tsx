@@ -45,7 +45,7 @@ export default function BrewingToolsPage() {
           className="object-cover"
           sizes="100vw"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/64 via-black/53 to-black/64" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/84 via-black/73 to-black/84" />
 
         <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
           <h1 className="text-5xl md:text-6xl font-bold text-cream mb-4">Brewing Tools Dashboard</h1>

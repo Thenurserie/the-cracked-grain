@@ -96,7 +96,7 @@ export default async function Home() {
           className="object-cover"
           sizes="100vw"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/53 via-black/45 to-[#1a1a1a]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/73 via-black/65 to-[#1a1a1a]" />
 
         <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
           <h1 className="text-5xl md:text-7xl font-bold text-cream mb-6">
