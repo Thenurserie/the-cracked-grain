@@ -427,7 +427,6 @@ export function BrewingInstructions({ activeTab }: BrewingInstructionsProps) {
         aria-label={isOpen ? 'Close instructions' : 'Open instructions'}
       >
         <div className="flex items-center gap-2">
-          <span className="text-2xl">📖</span>
           <span className="text-lg font-semibold text-gold">How to Use: {instructions.title}</span>
         </div>
         {isOpen ? (

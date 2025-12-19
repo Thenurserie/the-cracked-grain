@@ -1,13 +1,13 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { ProductCard } from '@/components/ProductCard';
 import { Product } from '@/lib/types';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
-import { Search, X } from 'lucide-react';
+import { Search, X, ChevronUp } from 'lucide-react';
 
 // Main categories with subcategories - mapped to database values
 const CATEGORIES = [
@@ -150,6 +150,9 @@ export default function ShopContent() {
   const [itemsPerPage, setItemsPerPage] = useState(50);
   const [searchQuery, setSearchQuery] = useState('');
   const [categoriesOpen, setCategoriesOpen] = useState(false);
+  const [showBackToTop, setShowBackToTop] = useState(false);
+
+  const productsGridRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (categoryParam) {
@@ -203,6 +206,28 @@ export default function ShopContent() {
       }
     }
   }, [loading, products]);
+
+  // Auto-scroll to products when category changes
+  useEffect(() => {
+    if (productsGridRef.current && selectedCategory !== 'all') {
+      const scrollPosition = productsGridRef.current.offsetTop - 100; // 100px offset from top
+      window.scrollTo({ top: scrollPosition, behavior: 'smooth' });
+    }
+  }, [selectedCategory, selectedSubcategory]);
+
+  // Handle scroll events for back to top button
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowBackToTop(window.scrollY > 300);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   async function loadProducts() {
     setLoading(true);
@@ -619,7 +644,7 @@ export default function ShopContent() {
           </div>
 
           {/* Product Count and Sorting */}
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-3">
+          <div ref={productsGridRef} className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-3">
             <div className="flex items-center gap-4 w-full sm:w-auto">
               <p className="text-sm md:text-base text-cream/70">
                 {loading ? 'Loading...' : `Showing ${startItem}-${endItem} of ${filteredTotal} products`}
@@ -699,6 +724,18 @@ export default function ShopContent() {
         </div>
       </div>
       </div>
+
+      {/* Back to Top Button */}
+      {showBackToTop && (
+        <button
+          onClick={scrollToTop}
+          className="fixed bottom-6 right-6 z-50 w-12 h-12 bg-amber hover:bg-amber/90 text-white rounded-full shadow-lg transition-all duration-300 flex items-center justify-center"
+          aria-label="Back to top"
+          style={{ minWidth: '44px', minHeight: '44px' }}
+        >
+          <ChevronUp className="h-6 w-6" />
+        </button>
+      )}
     </div>
   );
 }
