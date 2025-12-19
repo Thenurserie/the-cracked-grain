@@ -58,9 +58,6 @@ export default function BrewingToolsPage() {
 
       <div className="container mx-auto px-4 py-8 max-w-7xl">
 
-      {/* Instructions Panel */}
-      <BrewingInstructions activeTab={activeTab} />
-
       {/* Quick Tip Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         <div className="relative h-[160px] rounded-lg overflow-hidden border border-amber/20 group hover:border-gold transition-all">
@@ -175,6 +172,9 @@ export default function BrewingToolsPage() {
         </TabsList>
 
         <div className="mt-6">
+          {/* Instructions Panel */}
+          <BrewingInstructions activeTab={activeTab} />
+
           <TabsContent value="recipe-builder" className="m-0">
             <RecipeBuilder />
           </TabsContent>

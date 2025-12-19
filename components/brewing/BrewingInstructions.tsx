@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { ChevronLeft, ChevronRight, ChevronDown, ChevronUp } from 'lucide-react';
+import { ChevronDown, ChevronUp } from 'lucide-react';
 
 interface BrewingInstructionsProps {
   activeTab: string;
@@ -413,125 +413,66 @@ const INSTRUCTIONS: Record<string, Instruction> = {
 };
 
 export function BrewingInstructions({ activeTab }: BrewingInstructionsProps) {
-  const [isOpenDesktop, setIsOpenDesktop] = useState(false);
-  const [isOpenMobile, setIsOpenMobile] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   const instructions = INSTRUCTIONS[activeTab as keyof typeof INSTRUCTIONS];
 
   if (!instructions) return null;
 
   return (
-    <>
-      {/* Desktop Collapsible Sidebar */}
-      <div className="hidden lg:block">
-        <div
-          className={`fixed left-0 top-24 bottom-0 bg-card border-r border-amber/20 transition-all duration-300 z-40 overflow-y-auto ${
-            isOpenDesktop ? 'w-80' : 'w-0'
-          }`}
-        >
-          {isOpenDesktop && (
-            <div className="p-6 space-y-4">
-              <h2 className="text-2xl font-bold text-gold mb-4">{instructions.title}</h2>
-              {instructions.sections.map((section, idx) => (
-                <div key={idx} className="space-y-2">
-                  {section.heading && (
-                    <h3 className="text-lg font-semibold text-gold">{section.heading}</h3>
-                  )}
-                  {section.content && (
-                    <p className="text-cream/80 text-sm leading-relaxed">{section.content}</p>
-                  )}
-                  {section.list && (
-                    <ul className="space-y-2">
-                      {section.list.map((item, itemIdx) => (
-                        <li
-                          key={itemIdx}
-                          className={`text-cream/80 text-sm ${item.indent ? 'ml-6' : ''}`}
-                        >
-                          {item.label ? (
-                            <>
-                              <span className="text-amber font-medium">{item.label}:</span>{' '}
-                              {item.desc}
-                            </>
-                          ) : (
-                            <span className="flex items-start">
-                              <span className="text-amber mr-2">•</span>
-                              <span>{item.desc}</span>
-                            </span>
-                          )}
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                </div>
-              ))}
-            </div>
-          )}
+    <div className="mb-6">
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="w-full bg-card border-2 border-amber/30 rounded-lg p-4 flex items-center justify-between hover:border-gold hover:bg-amber/5 transition-all"
+        aria-label={isOpen ? 'Close instructions' : 'Open instructions'}
+      >
+        <div className="flex items-center gap-2">
+          <span className="text-2xl">📖</span>
+          <span className="text-lg font-semibold text-gold">How to Use: {instructions.title}</span>
         </div>
-
-        {/* Desktop Toggle Button */}
-        <button
-          onClick={() => setIsOpenDesktop(!isOpenDesktop)}
-          className={`fixed top-32 z-50 bg-amber hover:bg-gold text-white p-2 rounded-r-lg shadow-lg transition-all duration-300 ${
-            isOpenDesktop ? 'left-80' : 'left-0'
-          }`}
-          aria-label={isOpenDesktop ? 'Close instructions' : 'Open instructions'}
-        >
-          {isOpenDesktop ? <ChevronLeft className="h-5 w-5" /> : <ChevronRight className="h-5 w-5" />}
-        </button>
-      </div>
-
-      {/* Mobile Accordion */}
-      <div className="lg:hidden mb-6">
-        <button
-          onClick={() => setIsOpenMobile(!isOpenMobile)}
-          className="w-full bg-card border border-amber/20 rounded-lg p-4 flex items-center justify-between hover:border-gold transition-colors"
-          aria-label={isOpenMobile ? 'Close instructions' : 'Open instructions'}
-        >
-          <span className="text-lg font-semibold text-gold">{instructions.title}</span>
-          {isOpenMobile ? (
-            <ChevronUp className="h-5 w-5 text-gold" />
-          ) : (
-            <ChevronDown className="h-5 w-5 text-gold" />
-          )}
-        </button>
-
-        {isOpenMobile && (
-          <div className="mt-2 bg-card border border-amber/20 rounded-lg p-4 space-y-4">
-            {instructions.sections.map((section, idx) => (
-              <div key={idx} className="space-y-2">
-                {section.heading && (
-                  <h3 className="text-base font-semibold text-gold">{section.heading}</h3>
-                )}
-                {section.content && (
-                  <p className="text-cream/80 text-sm leading-relaxed">{section.content}</p>
-                )}
-                {section.list && (
-                  <ul className="space-y-2">
-                    {section.list.map((item, itemIdx) => (
-                      <li
-                        key={itemIdx}
-                        className={`text-cream/80 text-sm ${item.indent ? 'ml-6' : ''}`}
-                      >
-                        {item.label ? (
-                          <>
-                            <span className="text-amber font-medium">{item.label}:</span>{' '}
-                            {item.desc}
-                          </>
-                        ) : (
-                          <span className="flex items-start">
-                            <span className="text-amber mr-2">•</span>
-                            <span>{item.desc}</span>
-                          </span>
-                        )}
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </div>
-            ))}
-          </div>
+        {isOpen ? (
+          <ChevronUp className="h-5 w-5 text-gold flex-shrink-0" />
+        ) : (
+          <ChevronDown className="h-5 w-5 text-gold flex-shrink-0" />
         )}
-      </div>
-    </>
+      </button>
+
+      {isOpen && (
+        <div className="mt-2 bg-card border border-amber/20 rounded-lg p-6 space-y-4 animate-in slide-in-from-top-2 duration-300">
+          {instructions.sections.map((section, idx) => (
+            <div key={idx} className="space-y-2">
+              {section.heading && (
+                <h3 className="text-lg font-semibold text-gold">{section.heading}</h3>
+              )}
+              {section.content && (
+                <p className="text-cream/80 text-sm leading-relaxed">{section.content}</p>
+              )}
+              {section.list && (
+                <ul className="space-y-2">
+                  {section.list.map((item, itemIdx) => (
+                    <li
+                      key={itemIdx}
+                      className={`text-cream/80 text-sm ${item.indent ? 'ml-6' : ''}`}
+                    >
+                      {item.label ? (
+                        <>
+                          <span className="text-amber font-medium">{item.label}:</span>{' '}
+                          {item.desc}
+                        </>
+                      ) : (
+                        <span className="flex items-start">
+                          <span className="text-amber mr-2">•</span>
+                          <span>{item.desc}</span>
+                        </span>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
   );
 }
