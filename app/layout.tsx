@@ -7,6 +7,7 @@ import { Toaster } from '@/components/ui/toaster';
 import { AgeVerification } from '@/components/AgeVerification';
 import { CookieConsent } from '@/components/CookieConsent';
 import { OrganizationSchema, WebsiteSchema } from '@/components/StructuredData';
+import { AuthProvider } from '@/contexts/AuthContext';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -48,14 +49,16 @@ export default function RootLayout({
         <WebsiteSchema />
       </head>
       <body className={inter.className}>
-        <AgeVerification />
-        <div className="flex flex-col min-h-screen">
-          <Header />
-          <main className="flex-1">{children}</main>
-          <Footer />
-        </div>
-        <CookieConsent />
-        <Toaster />
+        <AuthProvider>
+          <AgeVerification />
+          <div className="flex flex-col min-h-screen">
+            <Header />
+            <main className="flex-1">{children}</main>
+            <Footer />
+          </div>
+          <CookieConsent />
+          <Toaster />
+        </AuthProvider>
       </body>
     </html>
   );
