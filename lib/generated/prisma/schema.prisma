@@ -154,19 +154,22 @@ model InventoryAlert {
 }
 
 model User {
-  id                    String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  email                 String        @unique
-  passwordHash          String        @map("password_hash")
-  firstName             String        @map("first_name")
-  lastName              String        @map("last_name")
+  id                    String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  email                 String          @unique
+  passwordHash          String          @map("password_hash")
+  firstName             String          @map("first_name")
+  lastName              String          @map("last_name")
   phone                 String?
-  isActive              Boolean       @default(true) @map("is_active")
-  subscriptionTier      String        @default("free") @map("subscription_tier")
-  subscriptionExpiresAt DateTime?     @map("subscription_expires_at") @db.Timestamptz(6)
-  loyaltyPoints         Int           @default(0) @map("loyalty_points")
-  createdAt             DateTime      @default(now()) @map("created_at") @db.Timestamptz(6)
-  updatedAt             DateTime      @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+  isActive              Boolean         @default(true) @map("is_active")
+  subscriptionTier      String          @default("free") @map("subscription_tier")
+  subscriptionExpiresAt DateTime?       @map("subscription_expires_at") @db.Timestamptz(6)
+  loyaltyPoints         Int             @default(0) @map("loyalty_points")
+  createdAt             DateTime        @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt             DateTime        @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
   sessions              UserSession[]
+  batches               UserBatch[]
+  inventory             UserInventory[]
+  recipes               UserRecipe[]
 
   @@index([email])
   @@index([subscriptionTier])
@@ -185,4 +188,61 @@ model UserSession {
   @@index([sessionToken])
   @@index([expiresAt])
   @@map("user_sessions")
+}
+
+model UserBatch {
+  id              String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId          String   @map("user_id") @db.Uuid
+  name            String
+  style           String
+  brewDate        String   @map("brew_date")
+  status          String
+  originalGravity String   @map("original_gravity")
+  finalGravity    String   @map("final_gravity")
+  abv             Decimal  @db.Decimal(4, 2)
+  notes           String?
+  createdAt       DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt       DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([status])
+  @@map("user_batches")
+}
+
+model UserInventory {
+  id             String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId         String   @map("user_id") @db.Uuid
+  name           String
+  category       String
+  quantity       Decimal  @db.Decimal(10, 2)
+  unit           String
+  purchaseDate   String?  @map("purchase_date")
+  expirationDate String?  @map("expiration_date")
+  notes          String?
+  createdAt      DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt      DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([category])
+  @@map("user_inventory")
+}
+
+model UserRecipe {
+  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId     String   @map("user_id") @db.Uuid
+  name       String
+  style      String?
+  batchSize  Decimal? @map("batch_size") @db.Decimal(10, 2)
+  recipeData Json     @default("{}") @map("recipe_data")
+  notes      String?
+  isPublic   Boolean  @default(false) @map("is_public")
+  createdAt  DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt  DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([isPublic])
+  @@map("user_recipes")
 }

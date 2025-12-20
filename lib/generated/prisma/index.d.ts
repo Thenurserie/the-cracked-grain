@@ -58,6 +58,21 @@ export type User = $Result.DefaultSelection<Prisma.$UserPayload>
  * 
  */
 export type UserSession = $Result.DefaultSelection<Prisma.$UserSessionPayload>
+/**
+ * Model UserBatch
+ * 
+ */
+export type UserBatch = $Result.DefaultSelection<Prisma.$UserBatchPayload>
+/**
+ * Model UserInventory
+ * 
+ */
+export type UserInventory = $Result.DefaultSelection<Prisma.$UserInventoryPayload>
+/**
+ * Model UserRecipe
+ * 
+ */
+export type UserRecipe = $Result.DefaultSelection<Prisma.$UserRecipePayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -266,6 +281,36 @@ export class PrismaClient<
     * ```
     */
   get userSession(): Prisma.UserSessionDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.userBatch`: Exposes CRUD operations for the **UserBatch** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more UserBatches
+    * const userBatches = await prisma.userBatch.findMany()
+    * ```
+    */
+  get userBatch(): Prisma.UserBatchDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.userInventory`: Exposes CRUD operations for the **UserInventory** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more UserInventories
+    * const userInventories = await prisma.userInventory.findMany()
+    * ```
+    */
+  get userInventory(): Prisma.UserInventoryDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.userRecipe`: Exposes CRUD operations for the **UserRecipe** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more UserRecipes
+    * const userRecipes = await prisma.userRecipe.findMany()
+    * ```
+    */
+  get userRecipe(): Prisma.UserRecipeDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -715,7 +760,10 @@ export namespace Prisma {
     InventoryTransaction: 'InventoryTransaction',
     InventoryAlert: 'InventoryAlert',
     User: 'User',
-    UserSession: 'UserSession'
+    UserSession: 'UserSession',
+    UserBatch: 'UserBatch',
+    UserInventory: 'UserInventory',
+    UserRecipe: 'UserRecipe'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -734,7 +782,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "product" | "cartItem" | "order" | "orderItem" | "recipe" | "inventoryTransaction" | "inventoryAlert" | "user" | "userSession"
+      modelProps: "product" | "cartItem" | "order" | "orderItem" | "recipe" | "inventoryTransaction" | "inventoryAlert" | "user" | "userSession" | "userBatch" | "userInventory" | "userRecipe"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1404,6 +1452,228 @@ export namespace Prisma {
           }
         }
       }
+      UserBatch: {
+        payload: Prisma.$UserBatchPayload<ExtArgs>
+        fields: Prisma.UserBatchFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.UserBatchFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserBatchPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.UserBatchFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserBatchPayload>
+          }
+          findFirst: {
+            args: Prisma.UserBatchFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserBatchPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.UserBatchFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserBatchPayload>
+          }
+          findMany: {
+            args: Prisma.UserBatchFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserBatchPayload>[]
+          }
+          create: {
+            args: Prisma.UserBatchCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserBatchPayload>
+          }
+          createMany: {
+            args: Prisma.UserBatchCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.UserBatchCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserBatchPayload>[]
+          }
+          delete: {
+            args: Prisma.UserBatchDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserBatchPayload>
+          }
+          update: {
+            args: Prisma.UserBatchUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserBatchPayload>
+          }
+          deleteMany: {
+            args: Prisma.UserBatchDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.UserBatchUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.UserBatchUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserBatchPayload>[]
+          }
+          upsert: {
+            args: Prisma.UserBatchUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserBatchPayload>
+          }
+          aggregate: {
+            args: Prisma.UserBatchAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateUserBatch>
+          }
+          groupBy: {
+            args: Prisma.UserBatchGroupByArgs<ExtArgs>
+            result: $Utils.Optional<UserBatchGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.UserBatchCountArgs<ExtArgs>
+            result: $Utils.Optional<UserBatchCountAggregateOutputType> | number
+          }
+        }
+      }
+      UserInventory: {
+        payload: Prisma.$UserInventoryPayload<ExtArgs>
+        fields: Prisma.UserInventoryFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.UserInventoryFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserInventoryPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.UserInventoryFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserInventoryPayload>
+          }
+          findFirst: {
+            args: Prisma.UserInventoryFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserInventoryPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.UserInventoryFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserInventoryPayload>
+          }
+          findMany: {
+            args: Prisma.UserInventoryFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserInventoryPayload>[]
+          }
+          create: {
+            args: Prisma.UserInventoryCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserInventoryPayload>
+          }
+          createMany: {
+            args: Prisma.UserInventoryCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.UserInventoryCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserInventoryPayload>[]
+          }
+          delete: {
+            args: Prisma.UserInventoryDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserInventoryPayload>
+          }
+          update: {
+            args: Prisma.UserInventoryUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserInventoryPayload>
+          }
+          deleteMany: {
+            args: Prisma.UserInventoryDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.UserInventoryUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.UserInventoryUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserInventoryPayload>[]
+          }
+          upsert: {
+            args: Prisma.UserInventoryUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserInventoryPayload>
+          }
+          aggregate: {
+            args: Prisma.UserInventoryAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateUserInventory>
+          }
+          groupBy: {
+            args: Prisma.UserInventoryGroupByArgs<ExtArgs>
+            result: $Utils.Optional<UserInventoryGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.UserInventoryCountArgs<ExtArgs>
+            result: $Utils.Optional<UserInventoryCountAggregateOutputType> | number
+          }
+        }
+      }
+      UserRecipe: {
+        payload: Prisma.$UserRecipePayload<ExtArgs>
+        fields: Prisma.UserRecipeFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.UserRecipeFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserRecipePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.UserRecipeFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserRecipePayload>
+          }
+          findFirst: {
+            args: Prisma.UserRecipeFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserRecipePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.UserRecipeFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserRecipePayload>
+          }
+          findMany: {
+            args: Prisma.UserRecipeFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserRecipePayload>[]
+          }
+          create: {
+            args: Prisma.UserRecipeCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserRecipePayload>
+          }
+          createMany: {
+            args: Prisma.UserRecipeCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.UserRecipeCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserRecipePayload>[]
+          }
+          delete: {
+            args: Prisma.UserRecipeDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserRecipePayload>
+          }
+          update: {
+            args: Prisma.UserRecipeUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserRecipePayload>
+          }
+          deleteMany: {
+            args: Prisma.UserRecipeDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.UserRecipeUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.UserRecipeUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserRecipePayload>[]
+          }
+          upsert: {
+            args: Prisma.UserRecipeUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserRecipePayload>
+          }
+          aggregate: {
+            args: Prisma.UserRecipeAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateUserRecipe>
+          }
+          groupBy: {
+            args: Prisma.UserRecipeGroupByArgs<ExtArgs>
+            result: $Utils.Optional<UserRecipeGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.UserRecipeCountArgs<ExtArgs>
+            result: $Utils.Optional<UserRecipeCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1509,6 +1779,9 @@ export namespace Prisma {
     inventoryAlert?: InventoryAlertOmit
     user?: UserOmit
     userSession?: UserSessionOmit
+    userBatch?: UserBatchOmit
+    userInventory?: UserInventoryOmit
+    userRecipe?: UserRecipeOmit
   }
 
   /* Types for Logging */
@@ -1679,10 +1952,16 @@ export namespace Prisma {
 
   export type UserCountOutputType = {
     sessions: number
+    batches: number
+    inventory: number
+    recipes: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     sessions?: boolean | UserCountOutputTypeCountSessionsArgs
+    batches?: boolean | UserCountOutputTypeCountBatchesArgs
+    inventory?: boolean | UserCountOutputTypeCountInventoryArgs
+    recipes?: boolean | UserCountOutputTypeCountRecipesArgs
   }
 
   // Custom InputTypes
@@ -1701,6 +1980,27 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountSessionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: UserSessionWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountBatchesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserBatchWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountInventoryArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserInventoryWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountRecipesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserRecipeWhereInput
   }
 
 
@@ -10296,6 +10596,9 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     sessions?: boolean | User$sessionsArgs<ExtArgs>
+    batches?: boolean | User$batchesArgs<ExtArgs>
+    inventory?: boolean | User$inventoryArgs<ExtArgs>
+    recipes?: boolean | User$recipesArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -10347,6 +10650,9 @@ export namespace Prisma {
   export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "passwordHash" | "firstName" | "lastName" | "phone" | "isActive" | "subscriptionTier" | "subscriptionExpiresAt" | "loyaltyPoints" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     sessions?: boolean | User$sessionsArgs<ExtArgs>
+    batches?: boolean | User$batchesArgs<ExtArgs>
+    inventory?: boolean | User$inventoryArgs<ExtArgs>
+    recipes?: boolean | User$recipesArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -10356,6 +10662,9 @@ export namespace Prisma {
     name: "User"
     objects: {
       sessions: Prisma.$UserSessionPayload<ExtArgs>[]
+      batches: Prisma.$UserBatchPayload<ExtArgs>[]
+      inventory: Prisma.$UserInventoryPayload<ExtArgs>[]
+      recipes: Prisma.$UserRecipePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -10765,6 +11074,9 @@ export namespace Prisma {
   export interface Prisma__UserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     sessions<T extends User$sessionsArgs<ExtArgs> = {}>(args?: Subset<T, User$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    batches<T extends User$batchesArgs<ExtArgs> = {}>(args?: Subset<T, User$batchesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserBatchPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    inventory<T extends User$inventoryArgs<ExtArgs> = {}>(args?: Subset<T, User$inventoryArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserInventoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    recipes<T extends User$recipesArgs<ExtArgs> = {}>(args?: Subset<T, User$recipesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserRecipePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -11215,6 +11527,78 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: UserSessionScalarFieldEnum | UserSessionScalarFieldEnum[]
+  }
+
+  /**
+   * User.batches
+   */
+  export type User$batchesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserBatch
+     */
+    select?: UserBatchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserBatch
+     */
+    omit?: UserBatchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserBatchInclude<ExtArgs> | null
+    where?: UserBatchWhereInput
+    orderBy?: UserBatchOrderByWithRelationInput | UserBatchOrderByWithRelationInput[]
+    cursor?: UserBatchWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: UserBatchScalarFieldEnum | UserBatchScalarFieldEnum[]
+  }
+
+  /**
+   * User.inventory
+   */
+  export type User$inventoryArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserInventory
+     */
+    select?: UserInventorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserInventory
+     */
+    omit?: UserInventoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInventoryInclude<ExtArgs> | null
+    where?: UserInventoryWhereInput
+    orderBy?: UserInventoryOrderByWithRelationInput | UserInventoryOrderByWithRelationInput[]
+    cursor?: UserInventoryWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: UserInventoryScalarFieldEnum | UserInventoryScalarFieldEnum[]
+  }
+
+  /**
+   * User.recipes
+   */
+  export type User$recipesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserRecipe
+     */
+    select?: UserRecipeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserRecipe
+     */
+    omit?: UserRecipeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserRecipeInclude<ExtArgs> | null
+    where?: UserRecipeWhereInput
+    orderBy?: UserRecipeOrderByWithRelationInput | UserRecipeOrderByWithRelationInput[]
+    cursor?: UserRecipeWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: UserRecipeScalarFieldEnum | UserRecipeScalarFieldEnum[]
   }
 
   /**
@@ -12295,6 +12679,3512 @@ export namespace Prisma {
 
 
   /**
+   * Model UserBatch
+   */
+
+  export type AggregateUserBatch = {
+    _count: UserBatchCountAggregateOutputType | null
+    _avg: UserBatchAvgAggregateOutputType | null
+    _sum: UserBatchSumAggregateOutputType | null
+    _min: UserBatchMinAggregateOutputType | null
+    _max: UserBatchMaxAggregateOutputType | null
+  }
+
+  export type UserBatchAvgAggregateOutputType = {
+    abv: Decimal | null
+  }
+
+  export type UserBatchSumAggregateOutputType = {
+    abv: Decimal | null
+  }
+
+  export type UserBatchMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    name: string | null
+    style: string | null
+    brewDate: string | null
+    status: string | null
+    originalGravity: string | null
+    finalGravity: string | null
+    abv: Decimal | null
+    notes: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type UserBatchMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    name: string | null
+    style: string | null
+    brewDate: string | null
+    status: string | null
+    originalGravity: string | null
+    finalGravity: string | null
+    abv: Decimal | null
+    notes: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type UserBatchCountAggregateOutputType = {
+    id: number
+    userId: number
+    name: number
+    style: number
+    brewDate: number
+    status: number
+    originalGravity: number
+    finalGravity: number
+    abv: number
+    notes: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type UserBatchAvgAggregateInputType = {
+    abv?: true
+  }
+
+  export type UserBatchSumAggregateInputType = {
+    abv?: true
+  }
+
+  export type UserBatchMinAggregateInputType = {
+    id?: true
+    userId?: true
+    name?: true
+    style?: true
+    brewDate?: true
+    status?: true
+    originalGravity?: true
+    finalGravity?: true
+    abv?: true
+    notes?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type UserBatchMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    name?: true
+    style?: true
+    brewDate?: true
+    status?: true
+    originalGravity?: true
+    finalGravity?: true
+    abv?: true
+    notes?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type UserBatchCountAggregateInputType = {
+    id?: true
+    userId?: true
+    name?: true
+    style?: true
+    brewDate?: true
+    status?: true
+    originalGravity?: true
+    finalGravity?: true
+    abv?: true
+    notes?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type UserBatchAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which UserBatch to aggregate.
+     */
+    where?: UserBatchWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserBatches to fetch.
+     */
+    orderBy?: UserBatchOrderByWithRelationInput | UserBatchOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: UserBatchWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserBatches from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserBatches.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned UserBatches
+    **/
+    _count?: true | UserBatchCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: UserBatchAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: UserBatchSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: UserBatchMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: UserBatchMaxAggregateInputType
+  }
+
+  export type GetUserBatchAggregateType<T extends UserBatchAggregateArgs> = {
+        [P in keyof T & keyof AggregateUserBatch]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateUserBatch[P]>
+      : GetScalarType<T[P], AggregateUserBatch[P]>
+  }
+
+
+
+
+  export type UserBatchGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserBatchWhereInput
+    orderBy?: UserBatchOrderByWithAggregationInput | UserBatchOrderByWithAggregationInput[]
+    by: UserBatchScalarFieldEnum[] | UserBatchScalarFieldEnum
+    having?: UserBatchScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: UserBatchCountAggregateInputType | true
+    _avg?: UserBatchAvgAggregateInputType
+    _sum?: UserBatchSumAggregateInputType
+    _min?: UserBatchMinAggregateInputType
+    _max?: UserBatchMaxAggregateInputType
+  }
+
+  export type UserBatchGroupByOutputType = {
+    id: string
+    userId: string
+    name: string
+    style: string
+    brewDate: string
+    status: string
+    originalGravity: string
+    finalGravity: string
+    abv: Decimal
+    notes: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: UserBatchCountAggregateOutputType | null
+    _avg: UserBatchAvgAggregateOutputType | null
+    _sum: UserBatchSumAggregateOutputType | null
+    _min: UserBatchMinAggregateOutputType | null
+    _max: UserBatchMaxAggregateOutputType | null
+  }
+
+  type GetUserBatchGroupByPayload<T extends UserBatchGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<UserBatchGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof UserBatchGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], UserBatchGroupByOutputType[P]>
+            : GetScalarType<T[P], UserBatchGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type UserBatchSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    name?: boolean
+    style?: boolean
+    brewDate?: boolean
+    status?: boolean
+    originalGravity?: boolean
+    finalGravity?: boolean
+    abv?: boolean
+    notes?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userBatch"]>
+
+  export type UserBatchSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    name?: boolean
+    style?: boolean
+    brewDate?: boolean
+    status?: boolean
+    originalGravity?: boolean
+    finalGravity?: boolean
+    abv?: boolean
+    notes?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userBatch"]>
+
+  export type UserBatchSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    name?: boolean
+    style?: boolean
+    brewDate?: boolean
+    status?: boolean
+    originalGravity?: boolean
+    finalGravity?: boolean
+    abv?: boolean
+    notes?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userBatch"]>
+
+  export type UserBatchSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    name?: boolean
+    style?: boolean
+    brewDate?: boolean
+    status?: boolean
+    originalGravity?: boolean
+    finalGravity?: boolean
+    abv?: boolean
+    notes?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type UserBatchOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "name" | "style" | "brewDate" | "status" | "originalGravity" | "finalGravity" | "abv" | "notes" | "createdAt" | "updatedAt", ExtArgs["result"]["userBatch"]>
+  export type UserBatchInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type UserBatchIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type UserBatchIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $UserBatchPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "UserBatch"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      name: string
+      style: string
+      brewDate: string
+      status: string
+      originalGravity: string
+      finalGravity: string
+      abv: Prisma.Decimal
+      notes: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["userBatch"]>
+    composites: {}
+  }
+
+  type UserBatchGetPayload<S extends boolean | null | undefined | UserBatchDefaultArgs> = $Result.GetResult<Prisma.$UserBatchPayload, S>
+
+  type UserBatchCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<UserBatchFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: UserBatchCountAggregateInputType | true
+    }
+
+  export interface UserBatchDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['UserBatch'], meta: { name: 'UserBatch' } }
+    /**
+     * Find zero or one UserBatch that matches the filter.
+     * @param {UserBatchFindUniqueArgs} args - Arguments to find a UserBatch
+     * @example
+     * // Get one UserBatch
+     * const userBatch = await prisma.userBatch.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends UserBatchFindUniqueArgs>(args: SelectSubset<T, UserBatchFindUniqueArgs<ExtArgs>>): Prisma__UserBatchClient<$Result.GetResult<Prisma.$UserBatchPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one UserBatch that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {UserBatchFindUniqueOrThrowArgs} args - Arguments to find a UserBatch
+     * @example
+     * // Get one UserBatch
+     * const userBatch = await prisma.userBatch.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends UserBatchFindUniqueOrThrowArgs>(args: SelectSubset<T, UserBatchFindUniqueOrThrowArgs<ExtArgs>>): Prisma__UserBatchClient<$Result.GetResult<Prisma.$UserBatchPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first UserBatch that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserBatchFindFirstArgs} args - Arguments to find a UserBatch
+     * @example
+     * // Get one UserBatch
+     * const userBatch = await prisma.userBatch.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends UserBatchFindFirstArgs>(args?: SelectSubset<T, UserBatchFindFirstArgs<ExtArgs>>): Prisma__UserBatchClient<$Result.GetResult<Prisma.$UserBatchPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first UserBatch that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserBatchFindFirstOrThrowArgs} args - Arguments to find a UserBatch
+     * @example
+     * // Get one UserBatch
+     * const userBatch = await prisma.userBatch.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends UserBatchFindFirstOrThrowArgs>(args?: SelectSubset<T, UserBatchFindFirstOrThrowArgs<ExtArgs>>): Prisma__UserBatchClient<$Result.GetResult<Prisma.$UserBatchPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more UserBatches that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserBatchFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all UserBatches
+     * const userBatches = await prisma.userBatch.findMany()
+     * 
+     * // Get first 10 UserBatches
+     * const userBatches = await prisma.userBatch.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const userBatchWithIdOnly = await prisma.userBatch.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends UserBatchFindManyArgs>(args?: SelectSubset<T, UserBatchFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserBatchPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a UserBatch.
+     * @param {UserBatchCreateArgs} args - Arguments to create a UserBatch.
+     * @example
+     * // Create one UserBatch
+     * const UserBatch = await prisma.userBatch.create({
+     *   data: {
+     *     // ... data to create a UserBatch
+     *   }
+     * })
+     * 
+     */
+    create<T extends UserBatchCreateArgs>(args: SelectSubset<T, UserBatchCreateArgs<ExtArgs>>): Prisma__UserBatchClient<$Result.GetResult<Prisma.$UserBatchPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many UserBatches.
+     * @param {UserBatchCreateManyArgs} args - Arguments to create many UserBatches.
+     * @example
+     * // Create many UserBatches
+     * const userBatch = await prisma.userBatch.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends UserBatchCreateManyArgs>(args?: SelectSubset<T, UserBatchCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many UserBatches and returns the data saved in the database.
+     * @param {UserBatchCreateManyAndReturnArgs} args - Arguments to create many UserBatches.
+     * @example
+     * // Create many UserBatches
+     * const userBatch = await prisma.userBatch.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many UserBatches and only return the `id`
+     * const userBatchWithIdOnly = await prisma.userBatch.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends UserBatchCreateManyAndReturnArgs>(args?: SelectSubset<T, UserBatchCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserBatchPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a UserBatch.
+     * @param {UserBatchDeleteArgs} args - Arguments to delete one UserBatch.
+     * @example
+     * // Delete one UserBatch
+     * const UserBatch = await prisma.userBatch.delete({
+     *   where: {
+     *     // ... filter to delete one UserBatch
+     *   }
+     * })
+     * 
+     */
+    delete<T extends UserBatchDeleteArgs>(args: SelectSubset<T, UserBatchDeleteArgs<ExtArgs>>): Prisma__UserBatchClient<$Result.GetResult<Prisma.$UserBatchPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one UserBatch.
+     * @param {UserBatchUpdateArgs} args - Arguments to update one UserBatch.
+     * @example
+     * // Update one UserBatch
+     * const userBatch = await prisma.userBatch.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends UserBatchUpdateArgs>(args: SelectSubset<T, UserBatchUpdateArgs<ExtArgs>>): Prisma__UserBatchClient<$Result.GetResult<Prisma.$UserBatchPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more UserBatches.
+     * @param {UserBatchDeleteManyArgs} args - Arguments to filter UserBatches to delete.
+     * @example
+     * // Delete a few UserBatches
+     * const { count } = await prisma.userBatch.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends UserBatchDeleteManyArgs>(args?: SelectSubset<T, UserBatchDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more UserBatches.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserBatchUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many UserBatches
+     * const userBatch = await prisma.userBatch.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends UserBatchUpdateManyArgs>(args: SelectSubset<T, UserBatchUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more UserBatches and returns the data updated in the database.
+     * @param {UserBatchUpdateManyAndReturnArgs} args - Arguments to update many UserBatches.
+     * @example
+     * // Update many UserBatches
+     * const userBatch = await prisma.userBatch.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more UserBatches and only return the `id`
+     * const userBatchWithIdOnly = await prisma.userBatch.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends UserBatchUpdateManyAndReturnArgs>(args: SelectSubset<T, UserBatchUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserBatchPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one UserBatch.
+     * @param {UserBatchUpsertArgs} args - Arguments to update or create a UserBatch.
+     * @example
+     * // Update or create a UserBatch
+     * const userBatch = await prisma.userBatch.upsert({
+     *   create: {
+     *     // ... data to create a UserBatch
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the UserBatch we want to update
+     *   }
+     * })
+     */
+    upsert<T extends UserBatchUpsertArgs>(args: SelectSubset<T, UserBatchUpsertArgs<ExtArgs>>): Prisma__UserBatchClient<$Result.GetResult<Prisma.$UserBatchPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of UserBatches.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserBatchCountArgs} args - Arguments to filter UserBatches to count.
+     * @example
+     * // Count the number of UserBatches
+     * const count = await prisma.userBatch.count({
+     *   where: {
+     *     // ... the filter for the UserBatches we want to count
+     *   }
+     * })
+    **/
+    count<T extends UserBatchCountArgs>(
+      args?: Subset<T, UserBatchCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], UserBatchCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a UserBatch.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserBatchAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends UserBatchAggregateArgs>(args: Subset<T, UserBatchAggregateArgs>): Prisma.PrismaPromise<GetUserBatchAggregateType<T>>
+
+    /**
+     * Group by UserBatch.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserBatchGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends UserBatchGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: UserBatchGroupByArgs['orderBy'] }
+        : { orderBy?: UserBatchGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, UserBatchGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetUserBatchGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the UserBatch model
+   */
+  readonly fields: UserBatchFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for UserBatch.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__UserBatchClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the UserBatch model
+   */
+  interface UserBatchFieldRefs {
+    readonly id: FieldRef<"UserBatch", 'String'>
+    readonly userId: FieldRef<"UserBatch", 'String'>
+    readonly name: FieldRef<"UserBatch", 'String'>
+    readonly style: FieldRef<"UserBatch", 'String'>
+    readonly brewDate: FieldRef<"UserBatch", 'String'>
+    readonly status: FieldRef<"UserBatch", 'String'>
+    readonly originalGravity: FieldRef<"UserBatch", 'String'>
+    readonly finalGravity: FieldRef<"UserBatch", 'String'>
+    readonly abv: FieldRef<"UserBatch", 'Decimal'>
+    readonly notes: FieldRef<"UserBatch", 'String'>
+    readonly createdAt: FieldRef<"UserBatch", 'DateTime'>
+    readonly updatedAt: FieldRef<"UserBatch", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * UserBatch findUnique
+   */
+  export type UserBatchFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserBatch
+     */
+    select?: UserBatchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserBatch
+     */
+    omit?: UserBatchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserBatchInclude<ExtArgs> | null
+    /**
+     * Filter, which UserBatch to fetch.
+     */
+    where: UserBatchWhereUniqueInput
+  }
+
+  /**
+   * UserBatch findUniqueOrThrow
+   */
+  export type UserBatchFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserBatch
+     */
+    select?: UserBatchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserBatch
+     */
+    omit?: UserBatchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserBatchInclude<ExtArgs> | null
+    /**
+     * Filter, which UserBatch to fetch.
+     */
+    where: UserBatchWhereUniqueInput
+  }
+
+  /**
+   * UserBatch findFirst
+   */
+  export type UserBatchFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserBatch
+     */
+    select?: UserBatchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserBatch
+     */
+    omit?: UserBatchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserBatchInclude<ExtArgs> | null
+    /**
+     * Filter, which UserBatch to fetch.
+     */
+    where?: UserBatchWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserBatches to fetch.
+     */
+    orderBy?: UserBatchOrderByWithRelationInput | UserBatchOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UserBatches.
+     */
+    cursor?: UserBatchWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserBatches from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserBatches.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserBatches.
+     */
+    distinct?: UserBatchScalarFieldEnum | UserBatchScalarFieldEnum[]
+  }
+
+  /**
+   * UserBatch findFirstOrThrow
+   */
+  export type UserBatchFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserBatch
+     */
+    select?: UserBatchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserBatch
+     */
+    omit?: UserBatchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserBatchInclude<ExtArgs> | null
+    /**
+     * Filter, which UserBatch to fetch.
+     */
+    where?: UserBatchWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserBatches to fetch.
+     */
+    orderBy?: UserBatchOrderByWithRelationInput | UserBatchOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UserBatches.
+     */
+    cursor?: UserBatchWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserBatches from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserBatches.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserBatches.
+     */
+    distinct?: UserBatchScalarFieldEnum | UserBatchScalarFieldEnum[]
+  }
+
+  /**
+   * UserBatch findMany
+   */
+  export type UserBatchFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserBatch
+     */
+    select?: UserBatchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserBatch
+     */
+    omit?: UserBatchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserBatchInclude<ExtArgs> | null
+    /**
+     * Filter, which UserBatches to fetch.
+     */
+    where?: UserBatchWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserBatches to fetch.
+     */
+    orderBy?: UserBatchOrderByWithRelationInput | UserBatchOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing UserBatches.
+     */
+    cursor?: UserBatchWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserBatches from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserBatches.
+     */
+    skip?: number
+    distinct?: UserBatchScalarFieldEnum | UserBatchScalarFieldEnum[]
+  }
+
+  /**
+   * UserBatch create
+   */
+  export type UserBatchCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserBatch
+     */
+    select?: UserBatchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserBatch
+     */
+    omit?: UserBatchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserBatchInclude<ExtArgs> | null
+    /**
+     * The data needed to create a UserBatch.
+     */
+    data: XOR<UserBatchCreateInput, UserBatchUncheckedCreateInput>
+  }
+
+  /**
+   * UserBatch createMany
+   */
+  export type UserBatchCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many UserBatches.
+     */
+    data: UserBatchCreateManyInput | UserBatchCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * UserBatch createManyAndReturn
+   */
+  export type UserBatchCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserBatch
+     */
+    select?: UserBatchSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserBatch
+     */
+    omit?: UserBatchOmit<ExtArgs> | null
+    /**
+     * The data used to create many UserBatches.
+     */
+    data: UserBatchCreateManyInput | UserBatchCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserBatchIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * UserBatch update
+   */
+  export type UserBatchUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserBatch
+     */
+    select?: UserBatchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserBatch
+     */
+    omit?: UserBatchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserBatchInclude<ExtArgs> | null
+    /**
+     * The data needed to update a UserBatch.
+     */
+    data: XOR<UserBatchUpdateInput, UserBatchUncheckedUpdateInput>
+    /**
+     * Choose, which UserBatch to update.
+     */
+    where: UserBatchWhereUniqueInput
+  }
+
+  /**
+   * UserBatch updateMany
+   */
+  export type UserBatchUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update UserBatches.
+     */
+    data: XOR<UserBatchUpdateManyMutationInput, UserBatchUncheckedUpdateManyInput>
+    /**
+     * Filter which UserBatches to update
+     */
+    where?: UserBatchWhereInput
+    /**
+     * Limit how many UserBatches to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * UserBatch updateManyAndReturn
+   */
+  export type UserBatchUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserBatch
+     */
+    select?: UserBatchSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserBatch
+     */
+    omit?: UserBatchOmit<ExtArgs> | null
+    /**
+     * The data used to update UserBatches.
+     */
+    data: XOR<UserBatchUpdateManyMutationInput, UserBatchUncheckedUpdateManyInput>
+    /**
+     * Filter which UserBatches to update
+     */
+    where?: UserBatchWhereInput
+    /**
+     * Limit how many UserBatches to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserBatchIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * UserBatch upsert
+   */
+  export type UserBatchUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserBatch
+     */
+    select?: UserBatchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserBatch
+     */
+    omit?: UserBatchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserBatchInclude<ExtArgs> | null
+    /**
+     * The filter to search for the UserBatch to update in case it exists.
+     */
+    where: UserBatchWhereUniqueInput
+    /**
+     * In case the UserBatch found by the `where` argument doesn't exist, create a new UserBatch with this data.
+     */
+    create: XOR<UserBatchCreateInput, UserBatchUncheckedCreateInput>
+    /**
+     * In case the UserBatch was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<UserBatchUpdateInput, UserBatchUncheckedUpdateInput>
+  }
+
+  /**
+   * UserBatch delete
+   */
+  export type UserBatchDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserBatch
+     */
+    select?: UserBatchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserBatch
+     */
+    omit?: UserBatchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserBatchInclude<ExtArgs> | null
+    /**
+     * Filter which UserBatch to delete.
+     */
+    where: UserBatchWhereUniqueInput
+  }
+
+  /**
+   * UserBatch deleteMany
+   */
+  export type UserBatchDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which UserBatches to delete
+     */
+    where?: UserBatchWhereInput
+    /**
+     * Limit how many UserBatches to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * UserBatch without action
+   */
+  export type UserBatchDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserBatch
+     */
+    select?: UserBatchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserBatch
+     */
+    omit?: UserBatchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserBatchInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model UserInventory
+   */
+
+  export type AggregateUserInventory = {
+    _count: UserInventoryCountAggregateOutputType | null
+    _avg: UserInventoryAvgAggregateOutputType | null
+    _sum: UserInventorySumAggregateOutputType | null
+    _min: UserInventoryMinAggregateOutputType | null
+    _max: UserInventoryMaxAggregateOutputType | null
+  }
+
+  export type UserInventoryAvgAggregateOutputType = {
+    quantity: Decimal | null
+  }
+
+  export type UserInventorySumAggregateOutputType = {
+    quantity: Decimal | null
+  }
+
+  export type UserInventoryMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    name: string | null
+    category: string | null
+    quantity: Decimal | null
+    unit: string | null
+    purchaseDate: string | null
+    expirationDate: string | null
+    notes: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type UserInventoryMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    name: string | null
+    category: string | null
+    quantity: Decimal | null
+    unit: string | null
+    purchaseDate: string | null
+    expirationDate: string | null
+    notes: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type UserInventoryCountAggregateOutputType = {
+    id: number
+    userId: number
+    name: number
+    category: number
+    quantity: number
+    unit: number
+    purchaseDate: number
+    expirationDate: number
+    notes: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type UserInventoryAvgAggregateInputType = {
+    quantity?: true
+  }
+
+  export type UserInventorySumAggregateInputType = {
+    quantity?: true
+  }
+
+  export type UserInventoryMinAggregateInputType = {
+    id?: true
+    userId?: true
+    name?: true
+    category?: true
+    quantity?: true
+    unit?: true
+    purchaseDate?: true
+    expirationDate?: true
+    notes?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type UserInventoryMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    name?: true
+    category?: true
+    quantity?: true
+    unit?: true
+    purchaseDate?: true
+    expirationDate?: true
+    notes?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type UserInventoryCountAggregateInputType = {
+    id?: true
+    userId?: true
+    name?: true
+    category?: true
+    quantity?: true
+    unit?: true
+    purchaseDate?: true
+    expirationDate?: true
+    notes?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type UserInventoryAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which UserInventory to aggregate.
+     */
+    where?: UserInventoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserInventories to fetch.
+     */
+    orderBy?: UserInventoryOrderByWithRelationInput | UserInventoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: UserInventoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserInventories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserInventories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned UserInventories
+    **/
+    _count?: true | UserInventoryCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: UserInventoryAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: UserInventorySumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: UserInventoryMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: UserInventoryMaxAggregateInputType
+  }
+
+  export type GetUserInventoryAggregateType<T extends UserInventoryAggregateArgs> = {
+        [P in keyof T & keyof AggregateUserInventory]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateUserInventory[P]>
+      : GetScalarType<T[P], AggregateUserInventory[P]>
+  }
+
+
+
+
+  export type UserInventoryGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserInventoryWhereInput
+    orderBy?: UserInventoryOrderByWithAggregationInput | UserInventoryOrderByWithAggregationInput[]
+    by: UserInventoryScalarFieldEnum[] | UserInventoryScalarFieldEnum
+    having?: UserInventoryScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: UserInventoryCountAggregateInputType | true
+    _avg?: UserInventoryAvgAggregateInputType
+    _sum?: UserInventorySumAggregateInputType
+    _min?: UserInventoryMinAggregateInputType
+    _max?: UserInventoryMaxAggregateInputType
+  }
+
+  export type UserInventoryGroupByOutputType = {
+    id: string
+    userId: string
+    name: string
+    category: string
+    quantity: Decimal
+    unit: string
+    purchaseDate: string | null
+    expirationDate: string | null
+    notes: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: UserInventoryCountAggregateOutputType | null
+    _avg: UserInventoryAvgAggregateOutputType | null
+    _sum: UserInventorySumAggregateOutputType | null
+    _min: UserInventoryMinAggregateOutputType | null
+    _max: UserInventoryMaxAggregateOutputType | null
+  }
+
+  type GetUserInventoryGroupByPayload<T extends UserInventoryGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<UserInventoryGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof UserInventoryGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], UserInventoryGroupByOutputType[P]>
+            : GetScalarType<T[P], UserInventoryGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type UserInventorySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    name?: boolean
+    category?: boolean
+    quantity?: boolean
+    unit?: boolean
+    purchaseDate?: boolean
+    expirationDate?: boolean
+    notes?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userInventory"]>
+
+  export type UserInventorySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    name?: boolean
+    category?: boolean
+    quantity?: boolean
+    unit?: boolean
+    purchaseDate?: boolean
+    expirationDate?: boolean
+    notes?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userInventory"]>
+
+  export type UserInventorySelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    name?: boolean
+    category?: boolean
+    quantity?: boolean
+    unit?: boolean
+    purchaseDate?: boolean
+    expirationDate?: boolean
+    notes?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userInventory"]>
+
+  export type UserInventorySelectScalar = {
+    id?: boolean
+    userId?: boolean
+    name?: boolean
+    category?: boolean
+    quantity?: boolean
+    unit?: boolean
+    purchaseDate?: boolean
+    expirationDate?: boolean
+    notes?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type UserInventoryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "name" | "category" | "quantity" | "unit" | "purchaseDate" | "expirationDate" | "notes" | "createdAt" | "updatedAt", ExtArgs["result"]["userInventory"]>
+  export type UserInventoryInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type UserInventoryIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type UserInventoryIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $UserInventoryPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "UserInventory"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      name: string
+      category: string
+      quantity: Prisma.Decimal
+      unit: string
+      purchaseDate: string | null
+      expirationDate: string | null
+      notes: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["userInventory"]>
+    composites: {}
+  }
+
+  type UserInventoryGetPayload<S extends boolean | null | undefined | UserInventoryDefaultArgs> = $Result.GetResult<Prisma.$UserInventoryPayload, S>
+
+  type UserInventoryCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<UserInventoryFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: UserInventoryCountAggregateInputType | true
+    }
+
+  export interface UserInventoryDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['UserInventory'], meta: { name: 'UserInventory' } }
+    /**
+     * Find zero or one UserInventory that matches the filter.
+     * @param {UserInventoryFindUniqueArgs} args - Arguments to find a UserInventory
+     * @example
+     * // Get one UserInventory
+     * const userInventory = await prisma.userInventory.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends UserInventoryFindUniqueArgs>(args: SelectSubset<T, UserInventoryFindUniqueArgs<ExtArgs>>): Prisma__UserInventoryClient<$Result.GetResult<Prisma.$UserInventoryPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one UserInventory that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {UserInventoryFindUniqueOrThrowArgs} args - Arguments to find a UserInventory
+     * @example
+     * // Get one UserInventory
+     * const userInventory = await prisma.userInventory.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends UserInventoryFindUniqueOrThrowArgs>(args: SelectSubset<T, UserInventoryFindUniqueOrThrowArgs<ExtArgs>>): Prisma__UserInventoryClient<$Result.GetResult<Prisma.$UserInventoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first UserInventory that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserInventoryFindFirstArgs} args - Arguments to find a UserInventory
+     * @example
+     * // Get one UserInventory
+     * const userInventory = await prisma.userInventory.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends UserInventoryFindFirstArgs>(args?: SelectSubset<T, UserInventoryFindFirstArgs<ExtArgs>>): Prisma__UserInventoryClient<$Result.GetResult<Prisma.$UserInventoryPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first UserInventory that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserInventoryFindFirstOrThrowArgs} args - Arguments to find a UserInventory
+     * @example
+     * // Get one UserInventory
+     * const userInventory = await prisma.userInventory.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends UserInventoryFindFirstOrThrowArgs>(args?: SelectSubset<T, UserInventoryFindFirstOrThrowArgs<ExtArgs>>): Prisma__UserInventoryClient<$Result.GetResult<Prisma.$UserInventoryPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more UserInventories that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserInventoryFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all UserInventories
+     * const userInventories = await prisma.userInventory.findMany()
+     * 
+     * // Get first 10 UserInventories
+     * const userInventories = await prisma.userInventory.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const userInventoryWithIdOnly = await prisma.userInventory.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends UserInventoryFindManyArgs>(args?: SelectSubset<T, UserInventoryFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserInventoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a UserInventory.
+     * @param {UserInventoryCreateArgs} args - Arguments to create a UserInventory.
+     * @example
+     * // Create one UserInventory
+     * const UserInventory = await prisma.userInventory.create({
+     *   data: {
+     *     // ... data to create a UserInventory
+     *   }
+     * })
+     * 
+     */
+    create<T extends UserInventoryCreateArgs>(args: SelectSubset<T, UserInventoryCreateArgs<ExtArgs>>): Prisma__UserInventoryClient<$Result.GetResult<Prisma.$UserInventoryPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many UserInventories.
+     * @param {UserInventoryCreateManyArgs} args - Arguments to create many UserInventories.
+     * @example
+     * // Create many UserInventories
+     * const userInventory = await prisma.userInventory.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends UserInventoryCreateManyArgs>(args?: SelectSubset<T, UserInventoryCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many UserInventories and returns the data saved in the database.
+     * @param {UserInventoryCreateManyAndReturnArgs} args - Arguments to create many UserInventories.
+     * @example
+     * // Create many UserInventories
+     * const userInventory = await prisma.userInventory.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many UserInventories and only return the `id`
+     * const userInventoryWithIdOnly = await prisma.userInventory.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends UserInventoryCreateManyAndReturnArgs>(args?: SelectSubset<T, UserInventoryCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserInventoryPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a UserInventory.
+     * @param {UserInventoryDeleteArgs} args - Arguments to delete one UserInventory.
+     * @example
+     * // Delete one UserInventory
+     * const UserInventory = await prisma.userInventory.delete({
+     *   where: {
+     *     // ... filter to delete one UserInventory
+     *   }
+     * })
+     * 
+     */
+    delete<T extends UserInventoryDeleteArgs>(args: SelectSubset<T, UserInventoryDeleteArgs<ExtArgs>>): Prisma__UserInventoryClient<$Result.GetResult<Prisma.$UserInventoryPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one UserInventory.
+     * @param {UserInventoryUpdateArgs} args - Arguments to update one UserInventory.
+     * @example
+     * // Update one UserInventory
+     * const userInventory = await prisma.userInventory.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends UserInventoryUpdateArgs>(args: SelectSubset<T, UserInventoryUpdateArgs<ExtArgs>>): Prisma__UserInventoryClient<$Result.GetResult<Prisma.$UserInventoryPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more UserInventories.
+     * @param {UserInventoryDeleteManyArgs} args - Arguments to filter UserInventories to delete.
+     * @example
+     * // Delete a few UserInventories
+     * const { count } = await prisma.userInventory.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends UserInventoryDeleteManyArgs>(args?: SelectSubset<T, UserInventoryDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more UserInventories.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserInventoryUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many UserInventories
+     * const userInventory = await prisma.userInventory.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends UserInventoryUpdateManyArgs>(args: SelectSubset<T, UserInventoryUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more UserInventories and returns the data updated in the database.
+     * @param {UserInventoryUpdateManyAndReturnArgs} args - Arguments to update many UserInventories.
+     * @example
+     * // Update many UserInventories
+     * const userInventory = await prisma.userInventory.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more UserInventories and only return the `id`
+     * const userInventoryWithIdOnly = await prisma.userInventory.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends UserInventoryUpdateManyAndReturnArgs>(args: SelectSubset<T, UserInventoryUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserInventoryPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one UserInventory.
+     * @param {UserInventoryUpsertArgs} args - Arguments to update or create a UserInventory.
+     * @example
+     * // Update or create a UserInventory
+     * const userInventory = await prisma.userInventory.upsert({
+     *   create: {
+     *     // ... data to create a UserInventory
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the UserInventory we want to update
+     *   }
+     * })
+     */
+    upsert<T extends UserInventoryUpsertArgs>(args: SelectSubset<T, UserInventoryUpsertArgs<ExtArgs>>): Prisma__UserInventoryClient<$Result.GetResult<Prisma.$UserInventoryPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of UserInventories.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserInventoryCountArgs} args - Arguments to filter UserInventories to count.
+     * @example
+     * // Count the number of UserInventories
+     * const count = await prisma.userInventory.count({
+     *   where: {
+     *     // ... the filter for the UserInventories we want to count
+     *   }
+     * })
+    **/
+    count<T extends UserInventoryCountArgs>(
+      args?: Subset<T, UserInventoryCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], UserInventoryCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a UserInventory.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserInventoryAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends UserInventoryAggregateArgs>(args: Subset<T, UserInventoryAggregateArgs>): Prisma.PrismaPromise<GetUserInventoryAggregateType<T>>
+
+    /**
+     * Group by UserInventory.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserInventoryGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends UserInventoryGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: UserInventoryGroupByArgs['orderBy'] }
+        : { orderBy?: UserInventoryGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, UserInventoryGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetUserInventoryGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the UserInventory model
+   */
+  readonly fields: UserInventoryFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for UserInventory.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__UserInventoryClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the UserInventory model
+   */
+  interface UserInventoryFieldRefs {
+    readonly id: FieldRef<"UserInventory", 'String'>
+    readonly userId: FieldRef<"UserInventory", 'String'>
+    readonly name: FieldRef<"UserInventory", 'String'>
+    readonly category: FieldRef<"UserInventory", 'String'>
+    readonly quantity: FieldRef<"UserInventory", 'Decimal'>
+    readonly unit: FieldRef<"UserInventory", 'String'>
+    readonly purchaseDate: FieldRef<"UserInventory", 'String'>
+    readonly expirationDate: FieldRef<"UserInventory", 'String'>
+    readonly notes: FieldRef<"UserInventory", 'String'>
+    readonly createdAt: FieldRef<"UserInventory", 'DateTime'>
+    readonly updatedAt: FieldRef<"UserInventory", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * UserInventory findUnique
+   */
+  export type UserInventoryFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserInventory
+     */
+    select?: UserInventorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserInventory
+     */
+    omit?: UserInventoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInventoryInclude<ExtArgs> | null
+    /**
+     * Filter, which UserInventory to fetch.
+     */
+    where: UserInventoryWhereUniqueInput
+  }
+
+  /**
+   * UserInventory findUniqueOrThrow
+   */
+  export type UserInventoryFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserInventory
+     */
+    select?: UserInventorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserInventory
+     */
+    omit?: UserInventoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInventoryInclude<ExtArgs> | null
+    /**
+     * Filter, which UserInventory to fetch.
+     */
+    where: UserInventoryWhereUniqueInput
+  }
+
+  /**
+   * UserInventory findFirst
+   */
+  export type UserInventoryFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserInventory
+     */
+    select?: UserInventorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserInventory
+     */
+    omit?: UserInventoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInventoryInclude<ExtArgs> | null
+    /**
+     * Filter, which UserInventory to fetch.
+     */
+    where?: UserInventoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserInventories to fetch.
+     */
+    orderBy?: UserInventoryOrderByWithRelationInput | UserInventoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UserInventories.
+     */
+    cursor?: UserInventoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserInventories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserInventories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserInventories.
+     */
+    distinct?: UserInventoryScalarFieldEnum | UserInventoryScalarFieldEnum[]
+  }
+
+  /**
+   * UserInventory findFirstOrThrow
+   */
+  export type UserInventoryFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserInventory
+     */
+    select?: UserInventorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserInventory
+     */
+    omit?: UserInventoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInventoryInclude<ExtArgs> | null
+    /**
+     * Filter, which UserInventory to fetch.
+     */
+    where?: UserInventoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserInventories to fetch.
+     */
+    orderBy?: UserInventoryOrderByWithRelationInput | UserInventoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UserInventories.
+     */
+    cursor?: UserInventoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserInventories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserInventories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserInventories.
+     */
+    distinct?: UserInventoryScalarFieldEnum | UserInventoryScalarFieldEnum[]
+  }
+
+  /**
+   * UserInventory findMany
+   */
+  export type UserInventoryFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserInventory
+     */
+    select?: UserInventorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserInventory
+     */
+    omit?: UserInventoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInventoryInclude<ExtArgs> | null
+    /**
+     * Filter, which UserInventories to fetch.
+     */
+    where?: UserInventoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserInventories to fetch.
+     */
+    orderBy?: UserInventoryOrderByWithRelationInput | UserInventoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing UserInventories.
+     */
+    cursor?: UserInventoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserInventories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserInventories.
+     */
+    skip?: number
+    distinct?: UserInventoryScalarFieldEnum | UserInventoryScalarFieldEnum[]
+  }
+
+  /**
+   * UserInventory create
+   */
+  export type UserInventoryCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserInventory
+     */
+    select?: UserInventorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserInventory
+     */
+    omit?: UserInventoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInventoryInclude<ExtArgs> | null
+    /**
+     * The data needed to create a UserInventory.
+     */
+    data: XOR<UserInventoryCreateInput, UserInventoryUncheckedCreateInput>
+  }
+
+  /**
+   * UserInventory createMany
+   */
+  export type UserInventoryCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many UserInventories.
+     */
+    data: UserInventoryCreateManyInput | UserInventoryCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * UserInventory createManyAndReturn
+   */
+  export type UserInventoryCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserInventory
+     */
+    select?: UserInventorySelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserInventory
+     */
+    omit?: UserInventoryOmit<ExtArgs> | null
+    /**
+     * The data used to create many UserInventories.
+     */
+    data: UserInventoryCreateManyInput | UserInventoryCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInventoryIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * UserInventory update
+   */
+  export type UserInventoryUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserInventory
+     */
+    select?: UserInventorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserInventory
+     */
+    omit?: UserInventoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInventoryInclude<ExtArgs> | null
+    /**
+     * The data needed to update a UserInventory.
+     */
+    data: XOR<UserInventoryUpdateInput, UserInventoryUncheckedUpdateInput>
+    /**
+     * Choose, which UserInventory to update.
+     */
+    where: UserInventoryWhereUniqueInput
+  }
+
+  /**
+   * UserInventory updateMany
+   */
+  export type UserInventoryUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update UserInventories.
+     */
+    data: XOR<UserInventoryUpdateManyMutationInput, UserInventoryUncheckedUpdateManyInput>
+    /**
+     * Filter which UserInventories to update
+     */
+    where?: UserInventoryWhereInput
+    /**
+     * Limit how many UserInventories to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * UserInventory updateManyAndReturn
+   */
+  export type UserInventoryUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserInventory
+     */
+    select?: UserInventorySelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserInventory
+     */
+    omit?: UserInventoryOmit<ExtArgs> | null
+    /**
+     * The data used to update UserInventories.
+     */
+    data: XOR<UserInventoryUpdateManyMutationInput, UserInventoryUncheckedUpdateManyInput>
+    /**
+     * Filter which UserInventories to update
+     */
+    where?: UserInventoryWhereInput
+    /**
+     * Limit how many UserInventories to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInventoryIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * UserInventory upsert
+   */
+  export type UserInventoryUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserInventory
+     */
+    select?: UserInventorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserInventory
+     */
+    omit?: UserInventoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInventoryInclude<ExtArgs> | null
+    /**
+     * The filter to search for the UserInventory to update in case it exists.
+     */
+    where: UserInventoryWhereUniqueInput
+    /**
+     * In case the UserInventory found by the `where` argument doesn't exist, create a new UserInventory with this data.
+     */
+    create: XOR<UserInventoryCreateInput, UserInventoryUncheckedCreateInput>
+    /**
+     * In case the UserInventory was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<UserInventoryUpdateInput, UserInventoryUncheckedUpdateInput>
+  }
+
+  /**
+   * UserInventory delete
+   */
+  export type UserInventoryDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserInventory
+     */
+    select?: UserInventorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserInventory
+     */
+    omit?: UserInventoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInventoryInclude<ExtArgs> | null
+    /**
+     * Filter which UserInventory to delete.
+     */
+    where: UserInventoryWhereUniqueInput
+  }
+
+  /**
+   * UserInventory deleteMany
+   */
+  export type UserInventoryDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which UserInventories to delete
+     */
+    where?: UserInventoryWhereInput
+    /**
+     * Limit how many UserInventories to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * UserInventory without action
+   */
+  export type UserInventoryDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserInventory
+     */
+    select?: UserInventorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserInventory
+     */
+    omit?: UserInventoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInventoryInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model UserRecipe
+   */
+
+  export type AggregateUserRecipe = {
+    _count: UserRecipeCountAggregateOutputType | null
+    _avg: UserRecipeAvgAggregateOutputType | null
+    _sum: UserRecipeSumAggregateOutputType | null
+    _min: UserRecipeMinAggregateOutputType | null
+    _max: UserRecipeMaxAggregateOutputType | null
+  }
+
+  export type UserRecipeAvgAggregateOutputType = {
+    batchSize: Decimal | null
+  }
+
+  export type UserRecipeSumAggregateOutputType = {
+    batchSize: Decimal | null
+  }
+
+  export type UserRecipeMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    name: string | null
+    style: string | null
+    batchSize: Decimal | null
+    notes: string | null
+    isPublic: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type UserRecipeMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    name: string | null
+    style: string | null
+    batchSize: Decimal | null
+    notes: string | null
+    isPublic: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type UserRecipeCountAggregateOutputType = {
+    id: number
+    userId: number
+    name: number
+    style: number
+    batchSize: number
+    recipeData: number
+    notes: number
+    isPublic: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type UserRecipeAvgAggregateInputType = {
+    batchSize?: true
+  }
+
+  export type UserRecipeSumAggregateInputType = {
+    batchSize?: true
+  }
+
+  export type UserRecipeMinAggregateInputType = {
+    id?: true
+    userId?: true
+    name?: true
+    style?: true
+    batchSize?: true
+    notes?: true
+    isPublic?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type UserRecipeMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    name?: true
+    style?: true
+    batchSize?: true
+    notes?: true
+    isPublic?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type UserRecipeCountAggregateInputType = {
+    id?: true
+    userId?: true
+    name?: true
+    style?: true
+    batchSize?: true
+    recipeData?: true
+    notes?: true
+    isPublic?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type UserRecipeAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which UserRecipe to aggregate.
+     */
+    where?: UserRecipeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserRecipes to fetch.
+     */
+    orderBy?: UserRecipeOrderByWithRelationInput | UserRecipeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: UserRecipeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserRecipes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserRecipes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned UserRecipes
+    **/
+    _count?: true | UserRecipeCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: UserRecipeAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: UserRecipeSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: UserRecipeMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: UserRecipeMaxAggregateInputType
+  }
+
+  export type GetUserRecipeAggregateType<T extends UserRecipeAggregateArgs> = {
+        [P in keyof T & keyof AggregateUserRecipe]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateUserRecipe[P]>
+      : GetScalarType<T[P], AggregateUserRecipe[P]>
+  }
+
+
+
+
+  export type UserRecipeGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserRecipeWhereInput
+    orderBy?: UserRecipeOrderByWithAggregationInput | UserRecipeOrderByWithAggregationInput[]
+    by: UserRecipeScalarFieldEnum[] | UserRecipeScalarFieldEnum
+    having?: UserRecipeScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: UserRecipeCountAggregateInputType | true
+    _avg?: UserRecipeAvgAggregateInputType
+    _sum?: UserRecipeSumAggregateInputType
+    _min?: UserRecipeMinAggregateInputType
+    _max?: UserRecipeMaxAggregateInputType
+  }
+
+  export type UserRecipeGroupByOutputType = {
+    id: string
+    userId: string
+    name: string
+    style: string | null
+    batchSize: Decimal | null
+    recipeData: JsonValue
+    notes: string | null
+    isPublic: boolean
+    createdAt: Date
+    updatedAt: Date
+    _count: UserRecipeCountAggregateOutputType | null
+    _avg: UserRecipeAvgAggregateOutputType | null
+    _sum: UserRecipeSumAggregateOutputType | null
+    _min: UserRecipeMinAggregateOutputType | null
+    _max: UserRecipeMaxAggregateOutputType | null
+  }
+
+  type GetUserRecipeGroupByPayload<T extends UserRecipeGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<UserRecipeGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof UserRecipeGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], UserRecipeGroupByOutputType[P]>
+            : GetScalarType<T[P], UserRecipeGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type UserRecipeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    name?: boolean
+    style?: boolean
+    batchSize?: boolean
+    recipeData?: boolean
+    notes?: boolean
+    isPublic?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userRecipe"]>
+
+  export type UserRecipeSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    name?: boolean
+    style?: boolean
+    batchSize?: boolean
+    recipeData?: boolean
+    notes?: boolean
+    isPublic?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userRecipe"]>
+
+  export type UserRecipeSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    name?: boolean
+    style?: boolean
+    batchSize?: boolean
+    recipeData?: boolean
+    notes?: boolean
+    isPublic?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userRecipe"]>
+
+  export type UserRecipeSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    name?: boolean
+    style?: boolean
+    batchSize?: boolean
+    recipeData?: boolean
+    notes?: boolean
+    isPublic?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type UserRecipeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "name" | "style" | "batchSize" | "recipeData" | "notes" | "isPublic" | "createdAt" | "updatedAt", ExtArgs["result"]["userRecipe"]>
+  export type UserRecipeInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type UserRecipeIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type UserRecipeIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $UserRecipePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "UserRecipe"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      name: string
+      style: string | null
+      batchSize: Prisma.Decimal | null
+      recipeData: Prisma.JsonValue
+      notes: string | null
+      isPublic: boolean
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["userRecipe"]>
+    composites: {}
+  }
+
+  type UserRecipeGetPayload<S extends boolean | null | undefined | UserRecipeDefaultArgs> = $Result.GetResult<Prisma.$UserRecipePayload, S>
+
+  type UserRecipeCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<UserRecipeFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: UserRecipeCountAggregateInputType | true
+    }
+
+  export interface UserRecipeDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['UserRecipe'], meta: { name: 'UserRecipe' } }
+    /**
+     * Find zero or one UserRecipe that matches the filter.
+     * @param {UserRecipeFindUniqueArgs} args - Arguments to find a UserRecipe
+     * @example
+     * // Get one UserRecipe
+     * const userRecipe = await prisma.userRecipe.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends UserRecipeFindUniqueArgs>(args: SelectSubset<T, UserRecipeFindUniqueArgs<ExtArgs>>): Prisma__UserRecipeClient<$Result.GetResult<Prisma.$UserRecipePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one UserRecipe that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {UserRecipeFindUniqueOrThrowArgs} args - Arguments to find a UserRecipe
+     * @example
+     * // Get one UserRecipe
+     * const userRecipe = await prisma.userRecipe.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends UserRecipeFindUniqueOrThrowArgs>(args: SelectSubset<T, UserRecipeFindUniqueOrThrowArgs<ExtArgs>>): Prisma__UserRecipeClient<$Result.GetResult<Prisma.$UserRecipePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first UserRecipe that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserRecipeFindFirstArgs} args - Arguments to find a UserRecipe
+     * @example
+     * // Get one UserRecipe
+     * const userRecipe = await prisma.userRecipe.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends UserRecipeFindFirstArgs>(args?: SelectSubset<T, UserRecipeFindFirstArgs<ExtArgs>>): Prisma__UserRecipeClient<$Result.GetResult<Prisma.$UserRecipePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first UserRecipe that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserRecipeFindFirstOrThrowArgs} args - Arguments to find a UserRecipe
+     * @example
+     * // Get one UserRecipe
+     * const userRecipe = await prisma.userRecipe.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends UserRecipeFindFirstOrThrowArgs>(args?: SelectSubset<T, UserRecipeFindFirstOrThrowArgs<ExtArgs>>): Prisma__UserRecipeClient<$Result.GetResult<Prisma.$UserRecipePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more UserRecipes that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserRecipeFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all UserRecipes
+     * const userRecipes = await prisma.userRecipe.findMany()
+     * 
+     * // Get first 10 UserRecipes
+     * const userRecipes = await prisma.userRecipe.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const userRecipeWithIdOnly = await prisma.userRecipe.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends UserRecipeFindManyArgs>(args?: SelectSubset<T, UserRecipeFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserRecipePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a UserRecipe.
+     * @param {UserRecipeCreateArgs} args - Arguments to create a UserRecipe.
+     * @example
+     * // Create one UserRecipe
+     * const UserRecipe = await prisma.userRecipe.create({
+     *   data: {
+     *     // ... data to create a UserRecipe
+     *   }
+     * })
+     * 
+     */
+    create<T extends UserRecipeCreateArgs>(args: SelectSubset<T, UserRecipeCreateArgs<ExtArgs>>): Prisma__UserRecipeClient<$Result.GetResult<Prisma.$UserRecipePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many UserRecipes.
+     * @param {UserRecipeCreateManyArgs} args - Arguments to create many UserRecipes.
+     * @example
+     * // Create many UserRecipes
+     * const userRecipe = await prisma.userRecipe.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends UserRecipeCreateManyArgs>(args?: SelectSubset<T, UserRecipeCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many UserRecipes and returns the data saved in the database.
+     * @param {UserRecipeCreateManyAndReturnArgs} args - Arguments to create many UserRecipes.
+     * @example
+     * // Create many UserRecipes
+     * const userRecipe = await prisma.userRecipe.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many UserRecipes and only return the `id`
+     * const userRecipeWithIdOnly = await prisma.userRecipe.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends UserRecipeCreateManyAndReturnArgs>(args?: SelectSubset<T, UserRecipeCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserRecipePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a UserRecipe.
+     * @param {UserRecipeDeleteArgs} args - Arguments to delete one UserRecipe.
+     * @example
+     * // Delete one UserRecipe
+     * const UserRecipe = await prisma.userRecipe.delete({
+     *   where: {
+     *     // ... filter to delete one UserRecipe
+     *   }
+     * })
+     * 
+     */
+    delete<T extends UserRecipeDeleteArgs>(args: SelectSubset<T, UserRecipeDeleteArgs<ExtArgs>>): Prisma__UserRecipeClient<$Result.GetResult<Prisma.$UserRecipePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one UserRecipe.
+     * @param {UserRecipeUpdateArgs} args - Arguments to update one UserRecipe.
+     * @example
+     * // Update one UserRecipe
+     * const userRecipe = await prisma.userRecipe.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends UserRecipeUpdateArgs>(args: SelectSubset<T, UserRecipeUpdateArgs<ExtArgs>>): Prisma__UserRecipeClient<$Result.GetResult<Prisma.$UserRecipePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more UserRecipes.
+     * @param {UserRecipeDeleteManyArgs} args - Arguments to filter UserRecipes to delete.
+     * @example
+     * // Delete a few UserRecipes
+     * const { count } = await prisma.userRecipe.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends UserRecipeDeleteManyArgs>(args?: SelectSubset<T, UserRecipeDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more UserRecipes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserRecipeUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many UserRecipes
+     * const userRecipe = await prisma.userRecipe.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends UserRecipeUpdateManyArgs>(args: SelectSubset<T, UserRecipeUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more UserRecipes and returns the data updated in the database.
+     * @param {UserRecipeUpdateManyAndReturnArgs} args - Arguments to update many UserRecipes.
+     * @example
+     * // Update many UserRecipes
+     * const userRecipe = await prisma.userRecipe.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more UserRecipes and only return the `id`
+     * const userRecipeWithIdOnly = await prisma.userRecipe.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends UserRecipeUpdateManyAndReturnArgs>(args: SelectSubset<T, UserRecipeUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserRecipePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one UserRecipe.
+     * @param {UserRecipeUpsertArgs} args - Arguments to update or create a UserRecipe.
+     * @example
+     * // Update or create a UserRecipe
+     * const userRecipe = await prisma.userRecipe.upsert({
+     *   create: {
+     *     // ... data to create a UserRecipe
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the UserRecipe we want to update
+     *   }
+     * })
+     */
+    upsert<T extends UserRecipeUpsertArgs>(args: SelectSubset<T, UserRecipeUpsertArgs<ExtArgs>>): Prisma__UserRecipeClient<$Result.GetResult<Prisma.$UserRecipePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of UserRecipes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserRecipeCountArgs} args - Arguments to filter UserRecipes to count.
+     * @example
+     * // Count the number of UserRecipes
+     * const count = await prisma.userRecipe.count({
+     *   where: {
+     *     // ... the filter for the UserRecipes we want to count
+     *   }
+     * })
+    **/
+    count<T extends UserRecipeCountArgs>(
+      args?: Subset<T, UserRecipeCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], UserRecipeCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a UserRecipe.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserRecipeAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends UserRecipeAggregateArgs>(args: Subset<T, UserRecipeAggregateArgs>): Prisma.PrismaPromise<GetUserRecipeAggregateType<T>>
+
+    /**
+     * Group by UserRecipe.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserRecipeGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends UserRecipeGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: UserRecipeGroupByArgs['orderBy'] }
+        : { orderBy?: UserRecipeGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, UserRecipeGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetUserRecipeGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the UserRecipe model
+   */
+  readonly fields: UserRecipeFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for UserRecipe.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__UserRecipeClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the UserRecipe model
+   */
+  interface UserRecipeFieldRefs {
+    readonly id: FieldRef<"UserRecipe", 'String'>
+    readonly userId: FieldRef<"UserRecipe", 'String'>
+    readonly name: FieldRef<"UserRecipe", 'String'>
+    readonly style: FieldRef<"UserRecipe", 'String'>
+    readonly batchSize: FieldRef<"UserRecipe", 'Decimal'>
+    readonly recipeData: FieldRef<"UserRecipe", 'Json'>
+    readonly notes: FieldRef<"UserRecipe", 'String'>
+    readonly isPublic: FieldRef<"UserRecipe", 'Boolean'>
+    readonly createdAt: FieldRef<"UserRecipe", 'DateTime'>
+    readonly updatedAt: FieldRef<"UserRecipe", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * UserRecipe findUnique
+   */
+  export type UserRecipeFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserRecipe
+     */
+    select?: UserRecipeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserRecipe
+     */
+    omit?: UserRecipeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserRecipeInclude<ExtArgs> | null
+    /**
+     * Filter, which UserRecipe to fetch.
+     */
+    where: UserRecipeWhereUniqueInput
+  }
+
+  /**
+   * UserRecipe findUniqueOrThrow
+   */
+  export type UserRecipeFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserRecipe
+     */
+    select?: UserRecipeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserRecipe
+     */
+    omit?: UserRecipeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserRecipeInclude<ExtArgs> | null
+    /**
+     * Filter, which UserRecipe to fetch.
+     */
+    where: UserRecipeWhereUniqueInput
+  }
+
+  /**
+   * UserRecipe findFirst
+   */
+  export type UserRecipeFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserRecipe
+     */
+    select?: UserRecipeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserRecipe
+     */
+    omit?: UserRecipeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserRecipeInclude<ExtArgs> | null
+    /**
+     * Filter, which UserRecipe to fetch.
+     */
+    where?: UserRecipeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserRecipes to fetch.
+     */
+    orderBy?: UserRecipeOrderByWithRelationInput | UserRecipeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UserRecipes.
+     */
+    cursor?: UserRecipeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserRecipes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserRecipes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserRecipes.
+     */
+    distinct?: UserRecipeScalarFieldEnum | UserRecipeScalarFieldEnum[]
+  }
+
+  /**
+   * UserRecipe findFirstOrThrow
+   */
+  export type UserRecipeFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserRecipe
+     */
+    select?: UserRecipeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserRecipe
+     */
+    omit?: UserRecipeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserRecipeInclude<ExtArgs> | null
+    /**
+     * Filter, which UserRecipe to fetch.
+     */
+    where?: UserRecipeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserRecipes to fetch.
+     */
+    orderBy?: UserRecipeOrderByWithRelationInput | UserRecipeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UserRecipes.
+     */
+    cursor?: UserRecipeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserRecipes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserRecipes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserRecipes.
+     */
+    distinct?: UserRecipeScalarFieldEnum | UserRecipeScalarFieldEnum[]
+  }
+
+  /**
+   * UserRecipe findMany
+   */
+  export type UserRecipeFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserRecipe
+     */
+    select?: UserRecipeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserRecipe
+     */
+    omit?: UserRecipeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserRecipeInclude<ExtArgs> | null
+    /**
+     * Filter, which UserRecipes to fetch.
+     */
+    where?: UserRecipeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserRecipes to fetch.
+     */
+    orderBy?: UserRecipeOrderByWithRelationInput | UserRecipeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing UserRecipes.
+     */
+    cursor?: UserRecipeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserRecipes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserRecipes.
+     */
+    skip?: number
+    distinct?: UserRecipeScalarFieldEnum | UserRecipeScalarFieldEnum[]
+  }
+
+  /**
+   * UserRecipe create
+   */
+  export type UserRecipeCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserRecipe
+     */
+    select?: UserRecipeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserRecipe
+     */
+    omit?: UserRecipeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserRecipeInclude<ExtArgs> | null
+    /**
+     * The data needed to create a UserRecipe.
+     */
+    data: XOR<UserRecipeCreateInput, UserRecipeUncheckedCreateInput>
+  }
+
+  /**
+   * UserRecipe createMany
+   */
+  export type UserRecipeCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many UserRecipes.
+     */
+    data: UserRecipeCreateManyInput | UserRecipeCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * UserRecipe createManyAndReturn
+   */
+  export type UserRecipeCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserRecipe
+     */
+    select?: UserRecipeSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserRecipe
+     */
+    omit?: UserRecipeOmit<ExtArgs> | null
+    /**
+     * The data used to create many UserRecipes.
+     */
+    data: UserRecipeCreateManyInput | UserRecipeCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserRecipeIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * UserRecipe update
+   */
+  export type UserRecipeUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserRecipe
+     */
+    select?: UserRecipeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserRecipe
+     */
+    omit?: UserRecipeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserRecipeInclude<ExtArgs> | null
+    /**
+     * The data needed to update a UserRecipe.
+     */
+    data: XOR<UserRecipeUpdateInput, UserRecipeUncheckedUpdateInput>
+    /**
+     * Choose, which UserRecipe to update.
+     */
+    where: UserRecipeWhereUniqueInput
+  }
+
+  /**
+   * UserRecipe updateMany
+   */
+  export type UserRecipeUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update UserRecipes.
+     */
+    data: XOR<UserRecipeUpdateManyMutationInput, UserRecipeUncheckedUpdateManyInput>
+    /**
+     * Filter which UserRecipes to update
+     */
+    where?: UserRecipeWhereInput
+    /**
+     * Limit how many UserRecipes to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * UserRecipe updateManyAndReturn
+   */
+  export type UserRecipeUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserRecipe
+     */
+    select?: UserRecipeSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserRecipe
+     */
+    omit?: UserRecipeOmit<ExtArgs> | null
+    /**
+     * The data used to update UserRecipes.
+     */
+    data: XOR<UserRecipeUpdateManyMutationInput, UserRecipeUncheckedUpdateManyInput>
+    /**
+     * Filter which UserRecipes to update
+     */
+    where?: UserRecipeWhereInput
+    /**
+     * Limit how many UserRecipes to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserRecipeIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * UserRecipe upsert
+   */
+  export type UserRecipeUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserRecipe
+     */
+    select?: UserRecipeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserRecipe
+     */
+    omit?: UserRecipeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserRecipeInclude<ExtArgs> | null
+    /**
+     * The filter to search for the UserRecipe to update in case it exists.
+     */
+    where: UserRecipeWhereUniqueInput
+    /**
+     * In case the UserRecipe found by the `where` argument doesn't exist, create a new UserRecipe with this data.
+     */
+    create: XOR<UserRecipeCreateInput, UserRecipeUncheckedCreateInput>
+    /**
+     * In case the UserRecipe was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<UserRecipeUpdateInput, UserRecipeUncheckedUpdateInput>
+  }
+
+  /**
+   * UserRecipe delete
+   */
+  export type UserRecipeDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserRecipe
+     */
+    select?: UserRecipeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserRecipe
+     */
+    omit?: UserRecipeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserRecipeInclude<ExtArgs> | null
+    /**
+     * Filter which UserRecipe to delete.
+     */
+    where: UserRecipeWhereUniqueInput
+  }
+
+  /**
+   * UserRecipe deleteMany
+   */
+  export type UserRecipeDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which UserRecipes to delete
+     */
+    where?: UserRecipeWhereInput
+    /**
+     * Limit how many UserRecipes to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * UserRecipe without action
+   */
+  export type UserRecipeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserRecipe
+     */
+    select?: UserRecipeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserRecipe
+     */
+    omit?: UserRecipeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserRecipeInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -12459,6 +16349,57 @@ export namespace Prisma {
   };
 
   export type UserSessionScalarFieldEnum = (typeof UserSessionScalarFieldEnum)[keyof typeof UserSessionScalarFieldEnum]
+
+
+  export const UserBatchScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    name: 'name',
+    style: 'style',
+    brewDate: 'brewDate',
+    status: 'status',
+    originalGravity: 'originalGravity',
+    finalGravity: 'finalGravity',
+    abv: 'abv',
+    notes: 'notes',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type UserBatchScalarFieldEnum = (typeof UserBatchScalarFieldEnum)[keyof typeof UserBatchScalarFieldEnum]
+
+
+  export const UserInventoryScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    name: 'name',
+    category: 'category',
+    quantity: 'quantity',
+    unit: 'unit',
+    purchaseDate: 'purchaseDate',
+    expirationDate: 'expirationDate',
+    notes: 'notes',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type UserInventoryScalarFieldEnum = (typeof UserInventoryScalarFieldEnum)[keyof typeof UserInventoryScalarFieldEnum]
+
+
+  export const UserRecipeScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    name: 'name',
+    style: 'style',
+    batchSize: 'batchSize',
+    recipeData: 'recipeData',
+    notes: 'notes',
+    isPublic: 'isPublic',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type UserRecipeScalarFieldEnum = (typeof UserRecipeScalarFieldEnum)[keyof typeof UserRecipeScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -13266,6 +17207,9 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     sessions?: UserSessionListRelationFilter
+    batches?: UserBatchListRelationFilter
+    inventory?: UserInventoryListRelationFilter
+    recipes?: UserRecipeListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -13282,6 +17226,9 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     sessions?: UserSessionOrderByRelationAggregateInput
+    batches?: UserBatchOrderByRelationAggregateInput
+    inventory?: UserInventoryOrderByRelationAggregateInput
+    recipes?: UserRecipeOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -13301,6 +17248,9 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     sessions?: UserSessionListRelationFilter
+    batches?: UserBatchListRelationFilter
+    inventory?: UserInventoryListRelationFilter
+    recipes?: UserRecipeListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -13394,6 +17344,267 @@ export namespace Prisma {
     sessionToken?: StringWithAggregatesFilter<"UserSession"> | string
     expiresAt?: DateTimeWithAggregatesFilter<"UserSession"> | Date | string
     createdAt?: DateTimeWithAggregatesFilter<"UserSession"> | Date | string
+  }
+
+  export type UserBatchWhereInput = {
+    AND?: UserBatchWhereInput | UserBatchWhereInput[]
+    OR?: UserBatchWhereInput[]
+    NOT?: UserBatchWhereInput | UserBatchWhereInput[]
+    id?: UuidFilter<"UserBatch"> | string
+    userId?: UuidFilter<"UserBatch"> | string
+    name?: StringFilter<"UserBatch"> | string
+    style?: StringFilter<"UserBatch"> | string
+    brewDate?: StringFilter<"UserBatch"> | string
+    status?: StringFilter<"UserBatch"> | string
+    originalGravity?: StringFilter<"UserBatch"> | string
+    finalGravity?: StringFilter<"UserBatch"> | string
+    abv?: DecimalFilter<"UserBatch"> | Decimal | DecimalJsLike | number | string
+    notes?: StringNullableFilter<"UserBatch"> | string | null
+    createdAt?: DateTimeFilter<"UserBatch"> | Date | string
+    updatedAt?: DateTimeFilter<"UserBatch"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type UserBatchOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    name?: SortOrder
+    style?: SortOrder
+    brewDate?: SortOrder
+    status?: SortOrder
+    originalGravity?: SortOrder
+    finalGravity?: SortOrder
+    abv?: SortOrder
+    notes?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type UserBatchWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: UserBatchWhereInput | UserBatchWhereInput[]
+    OR?: UserBatchWhereInput[]
+    NOT?: UserBatchWhereInput | UserBatchWhereInput[]
+    userId?: UuidFilter<"UserBatch"> | string
+    name?: StringFilter<"UserBatch"> | string
+    style?: StringFilter<"UserBatch"> | string
+    brewDate?: StringFilter<"UserBatch"> | string
+    status?: StringFilter<"UserBatch"> | string
+    originalGravity?: StringFilter<"UserBatch"> | string
+    finalGravity?: StringFilter<"UserBatch"> | string
+    abv?: DecimalFilter<"UserBatch"> | Decimal | DecimalJsLike | number | string
+    notes?: StringNullableFilter<"UserBatch"> | string | null
+    createdAt?: DateTimeFilter<"UserBatch"> | Date | string
+    updatedAt?: DateTimeFilter<"UserBatch"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type UserBatchOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    name?: SortOrder
+    style?: SortOrder
+    brewDate?: SortOrder
+    status?: SortOrder
+    originalGravity?: SortOrder
+    finalGravity?: SortOrder
+    abv?: SortOrder
+    notes?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: UserBatchCountOrderByAggregateInput
+    _avg?: UserBatchAvgOrderByAggregateInput
+    _max?: UserBatchMaxOrderByAggregateInput
+    _min?: UserBatchMinOrderByAggregateInput
+    _sum?: UserBatchSumOrderByAggregateInput
+  }
+
+  export type UserBatchScalarWhereWithAggregatesInput = {
+    AND?: UserBatchScalarWhereWithAggregatesInput | UserBatchScalarWhereWithAggregatesInput[]
+    OR?: UserBatchScalarWhereWithAggregatesInput[]
+    NOT?: UserBatchScalarWhereWithAggregatesInput | UserBatchScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"UserBatch"> | string
+    userId?: UuidWithAggregatesFilter<"UserBatch"> | string
+    name?: StringWithAggregatesFilter<"UserBatch"> | string
+    style?: StringWithAggregatesFilter<"UserBatch"> | string
+    brewDate?: StringWithAggregatesFilter<"UserBatch"> | string
+    status?: StringWithAggregatesFilter<"UserBatch"> | string
+    originalGravity?: StringWithAggregatesFilter<"UserBatch"> | string
+    finalGravity?: StringWithAggregatesFilter<"UserBatch"> | string
+    abv?: DecimalWithAggregatesFilter<"UserBatch"> | Decimal | DecimalJsLike | number | string
+    notes?: StringNullableWithAggregatesFilter<"UserBatch"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"UserBatch"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"UserBatch"> | Date | string
+  }
+
+  export type UserInventoryWhereInput = {
+    AND?: UserInventoryWhereInput | UserInventoryWhereInput[]
+    OR?: UserInventoryWhereInput[]
+    NOT?: UserInventoryWhereInput | UserInventoryWhereInput[]
+    id?: UuidFilter<"UserInventory"> | string
+    userId?: UuidFilter<"UserInventory"> | string
+    name?: StringFilter<"UserInventory"> | string
+    category?: StringFilter<"UserInventory"> | string
+    quantity?: DecimalFilter<"UserInventory"> | Decimal | DecimalJsLike | number | string
+    unit?: StringFilter<"UserInventory"> | string
+    purchaseDate?: StringNullableFilter<"UserInventory"> | string | null
+    expirationDate?: StringNullableFilter<"UserInventory"> | string | null
+    notes?: StringNullableFilter<"UserInventory"> | string | null
+    createdAt?: DateTimeFilter<"UserInventory"> | Date | string
+    updatedAt?: DateTimeFilter<"UserInventory"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type UserInventoryOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    name?: SortOrder
+    category?: SortOrder
+    quantity?: SortOrder
+    unit?: SortOrder
+    purchaseDate?: SortOrderInput | SortOrder
+    expirationDate?: SortOrderInput | SortOrder
+    notes?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type UserInventoryWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: UserInventoryWhereInput | UserInventoryWhereInput[]
+    OR?: UserInventoryWhereInput[]
+    NOT?: UserInventoryWhereInput | UserInventoryWhereInput[]
+    userId?: UuidFilter<"UserInventory"> | string
+    name?: StringFilter<"UserInventory"> | string
+    category?: StringFilter<"UserInventory"> | string
+    quantity?: DecimalFilter<"UserInventory"> | Decimal | DecimalJsLike | number | string
+    unit?: StringFilter<"UserInventory"> | string
+    purchaseDate?: StringNullableFilter<"UserInventory"> | string | null
+    expirationDate?: StringNullableFilter<"UserInventory"> | string | null
+    notes?: StringNullableFilter<"UserInventory"> | string | null
+    createdAt?: DateTimeFilter<"UserInventory"> | Date | string
+    updatedAt?: DateTimeFilter<"UserInventory"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type UserInventoryOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    name?: SortOrder
+    category?: SortOrder
+    quantity?: SortOrder
+    unit?: SortOrder
+    purchaseDate?: SortOrderInput | SortOrder
+    expirationDate?: SortOrderInput | SortOrder
+    notes?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: UserInventoryCountOrderByAggregateInput
+    _avg?: UserInventoryAvgOrderByAggregateInput
+    _max?: UserInventoryMaxOrderByAggregateInput
+    _min?: UserInventoryMinOrderByAggregateInput
+    _sum?: UserInventorySumOrderByAggregateInput
+  }
+
+  export type UserInventoryScalarWhereWithAggregatesInput = {
+    AND?: UserInventoryScalarWhereWithAggregatesInput | UserInventoryScalarWhereWithAggregatesInput[]
+    OR?: UserInventoryScalarWhereWithAggregatesInput[]
+    NOT?: UserInventoryScalarWhereWithAggregatesInput | UserInventoryScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"UserInventory"> | string
+    userId?: UuidWithAggregatesFilter<"UserInventory"> | string
+    name?: StringWithAggregatesFilter<"UserInventory"> | string
+    category?: StringWithAggregatesFilter<"UserInventory"> | string
+    quantity?: DecimalWithAggregatesFilter<"UserInventory"> | Decimal | DecimalJsLike | number | string
+    unit?: StringWithAggregatesFilter<"UserInventory"> | string
+    purchaseDate?: StringNullableWithAggregatesFilter<"UserInventory"> | string | null
+    expirationDate?: StringNullableWithAggregatesFilter<"UserInventory"> | string | null
+    notes?: StringNullableWithAggregatesFilter<"UserInventory"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"UserInventory"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"UserInventory"> | Date | string
+  }
+
+  export type UserRecipeWhereInput = {
+    AND?: UserRecipeWhereInput | UserRecipeWhereInput[]
+    OR?: UserRecipeWhereInput[]
+    NOT?: UserRecipeWhereInput | UserRecipeWhereInput[]
+    id?: UuidFilter<"UserRecipe"> | string
+    userId?: UuidFilter<"UserRecipe"> | string
+    name?: StringFilter<"UserRecipe"> | string
+    style?: StringNullableFilter<"UserRecipe"> | string | null
+    batchSize?: DecimalNullableFilter<"UserRecipe"> | Decimal | DecimalJsLike | number | string | null
+    recipeData?: JsonFilter<"UserRecipe">
+    notes?: StringNullableFilter<"UserRecipe"> | string | null
+    isPublic?: BoolFilter<"UserRecipe"> | boolean
+    createdAt?: DateTimeFilter<"UserRecipe"> | Date | string
+    updatedAt?: DateTimeFilter<"UserRecipe"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type UserRecipeOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    name?: SortOrder
+    style?: SortOrderInput | SortOrder
+    batchSize?: SortOrderInput | SortOrder
+    recipeData?: SortOrder
+    notes?: SortOrderInput | SortOrder
+    isPublic?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type UserRecipeWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: UserRecipeWhereInput | UserRecipeWhereInput[]
+    OR?: UserRecipeWhereInput[]
+    NOT?: UserRecipeWhereInput | UserRecipeWhereInput[]
+    userId?: UuidFilter<"UserRecipe"> | string
+    name?: StringFilter<"UserRecipe"> | string
+    style?: StringNullableFilter<"UserRecipe"> | string | null
+    batchSize?: DecimalNullableFilter<"UserRecipe"> | Decimal | DecimalJsLike | number | string | null
+    recipeData?: JsonFilter<"UserRecipe">
+    notes?: StringNullableFilter<"UserRecipe"> | string | null
+    isPublic?: BoolFilter<"UserRecipe"> | boolean
+    createdAt?: DateTimeFilter<"UserRecipe"> | Date | string
+    updatedAt?: DateTimeFilter<"UserRecipe"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type UserRecipeOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    name?: SortOrder
+    style?: SortOrderInput | SortOrder
+    batchSize?: SortOrderInput | SortOrder
+    recipeData?: SortOrder
+    notes?: SortOrderInput | SortOrder
+    isPublic?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: UserRecipeCountOrderByAggregateInput
+    _avg?: UserRecipeAvgOrderByAggregateInput
+    _max?: UserRecipeMaxOrderByAggregateInput
+    _min?: UserRecipeMinOrderByAggregateInput
+    _sum?: UserRecipeSumOrderByAggregateInput
+  }
+
+  export type UserRecipeScalarWhereWithAggregatesInput = {
+    AND?: UserRecipeScalarWhereWithAggregatesInput | UserRecipeScalarWhereWithAggregatesInput[]
+    OR?: UserRecipeScalarWhereWithAggregatesInput[]
+    NOT?: UserRecipeScalarWhereWithAggregatesInput | UserRecipeScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"UserRecipe"> | string
+    userId?: UuidWithAggregatesFilter<"UserRecipe"> | string
+    name?: StringWithAggregatesFilter<"UserRecipe"> | string
+    style?: StringNullableWithAggregatesFilter<"UserRecipe"> | string | null
+    batchSize?: DecimalNullableWithAggregatesFilter<"UserRecipe"> | Decimal | DecimalJsLike | number | string | null
+    recipeData?: JsonWithAggregatesFilter<"UserRecipe">
+    notes?: StringNullableWithAggregatesFilter<"UserRecipe"> | string | null
+    isPublic?: BoolWithAggregatesFilter<"UserRecipe"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"UserRecipe"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"UserRecipe"> | Date | string
   }
 
   export type ProductCreateInput = {
@@ -14146,6 +18357,9 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     sessions?: UserSessionCreateNestedManyWithoutUserInput
+    batches?: UserBatchCreateNestedManyWithoutUserInput
+    inventory?: UserInventoryCreateNestedManyWithoutUserInput
+    recipes?: UserRecipeCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -14162,6 +18376,9 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     sessions?: UserSessionUncheckedCreateNestedManyWithoutUserInput
+    batches?: UserBatchUncheckedCreateNestedManyWithoutUserInput
+    inventory?: UserInventoryUncheckedCreateNestedManyWithoutUserInput
+    recipes?: UserRecipeUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -14178,6 +18395,9 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: UserSessionUpdateManyWithoutUserNestedInput
+    batches?: UserBatchUpdateManyWithoutUserNestedInput
+    inventory?: UserInventoryUpdateManyWithoutUserNestedInput
+    recipes?: UserRecipeUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -14194,6 +18414,9 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: UserSessionUncheckedUpdateManyWithoutUserNestedInput
+    batches?: UserBatchUncheckedUpdateManyWithoutUserNestedInput
+    inventory?: UserInventoryUncheckedUpdateManyWithoutUserNestedInput
+    recipes?: UserRecipeUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -14294,6 +18517,297 @@ export namespace Prisma {
     sessionToken?: StringFieldUpdateOperationsInput | string
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserBatchCreateInput = {
+    id?: string
+    name: string
+    style: string
+    brewDate: string
+    status: string
+    originalGravity: string
+    finalGravity: string
+    abv: Decimal | DecimalJsLike | number | string
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutBatchesInput
+  }
+
+  export type UserBatchUncheckedCreateInput = {
+    id?: string
+    userId: string
+    name: string
+    style: string
+    brewDate: string
+    status: string
+    originalGravity: string
+    finalGravity: string
+    abv: Decimal | DecimalJsLike | number | string
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UserBatchUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    style?: StringFieldUpdateOperationsInput | string
+    brewDate?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    originalGravity?: StringFieldUpdateOperationsInput | string
+    finalGravity?: StringFieldUpdateOperationsInput | string
+    abv?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutBatchesNestedInput
+  }
+
+  export type UserBatchUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    style?: StringFieldUpdateOperationsInput | string
+    brewDate?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    originalGravity?: StringFieldUpdateOperationsInput | string
+    finalGravity?: StringFieldUpdateOperationsInput | string
+    abv?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserBatchCreateManyInput = {
+    id?: string
+    userId: string
+    name: string
+    style: string
+    brewDate: string
+    status: string
+    originalGravity: string
+    finalGravity: string
+    abv: Decimal | DecimalJsLike | number | string
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UserBatchUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    style?: StringFieldUpdateOperationsInput | string
+    brewDate?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    originalGravity?: StringFieldUpdateOperationsInput | string
+    finalGravity?: StringFieldUpdateOperationsInput | string
+    abv?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserBatchUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    style?: StringFieldUpdateOperationsInput | string
+    brewDate?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    originalGravity?: StringFieldUpdateOperationsInput | string
+    finalGravity?: StringFieldUpdateOperationsInput | string
+    abv?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserInventoryCreateInput = {
+    id?: string
+    name: string
+    category: string
+    quantity: Decimal | DecimalJsLike | number | string
+    unit: string
+    purchaseDate?: string | null
+    expirationDate?: string | null
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutInventoryInput
+  }
+
+  export type UserInventoryUncheckedCreateInput = {
+    id?: string
+    userId: string
+    name: string
+    category: string
+    quantity: Decimal | DecimalJsLike | number | string
+    unit: string
+    purchaseDate?: string | null
+    expirationDate?: string | null
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UserInventoryUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    unit?: StringFieldUpdateOperationsInput | string
+    purchaseDate?: NullableStringFieldUpdateOperationsInput | string | null
+    expirationDate?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutInventoryNestedInput
+  }
+
+  export type UserInventoryUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    unit?: StringFieldUpdateOperationsInput | string
+    purchaseDate?: NullableStringFieldUpdateOperationsInput | string | null
+    expirationDate?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserInventoryCreateManyInput = {
+    id?: string
+    userId: string
+    name: string
+    category: string
+    quantity: Decimal | DecimalJsLike | number | string
+    unit: string
+    purchaseDate?: string | null
+    expirationDate?: string | null
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UserInventoryUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    unit?: StringFieldUpdateOperationsInput | string
+    purchaseDate?: NullableStringFieldUpdateOperationsInput | string | null
+    expirationDate?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserInventoryUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    unit?: StringFieldUpdateOperationsInput | string
+    purchaseDate?: NullableStringFieldUpdateOperationsInput | string | null
+    expirationDate?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserRecipeCreateInput = {
+    id?: string
+    name: string
+    style?: string | null
+    batchSize?: Decimal | DecimalJsLike | number | string | null
+    recipeData?: JsonNullValueInput | InputJsonValue
+    notes?: string | null
+    isPublic?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutRecipesInput
+  }
+
+  export type UserRecipeUncheckedCreateInput = {
+    id?: string
+    userId: string
+    name: string
+    style?: string | null
+    batchSize?: Decimal | DecimalJsLike | number | string | null
+    recipeData?: JsonNullValueInput | InputJsonValue
+    notes?: string | null
+    isPublic?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UserRecipeUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    style?: NullableStringFieldUpdateOperationsInput | string | null
+    batchSize?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    recipeData?: JsonNullValueInput | InputJsonValue
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    isPublic?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutRecipesNestedInput
+  }
+
+  export type UserRecipeUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    style?: NullableStringFieldUpdateOperationsInput | string | null
+    batchSize?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    recipeData?: JsonNullValueInput | InputJsonValue
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    isPublic?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserRecipeCreateManyInput = {
+    id?: string
+    userId: string
+    name: string
+    style?: string | null
+    batchSize?: Decimal | DecimalJsLike | number | string | null
+    recipeData?: JsonNullValueInput | InputJsonValue
+    notes?: string | null
+    isPublic?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UserRecipeUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    style?: NullableStringFieldUpdateOperationsInput | string | null
+    batchSize?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    recipeData?: JsonNullValueInput | InputJsonValue
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    isPublic?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserRecipeUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    style?: NullableStringFieldUpdateOperationsInput | string | null
+    batchSize?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    recipeData?: JsonNullValueInput | InputJsonValue
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    isPublic?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type UuidFilter<$PrismaModel = never> = {
@@ -15128,7 +19642,37 @@ export namespace Prisma {
     none?: UserSessionWhereInput
   }
 
+  export type UserBatchListRelationFilter = {
+    every?: UserBatchWhereInput
+    some?: UserBatchWhereInput
+    none?: UserBatchWhereInput
+  }
+
+  export type UserInventoryListRelationFilter = {
+    every?: UserInventoryWhereInput
+    some?: UserInventoryWhereInput
+    none?: UserInventoryWhereInput
+  }
+
+  export type UserRecipeListRelationFilter = {
+    every?: UserRecipeWhereInput
+    some?: UserRecipeWhereInput
+    none?: UserRecipeWhereInput
+  }
+
   export type UserSessionOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type UserBatchOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type UserInventoryOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type UserRecipeOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -15212,6 +19756,154 @@ export namespace Prisma {
     sessionToken?: SortOrder
     expiresAt?: SortOrder
     createdAt?: SortOrder
+  }
+
+  export type UserBatchCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    name?: SortOrder
+    style?: SortOrder
+    brewDate?: SortOrder
+    status?: SortOrder
+    originalGravity?: SortOrder
+    finalGravity?: SortOrder
+    abv?: SortOrder
+    notes?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type UserBatchAvgOrderByAggregateInput = {
+    abv?: SortOrder
+  }
+
+  export type UserBatchMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    name?: SortOrder
+    style?: SortOrder
+    brewDate?: SortOrder
+    status?: SortOrder
+    originalGravity?: SortOrder
+    finalGravity?: SortOrder
+    abv?: SortOrder
+    notes?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type UserBatchMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    name?: SortOrder
+    style?: SortOrder
+    brewDate?: SortOrder
+    status?: SortOrder
+    originalGravity?: SortOrder
+    finalGravity?: SortOrder
+    abv?: SortOrder
+    notes?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type UserBatchSumOrderByAggregateInput = {
+    abv?: SortOrder
+  }
+
+  export type UserInventoryCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    name?: SortOrder
+    category?: SortOrder
+    quantity?: SortOrder
+    unit?: SortOrder
+    purchaseDate?: SortOrder
+    expirationDate?: SortOrder
+    notes?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type UserInventoryAvgOrderByAggregateInput = {
+    quantity?: SortOrder
+  }
+
+  export type UserInventoryMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    name?: SortOrder
+    category?: SortOrder
+    quantity?: SortOrder
+    unit?: SortOrder
+    purchaseDate?: SortOrder
+    expirationDate?: SortOrder
+    notes?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type UserInventoryMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    name?: SortOrder
+    category?: SortOrder
+    quantity?: SortOrder
+    unit?: SortOrder
+    purchaseDate?: SortOrder
+    expirationDate?: SortOrder
+    notes?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type UserInventorySumOrderByAggregateInput = {
+    quantity?: SortOrder
+  }
+
+  export type UserRecipeCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    name?: SortOrder
+    style?: SortOrder
+    batchSize?: SortOrder
+    recipeData?: SortOrder
+    notes?: SortOrder
+    isPublic?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type UserRecipeAvgOrderByAggregateInput = {
+    batchSize?: SortOrder
+  }
+
+  export type UserRecipeMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    name?: SortOrder
+    style?: SortOrder
+    batchSize?: SortOrder
+    notes?: SortOrder
+    isPublic?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type UserRecipeMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    name?: SortOrder
+    style?: SortOrder
+    batchSize?: SortOrder
+    notes?: SortOrder
+    isPublic?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type UserRecipeSumOrderByAggregateInput = {
+    batchSize?: SortOrder
   }
 
   export type InventoryAlertCreateNestedManyWithoutProductInput = {
@@ -15555,11 +20247,53 @@ export namespace Prisma {
     connect?: UserSessionWhereUniqueInput | UserSessionWhereUniqueInput[]
   }
 
+  export type UserBatchCreateNestedManyWithoutUserInput = {
+    create?: XOR<UserBatchCreateWithoutUserInput, UserBatchUncheckedCreateWithoutUserInput> | UserBatchCreateWithoutUserInput[] | UserBatchUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserBatchCreateOrConnectWithoutUserInput | UserBatchCreateOrConnectWithoutUserInput[]
+    createMany?: UserBatchCreateManyUserInputEnvelope
+    connect?: UserBatchWhereUniqueInput | UserBatchWhereUniqueInput[]
+  }
+
+  export type UserInventoryCreateNestedManyWithoutUserInput = {
+    create?: XOR<UserInventoryCreateWithoutUserInput, UserInventoryUncheckedCreateWithoutUserInput> | UserInventoryCreateWithoutUserInput[] | UserInventoryUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserInventoryCreateOrConnectWithoutUserInput | UserInventoryCreateOrConnectWithoutUserInput[]
+    createMany?: UserInventoryCreateManyUserInputEnvelope
+    connect?: UserInventoryWhereUniqueInput | UserInventoryWhereUniqueInput[]
+  }
+
+  export type UserRecipeCreateNestedManyWithoutUserInput = {
+    create?: XOR<UserRecipeCreateWithoutUserInput, UserRecipeUncheckedCreateWithoutUserInput> | UserRecipeCreateWithoutUserInput[] | UserRecipeUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserRecipeCreateOrConnectWithoutUserInput | UserRecipeCreateOrConnectWithoutUserInput[]
+    createMany?: UserRecipeCreateManyUserInputEnvelope
+    connect?: UserRecipeWhereUniqueInput | UserRecipeWhereUniqueInput[]
+  }
+
   export type UserSessionUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<UserSessionCreateWithoutUserInput, UserSessionUncheckedCreateWithoutUserInput> | UserSessionCreateWithoutUserInput[] | UserSessionUncheckedCreateWithoutUserInput[]
     connectOrCreate?: UserSessionCreateOrConnectWithoutUserInput | UserSessionCreateOrConnectWithoutUserInput[]
     createMany?: UserSessionCreateManyUserInputEnvelope
     connect?: UserSessionWhereUniqueInput | UserSessionWhereUniqueInput[]
+  }
+
+  export type UserBatchUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<UserBatchCreateWithoutUserInput, UserBatchUncheckedCreateWithoutUserInput> | UserBatchCreateWithoutUserInput[] | UserBatchUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserBatchCreateOrConnectWithoutUserInput | UserBatchCreateOrConnectWithoutUserInput[]
+    createMany?: UserBatchCreateManyUserInputEnvelope
+    connect?: UserBatchWhereUniqueInput | UserBatchWhereUniqueInput[]
+  }
+
+  export type UserInventoryUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<UserInventoryCreateWithoutUserInput, UserInventoryUncheckedCreateWithoutUserInput> | UserInventoryCreateWithoutUserInput[] | UserInventoryUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserInventoryCreateOrConnectWithoutUserInput | UserInventoryCreateOrConnectWithoutUserInput[]
+    createMany?: UserInventoryCreateManyUserInputEnvelope
+    connect?: UserInventoryWhereUniqueInput | UserInventoryWhereUniqueInput[]
+  }
+
+  export type UserRecipeUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<UserRecipeCreateWithoutUserInput, UserRecipeUncheckedCreateWithoutUserInput> | UserRecipeCreateWithoutUserInput[] | UserRecipeUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserRecipeCreateOrConnectWithoutUserInput | UserRecipeCreateOrConnectWithoutUserInput[]
+    createMany?: UserRecipeCreateManyUserInputEnvelope
+    connect?: UserRecipeWhereUniqueInput | UserRecipeWhereUniqueInput[]
   }
 
   export type UserSessionUpdateManyWithoutUserNestedInput = {
@@ -15576,6 +20310,48 @@ export namespace Prisma {
     deleteMany?: UserSessionScalarWhereInput | UserSessionScalarWhereInput[]
   }
 
+  export type UserBatchUpdateManyWithoutUserNestedInput = {
+    create?: XOR<UserBatchCreateWithoutUserInput, UserBatchUncheckedCreateWithoutUserInput> | UserBatchCreateWithoutUserInput[] | UserBatchUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserBatchCreateOrConnectWithoutUserInput | UserBatchCreateOrConnectWithoutUserInput[]
+    upsert?: UserBatchUpsertWithWhereUniqueWithoutUserInput | UserBatchUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: UserBatchCreateManyUserInputEnvelope
+    set?: UserBatchWhereUniqueInput | UserBatchWhereUniqueInput[]
+    disconnect?: UserBatchWhereUniqueInput | UserBatchWhereUniqueInput[]
+    delete?: UserBatchWhereUniqueInput | UserBatchWhereUniqueInput[]
+    connect?: UserBatchWhereUniqueInput | UserBatchWhereUniqueInput[]
+    update?: UserBatchUpdateWithWhereUniqueWithoutUserInput | UserBatchUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: UserBatchUpdateManyWithWhereWithoutUserInput | UserBatchUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: UserBatchScalarWhereInput | UserBatchScalarWhereInput[]
+  }
+
+  export type UserInventoryUpdateManyWithoutUserNestedInput = {
+    create?: XOR<UserInventoryCreateWithoutUserInput, UserInventoryUncheckedCreateWithoutUserInput> | UserInventoryCreateWithoutUserInput[] | UserInventoryUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserInventoryCreateOrConnectWithoutUserInput | UserInventoryCreateOrConnectWithoutUserInput[]
+    upsert?: UserInventoryUpsertWithWhereUniqueWithoutUserInput | UserInventoryUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: UserInventoryCreateManyUserInputEnvelope
+    set?: UserInventoryWhereUniqueInput | UserInventoryWhereUniqueInput[]
+    disconnect?: UserInventoryWhereUniqueInput | UserInventoryWhereUniqueInput[]
+    delete?: UserInventoryWhereUniqueInput | UserInventoryWhereUniqueInput[]
+    connect?: UserInventoryWhereUniqueInput | UserInventoryWhereUniqueInput[]
+    update?: UserInventoryUpdateWithWhereUniqueWithoutUserInput | UserInventoryUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: UserInventoryUpdateManyWithWhereWithoutUserInput | UserInventoryUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: UserInventoryScalarWhereInput | UserInventoryScalarWhereInput[]
+  }
+
+  export type UserRecipeUpdateManyWithoutUserNestedInput = {
+    create?: XOR<UserRecipeCreateWithoutUserInput, UserRecipeUncheckedCreateWithoutUserInput> | UserRecipeCreateWithoutUserInput[] | UserRecipeUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserRecipeCreateOrConnectWithoutUserInput | UserRecipeCreateOrConnectWithoutUserInput[]
+    upsert?: UserRecipeUpsertWithWhereUniqueWithoutUserInput | UserRecipeUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: UserRecipeCreateManyUserInputEnvelope
+    set?: UserRecipeWhereUniqueInput | UserRecipeWhereUniqueInput[]
+    disconnect?: UserRecipeWhereUniqueInput | UserRecipeWhereUniqueInput[]
+    delete?: UserRecipeWhereUniqueInput | UserRecipeWhereUniqueInput[]
+    connect?: UserRecipeWhereUniqueInput | UserRecipeWhereUniqueInput[]
+    update?: UserRecipeUpdateWithWhereUniqueWithoutUserInput | UserRecipeUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: UserRecipeUpdateManyWithWhereWithoutUserInput | UserRecipeUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: UserRecipeScalarWhereInput | UserRecipeScalarWhereInput[]
+  }
+
   export type UserSessionUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<UserSessionCreateWithoutUserInput, UserSessionUncheckedCreateWithoutUserInput> | UserSessionCreateWithoutUserInput[] | UserSessionUncheckedCreateWithoutUserInput[]
     connectOrCreate?: UserSessionCreateOrConnectWithoutUserInput | UserSessionCreateOrConnectWithoutUserInput[]
@@ -15590,6 +20366,48 @@ export namespace Prisma {
     deleteMany?: UserSessionScalarWhereInput | UserSessionScalarWhereInput[]
   }
 
+  export type UserBatchUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<UserBatchCreateWithoutUserInput, UserBatchUncheckedCreateWithoutUserInput> | UserBatchCreateWithoutUserInput[] | UserBatchUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserBatchCreateOrConnectWithoutUserInput | UserBatchCreateOrConnectWithoutUserInput[]
+    upsert?: UserBatchUpsertWithWhereUniqueWithoutUserInput | UserBatchUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: UserBatchCreateManyUserInputEnvelope
+    set?: UserBatchWhereUniqueInput | UserBatchWhereUniqueInput[]
+    disconnect?: UserBatchWhereUniqueInput | UserBatchWhereUniqueInput[]
+    delete?: UserBatchWhereUniqueInput | UserBatchWhereUniqueInput[]
+    connect?: UserBatchWhereUniqueInput | UserBatchWhereUniqueInput[]
+    update?: UserBatchUpdateWithWhereUniqueWithoutUserInput | UserBatchUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: UserBatchUpdateManyWithWhereWithoutUserInput | UserBatchUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: UserBatchScalarWhereInput | UserBatchScalarWhereInput[]
+  }
+
+  export type UserInventoryUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<UserInventoryCreateWithoutUserInput, UserInventoryUncheckedCreateWithoutUserInput> | UserInventoryCreateWithoutUserInput[] | UserInventoryUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserInventoryCreateOrConnectWithoutUserInput | UserInventoryCreateOrConnectWithoutUserInput[]
+    upsert?: UserInventoryUpsertWithWhereUniqueWithoutUserInput | UserInventoryUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: UserInventoryCreateManyUserInputEnvelope
+    set?: UserInventoryWhereUniqueInput | UserInventoryWhereUniqueInput[]
+    disconnect?: UserInventoryWhereUniqueInput | UserInventoryWhereUniqueInput[]
+    delete?: UserInventoryWhereUniqueInput | UserInventoryWhereUniqueInput[]
+    connect?: UserInventoryWhereUniqueInput | UserInventoryWhereUniqueInput[]
+    update?: UserInventoryUpdateWithWhereUniqueWithoutUserInput | UserInventoryUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: UserInventoryUpdateManyWithWhereWithoutUserInput | UserInventoryUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: UserInventoryScalarWhereInput | UserInventoryScalarWhereInput[]
+  }
+
+  export type UserRecipeUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<UserRecipeCreateWithoutUserInput, UserRecipeUncheckedCreateWithoutUserInput> | UserRecipeCreateWithoutUserInput[] | UserRecipeUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserRecipeCreateOrConnectWithoutUserInput | UserRecipeCreateOrConnectWithoutUserInput[]
+    upsert?: UserRecipeUpsertWithWhereUniqueWithoutUserInput | UserRecipeUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: UserRecipeCreateManyUserInputEnvelope
+    set?: UserRecipeWhereUniqueInput | UserRecipeWhereUniqueInput[]
+    disconnect?: UserRecipeWhereUniqueInput | UserRecipeWhereUniqueInput[]
+    delete?: UserRecipeWhereUniqueInput | UserRecipeWhereUniqueInput[]
+    connect?: UserRecipeWhereUniqueInput | UserRecipeWhereUniqueInput[]
+    update?: UserRecipeUpdateWithWhereUniqueWithoutUserInput | UserRecipeUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: UserRecipeUpdateManyWithWhereWithoutUserInput | UserRecipeUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: UserRecipeScalarWhereInput | UserRecipeScalarWhereInput[]
+  }
+
   export type UserCreateNestedOneWithoutSessionsInput = {
     create?: XOR<UserCreateWithoutSessionsInput, UserUncheckedCreateWithoutSessionsInput>
     connectOrCreate?: UserCreateOrConnectWithoutSessionsInput
@@ -15602,6 +20420,48 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutSessionsInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutSessionsInput, UserUpdateWithoutSessionsInput>, UserUncheckedUpdateWithoutSessionsInput>
+  }
+
+  export type UserCreateNestedOneWithoutBatchesInput = {
+    create?: XOR<UserCreateWithoutBatchesInput, UserUncheckedCreateWithoutBatchesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutBatchesInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutBatchesNestedInput = {
+    create?: XOR<UserCreateWithoutBatchesInput, UserUncheckedCreateWithoutBatchesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutBatchesInput
+    upsert?: UserUpsertWithoutBatchesInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutBatchesInput, UserUpdateWithoutBatchesInput>, UserUncheckedUpdateWithoutBatchesInput>
+  }
+
+  export type UserCreateNestedOneWithoutInventoryInput = {
+    create?: XOR<UserCreateWithoutInventoryInput, UserUncheckedCreateWithoutInventoryInput>
+    connectOrCreate?: UserCreateOrConnectWithoutInventoryInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutInventoryNestedInput = {
+    create?: XOR<UserCreateWithoutInventoryInput, UserUncheckedCreateWithoutInventoryInput>
+    connectOrCreate?: UserCreateOrConnectWithoutInventoryInput
+    upsert?: UserUpsertWithoutInventoryInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutInventoryInput, UserUpdateWithoutInventoryInput>, UserUncheckedUpdateWithoutInventoryInput>
+  }
+
+  export type UserCreateNestedOneWithoutRecipesInput = {
+    create?: XOR<UserCreateWithoutRecipesInput, UserUncheckedCreateWithoutRecipesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutRecipesInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutRecipesNestedInput = {
+    create?: XOR<UserCreateWithoutRecipesInput, UserUncheckedCreateWithoutRecipesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutRecipesInput
+    upsert?: UserUpsertWithoutRecipesInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutRecipesInput, UserUpdateWithoutRecipesInput>, UserUncheckedUpdateWithoutRecipesInput>
   }
 
   export type NestedUuidFilter<$PrismaModel = never> = {
@@ -16769,6 +21629,114 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type UserBatchCreateWithoutUserInput = {
+    id?: string
+    name: string
+    style: string
+    brewDate: string
+    status: string
+    originalGravity: string
+    finalGravity: string
+    abv: Decimal | DecimalJsLike | number | string
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UserBatchUncheckedCreateWithoutUserInput = {
+    id?: string
+    name: string
+    style: string
+    brewDate: string
+    status: string
+    originalGravity: string
+    finalGravity: string
+    abv: Decimal | DecimalJsLike | number | string
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UserBatchCreateOrConnectWithoutUserInput = {
+    where: UserBatchWhereUniqueInput
+    create: XOR<UserBatchCreateWithoutUserInput, UserBatchUncheckedCreateWithoutUserInput>
+  }
+
+  export type UserBatchCreateManyUserInputEnvelope = {
+    data: UserBatchCreateManyUserInput | UserBatchCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type UserInventoryCreateWithoutUserInput = {
+    id?: string
+    name: string
+    category: string
+    quantity: Decimal | DecimalJsLike | number | string
+    unit: string
+    purchaseDate?: string | null
+    expirationDate?: string | null
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UserInventoryUncheckedCreateWithoutUserInput = {
+    id?: string
+    name: string
+    category: string
+    quantity: Decimal | DecimalJsLike | number | string
+    unit: string
+    purchaseDate?: string | null
+    expirationDate?: string | null
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UserInventoryCreateOrConnectWithoutUserInput = {
+    where: UserInventoryWhereUniqueInput
+    create: XOR<UserInventoryCreateWithoutUserInput, UserInventoryUncheckedCreateWithoutUserInput>
+  }
+
+  export type UserInventoryCreateManyUserInputEnvelope = {
+    data: UserInventoryCreateManyUserInput | UserInventoryCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type UserRecipeCreateWithoutUserInput = {
+    id?: string
+    name: string
+    style?: string | null
+    batchSize?: Decimal | DecimalJsLike | number | string | null
+    recipeData?: JsonNullValueInput | InputJsonValue
+    notes?: string | null
+    isPublic?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UserRecipeUncheckedCreateWithoutUserInput = {
+    id?: string
+    name: string
+    style?: string | null
+    batchSize?: Decimal | DecimalJsLike | number | string | null
+    recipeData?: JsonNullValueInput | InputJsonValue
+    notes?: string | null
+    isPublic?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UserRecipeCreateOrConnectWithoutUserInput = {
+    where: UserRecipeWhereUniqueInput
+    create: XOR<UserRecipeCreateWithoutUserInput, UserRecipeUncheckedCreateWithoutUserInput>
+  }
+
+  export type UserRecipeCreateManyUserInputEnvelope = {
+    data: UserRecipeCreateManyUserInput | UserRecipeCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UserSessionUpsertWithWhereUniqueWithoutUserInput = {
     where: UserSessionWhereUniqueInput
     update: XOR<UserSessionUpdateWithoutUserInput, UserSessionUncheckedUpdateWithoutUserInput>
@@ -16796,6 +21764,105 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"UserSession"> | Date | string
   }
 
+  export type UserBatchUpsertWithWhereUniqueWithoutUserInput = {
+    where: UserBatchWhereUniqueInput
+    update: XOR<UserBatchUpdateWithoutUserInput, UserBatchUncheckedUpdateWithoutUserInput>
+    create: XOR<UserBatchCreateWithoutUserInput, UserBatchUncheckedCreateWithoutUserInput>
+  }
+
+  export type UserBatchUpdateWithWhereUniqueWithoutUserInput = {
+    where: UserBatchWhereUniqueInput
+    data: XOR<UserBatchUpdateWithoutUserInput, UserBatchUncheckedUpdateWithoutUserInput>
+  }
+
+  export type UserBatchUpdateManyWithWhereWithoutUserInput = {
+    where: UserBatchScalarWhereInput
+    data: XOR<UserBatchUpdateManyMutationInput, UserBatchUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type UserBatchScalarWhereInput = {
+    AND?: UserBatchScalarWhereInput | UserBatchScalarWhereInput[]
+    OR?: UserBatchScalarWhereInput[]
+    NOT?: UserBatchScalarWhereInput | UserBatchScalarWhereInput[]
+    id?: UuidFilter<"UserBatch"> | string
+    userId?: UuidFilter<"UserBatch"> | string
+    name?: StringFilter<"UserBatch"> | string
+    style?: StringFilter<"UserBatch"> | string
+    brewDate?: StringFilter<"UserBatch"> | string
+    status?: StringFilter<"UserBatch"> | string
+    originalGravity?: StringFilter<"UserBatch"> | string
+    finalGravity?: StringFilter<"UserBatch"> | string
+    abv?: DecimalFilter<"UserBatch"> | Decimal | DecimalJsLike | number | string
+    notes?: StringNullableFilter<"UserBatch"> | string | null
+    createdAt?: DateTimeFilter<"UserBatch"> | Date | string
+    updatedAt?: DateTimeFilter<"UserBatch"> | Date | string
+  }
+
+  export type UserInventoryUpsertWithWhereUniqueWithoutUserInput = {
+    where: UserInventoryWhereUniqueInput
+    update: XOR<UserInventoryUpdateWithoutUserInput, UserInventoryUncheckedUpdateWithoutUserInput>
+    create: XOR<UserInventoryCreateWithoutUserInput, UserInventoryUncheckedCreateWithoutUserInput>
+  }
+
+  export type UserInventoryUpdateWithWhereUniqueWithoutUserInput = {
+    where: UserInventoryWhereUniqueInput
+    data: XOR<UserInventoryUpdateWithoutUserInput, UserInventoryUncheckedUpdateWithoutUserInput>
+  }
+
+  export type UserInventoryUpdateManyWithWhereWithoutUserInput = {
+    where: UserInventoryScalarWhereInput
+    data: XOR<UserInventoryUpdateManyMutationInput, UserInventoryUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type UserInventoryScalarWhereInput = {
+    AND?: UserInventoryScalarWhereInput | UserInventoryScalarWhereInput[]
+    OR?: UserInventoryScalarWhereInput[]
+    NOT?: UserInventoryScalarWhereInput | UserInventoryScalarWhereInput[]
+    id?: UuidFilter<"UserInventory"> | string
+    userId?: UuidFilter<"UserInventory"> | string
+    name?: StringFilter<"UserInventory"> | string
+    category?: StringFilter<"UserInventory"> | string
+    quantity?: DecimalFilter<"UserInventory"> | Decimal | DecimalJsLike | number | string
+    unit?: StringFilter<"UserInventory"> | string
+    purchaseDate?: StringNullableFilter<"UserInventory"> | string | null
+    expirationDate?: StringNullableFilter<"UserInventory"> | string | null
+    notes?: StringNullableFilter<"UserInventory"> | string | null
+    createdAt?: DateTimeFilter<"UserInventory"> | Date | string
+    updatedAt?: DateTimeFilter<"UserInventory"> | Date | string
+  }
+
+  export type UserRecipeUpsertWithWhereUniqueWithoutUserInput = {
+    where: UserRecipeWhereUniqueInput
+    update: XOR<UserRecipeUpdateWithoutUserInput, UserRecipeUncheckedUpdateWithoutUserInput>
+    create: XOR<UserRecipeCreateWithoutUserInput, UserRecipeUncheckedCreateWithoutUserInput>
+  }
+
+  export type UserRecipeUpdateWithWhereUniqueWithoutUserInput = {
+    where: UserRecipeWhereUniqueInput
+    data: XOR<UserRecipeUpdateWithoutUserInput, UserRecipeUncheckedUpdateWithoutUserInput>
+  }
+
+  export type UserRecipeUpdateManyWithWhereWithoutUserInput = {
+    where: UserRecipeScalarWhereInput
+    data: XOR<UserRecipeUpdateManyMutationInput, UserRecipeUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type UserRecipeScalarWhereInput = {
+    AND?: UserRecipeScalarWhereInput | UserRecipeScalarWhereInput[]
+    OR?: UserRecipeScalarWhereInput[]
+    NOT?: UserRecipeScalarWhereInput | UserRecipeScalarWhereInput[]
+    id?: UuidFilter<"UserRecipe"> | string
+    userId?: UuidFilter<"UserRecipe"> | string
+    name?: StringFilter<"UserRecipe"> | string
+    style?: StringNullableFilter<"UserRecipe"> | string | null
+    batchSize?: DecimalNullableFilter<"UserRecipe"> | Decimal | DecimalJsLike | number | string | null
+    recipeData?: JsonFilter<"UserRecipe">
+    notes?: StringNullableFilter<"UserRecipe"> | string | null
+    isPublic?: BoolFilter<"UserRecipe"> | boolean
+    createdAt?: DateTimeFilter<"UserRecipe"> | Date | string
+    updatedAt?: DateTimeFilter<"UserRecipe"> | Date | string
+  }
+
   export type UserCreateWithoutSessionsInput = {
     id?: string
     email: string
@@ -16809,6 +21876,9 @@ export namespace Prisma {
     loyaltyPoints?: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    batches?: UserBatchCreateNestedManyWithoutUserInput
+    inventory?: UserInventoryCreateNestedManyWithoutUserInput
+    recipes?: UserRecipeCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSessionsInput = {
@@ -16824,6 +21894,9 @@ export namespace Prisma {
     loyaltyPoints?: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    batches?: UserBatchUncheckedCreateNestedManyWithoutUserInput
+    inventory?: UserInventoryUncheckedCreateNestedManyWithoutUserInput
+    recipes?: UserRecipeUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSessionsInput = {
@@ -16855,6 +21928,9 @@ export namespace Prisma {
     loyaltyPoints?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    batches?: UserBatchUpdateManyWithoutUserNestedInput
+    inventory?: UserInventoryUpdateManyWithoutUserNestedInput
+    recipes?: UserRecipeUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -16870,6 +21946,273 @@ export namespace Prisma {
     loyaltyPoints?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    batches?: UserBatchUncheckedUpdateManyWithoutUserNestedInput
+    inventory?: UserInventoryUncheckedUpdateManyWithoutUserNestedInput
+    recipes?: UserRecipeUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutBatchesInput = {
+    id?: string
+    email: string
+    passwordHash: string
+    firstName: string
+    lastName: string
+    phone?: string | null
+    isActive?: boolean
+    subscriptionTier?: string
+    subscriptionExpiresAt?: Date | string | null
+    loyaltyPoints?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    sessions?: UserSessionCreateNestedManyWithoutUserInput
+    inventory?: UserInventoryCreateNestedManyWithoutUserInput
+    recipes?: UserRecipeCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutBatchesInput = {
+    id?: string
+    email: string
+    passwordHash: string
+    firstName: string
+    lastName: string
+    phone?: string | null
+    isActive?: boolean
+    subscriptionTier?: string
+    subscriptionExpiresAt?: Date | string | null
+    loyaltyPoints?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    sessions?: UserSessionUncheckedCreateNestedManyWithoutUserInput
+    inventory?: UserInventoryUncheckedCreateNestedManyWithoutUserInput
+    recipes?: UserRecipeUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutBatchesInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutBatchesInput, UserUncheckedCreateWithoutBatchesInput>
+  }
+
+  export type UserUpsertWithoutBatchesInput = {
+    update: XOR<UserUpdateWithoutBatchesInput, UserUncheckedUpdateWithoutBatchesInput>
+    create: XOR<UserCreateWithoutBatchesInput, UserUncheckedCreateWithoutBatchesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutBatchesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutBatchesInput, UserUncheckedUpdateWithoutBatchesInput>
+  }
+
+  export type UserUpdateWithoutBatchesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    subscriptionTier?: StringFieldUpdateOperationsInput | string
+    subscriptionExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    loyaltyPoints?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sessions?: UserSessionUpdateManyWithoutUserNestedInput
+    inventory?: UserInventoryUpdateManyWithoutUserNestedInput
+    recipes?: UserRecipeUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutBatchesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    subscriptionTier?: StringFieldUpdateOperationsInput | string
+    subscriptionExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    loyaltyPoints?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sessions?: UserSessionUncheckedUpdateManyWithoutUserNestedInput
+    inventory?: UserInventoryUncheckedUpdateManyWithoutUserNestedInput
+    recipes?: UserRecipeUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutInventoryInput = {
+    id?: string
+    email: string
+    passwordHash: string
+    firstName: string
+    lastName: string
+    phone?: string | null
+    isActive?: boolean
+    subscriptionTier?: string
+    subscriptionExpiresAt?: Date | string | null
+    loyaltyPoints?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    sessions?: UserSessionCreateNestedManyWithoutUserInput
+    batches?: UserBatchCreateNestedManyWithoutUserInput
+    recipes?: UserRecipeCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutInventoryInput = {
+    id?: string
+    email: string
+    passwordHash: string
+    firstName: string
+    lastName: string
+    phone?: string | null
+    isActive?: boolean
+    subscriptionTier?: string
+    subscriptionExpiresAt?: Date | string | null
+    loyaltyPoints?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    sessions?: UserSessionUncheckedCreateNestedManyWithoutUserInput
+    batches?: UserBatchUncheckedCreateNestedManyWithoutUserInput
+    recipes?: UserRecipeUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutInventoryInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutInventoryInput, UserUncheckedCreateWithoutInventoryInput>
+  }
+
+  export type UserUpsertWithoutInventoryInput = {
+    update: XOR<UserUpdateWithoutInventoryInput, UserUncheckedUpdateWithoutInventoryInput>
+    create: XOR<UserCreateWithoutInventoryInput, UserUncheckedCreateWithoutInventoryInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutInventoryInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutInventoryInput, UserUncheckedUpdateWithoutInventoryInput>
+  }
+
+  export type UserUpdateWithoutInventoryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    subscriptionTier?: StringFieldUpdateOperationsInput | string
+    subscriptionExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    loyaltyPoints?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sessions?: UserSessionUpdateManyWithoutUserNestedInput
+    batches?: UserBatchUpdateManyWithoutUserNestedInput
+    recipes?: UserRecipeUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutInventoryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    subscriptionTier?: StringFieldUpdateOperationsInput | string
+    subscriptionExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    loyaltyPoints?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sessions?: UserSessionUncheckedUpdateManyWithoutUserNestedInput
+    batches?: UserBatchUncheckedUpdateManyWithoutUserNestedInput
+    recipes?: UserRecipeUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutRecipesInput = {
+    id?: string
+    email: string
+    passwordHash: string
+    firstName: string
+    lastName: string
+    phone?: string | null
+    isActive?: boolean
+    subscriptionTier?: string
+    subscriptionExpiresAt?: Date | string | null
+    loyaltyPoints?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    sessions?: UserSessionCreateNestedManyWithoutUserInput
+    batches?: UserBatchCreateNestedManyWithoutUserInput
+    inventory?: UserInventoryCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutRecipesInput = {
+    id?: string
+    email: string
+    passwordHash: string
+    firstName: string
+    lastName: string
+    phone?: string | null
+    isActive?: boolean
+    subscriptionTier?: string
+    subscriptionExpiresAt?: Date | string | null
+    loyaltyPoints?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    sessions?: UserSessionUncheckedCreateNestedManyWithoutUserInput
+    batches?: UserBatchUncheckedCreateNestedManyWithoutUserInput
+    inventory?: UserInventoryUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutRecipesInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutRecipesInput, UserUncheckedCreateWithoutRecipesInput>
+  }
+
+  export type UserUpsertWithoutRecipesInput = {
+    update: XOR<UserUpdateWithoutRecipesInput, UserUncheckedUpdateWithoutRecipesInput>
+    create: XOR<UserCreateWithoutRecipesInput, UserUncheckedCreateWithoutRecipesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutRecipesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutRecipesInput, UserUncheckedUpdateWithoutRecipesInput>
+  }
+
+  export type UserUpdateWithoutRecipesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    subscriptionTier?: StringFieldUpdateOperationsInput | string
+    subscriptionExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    loyaltyPoints?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sessions?: UserSessionUpdateManyWithoutUserNestedInput
+    batches?: UserBatchUpdateManyWithoutUserNestedInput
+    inventory?: UserInventoryUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutRecipesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    subscriptionTier?: StringFieldUpdateOperationsInput | string
+    subscriptionExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    loyaltyPoints?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sessions?: UserSessionUncheckedUpdateManyWithoutUserNestedInput
+    batches?: UserBatchUncheckedUpdateManyWithoutUserNestedInput
+    inventory?: UserInventoryUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type InventoryAlertCreateManyProductInput = {
@@ -17079,6 +22422,45 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
+  export type UserBatchCreateManyUserInput = {
+    id?: string
+    name: string
+    style: string
+    brewDate: string
+    status: string
+    originalGravity: string
+    finalGravity: string
+    abv: Decimal | DecimalJsLike | number | string
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UserInventoryCreateManyUserInput = {
+    id?: string
+    name: string
+    category: string
+    quantity: Decimal | DecimalJsLike | number | string
+    unit: string
+    purchaseDate?: string | null
+    expirationDate?: string | null
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UserRecipeCreateManyUserInput = {
+    id?: string
+    name: string
+    style?: string | null
+    batchSize?: Decimal | DecimalJsLike | number | string | null
+    recipeData?: JsonNullValueInput | InputJsonValue
+    notes?: string | null
+    isPublic?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type UserSessionUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     sessionToken?: StringFieldUpdateOperationsInput | string
@@ -17098,6 +22480,123 @@ export namespace Prisma {
     sessionToken?: StringFieldUpdateOperationsInput | string
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserBatchUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    style?: StringFieldUpdateOperationsInput | string
+    brewDate?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    originalGravity?: StringFieldUpdateOperationsInput | string
+    finalGravity?: StringFieldUpdateOperationsInput | string
+    abv?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserBatchUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    style?: StringFieldUpdateOperationsInput | string
+    brewDate?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    originalGravity?: StringFieldUpdateOperationsInput | string
+    finalGravity?: StringFieldUpdateOperationsInput | string
+    abv?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserBatchUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    style?: StringFieldUpdateOperationsInput | string
+    brewDate?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    originalGravity?: StringFieldUpdateOperationsInput | string
+    finalGravity?: StringFieldUpdateOperationsInput | string
+    abv?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserInventoryUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    unit?: StringFieldUpdateOperationsInput | string
+    purchaseDate?: NullableStringFieldUpdateOperationsInput | string | null
+    expirationDate?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserInventoryUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    unit?: StringFieldUpdateOperationsInput | string
+    purchaseDate?: NullableStringFieldUpdateOperationsInput | string | null
+    expirationDate?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserInventoryUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    unit?: StringFieldUpdateOperationsInput | string
+    purchaseDate?: NullableStringFieldUpdateOperationsInput | string | null
+    expirationDate?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserRecipeUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    style?: NullableStringFieldUpdateOperationsInput | string | null
+    batchSize?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    recipeData?: JsonNullValueInput | InputJsonValue
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    isPublic?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserRecipeUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    style?: NullableStringFieldUpdateOperationsInput | string | null
+    batchSize?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    recipeData?: JsonNullValueInput | InputJsonValue
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    isPublic?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserRecipeUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    style?: NullableStringFieldUpdateOperationsInput | string | null
+    batchSize?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    recipeData?: JsonNullValueInput | InputJsonValue
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    isPublic?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 
