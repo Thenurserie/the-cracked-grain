@@ -5,7 +5,9 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Plus, Edit2, Trash2, Calendar, Beaker, X } from 'lucide-react';
+import { Plus, Edit2, Trash2, Calendar, Beaker, X, LogIn, Loader2, AlertCircle } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
+import Link from 'next/link';
 
 interface Batch {
   id: string;
@@ -31,9 +33,13 @@ const STATUS_COLORS = {
 };
 
 export default function BrewBatches() {
+  const { isLoggedIn, isLoading: authLoading } = useAuth();
   const [batches, setBatches] = useState<Batch[]>([]);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [editingBatch, setEditingBatch] = useState<Batch | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [error, setError] = useState('');
   const [formData, setFormData] = useState({
     name: '',
     style: '',
@@ -44,18 +50,121 @@ export default function BrewBatches() {
     notes: ''
   });
 
-  // Load batches from localStorage
+  // Load batches on mount
   useEffect(() => {
-    const stored = localStorage.getItem('brewBatches');
-    if (stored) {
-      setBatches(JSON.parse(stored));
-    }
-  }, []);
+    if (authLoading) return;
+    loadBatches();
+  }, [isLoggedIn, authLoading]);
 
-  // Save batches to localStorage
-  const saveBatches = (newBatches: Batch[]) => {
-    setBatches(newBatches);
-    localStorage.setItem('brewBatches', JSON.stringify(newBatches));
+  // Load batches from API or localStorage
+  const loadBatches = async () => {
+    if (isLoggedIn) {
+      // Load from API
+      setIsLoading(true);
+      try {
+        const response = await fetch('/api/user/batches');
+        const data = await response.json();
+        if (data.success && data.batches) {
+          setBatches(data.batches);
+        }
+      } catch (error) {
+        console.error('Failed to load batches:', error);
+        setError('Failed to load batches');
+      } finally {
+        setIsLoading(false);
+      }
+    } else {
+      // Load from localStorage (guest mode)
+      const stored = localStorage.getItem('brewBatches');
+      if (stored) {
+        setBatches(JSON.parse(stored));
+      }
+    }
+  };
+
+  // Save batch to API or localStorage
+  const saveBatch = async (batchData: Partial<Batch>, id?: string) => {
+    setIsSaving(true);
+    setError('');
+
+    try {
+      if (isLoggedIn) {
+        // Save to API
+        const url = id ? `/api/user/batches/${id}` : '/api/user/batches';
+        const method = id ? 'PUT' : 'POST';
+
+        const response = await fetch(url, {
+          method,
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(batchData),
+        });
+
+        const data = await response.json();
+
+        if (!data.success) {
+          throw new Error(data.error || 'Failed to save batch');
+        }
+
+        // Reload batches from API
+        await loadBatches();
+      } else {
+        // Save to localStorage (guest mode)
+        if (id) {
+          const updatedBatches = batches.map(batch =>
+            batch.id === id ? { ...batch, ...batchData } : batch
+          );
+          setBatches(updatedBatches);
+          localStorage.setItem('brewBatches', JSON.stringify(updatedBatches));
+        } else {
+          const newBatch: Batch = {
+            id: Date.now().toString(),
+            ...(batchData as Omit<Batch, 'id'>),
+            createdAt: new Date().toISOString()
+          };
+          const newBatches = [newBatch, ...batches];
+          setBatches(newBatches);
+          localStorage.setItem('brewBatches', JSON.stringify(newBatches));
+        }
+      }
+    } catch (error: any) {
+      console.error('Save batch error:', error);
+      setError(error.message || 'Failed to save batch');
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  // Delete batch from API or localStorage
+  const deleteBatchData = async (id: string) => {
+    if (!confirm('Are you sure you want to delete this batch?')) return;
+
+    setError('');
+
+    try {
+      if (isLoggedIn) {
+        // Delete from API
+        const response = await fetch(`/api/user/batches/${id}`, {
+          method: 'DELETE',
+        });
+
+        const data = await response.json();
+
+        if (!data.success) {
+          throw new Error(data.error || 'Failed to delete batch');
+        }
+
+        // Reload batches from API
+        await loadBatches();
+      } else {
+        // Delete from localStorage (guest mode)
+        const newBatches = batches.filter(batch => batch.id !== id);
+        setBatches(newBatches);
+        localStorage.setItem('brewBatches', JSON.stringify(newBatches));
+      }
+    } catch (error: any) {
+      console.error('Delete batch error:', error);
+      setError(error.message || 'Failed to delete batch');
+    }
   };
 
   // Calculate ABV from OG and FG
@@ -66,30 +175,17 @@ export default function BrewBatches() {
     return parseFloat(((ogNum - fgNum) * 131.25).toFixed(2));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     const abv = calculateABV(formData.originalGravity, formData.finalGravity);
 
-    if (editingBatch) {
-      // Update existing batch
-      const updatedBatches = batches.map(batch =>
-        batch.id === editingBatch.id
-          ? { ...batch, ...formData, abv }
-          : batch
-      );
-      saveBatches(updatedBatches);
-    } else {
-      // Create new batch
-      const newBatch: Batch = {
-        id: Date.now().toString(),
-        ...formData,
-        abv,
-        createdAt: new Date().toISOString()
-      };
-      saveBatches([newBatch, ...batches]);
-    }
+    const batchData = {
+      ...formData,
+      abv,
+    };
 
+    await saveBatch(batchData, editingBatch?.id);
     closeForm();
   };
 
@@ -123,21 +219,46 @@ export default function BrewBatches() {
     });
   };
 
-  const deleteBatch = (id: string) => {
-    if (confirm('Are you sure you want to delete this batch?')) {
-      saveBatches(batches.filter(batch => batch.id !== id));
-    }
-  };
-
   const currentABV = calculateABV(formData.originalGravity, formData.finalGravity);
 
   return (
     <div className="space-y-6">
+      {/* Guest Sign-in Banner */}
+      {!isLoggedIn && !authLoading && (
+        <Card className="bg-gradient-to-r from-amber/20 to-gold/20 border-amber/40">
+          <CardContent className="flex items-center justify-between py-4">
+            <div className="flex items-center gap-3">
+              <LogIn className="h-5 w-5 text-gold" />
+              <div>
+                <p className="text-sm font-medium text-cream">Sign in to save your batches permanently</p>
+                <p className="text-xs text-cream/70">Currently using guest mode - data stored locally</p>
+              </div>
+            </div>
+            <Link href="/login">
+              <Button className="bg-amber hover:bg-gold text-white">
+                Sign In
+              </Button>
+            </Link>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Error Message */}
+      {error && (
+        <Card className="bg-red-500/10 border-red-500/50">
+          <CardContent className="flex items-center gap-2 py-3">
+            <AlertCircle className="h-5 w-5 text-red-500" />
+            <p className="text-sm text-red-500">{error}</p>
+          </CardContent>
+        </Card>
+      )}
+
       <div className="flex justify-between items-center">
         <h2 className="text-2xl font-bold text-cream">Brew Batches</h2>
         <Button
           onClick={() => openForm()}
           className="bg-amber hover:bg-gold text-white"
+          disabled={isSaving}
         >
           <Plus className="h-4 w-4 mr-2" />
           New Batch
@@ -255,10 +376,17 @@ export default function BrewBatches() {
                 </div>
 
                 <div className="flex gap-3 pt-4">
-                  <Button type="submit" className="flex-1 bg-amber hover:bg-gold text-white">
-                    {editingBatch ? 'Update Batch' : 'Create Batch'}
+                  <Button type="submit" className="flex-1 bg-amber hover:bg-gold text-white" disabled={isSaving}>
+                    {isSaving ? (
+                      <>
+                        <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                        {editingBatch ? 'Updating...' : 'Creating...'}
+                      </>
+                    ) : (
+                      editingBatch ? 'Update Batch' : 'Create Batch'
+                    )}
                   </Button>
-                  <Button type="button" onClick={closeForm} variant="outline" className="border-amber/30 text-cream hover:bg-amber/10">
+                  <Button type="button" onClick={closeForm} variant="outline" className="border-amber/30 text-cream hover:bg-amber/10" disabled={isSaving}>
                     Cancel
                   </Button>
                 </div>
@@ -269,7 +397,13 @@ export default function BrewBatches() {
       )}
 
       {/* Batches List */}
-      {batches.length === 0 ? (
+      {isLoading ? (
+        <Card className="bg-card border-amber/20">
+          <CardContent className="flex justify-center py-12">
+            <Loader2 className="h-12 w-12 animate-spin text-gold" />
+          </CardContent>
+        </Card>
+      ) : batches.length === 0 ? (
         <Card className="bg-card border-amber/20">
           <CardContent className="text-center py-12">
             <Beaker className="h-16 w-16 mx-auto mb-4 text-cream/30" />
@@ -295,7 +429,7 @@ export default function BrewBatches() {
                       <Edit2 className="h-4 w-4" />
                     </button>
                     <button
-                      onClick={() => deleteBatch(batch.id)}
+                      onClick={() => deleteBatchData(batch.id)}
                       className="text-cream/50 hover:text-red-500 transition-colors"
                     >
                       <Trash2 className="h-4 w-4" />

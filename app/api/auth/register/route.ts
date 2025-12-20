@@ -67,6 +67,33 @@ export async function POST(request: NextRequest) {
       },
     });
 
+    // Award welcome bonus (50 points)
+    const WELCOME_BONUS = 50;
+    try {
+      await prisma.$queryRaw`
+        INSERT INTO loyalty_transactions (user_id, points, type, description)
+        VALUES (
+          ${user.id}::uuid,
+          ${WELCOME_BONUS}::integer,
+          'welcome_bonus'::varchar,
+          'Welcome to The Cracked Grain! Enjoy your bonus points.'::text
+        )
+      `;
+
+      // Update user's loyalty points
+      await prisma.$executeRawUnsafe(`
+        UPDATE users
+        SET loyalty_points = ${WELCOME_BONUS}
+        WHERE id = '${user.id}'
+      `);
+
+      // Update user object to reflect the bonus points
+      user.loyaltyPoints = WELCOME_BONUS;
+    } catch (error) {
+      console.error('Failed to award welcome bonus:', error);
+      // Don't fail registration if loyalty bonus fails
+    }
+
     // Create session
     const sessionToken = await createSession(user.id);
     await setSessionCookie(sessionToken);

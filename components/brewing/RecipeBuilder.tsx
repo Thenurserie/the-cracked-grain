@@ -8,9 +8,11 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Plus, Trash2, Download, Save, ShoppingCart } from 'lucide-react';
+import { Plus, Trash2, Download, Save, ShoppingCart, Loader2, AlertCircle, LogIn, BookOpen } from 'lucide-react';
 import { toast } from 'sonner';
 import { addToCart } from '@/lib/cartClient';
+import { useAuth } from '@/contexts/AuthContext';
+import Link from 'next/link';
 import {
   calculateOG,
   calculateFG,
@@ -29,7 +31,19 @@ import { findMatchingStyle } from '@/lib/bjcp-styles';
 
 type BrewMethod = 'all-grain' | 'extract-lme' | 'extract-dme' | 'partial-mash';
 
+interface SavedRecipe {
+  id: string;
+  name: string;
+  style: string | null;
+  batchSize: number | null;
+  recipeData: any;
+  notes: string | null;
+  isPublic: boolean;
+  createdAt: string;
+}
+
 export default function RecipeBuilder() {
+  const { isLoggedIn, isLoading: authLoading } = useAuth();
   const [recipeName, setRecipeName] = useState('');
   const [style, setStyle] = useState('');
   const [batchSize, setBatchSize] = useState(5.0);
@@ -46,6 +60,21 @@ export default function RecipeBuilder() {
   const [abv, setAbv] = useState(0);
   const [ibu, setIbu] = useState(0);
   const [srm, setSrm] = useState(0);
+
+  const [savedRecipes, setSavedRecipes] = useState<SavedRecipe[]>([]);
+  const [isLoadingRecipes, setIsLoadingRecipes] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [error, setError] = useState('');
+  const [currentRecipeId, setCurrentRecipeId] = useState<string | null>(null);
+  const [showSavedRecipes, setShowSavedRecipes] = useState(false);
+
+  // Load saved recipes when logged in
+  useEffect(() => {
+    if (authLoading) return;
+    if (isLoggedIn) {
+      loadSavedRecipes();
+    }
+  }, [isLoggedIn, authLoading]);
 
   useEffect(() => {
     if (fermentables.length > 0) {
@@ -66,6 +95,63 @@ export default function RecipeBuilder() {
       setSrm(calculatedSRM);
     }
   }, [fermentables, hops, yeast, batchSize, efficiency]);
+
+  const loadSavedRecipes = async () => {
+    if (!isLoggedIn) return;
+
+    setIsLoadingRecipes(true);
+    setError('');
+
+    try {
+      const response = await fetch('/api/user/recipes');
+      const data = await response.json();
+
+      if (data.success && data.recipes) {
+        setSavedRecipes(data.recipes);
+      } else {
+        throw new Error(data.error || 'Failed to load recipes');
+      }
+    } catch (error: any) {
+      console.error('Failed to load recipes:', error);
+      setError('Failed to load saved recipes');
+    } finally {
+      setIsLoadingRecipes(false);
+    }
+  };
+
+  const loadRecipeIntoBuilder = (recipe: SavedRecipe) => {
+    const data = recipe.recipeData;
+
+    setRecipeName(recipe.name);
+    setStyle(recipe.style || '');
+    setBatchSize(recipe.batchSize || 5.0);
+    setBoilTime(data.boilTime || 60);
+    setEfficiency(data.efficiency || 75);
+    setBrewMethod(data.brewMethod || 'all-grain');
+    setFermentables(data.fermentables || []);
+    setHops(data.hops || []);
+    setYeast(data.yeast || null);
+    setNotes(recipe.notes || '');
+    setCurrentRecipeId(recipe.id);
+
+    toast.success(`Loaded "${recipe.name}"`);
+    setShowSavedRecipes(false);
+  };
+
+  const clearRecipe = () => {
+    setRecipeName('');
+    setStyle('');
+    setBatchSize(5.0);
+    setBoilTime(60);
+    setEfficiency(75);
+    setBrewMethod('all-grain');
+    setFermentables([]);
+    setHops([]);
+    setYeast(null);
+    setNotes('');
+    setCurrentRecipeId(null);
+    toast.info('Recipe cleared');
+  };
 
   const addFermentable = () => {
     const defaultGrain = GRAIN_DATABASE[0];
@@ -147,8 +233,63 @@ export default function RecipeBuilder() {
       return;
     }
 
-    // Recipe saving disabled - authentication system coming soon
-    toast.info('Recipe saving will be available once the new authentication system is set up');
+    if (!isLoggedIn) {
+      toast.error('Please sign in to save recipes');
+      return;
+    }
+
+    setIsSaving(true);
+    setError('');
+
+    try {
+      const recipeData = {
+        boilTime,
+        efficiency,
+        brewMethod,
+        fermentables,
+        hops,
+        yeast,
+        og,
+        fg,
+        abv,
+        ibu,
+        srm
+      };
+
+      const url = currentRecipeId
+        ? `/api/user/recipes/${currentRecipeId}`
+        : '/api/user/recipes';
+      const method = currentRecipeId ? 'PUT' : 'POST';
+
+      const response = await fetch(url, {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: recipeName,
+          style: style || null,
+          batchSize,
+          recipeData,
+          notes: notes || null,
+          isPublic: false,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!data.success) {
+        throw new Error(data.error || 'Failed to save recipe');
+      }
+
+      setCurrentRecipeId(data.recipe.id);
+      await loadSavedRecipes();
+      toast.success(currentRecipeId ? 'Recipe updated!' : 'Recipe saved!');
+    } catch (error: any) {
+      console.error('Save recipe error:', error);
+      setError(error.message || 'Failed to save recipe');
+      toast.error(error.message || 'Failed to save recipe');
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   const downloadBeerXML = () => {
@@ -354,6 +495,96 @@ export default function RecipeBuilder() {
 
   return (
     <div className="space-y-6">
+      {/* Guest Sign-in Banner */}
+      {!isLoggedIn && !authLoading && (
+        <Card className="bg-gradient-to-r from-amber/20 to-gold/20 border-amber/40">
+          <CardContent className="flex items-center justify-between py-4">
+            <div className="flex items-center gap-3">
+              <LogIn className="h-5 w-5 text-gold" />
+              <div>
+                <p className="text-sm font-medium text-cream">Sign in to save your recipes</p>
+                <p className="text-xs text-cream/70">Currently building as guest - can't save recipes</p>
+              </div>
+            </div>
+            <Link href="/login">
+              <Button className="bg-amber hover:bg-gold text-white">Sign In</Button>
+            </Link>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Error Display */}
+      {error && (
+        <Card className="bg-red-500/10 border-red-500/50">
+          <CardContent className="flex items-center gap-2 py-3">
+            <AlertCircle className="h-5 w-5 text-red-500" />
+            <p className="text-sm text-red-500">{error}</p>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Saved Recipes Section */}
+      {isLoggedIn && (
+        <Card className="bg-card border-amber/20">
+          <CardHeader>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <BookOpen className="h-5 w-5 text-gold" />
+                <CardTitle className="text-gold">My Saved Recipes ({savedRecipes.length})</CardTitle>
+              </div>
+              <div className="flex gap-2">
+                {currentRecipeId && (
+                  <Button onClick={clearRecipe} variant="outline" size="sm">
+                    New Recipe
+                  </Button>
+                )}
+                <Button
+                  onClick={() => setShowSavedRecipes(!showSavedRecipes)}
+                  variant="outline"
+                  size="sm"
+                >
+                  {showSavedRecipes ? 'Hide' : 'Show'} Recipes
+                </Button>
+              </div>
+            </div>
+          </CardHeader>
+          {showSavedRecipes && (
+            <CardContent>
+              {isLoadingRecipes ? (
+                <div className="flex justify-center py-8">
+                  <Loader2 className="h-8 w-8 animate-spin text-gold" />
+                </div>
+              ) : savedRecipes.length === 0 ? (
+                <p className="text-cream/60 text-center py-4">No saved recipes yet. Create and save your first recipe!</p>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                  {savedRecipes.map((recipe) => (
+                    <Card
+                      key={recipe.id}
+                      className={`bg-card/50 border-amber/20 hover:border-gold transition-colors cursor-pointer ${
+                        currentRecipeId === recipe.id ? 'ring-2 ring-gold' : ''
+                      }`}
+                      onClick={() => loadRecipeIntoBuilder(recipe)}
+                    >
+                      <CardContent className="p-4">
+                        <h4 className="font-semibold text-cream mb-1">{recipe.name}</h4>
+                        {recipe.style && (
+                          <p className="text-xs text-cream/60 mb-2">{recipe.style}</p>
+                        )}
+                        <div className="flex items-center justify-between text-xs text-cream/50">
+                          <span>{recipe.batchSize ? `${recipe.batchSize} gal` : 'No size'}</span>
+                          <span>{new Date(recipe.createdAt).toLocaleDateString()}</span>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              )}
+            </CardContent>
+          )}
+        </Card>
+      )}
+
       <Card>
         <CardHeader>
           <CardTitle>Recipe Settings</CardTitle>
@@ -662,9 +893,18 @@ export default function RecipeBuilder() {
         </Button>
 
         <div className="flex gap-3">
-          <Button onClick={saveRecipe} className="flex-1">
-            <Save className="h-4 w-4 mr-2" />
-            Save Recipe
+          <Button onClick={saveRecipe} disabled={isSaving || !isLoggedIn} className="flex-1">
+            {isSaving ? (
+              <>
+                <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                {currentRecipeId ? 'Updating...' : 'Saving...'}
+              </>
+            ) : (
+              <>
+                <Save className="h-4 w-4 mr-2" />
+                {currentRecipeId ? 'Update Recipe' : 'Save Recipe'}
+              </>
+            )}
           </Button>
           <Button onClick={downloadBeerXML} variant="outline" className="flex-1">
             <Download className="h-4 w-4 mr-2" />

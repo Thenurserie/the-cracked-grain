@@ -5,7 +5,9 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Plus, Edit2, Trash2, Package, AlertTriangle, X, Search } from 'lucide-react';
+import { Plus, Edit2, Trash2, Package, AlertTriangle, X, Search, Loader2, AlertCircle, LogIn } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
+import Link from 'next/link';
 
 interface InventoryItem {
   id: string;
@@ -33,7 +35,11 @@ const COMMON_UNITS = ['lb', 'oz', 'g', 'kg', 'each', 'packet', 'ml', 'L', 'gal']
 const LOW_STOCK_THRESHOLD = 5;
 
 export default function Inventory() {
+  const { isLoggedIn, isLoading: authLoading } = useAuth();
   const [items, setItems] = useState<InventoryItem[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [error, setError] = useState('');
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [editingItem, setEditingItem] = useState<InventoryItem | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
@@ -48,49 +54,117 @@ export default function Inventory() {
     notes: ''
   });
 
-  // Load items from localStorage
-  useEffect(() => {
-    const stored = localStorage.getItem('brewInventory');
-    if (stored) {
-      setItems(JSON.parse(stored));
-    }
-  }, []);
+  // Load items (API when logged in, localStorage for guests)
+  const loadItems = async () => {
+    if (isLoggedIn) {
+      // Load from API
+      setIsLoading(true);
+      setError('');
+      try {
+        const response = await fetch('/api/user/inventory');
+        const data = await response.json();
 
-  // Save items to localStorage
-  const saveItems = (newItems: InventoryItem[]) => {
-    setItems(newItems);
-    localStorage.setItem('brewInventory', JSON.stringify(newItems));
+        if (data.success && data.items) {
+          setItems(data.items);
+        } else {
+          throw new Error(data.error || 'Failed to load inventory');
+        }
+      } catch (error: any) {
+        console.error('Failed to load inventory:', error);
+        setError('Failed to load inventory items');
+      } finally {
+        setIsLoading(false);
+      }
+    } else {
+      // Load from localStorage (guest mode)
+      const stored = localStorage.getItem('brewInventory');
+      if (stored) {
+        try {
+          setItems(JSON.parse(stored));
+        } catch (error) {
+          console.error('Failed to parse stored inventory:', error);
+        }
+      }
+    }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  useEffect(() => {
+    if (authLoading) return;
+    loadItems();
+  }, [isLoggedIn, authLoading]);
+
+  // Save inventory item (API when logged in, localStorage for guests)
+  const saveInventoryItem = async (itemData: Partial<InventoryItem>, id?: string) => {
+    setIsSaving(true);
+    setError('');
+
+    try {
+      if (isLoggedIn) {
+        // Save to API
+        const url = id ? `/api/user/inventory/${id}` : '/api/user/inventory';
+        const method = id ? 'PUT' : 'POST';
+
+        const response = await fetch(url, {
+          method,
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(itemData),
+        });
+
+        const data = await response.json();
+
+        if (!data.success) {
+          throw new Error(data.error || 'Failed to save item');
+        }
+
+        await loadItems();
+      } else {
+        // Save to localStorage (guest mode)
+        if (id) {
+          // Update existing item
+          const updatedItems = items.map(item =>
+            item.id === id ? { ...item, ...itemData } : item
+          );
+          setItems(updatedItems);
+          localStorage.setItem('brewInventory', JSON.stringify(updatedItems));
+        } else {
+          // Create new item
+          const newItem: InventoryItem = {
+            id: Date.now().toString(),
+            ...(itemData as Omit<InventoryItem, 'id'>),
+            createdAt: new Date().toISOString()
+          };
+          const newItems = [newItem, ...items];
+          setItems(newItems);
+          localStorage.setItem('brewInventory', JSON.stringify(newItems));
+        }
+      }
+    } catch (error: any) {
+      console.error('Save item error:', error);
+      setError(error.message || 'Failed to save item');
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     const quantity = parseFloat(formData.quantity);
     if (isNaN(quantity) || quantity < 0) {
-      alert('Please enter a valid quantity');
+      setError('Please enter a valid quantity');
       return;
     }
 
-    if (editingItem) {
-      // Update existing item
-      const updatedItems = items.map(item =>
-        item.id === editingItem.id
-          ? { ...item, ...formData, quantity }
-          : item
-      );
-      saveItems(updatedItems);
-    } else {
-      // Create new item
-      const newItem: InventoryItem = {
-        id: Date.now().toString(),
-        ...formData,
-        quantity,
-        createdAt: new Date().toISOString()
-      };
-      saveItems([newItem, ...items]);
-    }
+    const itemData = {
+      ...formData,
+      quantity,
+    };
 
-    closeForm();
+    await saveInventoryItem(itemData, editingItem?.id);
+
+    if (!error) {
+      closeForm();
+    }
   };
 
   const openForm = (item?: InventoryItem) => {
@@ -123,9 +197,36 @@ export default function Inventory() {
     });
   };
 
-  const deleteItem = (id: string) => {
-    if (confirm('Are you sure you want to delete this item?')) {
-      saveItems(items.filter(item => item.id !== id));
+  const deleteItemData = async (id: string) => {
+    if (!confirm('Are you sure you want to delete this item?')) {
+      return;
+    }
+
+    setError('');
+
+    try {
+      if (isLoggedIn) {
+        // Delete via API
+        const response = await fetch(`/api/user/inventory/${id}`, {
+          method: 'DELETE',
+        });
+
+        const data = await response.json();
+
+        if (!data.success) {
+          throw new Error(data.error || 'Failed to delete item');
+        }
+
+        await loadItems();
+      } else {
+        // Delete from localStorage (guest mode)
+        const updatedItems = items.filter(item => item.id !== id);
+        setItems(updatedItems);
+        localStorage.setItem('brewInventory', JSON.stringify(updatedItems));
+      }
+    } catch (error: any) {
+      console.error('Delete item error:', error);
+      setError(error.message || 'Failed to delete item');
     }
   };
 
@@ -165,6 +266,34 @@ export default function Inventory() {
           Add Item
         </Button>
       </div>
+
+      {/* Guest Sign-in Banner */}
+      {!isLoggedIn && !authLoading && (
+        <Card className="bg-gradient-to-r from-amber/20 to-gold/20 border-amber/40">
+          <CardContent className="flex items-center justify-between py-4">
+            <div className="flex items-center gap-3">
+              <LogIn className="h-5 w-5 text-gold" />
+              <div>
+                <p className="text-sm font-medium text-cream">Sign in to save your inventory permanently</p>
+                <p className="text-xs text-cream/70">Currently using guest mode - data stored locally</p>
+              </div>
+            </div>
+            <Link href="/login">
+              <Button className="bg-amber hover:bg-gold text-white">Sign In</Button>
+            </Link>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Error Display */}
+      {error && (
+        <Card className="bg-red-500/10 border-red-500/50">
+          <CardContent className="flex items-center gap-2 py-3">
+            <AlertCircle className="h-5 w-5 text-red-500" />
+            <p className="text-sm text-red-500">{error}</p>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Search and Filter */}
       {items.length > 0 && (
@@ -298,8 +427,15 @@ export default function Inventory() {
                 </div>
 
                 <div className="flex gap-3 pt-4">
-                  <Button type="submit" className="flex-1 bg-amber hover:bg-gold text-white">
-                    {editingItem ? 'Update Item' : 'Add Item'}
+                  <Button type="submit" disabled={isSaving} className="flex-1 bg-amber hover:bg-gold text-white">
+                    {isSaving ? (
+                      <>
+                        <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                        {editingItem ? 'Updating...' : 'Adding...'}
+                      </>
+                    ) : (
+                      editingItem ? 'Update Item' : 'Add Item'
+                    )}
                   </Button>
                   <Button type="button" onClick={closeForm} variant="outline" className="border-amber/30 text-cream hover:bg-amber/10">
                     Cancel
@@ -312,7 +448,13 @@ export default function Inventory() {
       )}
 
       {/* Items List */}
-      {filteredItems.length === 0 && items.length === 0 ? (
+      {isLoading ? (
+        <Card className="bg-card border-amber/20">
+          <CardContent className="flex justify-center py-12">
+            <Loader2 className="h-12 w-12 animate-spin text-gold" />
+          </CardContent>
+        </Card>
+      ) : filteredItems.length === 0 && items.length === 0 ? (
         <Card className="bg-card border-amber/20">
           <CardContent className="text-center py-12">
             <Package className="h-16 w-16 mx-auto mb-4 text-cream/30" />
@@ -355,7 +497,7 @@ export default function Inventory() {
                         <Edit2 className="h-4 w-4" />
                       </button>
                       <button
-                        onClick={() => deleteItem(item.id)}
+                        onClick={() => deleteItemData(item.id)}
                         className="text-cream/50 hover:text-red-500 transition-colors"
                       >
                         <Trash2 className="h-4 w-4" />

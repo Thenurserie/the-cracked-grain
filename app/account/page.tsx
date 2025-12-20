@@ -1,11 +1,20 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { ProtectedRoute } from '@/components/ProtectedRoute';
 import { useAuth } from '@/contexts/AuthContext';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { User, Package, Beaker, Trophy, Mail, Phone, Calendar, Crown } from 'lucide-react';
+import { User, Package, Beaker, Trophy, Mail, Phone, Calendar, Crown, Plus, Minus, Loader2 } from 'lucide-react';
+
+interface LoyaltyTransaction {
+  id: string;
+  points: number;
+  type: string;
+  description: string | null;
+  createdAt: string;
+}
 
 export default function AccountPage() {
   return (
@@ -17,8 +26,37 @@ export default function AccountPage() {
 
 function AccountContent() {
   const { currentUser } = useAuth();
+  const [transactions, setTransactions] = useState<LoyaltyTransaction[]>([]);
+  const [isLoadingTransactions, setIsLoadingTransactions] = useState(false);
+  const [showAllTransactions, setShowAllTransactions] = useState(false);
+
+  useEffect(() => {
+    if (currentUser) {
+      loadLoyaltyTransactions();
+    }
+  }, [currentUser]);
+
+  const loadLoyaltyTransactions = async () => {
+    setIsLoadingTransactions(true);
+    try {
+      const response = await fetch('/api/user/loyalty');
+      const data = await response.json();
+
+      if (data.success && data.transactions) {
+        setTransactions(data.transactions);
+      }
+    } catch (error) {
+      console.error('Failed to load loyalty transactions:', error);
+    } finally {
+      setIsLoadingTransactions(false);
+    }
+  };
 
   if (!currentUser) return null;
+
+  const displayedTransactions = showAllTransactions
+    ? transactions
+    : transactions.slice(0, 5);
 
   return (
     <div className="container mx-auto px-4 py-12">
@@ -129,6 +167,76 @@ function AccountContent() {
             </Card>
           </Link>
         </div>
+
+        {/* Loyalty Points History */}
+        <Card className="bg-card border-amber/20">
+          <CardHeader>
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-gold flex items-center gap-2">
+                <Trophy className="h-5 w-5" />
+                Loyalty Points History
+              </CardTitle>
+            </div>
+          </CardHeader>
+          <CardContent>
+            {isLoadingTransactions ? (
+              <div className="flex justify-center py-8">
+                <Loader2 className="h-8 w-8 animate-spin text-gold" />
+              </div>
+            ) : transactions.length === 0 ? (
+              <p className="text-cream/60 text-center py-8">
+                No transactions yet. Earn points by making purchases!
+              </p>
+            ) : (
+              <>
+                <div className="space-y-3">
+                  {displayedTransactions.map((txn) => (
+                    <div
+                      key={txn.id}
+                      className="flex items-center justify-between p-3 bg-card/50 border border-amber/10 rounded-lg"
+                    >
+                      <div className="flex items-center gap-3">
+                        {txn.points > 0 ? (
+                          <div className="w-8 h-8 rounded-full bg-green-500/20 flex items-center justify-center">
+                            <Plus className="h-4 w-4 text-green-500" />
+                          </div>
+                        ) : (
+                          <div className="w-8 h-8 rounded-full bg-red-500/20 flex items-center justify-center">
+                            <Minus className="h-4 w-4 text-red-500" />
+                          </div>
+                        )}
+                        <div>
+                          <p className="text-sm font-medium text-cream">
+                            {txn.description || txn.type.replace('_', ' ')}
+                          </p>
+                          <p className="text-xs text-cream/50">
+                            {new Date(txn.createdAt).toLocaleDateString()} at{' '}
+                            {new Date(txn.createdAt).toLocaleTimeString()}
+                          </p>
+                        </div>
+                      </div>
+                      <div className={`font-bold ${txn.points > 0 ? 'text-green-500' : 'text-red-500'}`}>
+                        {txn.points > 0 ? '+' : ''}{txn.points} pts
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {transactions.length > 5 && (
+                  <div className="mt-4 text-center">
+                    <Button
+                      onClick={() => setShowAllTransactions(!showAllTransactions)}
+                      variant="outline"
+                      className="border-amber/30 text-cream hover:bg-amber/10"
+                    >
+                      {showAllTransactions ? 'Show Less' : `Show All (${transactions.length})`}
+                    </Button>
+                  </div>
+                )}
+              </>
+            )}
+          </CardContent>
+        </Card>
       </div>
     </div>
   );
