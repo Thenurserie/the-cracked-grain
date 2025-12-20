@@ -2,12 +2,14 @@
 
 import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { ProductCard } from '@/components/ProductCard';
 import { Product } from '@/lib/types';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
-import { Search, X, ChevronUp } from 'lucide-react';
+import { Card, CardContent } from '@/components/ui/card';
+import { Search, X, ChevronUp, Package, Beaker } from 'lucide-react';
 
 // Main categories with subcategories - mapped to database values
 const CATEGORIES = [
@@ -479,6 +481,53 @@ export default function ShopContent() {
           </p>
         </div>
       </section>
+
+      <div className="container mx-auto px-4 py-6">
+        {/* Promotional Banners */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+          {/* Kits Banner */}
+          <Link href="/kits">
+            <Card className="bg-gradient-to-r from-amber/20 to-gold/20 border-gold hover:border-amber transition-all cursor-pointer group">
+              <CardContent className="py-4">
+                <div className="flex items-center justify-between gap-3">
+                  <div className="flex items-center gap-3">
+                    <Package className="h-6 w-6 text-gold flex-shrink-0" />
+                    <div>
+                      <p className="text-sm font-semibold text-gold mb-0.5">
+                        Looking for complete kits?
+                      </p>
+                      <p className="text-xs text-cream/70">
+                        Browse our Brewing Kits →
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </Link>
+
+          {/* Recipes Banner */}
+          <Link href="/recipes">
+            <Card className="bg-gradient-to-r from-amber/20 to-gold/20 border-gold hover:border-amber transition-all cursor-pointer group">
+              <CardContent className="py-4">
+                <div className="flex items-center justify-between gap-3">
+                  <div className="flex items-center gap-3">
+                    <Beaker className="h-6 w-6 text-gold flex-shrink-0" />
+                    <div>
+                      <p className="text-sm font-semibold text-gold mb-0.5">
+                        Need recipe ideas?
+                      </p>
+                      <p className="text-xs text-cream/70">
+                        Check out our Recipes →
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </Link>
+        </div>
+      </div>
 
       <div className="container mx-auto px-4 py-6">
 

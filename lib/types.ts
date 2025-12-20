@@ -22,6 +22,8 @@ export interface Product {
   in_stock: boolean;
   stock_quantity: number;
   featured: boolean;
+  category?: string;
+  subcategory?: string;
   created_at: string;
   updated_at: string;
 }
