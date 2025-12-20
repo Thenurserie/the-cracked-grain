@@ -1,20 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getCurrentUser } from '@/lib/auth';
 import { prisma } from '@/lib/db';
-
-// Subscription tier limits
-export const TIER_LIMITS = {
-  free: {
-    batches: 5,
-    inventory: 20,
-    recipes: 3,
-  },
-  premium: {
-    batches: Infinity,
-    inventory: Infinity,
-    recipes: Infinity,
-  },
-};
+import { TIER_LIMITS } from '@/lib/subscription';
 
 // GET /api/user/subscription - Get current subscription status
 export async function GET(request: NextRequest) {
