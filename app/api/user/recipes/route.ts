@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
 import { getCurrentUser } from '@/lib/auth';
+import { checkUserLimits } from '@/lib/subscription';
 
 // GET /api/user/recipes - Get user's recipes
 export async function GET(request: NextRequest) {
@@ -58,6 +59,22 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         { success: false, error: 'Recipe name is required' },
         { status: 400 }
+      );
+    }
+
+    // Check subscription limits
+    const limitCheck = await checkUserLimits(user.id, 'recipes');
+    if (!limitCheck.allowed) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: `Recipe limit reached. Free tier allows ${limitCheck.limit} recipes. Upgrade to Premium for unlimited recipes!`,
+          limitReached: true,
+          currentCount: limitCheck.currentCount,
+          limit: limitCheck.limit,
+          tier: limitCheck.tier,
+        },
+        { status: 403 }
       );
     }
 

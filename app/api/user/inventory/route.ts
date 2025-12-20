@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
 import { getCurrentUser } from '@/lib/auth';
+import { checkUserLimits } from '@/lib/subscription';
 
 // GET /api/user/inventory - Get user's inventory
 export async function GET(request: NextRequest) {
@@ -59,6 +60,22 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         { success: false, error: 'Missing required fields' },
         { status: 400 }
+      );
+    }
+
+    // Check subscription limits
+    const limitCheck = await checkUserLimits(user.id, 'inventory');
+    if (!limitCheck.allowed) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: `Inventory limit reached. Free tier allows ${limitCheck.limit} items. Upgrade to Premium for unlimited inventory!`,
+          limitReached: true,
+          currentCount: limitCheck.currentCount,
+          limit: limitCheck.limit,
+          tier: limitCheck.tier,
+        },
+        { status: 403 }
       );
     }
 

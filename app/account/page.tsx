@@ -24,17 +24,37 @@ export default function AccountPage() {
   );
 }
 
+interface Subscription {
+  tier: 'free' | 'premium';
+  expiresAt: string | null;
+}
+
 function AccountContent() {
   const { currentUser } = useAuth();
   const [transactions, setTransactions] = useState<LoyaltyTransaction[]>([]);
   const [isLoadingTransactions, setIsLoadingTransactions] = useState(false);
   const [showAllTransactions, setShowAllTransactions] = useState(false);
+  const [subscription, setSubscription] = useState<Subscription | null>(null);
 
   useEffect(() => {
     if (currentUser) {
       loadLoyaltyTransactions();
+      loadSubscription();
     }
   }, [currentUser]);
+
+  const loadSubscription = async () => {
+    try {
+      const response = await fetch('/api/user/subscription');
+      const data = await response.json();
+
+      if (data.success && data.subscription) {
+        setSubscription(data.subscription);
+      }
+    } catch (error) {
+      console.error('Failed to load subscription:', error);
+    }
+  };
 
   const loadLoyaltyTransactions = async () => {
     setIsLoadingTransactions(true);
@@ -113,7 +133,12 @@ function AccountContent() {
                 <Crown className="h-5 w-5 text-gold" />
                 <div>
                   <p className="text-xs text-cream/60">Membership</p>
-                  <p className="font-medium capitalize">{currentUser.subscriptionTier}</p>
+                  <div className="flex items-center gap-2">
+                    <p className="font-medium capitalize">{subscription?.tier || 'Free'}</p>
+                    {subscription?.tier === 'premium' && (
+                      <span className="text-xs bg-gold text-white px-2 py-0.5 rounded font-bold">PRO</span>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
@@ -134,6 +159,30 @@ function AccountContent() {
             </div>
           </CardContent>
         </Card>
+
+        {/* Upgrade Prompt for Free Users */}
+        {subscription?.tier === 'free' && (
+          <Card className="bg-gradient-to-r from-amber/20 to-gold/20 border-gold">
+            <CardContent className="py-6">
+              <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+                <div className="text-center md:text-left">
+                  <h3 className="text-lg font-bold text-gold mb-1 flex items-center gap-2 justify-center md:justify-start">
+                    <Crown className="h-5 w-5" />
+                    Upgrade to Premium
+                  </h3>
+                  <p className="text-sm text-cream/80">
+                    Get unlimited batches, inventory, and recipes for just $3/month
+                  </p>
+                </div>
+                <Link href="/account/subscription">
+                  <Button className="bg-amber hover:bg-gold text-white">
+                    View Plans & Upgrade
+                  </Button>
+                </Link>
+              </div>
+            </CardContent>
+          </Card>
+        )}
 
         {/* Quick Links */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">

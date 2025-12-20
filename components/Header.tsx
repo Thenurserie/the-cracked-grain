@@ -14,6 +14,7 @@ export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [isPremium, setIsPremium] = useState(false);
   const { currentUser, isLoggedIn, logout } = useAuth();
   const router = useRouter();
   const userMenuRef = useRef<HTMLDivElement>(null);
@@ -27,6 +28,25 @@ export function Header() {
       window.removeEventListener('cartUpdated', loadCartCount);
     };
   }, []);
+
+  useEffect(() => {
+    if (isLoggedIn && currentUser) {
+      loadSubscription();
+    }
+  }, [isLoggedIn, currentUser]);
+
+  async function loadSubscription() {
+    try {
+      const response = await fetch('/api/user/subscription');
+      const data = await response.json();
+
+      if (data.success && data.subscription) {
+        setIsPremium(data.subscription.tier === 'premium');
+      }
+    } catch (error) {
+      console.error('Failed to load subscription:', error);
+    }
+  }
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -98,6 +118,9 @@ export function Header() {
                       <User className="h-4 w-4 text-gold" />
                     </div>
                     <span>{currentUser.firstName}</span>
+                    {isPremium && (
+                      <span className="text-xs bg-gold text-white px-2 py-0.5 rounded font-bold">PRO</span>
+                    )}
                   </button>
 
                   {userMenuOpen && (
