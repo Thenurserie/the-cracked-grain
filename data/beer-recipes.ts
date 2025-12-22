@@ -7,6 +7,19 @@ export interface BeerStyleIngredients {
     yeast: string;
     other?: string[];
   };
+  // Ingredient quantities for different batch sizes and methods
+  quantities?: {
+    '1-gallon'?: {
+      'all-grain'?: Record<string, string>;
+      'lme'?: Record<string, string>;
+      'dme'?: Record<string, string>;
+    };
+    '5-gallon'?: {
+      'all-grain'?: Record<string, string>;
+      'lme'?: Record<string, string>;
+      'dme'?: Record<string, string>;
+    };
+  };
 }
 
 export const BEER_STYLES: BeerStyleIngredients[] = [

@@ -16,6 +16,10 @@ import { ProductImage } from '@/components/ProductImage';
 interface IngredientBuilderProps {
   title: string;
   defaultStyle?: string;
+  defaultBatchSize?: '1-gallon' | '5-gallon';
+  defaultBrewMethod?: 'all-grain' | 'lme' | 'dme';
+  showBatchSizeSelector?: boolean;
+  showBrewMethodSelector?: boolean;
 }
 
 interface IngredientItem {
@@ -24,10 +28,19 @@ interface IngredientItem {
   searchTerm: string;
 }
 
-export function IngredientBuilder({ title, defaultStyle }: IngredientBuilderProps) {
+export function IngredientBuilder({
+  title,
+  defaultStyle,
+  defaultBatchSize = '5-gallon',
+  defaultBrewMethod = 'lme',
+  showBatchSizeSelector = true,
+  showBrewMethodSelector = true
+}: IngredientBuilderProps) {
   const [selectedStyle, setSelectedStyle] = useState<BeerStyleIngredients | null>(
     defaultStyle ? BEER_STYLES.find(s => s.style === defaultStyle) || BEER_STYLES[0] : BEER_STYLES[0]
   );
+  const [batchSize, setBatchSize] = useState<'1-gallon' | '5-gallon'>(defaultBatchSize);
+  const [brewMethod, setBrewMethod] = useState<'all-grain' | 'lme' | 'dme'>(defaultBrewMethod);
   const [matchingKits, setMatchingKits] = useState<Product[]>([]);
   const [loadingKits, setLoadingKits] = useState(false);
   const [products, setProducts] = useState<Record<string, Product>>({});
@@ -287,25 +300,67 @@ export function IngredientBuilder({ title, defaultStyle }: IngredientBuilderProp
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-6">
-        <div className="space-y-3">
-          <label className="text-sm font-medium text-cream">
-            Select Beer Style
-          </label>
-          <Select value={selectedStyle.style} onValueChange={handleStyleChange}>
-            <SelectTrigger className="bg-background/50 border-amber/30 text-cream">
-              <SelectValue placeholder="Choose a beer style..." />
-            </SelectTrigger>
-            <SelectContent>
-              {BEER_STYLES.map((style) => (
-                <SelectItem key={style.style} value={style.style}>
-                  {style.style}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-          <p className="text-xs text-cream/60">
-            {selectedStyle.description}
-          </p>
+        <div className="space-y-4">
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-cream">
+              Select Beer Style
+            </label>
+            <Select value={selectedStyle.style} onValueChange={handleStyleChange}>
+              <SelectTrigger className="bg-background/50 border-amber/30 text-cream">
+                <SelectValue placeholder="Choose a beer style..." />
+              </SelectTrigger>
+              <SelectContent>
+                {BEER_STYLES.map((style) => (
+                  <SelectItem key={style.style} value={style.style}>
+                    {style.style}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <p className="text-xs text-cream/60">
+              {selectedStyle.description}
+            </p>
+          </div>
+
+          {showBatchSizeSelector && (
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-cream">
+                Batch Size
+              </label>
+              <Select value={batchSize} onValueChange={(value: '1-gallon' | '5-gallon') => setBatchSize(value)}>
+                <SelectTrigger className="bg-background/50 border-amber/30 text-cream">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="1-gallon">1 Gallon (Small Batch)</SelectItem>
+                  <SelectItem value="5-gallon">5 Gallons (Standard)</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          )}
+
+          {showBrewMethodSelector && (
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-cream">
+                Brewing Method
+              </label>
+              <Select value={brewMethod} onValueChange={(value: 'all-grain' | 'lme' | 'dme') => setBrewMethod(value)}>
+                <SelectTrigger className="bg-background/50 border-amber/30 text-cream">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="lme">Extract (LME - Liquid Malt Extract)</SelectItem>
+                  <SelectItem value="dme">Extract (DME - Dry Malt Extract)</SelectItem>
+                  <SelectItem value="all-grain">All-Grain (Advanced)</SelectItem>
+                </SelectContent>
+              </Select>
+              <p className="text-xs text-cream/60">
+                {brewMethod === 'lme' && 'Beginner-friendly: Uses liquid malt extract syrup'}
+                {brewMethod === 'dme' && 'Beginner-friendly: Uses dry malt extract powder'}
+                {brewMethod === 'all-grain' && 'Advanced: Maximum control, requires mash equipment'}
+              </p>
+            </div>
+          )}
         </div>
 
         {loadingProducts ? (
@@ -313,7 +368,7 @@ export function IngredientBuilder({ title, defaultStyle }: IngredientBuilderProp
         ) : (
           <div className="space-y-4">
             <p className="text-sm text-cream/70">
-              Select the ingredients you need for {selectedStyle.style}:
+              Ingredients for {batchSize.replace('-', ' ')} of {selectedStyle.style} using {brewMethod === 'lme' ? 'liquid malt extract' : brewMethod === 'dme' ? 'dry malt extract' : 'all-grain'}:
             </p>
 
             <div className="space-y-2">
