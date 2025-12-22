@@ -124,14 +124,6 @@ const CATEGORIES = [
     count: 7,
     subcategories: [],
   },
-  {
-    id: '10',
-    name: 'Garden',
-    slug: 'garden',
-    dbCategory: 'Garden',
-    count: 8,
-    subcategories: [],
-  },
 ];
 
 export default function ShopContent() {
