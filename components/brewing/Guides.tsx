@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
+import { BeerBrewingGuide } from './BeerBrewingGuide';
 
 const GUIDES = {
   'Starter Kit': [
@@ -599,14 +600,22 @@ export default function Guides() {
     <div className="space-y-4">
       <h2 className="text-2xl font-bold">Brewing Guides</h2>
 
-      <Tabs defaultValue="Starter Kit" className="w-full">
-        <TabsList className="grid grid-cols-2 md:grid-cols-5 gap-2 h-auto bg-muted/50 p-2">
+      <Tabs defaultValue="Complete Guide" className="w-full">
+        <TabsList className="grid grid-cols-2 md:grid-cols-6 gap-2 h-auto bg-muted/50 p-2">
+          <TabsTrigger value="Complete Guide">
+            Complete Guide
+          </TabsTrigger>
           {Object.keys(GUIDES).map((category) => (
             <TabsTrigger key={category} value={category}>
               {category}
             </TabsTrigger>
           ))}
         </TabsList>
+
+        {/* Complete Beer Brewing Guide Tab */}
+        <TabsContent value="Complete Guide" className="mt-4">
+          <BeerBrewingGuide />
+        </TabsContent>
 
         {Object.entries(GUIDES).map(([category, guides]) => (
           <TabsContent key={category} value={category} className="mt-4">
