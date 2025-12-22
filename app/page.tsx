@@ -11,6 +11,23 @@ import { ArrowRight } from 'lucide-react';
 // This prevents database access during build time
 export const dynamic = 'force-dynamic';
 
+// Map category names to their image files
+function getCategoryImage(categoryName: string): string {
+  const categoryImageMap: Record<string, string> = {
+    'Books': '/images/categories/books.png',
+    'Yeast': '/images/categories/yeast.png',
+    'Wine': '/images/categories/wine.png',
+    'Kits': '/images/categories/kits.png',
+    'Hops': '/images/categories/hops.png',
+    'Grain': '/images/categories/grain.png',
+    'Ingredients': '/images/categories/ingredients.png',
+    'Equipment': '/images/categories/equipment.png',
+    'Chemicals': '/images/categories/chemicals.png',
+  };
+
+  return categoryImageMap[categoryName] || '/images/placeholder-product.svg';
+}
+
 async function getCategories(): Promise<Category[]> {
   try {
     // Extract unique categories from products (no Category table exists)
@@ -30,7 +47,7 @@ async function getCategories(): Promise<Category[]> {
         name: item.category as string,
         slug: item.category as string, // Keep original case to match database
         description: `Browse our ${item.category} products`,
-        image_url: '/images/placeholder-product.svg',
+        image_url: getCategoryImage(item.category as string),
         created_at: new Date().toISOString(),
       }));
   } catch (error) {
