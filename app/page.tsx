@@ -20,7 +20,9 @@ function getCategoryImage(categoryName: string): string {
     'Kits': '/images/categories/kits.png',
     'Hops': '/images/categories/hops.png',
     'Grain': '/images/categories/grain.png',
+    'Grains': '/images/categories/grain.png',
     'Ingredients': '/images/categories/ingredients.png',
+    'Flavorings': '/images/categories/ingredients.png',
     'Equipment': '/images/categories/equipment.png',
     'Chemicals': '/images/categories/chemicals.png',
   };
