@@ -98,10 +98,6 @@ export function BeerBrewingGuide() {
             <Clock className="h-3 w-3 mr-1" />
             60 min read
           </Badge>
-          <Badge className="bg-gold/20 text-gold border-gold/40">
-            <Book className="h-3 w-3 mr-1" />
-            3,800+ words
-          </Badge>
         </div>
       </div>
 

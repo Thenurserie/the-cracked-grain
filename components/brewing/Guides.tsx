@@ -870,19 +870,19 @@ export default function Guides() {
                     </div>
                   </AccordionTrigger>
                   <AccordionContent className="pt-4">
-                    <div className="space-y-4">
+                    <div className="space-y-6">
                       <div>
-                        <h4 className="font-semibold mb-2">Overview</h4>
-                        <p className="text-sm text-muted-foreground">
+                        <h4 className="font-semibold mb-3 text-base">Overview</h4>
+                        <p className="text-sm text-muted-foreground leading-relaxed">
                           {guide.content.overview}
                         </p>
                       </div>
 
                       <div>
-                        <h4 className="font-semibold mb-2">Steps</h4>
-                        <ol className="list-decimal list-inside space-y-1 text-sm">
+                        <h4 className="font-semibold mb-3 text-base">Steps</h4>
+                        <ol className="list-decimal list-outside ml-5 space-y-3 text-sm">
                           {guide.content.steps.map((step, i) => (
-                            <li key={i} className="text-muted-foreground">
+                            <li key={i} className="text-muted-foreground leading-relaxed pl-2">
                               {step}
                             </li>
                           ))}
@@ -890,10 +890,10 @@ export default function Guides() {
                       </div>
 
                       <div>
-                        <h4 className="font-semibold mb-2">Pro Tips</h4>
-                        <ul className="list-disc list-inside space-y-1 text-sm">
+                        <h4 className="font-semibold mb-3 text-base">Pro Tips</h4>
+                        <ul className="list-disc list-outside ml-5 space-y-3 text-sm">
                           {guide.content.tips.map((tip, i) => (
-                            <li key={i} className="text-muted-foreground">
+                            <li key={i} className="text-muted-foreground leading-relaxed pl-2">
                               {tip}
                             </li>
                           ))}
