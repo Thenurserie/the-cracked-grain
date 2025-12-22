@@ -6,7 +6,9 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ChevronUp, Book, Clock, Award, AlertCircle, Lightbulb, ChevronDown, ChevronRight } from 'lucide-react';
 import { BEER_GUIDE_SECTIONS, type BeerGuideSection } from '@/data/guides/beer-brewing';
-import { QuickShopBox } from '@/components/guides/QuickShopBox';
+import { EquipmentBuilder } from '@/components/guides/EquipmentBuilder';
+import { StarterKitsDisplay } from '@/components/guides/StarterKitsDisplay';
+import { IngredientBuilder } from '@/components/guides/IngredientBuilder';
 
 export function BeerBrewingGuide() {
   const [activeSection, setActiveSection] = useState<string | null>(null);
@@ -255,39 +257,41 @@ export function BeerBrewingGuide() {
                   </div>
                 )}
 
-                {/* Equipment Shopping Box */}
+                {/* Equipment Section */}
                 {section.id === 'equipment' && (
-                  <QuickShopBox
-                    title="Sample Starter Equipment for Beer Brewing"
-                    browseAllCategory="Equipment"
-                    items={[
-                      { name: "Brew Kettle (8+ gallon)", searchTerm: "kettle" },
-                      { name: "Fermenter", searchTerm: "fermenter" },
-                      { name: "Airlock & Stopper", searchTerm: "airlock" },
-                      { name: "Hydrometer", searchTerm: "hydrometer" },
-                      { name: "Thermometer", searchTerm: "thermometer" },
-                      { name: "Auto-Siphon & Tubing", searchTerm: "siphon" },
-                      { name: "Bottles", searchTerm: "bottles" },
-                      { name: "Bottle Capper & Caps", searchTerm: "capper" },
-                      { name: "Sanitizer (Star San)", searchTerm: "star san" },
-                    ]}
-                  />
+                  <div className="space-y-6">
+                    <EquipmentBuilder
+                      title="Build Your Equipment Kit"
+                      equipmentList={[
+                        { name: "Brew Kettle (8+ gallon)", searchTerm: "kettle", required: true },
+                        { name: "Fermenter", searchTerm: "fermenter", required: true },
+                        { name: "Airlock & Stopper", searchTerm: "airlock", required: true },
+                        { name: "Hydrometer", searchTerm: "hydrometer", required: true },
+                        { name: "Thermometer", searchTerm: "thermometer", required: true },
+                        { name: "Auto-Siphon", searchTerm: "siphon", required: true },
+                        { name: "Tubing", searchTerm: "tubing", required: true },
+                        { name: "Bottles (48-54 for 5 gallons)", searchTerm: "bottles", required: true },
+                        { name: "Bottle Capper", searchTerm: "capper", required: true },
+                        { name: "Bottle Caps", searchTerm: "caps", required: true },
+                        { name: "Sanitizer (Star San)", searchTerm: "star san", required: true },
+                        { name: "Long Spoon/Paddle", searchTerm: "spoon", required: true },
+                        { name: "Wort Chiller", searchTerm: "chiller", required: false },
+                        { name: "Bottling Bucket", searchTerm: "bucket", required: false },
+                      ]}
+                    />
+                    <StarterKitsDisplay
+                      title="Or Get a Complete Starter Kit"
+                      subcategory="Equipment Kits"
+                      maxDisplay={4}
+                    />
+                  </div>
                 )}
 
-                {/* Ingredients Shopping Box */}
+                {/* Ingredients Section */}
                 {section.id === 'ingredients' && (
-                  <QuickShopBox
-                    title="Sample Starter Ingredients for Your First Brew"
-                    browseAllCategory="Grains"
-                    items={[
-                      { name: "Malt Extract (LME/DME)", category: "Grains" },
-                      { name: "Specialty Grains", category: "Grains", subcategory: "Specialty Malts" },
-                      { name: "Hops", category: "Hops" },
-                      { name: "Brewing Yeast", category: "Yeast" },
-                      { name: "Priming Sugar", searchTerm: "priming sugar" },
-                      { name: "Irish Moss (Clarifier)", searchTerm: "irish moss" },
-                      { name: "Yeast Nutrient", searchTerm: "yeast nutrient" },
-                    ]}
+                  <IngredientBuilder
+                    title="Choose Your Beer Style"
+                    defaultStyle="Pale Ale"
                   />
                 )}
 
