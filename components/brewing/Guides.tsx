@@ -8,6 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import { BeerBrewingGuide } from './BeerBrewingGuide';
 import { WineMakingGuide } from './WineMakingGuide';
 import { MeadMakingGuide } from './MeadMakingGuide';
+import { KombuchaGuide } from './KombuchaGuide';
 import {
   BookOpen,
   Beaker,
@@ -885,7 +886,7 @@ export default function Guides() {
       <h2 className="text-2xl font-bold">Brewing Guides</h2>
 
       <Tabs defaultValue="Complete Guide" className="w-full">
-        <TabsList className="grid grid-cols-2 md:grid-cols-8 gap-2 h-auto bg-muted/50 p-2">
+        <TabsList className="grid grid-cols-2 md:grid-cols-9 gap-2 h-auto bg-muted/50 p-2">
           <TabsTrigger value="Complete Guide">
             Beer Guide
           </TabsTrigger>
@@ -894,6 +895,9 @@ export default function Guides() {
           </TabsTrigger>
           <TabsTrigger value="Mead Making">
             Mead Guide
+          </TabsTrigger>
+          <TabsTrigger value="Kombucha">
+            Kombucha Guide
           </TabsTrigger>
           {Object.keys(GUIDES).map((category) => (
             <TabsTrigger key={category} value={category}>
@@ -915,6 +919,11 @@ export default function Guides() {
         {/* Mead Making Guide Tab */}
         <TabsContent value="Mead Making" className="mt-4">
           <MeadMakingGuide />
+        </TabsContent>
+
+        {/* Kombucha Guide Tab */}
+        <TabsContent value="Kombucha" className="mt-4">
+          <KombuchaGuide />
         </TabsContent>
 
         {Object.entries(GUIDES).map(([category, guides]) => {
