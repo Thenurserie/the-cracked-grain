@@ -893,24 +893,24 @@ export default function Guides() {
       <h2 className="text-2xl font-bold">Brewing Guides</h2>
 
       <Tabs defaultValue="Complete Guide" className="w-full">
-        <TabsList className="grid grid-cols-2 md:grid-cols-10 gap-2 h-auto bg-muted/50 p-2">
-          <TabsTrigger value="Complete Guide">
+        <TabsList className="flex flex-wrap gap-2 h-auto bg-muted/50 p-2">
+          <TabsTrigger value="Complete Guide" className="whitespace-nowrap px-3 py-2">
             Beer Guide
           </TabsTrigger>
-          <TabsTrigger value="Wine Making">
+          <TabsTrigger value="Wine Making" className="whitespace-nowrap px-3 py-2">
             Wine Guide
           </TabsTrigger>
-          <TabsTrigger value="Mead Making">
+          <TabsTrigger value="Mead Making" className="whitespace-nowrap px-3 py-2">
             Mead Guide
           </TabsTrigger>
-          <TabsTrigger value="Kombucha">
+          <TabsTrigger value="Kombucha" className="whitespace-nowrap px-3 py-2">
             Kombucha Guide
           </TabsTrigger>
-          <TabsTrigger value="Cider">
+          <TabsTrigger value="Cider" className="whitespace-nowrap px-3 py-2">
             Cider Guide
           </TabsTrigger>
           {Object.keys(GUIDES).map((category) => (
-            <TabsTrigger key={category} value={category}>
+            <TabsTrigger key={category} value={category} className="whitespace-nowrap px-3 py-2">
               {category}
             </TabsTrigger>
           ))}
