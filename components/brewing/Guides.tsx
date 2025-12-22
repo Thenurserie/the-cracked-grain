@@ -594,21 +594,30 @@ const GUIDES = {
       difficulty: 'Intermediate',
       time: 'Ongoing',
       content: {
-        overview: 'Identifying and preventing common beer defects',
+        overview: 'Off-flavors are undesirable taste and aroma compounds that indicate problems in brewing process, sanitation, or ingredients. Learning to identify, diagnose, and prevent off-flavors is essential for brewing consistently clean beer. Most off-flavors have identifiable causes and can be prevented with proper technique. The most common culprits are fermentation temperature issues (producing esters and fusel alcohols), incomplete fermentation (diacetyl), contamination (phenolics, sourness), oxidation (cardboard/stale), and sanitation problems. This guide covers the most common off-flavors, their causes, identification, prevention strategies, and whether they can be fixed.',
         steps: [
-          'Learn to identify common off-flavors',
-          'Diacetyl: butter/butterscotch (incomplete fermentation)',
-          'Acetaldehyde: green apple (underpitched/young beer)',
-          'DMS: corn/cooked vegetables (insufficient boil)',
-          'Phenolic: band-aid/medicinal (contamination)',
-          'Oxidation: cardboard/sherry (oxygen exposure)',
-          'Identify root cause and adjust process'
+          'Learn major off-flavor categories and train your palate: Off-flavors fall into categories: fermentation-derived (esters, phenols, fusel alcohols, diacetyl, acetaldehyde), process-derived (DMS, oxidation, astringency), contamination-derived (sourness, funk, phenolics). Best training method: buy commercial off-flavor kit (Siebel Institute, FlavorActiV kits cost $100-300), join homebrew clubs for tasting sessions, intentionally spike beer samples with off-flavor compounds. Once you identify them in isolation, you\'ll recognize them in your beer.',
+          'Diacetyl (butter, butterscotch, slick mouthfeel): Caused by incomplete fermentation or yeast not reabsorbing diacetyl. Sources: underpitching yeast, cold fermentation temperatures, no diacetyl rest, packaging too early. Tastes like: movie theater butter, butterscotch candy, slick texture. Prevention: pitch adequate yeast, ferment at proper temps, perform diacetyl rest (warm to 68-72°F for 2-3 days at end), wait until fermentation complete. Fix: if still fermenting, warm to 70°F for several days. If packaged, cannot fix. Most common off-flavor in lagers.',
+          'Acetaldehyde (green apple, fresh-cut pumpkin): Precursor to ethanol not fully converted by yeast. Sources: underpitching, insufficient fermentation time, packaging too early, oxidation. Tastes like: green apple, raw pumpkin, cidery, paint-like. Prevention: pitch adequate healthy yeast, allow fermentation to complete fully, avoid oxygen post-fermentation. Fix: give more time - acetaldehyde naturally decreases as beer ages.',
+          'DMS (cooked corn, creamed corn, cooked vegetables): Produced during boiling, expelled during vigorous boil. Sources: insufficient boil vigor, covered kettle during boil, slow chilling. Tastes like: creamed corn, cooked cabbage. Prevention: vigorous uncovered 60-90 min boil, rapid wort chilling, clean fermenters. Fix: cannot fix once in beer. Most common in pilsners with lots of pilsner malt.',
+          'Phenolic flavors (band-aid, medicinal, clove, smoky): Can be desirable (clove in hefeweizen) or undesirable (band-aid). Sources: chlorine/chloramine in water, wild yeast contamination, wrong yeast strain, over-sparging hot water. Tastes like: band-aid, medicinal, plastic, smoke. Prevention: remove chlorine with carbon filter or Campden tablets, maintain sanitation, use correct yeast, avoid over-sparging above 170°F. Fix: cannot fix.',
+          'Oxidation (cardboard, papery, stale, sherry-like): Caused by oxygen exposure during or after fermentation. Sources: splashing during transfers, poor packaging, leaky seals. Tastes like: wet cardboard, stale bread, sweet sherry. Prevention: minimize splashing post-boil, purge kegs with CO2, use oxygen-absorbing caps, closed transfers. Fix: cannot fix once oxidized. Oxidation ruins hop aroma in days to weeks.',
+          'Fusel alcohols (hot, solvent-like, boozy beyond ABV): Higher alcohols that taste harsh and hot. Sources: fermentation temperature too high, underpitching yeast, excessive yeast stress. Tastes like: harsh alcohol burn, nail polish remover, solvent. Prevention: ferment at proper temperature, pitch adequate yeast, control fermentation. Fix: aging helps mellow fusels somewhat, but prevention better.',
+          'Astringency (dry, puckering, grainy, tannic): Harsh, drying sensation from tannin extraction. Sources: over-sparging, sparging too hot (>175°F), high pH runoff (>6.0), grain crushed too fine. Tastes like: dry mouth, puckering, grape skin, grain husk bitterness. Prevention: don\'t over-sparge, keep sparge temp 168-172°F, monitor runoff pH, proper grain crush. Fix: cannot fix once extracted.',
+          'Sourness and contamination (vinegar, lactic acid, funky, barnyard): Unwanted wild yeast or bacteria. Sources: poor sanitation, contaminated equipment, infected prior batches. Tastes like: vinegar (acetic), sour candy (lactic), barnyard (Brett), baby vomit (butyric). Prevention: rigorous sanitation, replace tubing/gaskets regularly, keep sour equipment separate. Fix: cannot fix. Dump batch and deep-clean all equipment.',
+          'Build systematic troubleshooting process: When you detect off-flavor: identify specific flavor using trained palate, determine likely causes (review brew notes), trace back to process step that caused it, implement prevention on next batch, verify improvement. Keep detailed brew logs. Change one variable at a time when troubleshooting.'
         ],
         tips: [
-          'Buy commercial off-flavor training kit',
-          'Take detailed brew notes',
-          'Change one variable at a time',
-          'Most issues traced to temperature or sanitation'
+          'Buy commercial off-flavor kit ($100-300) - best investment for training your palate. Tasting spiked samples teaches you to identify problems immediately.',
+          'Most off-flavors are preventable through proper temperature control, sanitation, and technique - they eliminate 90% of off-flavors.',
+          'Keep detailed brew notes with dates, temperatures, gravity readings - when off-flavors appear, these notes help identify the cause.',
+          'Change one variable at a time when troubleshooting - if you change multiple things, you won\'t know which fixed the problem.',
+          'Diacetyl (butter) is most common off-flavor - fix by performing proper diacetyl rest (warm to 68-72°F for 2-3 days before packaging).',
+          'Oxidation cannot be fixed once it occurs - prevention is everything. Minimize splashing, purge containers, use closed transfers, drink hoppy beers fresh.',
+          'Chlorine/chloramine in tap water creates medicinal phenolic off-flavors - use carbon filter or Campden tablet (1/2 tablet per 10 gallons).',
+          'Young beer often tastes "green" (acetaldehyde, yeasty) - give it time. Most beers improve with 2-3 weeks of conditioning.',
+          'Join homebrew club or competition judging - experienced tasters help you identify off-flavors and teach diagnostic skills.',
+          'If contamination occurs (sour, funky, vinegar), deep-clean equipment, replace soft goods, start fresh. Don\'t try to salvage contaminated batches.'
         ]
       }
     },
@@ -617,22 +626,30 @@ const GUIDES = {
       difficulty: 'Intermediate',
       time: 'Ongoing',
       content: {
-        overview: 'Maintaining healthy yeast for best fermentation',
+        overview: 'Yeast health directly impacts fermentation performance, beer flavor, and consistency. Healthy, vital yeast ferment cleanly, attenuate properly, and produce desired flavor profiles. Unhealthy or stressed yeast create off-flavors, incomplete fermentation, and unpredictable results. Yeast health depends on proper storage, adequate cell counts, sufficient oxygen, appropriate nutrients, and proper handling. This guide covers selecting and storing yeast, assessing viability and vitality, providing optimal fermentation conditions, harvesting and reusing yeast, and recognizing signs of yeast stress or decline.',
         steps: [
-          'Use fresh yeast within expiration date',
-          'Store liquid yeast in refrigerator',
-          'Make starter for liquid yeast',
-          'Aerate wort thoroughly before pitching',
-          'Pitch adequate cell count',
-          'Monitor fermentation temperature',
-          'Consider yeast nutrients for high-gravity beers',
-          'Harvest and reuse healthy yeast'
+          'Select and purchase fresh, healthy yeast: Check manufacture/expiration dates on packages - liquid yeast should be <2 months old for direct pitching, <4 months with starter. Dry yeast should be within expiration date (typically 2-3 years from manufacture). Buy from reputable sources with proper refrigerated storage. Check packaging integrity - swollen liquid yeast packs indicate contamination or temperature abuse. For liquid yeast, activate smack packs according to directions and verify swelling. Fresh yeast = successful fermentation.',
+          'Store yeast properly to maintain viability: Liquid yeast: store in refrigerator at 35-40°F, never freeze (kills cells). Use within 2-4 months of manufacture date, making starter if older. Dry yeast: store in cool, dry place or refrigerator. Lasts 2-3 years sealed. Once opened, use immediately - dry yeast degrades rapidly when exposed to air. Harvested yeast: store in sanitized jar covered with sanitizer or beer in refrigerator. Use within 2-4 weeks. Label all yeast with strain and date.',
+          'Provide adequate oxygen during pitch: Yeast need oxygen for cell reproduction and membrane health during lag phase (first 4-12 hours). Methods: Shaking method - shake fermenter vigorously for 60-90 seconds, creating lots of bubbles and foam. Adequate for most homebrewers. Splashing method - pour wort from height into fermenter, creating turbulence and air incorporation. Pure O2 injection - use oxygen stone and O2 tank, inject for 60-90 seconds (provides optimal oxygenation). Target 8-10 ppm dissolved oxygen for ales, 10-14 ppm for lagers. Under-oxygenation causes slow starts, incomplete fermentation, and off-flavors.',
+          'Pitch adequate cell counts for your beer: Follow pitch rate guidelines: ales need 0.75M cells/mL/°P, lagers need 1.5M cells/mL/°P. For 5-gallon batch at 1.050: ale needs ~175 billion cells, lager needs ~350 billion. Dry yeast (11g packet) contains 200-230 billion cells when fresh - pitch 1 packet for standard ales, 2 packets for high-gravity or lagers. Liquid yeast (vial/smack) contains 100 billion cells when fresh - make starter for most beers. Underpitching stresses yeast and causes off-flavors, slow/stuck fermentation.',
+          'Add yeast nutrients for high-gravity or adjunct-heavy beers: Wort from all-malt beers typically contains adequate nutrients (nitrogen, vitamins, minerals). High-gravity beers (>1.070) or adjunct-heavy beers (>20% corn, rice, sugar) may lack nutrients. Add yeast nutrient: Wyeast Yeast Nutrient, Fermaid K, or DAP (diammonium phosphate) at 1/2 tsp per 5 gallons during last 10 min of boil. Nutrients improve yeast health, fermentation speed, and attenuation in challenging fermentations. Don\'t overdo it - excess nutrients can create off-flavors.',
+          'Monitor fermentation and recognize stress signs: Healthy fermentation: activity begins within 12-24 hours, vigorous krausen forms, steady bubbling, temperature rise is controlled, fermentation completes in expected timeframe (7-14 days ales, 14-21 days lagers). Stressed yeast signs: no activity after 48 hours (dead yeast, too cold, underpitched), very slow fermentation (underpitched, temp too low, poor yeast health), stuck fermentation (won\'t reach expected FG), excessive sulfur smell (normal in lagers, but excessive indicates stress), or unusual flavors (solvent, medicinal). Address issues immediately to salvage batch.',
+          'Harvest yeast from healthy fermentations for reuse: After fermentation completes and before packaging, harvest yeast. Method: sanitize wide-mouth mason jar. Swirl fermenter gently to suspend yeast. Pour off some beer and thick yeast slurry from bottom into jar (collect middle layer - top is hop debris/trub, bottom is dead cells, middle is healthy yeast). Store in refrigerator. Each harvest provides 200-400 billion cells - enough for 1-2 batches without starter. Use within 2-4 weeks. Step up with small starter before pitching to verify health. Harvest only from clean fermentations - never from infected or off-flavor beers.',
+          'Recognize when to retire yeast: Yeast can be reused 5-10 generations before genetic drift and mutations accumulate. Signs yeast should be retired: fermentation performance declines (slower starts, incomplete attenuation), off-flavors appear in previously clean fermentations, flocculation character changes (yeast won\'t settle or won\'t stay suspended), obvious contamination (weird smells, unexpected sourness, white film). Keep generation count - start fresh after 8-10 generations. Professional breweries typically use yeast for 5-7 generations before replacing.',
+          'Conduct yeast vitality checks (advanced): For critical batches or reused yeast, check vitality. Simple test: make small starter (250mL wort) with sample of yeast. Healthy yeast show activity in 6-12 hours with vigorous fermentation. Weak yeast take 24+ hours or ferment slowly. Microscopy (advanced): examine yeast under microscope for cell count, viability (live vs dead cells using methylene blue staining), and contamination (bacteria, wild yeast). Yeast vitality matters more than age alone - fresh but mishandled yeast can be less vital than properly stored older yeast.',
+          'Create optimal fermentation environment: Temperature control is critical - maintain within yeast strain\'s range (typically 65-72°F for ales, 48-55°F for lagers). Avoid temperature swings. Provide adequate headspace in fermenter (20-25% empty space) for krausen expansion. Avoid disturbing fermenter during first 5-7 days. Maintain sanitary conditions. Keep fermentation area dark (light can create skunking in hoppy beers). All these factors support yeast health and clean fermentation.'
         ],
         tips: [
-          'Healthy yeast = clean fermentation',
-          'Adequate oxygen critical for yeast reproduction',
-          'Yeast can be reused 5-10 generations',
-          'Vitality decreases with age and stress'
+          'Use fresh yeast - check manufacture dates. Liquid yeast <2 months old, dry yeast within expiration. Fresh yeast = healthy fermentation.',
+          'Store liquid yeast in refrigerator at 35-40°F. Never freeze - it kills cells. Use within 2-4 months of manufacture date.',
+          'Provide adequate oxygen at pitch - shake fermenter vigorously for 60-90 seconds. Yeast need oxygen for healthy cell reproduction during lag phase.',
+          'Pitch adequate cell counts - use calculators to determine needs. Underpitching causes 80% of fermentation problems and off-flavors.',
+          'Make yeast starters for liquid yeast or high-gravity beers - propagates cells to proper count for healthy fermentation.',
+          'Harvest and reuse yeast from clean fermentations - saves money and provides massive cell counts. Use within 2-4 weeks, reuse 5-10 generations.',
+          'Add yeast nutrients to high-gravity (>1.070) or adjunct-heavy beers - improves fermentation performance when wort lacks natural nutrients.',
+          'Monitor fermentation for stress signs - slow start, stuck fermentation, excessive sulfur. Address issues immediately by checking temperature, repitching if needed.',
+          'Keep generation count when reusing yeast - retire after 8-10 generations to prevent performance decline from genetic drift.',
+          'Temperature control is the single most important factor for yeast health - stable temps within strain range produce clean, healthy fermentations.'
         ]
       }
     }
@@ -643,23 +660,30 @@ const GUIDES = {
       difficulty: 'Beginner',
       time: '2-3 hours',
       content: {
-        overview: 'Step-by-step bottling process',
+        overview: 'Note: This guide focuses on workflow and process management for bottling day, while "Bottling Day" in the Starter Kit section covers detailed step-by-step instructions. Bottling requires organization and efficiency to minimize oxygen exposure and maintain beer quality. A streamlined workflow involves proper prep (cleaning/sanitizing), calculated priming, gentle transfer, consistent filling, and immediate capping. The entire process should take 2-3 hours for a 5-gallon batch (~50 bottles). This guide covers optimizing your bottling process for efficiency and quality.',
         steps: [
-          'Clean all bottles thoroughly',
-          'Sanitize bottles, caps, and equipment',
-          'Prepare priming sugar solution',
-          'Add priming sugar to bottling bucket',
-          'Transfer beer gently to bucket',
-          'Fill bottles with bottling wand',
-          'Cap immediately after filling',
-          'Store at 70°F for 2 weeks',
-          'Refrigerate and enjoy'
+          'Prepare workspace and gather all equipment before starting: Clear counter space for bottling bucket, bottles, capper, and supplies. Gather: bottling bucket with spigot, siphon/racking cane, bottling wand, bottle capper, caps, priming sugar, pot for boiling, thermometer, hydrometer. Have extra towels for spills. Set up assembly line: sanitizer station, filling station, capping station. Organization prevents rushing and reduces oxidation risk.',
+          'Clean and inspect all bottles day before or morning of bottling: Rinse bottles with hot water, inspect for debris or residue. Soak dirty bottles in PBW solution for 30 minutes, scrub with bottle brush. Reject any bottles with chips, cracks, or stubborn stains. Clean bottles the hardest part of bottling - don\'t skip this. Store cleaned bottles covered until sanitizing.',
+          'Calculate and prepare priming sugar solution: Use priming calculator (Northern Brewer, Brewer\'s Friend) based on beer volume, style, and temperature. Standard ale at 65-70°F: 3/4 cup (5 oz) corn sugar or 2/3 cup (4.6 oz) table sugar for 5 gallons. Bring 2 cups water to boil, add sugar, stir to dissolve, boil 2 minutes. Cover and cool to room temperature. Verify final beer volume before calculating - short batches need less priming sugar.',
+          'Sanitize bottles, caps, and all packaging equipment: Use no-rinse sanitizer (Star San) mixed to package directions. For bottles: use bottle rinser attachment (fastest) or fill/shake/dump method. Sanitize: caps in bowl of sanitizer, bottling bucket and lid, siphon/racking cane, bottling wand, bottle filler tip. Let everything drain - no need to dry. Work systematically to avoid missing items.',
+          'Transfer beer to bottling bucket with priming sugar: Add cooled priming solution to sanitized bottling bucket first. Siphon beer from fermenter gently into bucket - beer flowing over priming solution mixes them evenly. Keep siphon intake above yeast cake. Avoid splashing or aerating. Fill bottling bucket slowly and steadily. Final volume should match your priming calculation.',
+          'Set up efficient bottling station: Place bottling bucket on counter, bottles below on floor or lower surface (gravity-fed is easiest). Attach bottling wand to spigot. Have caps ready in sanitizer nearby. Position capper within reach. Work methodically: fill bottle, remove wand, cap immediately, set aside, repeat. Develop rhythm to work quickly without rushing.',
+          'Fill bottles consistently using bottling wand: Press wand to bottom of bottle, open spigot, fill to brim. Remove wand - liquid level drops to perfect height (1 inch from top). Consistent fill levels = consistent carbonation across all bottles. Don\'t overfill (risk of gushers) or underfill (oxidation risk). Work steadily through all bottles.',
+          'Cap bottles immediately after filling: Center cap on bottle, place capper over cap, press or pull handles (depending on capper style) to crimp cap. Cap should be tight and secure - test by gently trying to remove it. Cap each bottle immediately after filling to minimize oxygen exposure. Label bottles with beer name and date using tape/marker.',
+          'Store bottles properly for conditioning: Place bottles upright in boxes or cases. Store at room temperature (65-75°F, ideally 68-70°F) in dark location. Carbonation develops over 2 weeks as yeast consume priming sugar. Week 1: yeast consume sugar, pressure builds. Week 2: CO2 dissolves into beer. After 2 weeks, refrigerate 24 hours before drinking.',
+          'Clean equipment immediately after bottling: Rinse bottling bucket, siphon, bottling wand, and all equipment with hot water. Dried-on beer becomes sticky and difficult to remove. Soak in cleaner if needed. Hang tubing to dry to prevent mildew. Store equipment clean and ready for next batch.'
         ],
         tips: [
-          'Minimize splashing to avoid oxidation',
-          'Consistent fill levels ensure proper carbonation',
-          'Use oxygen-absorbing caps for hoppy beers',
-          'Wait full 2 weeks before sampling'
+          'Clean bottles day before bottling - this is the most time-consuming step and doing it ahead makes bottling day much faster.',
+          'Use bottle rinser attachment for sanitizing - speeds up process dramatically and ensures consistent sanitization. Costs $15-20.',
+          'Prime to style - different beer styles need different CO2 volumes. Pale ales: 2.2-2.7 vol, IPAs: 2.2-2.6 vol, stouts: 1.7-2.3 vol, hefeweizens: 3.0-4.5 vol. Use calculators.',
+          'Work with a partner if possible - one person fills, one caps. Cuts time significantly and makes process more enjoyable.',
+          'Minimize oxygen exposure - work efficiently, don\'t splash, cap immediately after filling. Oxygen ruins hop aroma and causes staling.',
+          'Save commercial bottles - rinse immediately after pouring. Store upside-down after rinsing. Free bottles forever.',
+          'Use oxygen-absorbing caps for hoppy beers - they actively remove oxygen from headspace, preserving hop character longer. Worth the small extra cost.',
+          'Label every bottle with beer name and date - you\'ll forget what\'s what surprisingly quickly, especially if brewing multiple batches.',
+          'Sample one bottle at 2 weeks to check carbonation - if light, give remaining bottles another week warm. If good, move all to cold storage.',
+          'Keep detailed notes - record priming sugar amount, bottle count, conditioning temperature, carbonation results. Refine process based on these notes.'
         ]
       }
     },
@@ -668,22 +692,30 @@ const GUIDES = {
       difficulty: 'Intermediate',
       time: '1 hour',
       content: {
-        overview: 'Kegging for faster carbonation and less oxidation',
+        overview: 'Kegging offers numerous advantages over bottling: faster carbonation (days vs weeks), no bottle cleaning/capping/storing, draft beer on tap at home, easier serving, and most importantly - dramatically reduced oxygen exposure. Closed transfer takes kegging further by transferring beer from fermenter to keg under CO2 pressure without any oxygen exposure. Initial investment is higher ($150-300 for basic setup: keg, CO2 tank, regulator, lines), but the time savings and quality improvements make kegging worthwhile for frequent brewers. This guide covers keg cleaning/sanitizing, various transfer methods, force carbonation techniques, serving setup, and maintenance.',
         steps: [
-          'Clean and sanitize keg',
-          'Purge keg with CO2',
-          'Transfer beer via closed transfer or siphon',
-          'Seal keg and purge headspace',
-          'Set regulator to carbonation pressure',
-          'Carbonate for 7-14 days',
-          'Reduce to serving pressure',
-          'Pour and enjoy'
+          'Clean keg thoroughly: Rinse keg with hot water immediately after emptying previous beer. For deep cleaning: remove and disassemble poppets/posts, soak small parts in PBW solution. Fill keg with hot PBW solution (1-2 oz per gallon), seal with lid, shake vigorously, let sit 15-30 minutes. Attach cleaning attachment to faucet and recirculate solution through all keg openings. Rinse thoroughly multiple times with hot water until no cleaning solution remains. Inspect for beer stone buildup (brown deposits) - use acid-based cleaner (PBR) if needed.',
+          'Sanitize keg and seal: Fill keg with no-rinse sanitizer (Star San) mixed to package directions - 2-3 gallons is sufficient. Seal with lid. Shake and rotate keg to coat all interior surfaces. Open PRV (pressure release valve) and purge liquid through both posts using small pieces of tubing or by connecting/disconnecting quick disconnects. This sanitizes all contact surfaces. Dump sanitizer (or leave small amount in bottom - Star San is no-rinse). Purge keg with CO2: seal lid, apply 10-15 PSI CO2, release through PRV, repeat 3-4 times to remove all oxygen.',
+          'Transfer beer using chosen method: Open siphon: traditional method - siphon from fermenter into purged keg using auto-siphon and tubing. Fastest but introduces oxygen. Semi-closed: siphon into keg while gently flowing CO2 into fermenter opening to minimize oxygen. Fully closed transfer: connect fermenter and keg with tubing, apply 2-3 PSI CO2 to fermenter to push beer into purged keg. Requires fermenter with spigot or pressure-rated fermenter. Closed transfer nearly eliminates oxygen exposure - ideal for hoppy beers. Fill from bottom of keg (liquid post) for best purging.',
+          'Purge headspace and seal keg: After filling, seal keg lid. Pressurize to 30 PSI. Release pressure through PRV. Repeat this purge cycle 3-5 times to remove oxygen from headspace. This is critical for preserving hop aroma in IPAs and preventing oxidation. Final purge: pressurize to target carbonation pressure and leave sealed. If you hear hissing, the lid isn\'t seated properly - release pressure, reseat lid, re-pressurize.',
+          'Set carbonation pressure based on temperature and desired volumes: Different styles require different CO2 volumes. Use carbonation chart or calculator based on beer temperature and target volumes. Common targets: American ales (2.5 volumes at 38°F = 12 PSI), IPAs (2.4 volumes at 38°F = 11 PSI), Stouts (2.0 volumes at 38°F = 8 PSI), Hefeweizens (3.2 volumes at 38°F = 17 PSI). Cold beer dissolves CO2 more easily - if your kegerator runs at 38°F, use chart for 38°F. Set regulator to calculated pressure.',
+          'Carbonate using chosen method: Set-and-forget (recommended): Set regulator to carbonation pressure, leave for 7-14 days. Slow but produces finest bubbles and best carbonation. Fast carbonation: Set regulator to 30 PSI, leave for 24-48 hours, then reduce to serving pressure. Risk of over-carbonation. Shake method (fastest): Set to 30 PSI, lay keg on side, rock/shake for 5-10 minutes, let rest 20 minutes, serve. Can create harsh carbonation. For best results, use set-and-forget method.',
+          'Set serving pressure and balance lines: Once carbonated, reduce pressure to serving pressure (typically 10-12 PSI for ales at 38°F). This maintains carbonation without adding more. Serving pressure depends on line length and diameter - longer/narrower lines need higher pressure. Balanced system: beer flows smoothly without foaming. If too foamy: check for over-carbonation, warm beer, dirty lines, too high serving pressure, or unbalanced lines. Reduce pressure, ensure cold beer, increase line length if needed.',
+          'Pour and serve beer: Ensure beer is cold (38-42°F ideal). Open tap fully and quickly - partial opening causes foaming. Pour at 45° angle initially, straighten as glass fills. Proper pour should have 1/2 to 1 inch head. First few pours may be foamy as lines clear. Foamy beer troubleshooting: temperature too warm (chill longer), over-carbonated (wait or vent pressure), dirty lines (clean them), serving pressure too high (reduce), unbalanced lines (increase length).',
+          'Maintain kegging system: Clean beer lines every 4-8 weeks or between batches. Run line cleaning solution (BLC) or PBW through lines, let sit 15-30 minutes, flush with clean water thoroughly. Replace lines annually. Lubricate keg lid o-rings with keg lube when they dry out. Check CO2 tank level - a 5 lb tank carbonates 5-8 kegs. Replace regulator washers if leaking. Keep kegs sealed when not in use to maintain carbonation.',
+          'Closed transfer setup for optimal quality (advanced): For best results with hoppy beers, use fully closed transfer. Requirements: pressure-capable fermenter (FermZilla, Unitank, or SS Brewtech with FTSs), CO2 source, liquid-to-liquid jumper hose. Process: Ferment under 2-3 PSI spunding pressure. When complete, chill fermenter. Purge keg fully with CO2. Connect fermenter liquid post to keg liquid post with jumper. Apply 2-3 PSI to fermenter to push beer into keg. Beer never exposed to oxygen. This method produces the freshest possible packaged beer, especially critical for hazy IPAs and NEIPAs.'
         ],
         tips: [
-          'Closed transfer minimizes oxygen exposure',
-          'Force carbonation faster: 30 PSI for 24 hours',
-          'Line balancing prevents foamy pours',
-          'Clean beer lines regularly'
+          'Initial kegging investment ($200-300) pays off quickly - saves hours per batch and produces better beer through reduced oxygen exposure.',
+          'Buy used kegs to save money - Cornelius (Corny) kegs from soda industry work perfectly for homebrew. Clean thoroughly before first use.',
+          'Purge kegs with CO2 before filling - pressurize to 30 PSI, release through PRV, repeat 3-5 times. This removes oxygen that causes oxidation.',
+          'Closed transfer is game-changing for IPAs - eliminates oxygen exposure that ruins hop aroma. Worth the equipment investment for hop-forward styles.',
+          'Set-and-forget carbonation produces best results - 10-14 days at proper pressure creates fine bubbles and perfect carbonation. Fast methods work but aren\'t as refined.',
+          'Line balancing prevents foamy pours - longer/narrower lines allow lower serving pressure. Standard setup: 10 feet of 3/16" ID line at 10-12 PSI.',
+          'Clean beer lines regularly - dirty lines cause off-flavors and excessive foaming. Run BLC cleaner through system every 4-8 weeks.',
+          'Keep keg lids lubricated - dry o-rings cause leaks. Apply keg lube (food-grade lubricant) annually or when lid becomes hard to seal.',
+          'Start with one keg and scale up - don\'t need complete keezer right away. Single fridge with one keg gets you started.',
+          'Track CO2 usage - a 5 lb tank carbonates 5-8 kegs. Have backup tank or monitor level to avoid running out mid-batch.'
         ]
       }
     },
@@ -692,20 +724,30 @@ const GUIDES = {
       difficulty: 'Beginner',
       time: '2-3 days',
       content: {
-        overview: 'Improving beer clarity through cold crashing',
+        overview: 'Cold crashing is the process of rapidly lowering beer temperature to near-freezing (35-40°F) for 24-72 hours before packaging to dramatically improve clarity. Cold temperatures cause yeast, proteins, hop particles, and other suspended matter to flocculate (clump together) and settle out, leaving brilliantly clear beer. This process doesn\'t affect flavor - it\'s purely cosmetic improvement. While hazy beers are trendy (NEIPAs, Hefeweizens), most styles benefit from clarity. Cold crashing is optional but highly recommended, especially for lagers, pilsners, and any beer where you want crystal-clear appearance. This guide covers technique, timing, fining agents to enhance clarity, and managing potential issues like oxygen ingress.',
         steps: [
-          'Complete fermentation fully',
-          'Lower temperature to 35-40°F',
-          'Hold for 2-3 days',
-          'Yeast and proteins drop out',
-          'Optional: add gelatin finings',
-          'Package carefully to avoid stirring sediment'
+          'Verify fermentation is completely finished before cold crashing: Take gravity readings 2-3 days apart - if gravity is stable (same reading), fermentation is complete. Target: within 1-2 points of expected Final Gravity. Beer should taste like flat beer, not sweet wort. If fermentation isn\'t complete, cold crashing will stall yeast activity and prevent full attenuation. Complete fermentation first, then cold crash. Exception: if bottle conditioning, don\'t cold crash for more than 2-3 days - you need some yeast in suspension to carbonate.',
+          'Lower temperature gradually to 35-40°F (1-4°C): If using fermentation chamber or temperature controller, set to 35-38°F. Beer will gradually cool over 6-12 hours. Avoid shocking yeast with instant temperature drop - gradual cooling is gentler. Target temperature: as cold as possible without freezing (32°F). Most homebrewers use 35-38°F. Lower temperatures increase flocculation effectiveness. Monitor to ensure beer doesn\'t freeze - frozen beer expands and can burst fermenters or bottles.',
+          'Hold at cold temperature for 24-72 hours: Minimum effective time: 24 hours (noticeable improvement). Standard practice: 48 hours (2 days) for significant clearing. Maximum benefit: 72 hours (3 days) for crystal clarity. Beyond 72 hours provides minimal additional benefit unless using fining agents. During this time, gravity and suspended particles continuously settle. You\'ll see a thick layer of sediment forming at fermenter bottom. Don\'t disturb fermenter during cold crash - movement resuspends particles.',
+          'Optional - Add gelatin finings for even greater clarity: Gelatin is derived from animals and binds to proteins and yeast, pulling them out of suspension. Use unflavored gelatin (Knox brand). Dosage: 1/2 tsp gelatin per 5 gallons. Preparation: bloom gelatin in 1/4 cup cold water for 10 minutes. Heat to 150-160°F (not boiling) to dissolve. Cool slightly. Gently add dissolved gelatin to cold-crashed beer. Swirl fermenter gently to distribute. Let sit 24-48 hours cold. Beer will become brilliantly clear. Note: gelatin is not vegetarian/vegan. Alternatives: isinglass (fish-derived), Irish moss/whirlfloc (plant-based, added during boil), or mechanical filtration.',
+          'Other fining agents and their uses: Irish Moss / Whirlfloc: Add during last 10 minutes of boil. Helps protein coagulation, improves cold break, aids clarity. Use 1 tsp per 5 gallons or 1 Whirlfloc tablet. Most effective fining agent for homebrewers. Isinglass: Fish bladder-derived, very effective for British ales. Add to fermenter or keg. 1-2 tsp per 5 gallons. Effective in 2-3 days. Biofine Clear: vegan-friendly, fast-acting. Add to fermenter or keg. Follow package directions. Works in 24 hours. PVPP (polyvinylpolypyrrolidone): removes polyphenols and haze. Add at packaging. Use for persistent chill haze.',
+          'Prevent oxygen ingress during cold crashing (important for hoppy beers): Cold beer creates vacuum as temperature drops - CO2 dissolves into beer, reducing headspace pressure. This can suck oxygen into fermenter through airlock. Solutions: Use balloon on airlock (expands/contracts without allowing air in). Fill airlock with sanitizer or vodka instead of water. Purge fermenter headspace with CO2 before cold crashing (requires CO2 setup). Use adjustable pressure spunding valve set to 0 PSI. For kegging: cold crash directly in sealed, CO2-purged keg. Oxygen ingress is primary drawback of cold crashing for IPAs - take precautions.',
+          'Package carefully without disturbing sediment: After cold crashing, a thick layer of sediment (yeast, proteins, hop material) sits at fermenter bottom. When transferring: Keep siphon intake well above sediment layer. Transfer slowly and gently. Stop transfer when sediment starts being drawn up. Accept losing 1/4 to 1/2 gallon to sediment rather than transferring cloudy beer. For kegging: cold crash in keg itself to avoid transfer entirely. Sediment in packaged beer affects appearance and can create yeasty off-flavors.',
+          'When NOT to cold crash: Hefeweizens and wheat beers: haze is a style characteristic from wheat proteins and yeast in suspension. Cold crashing removes desired cloudiness. Bottle-conditioned beers: extended cold crash (>3 days) drops out so much yeast that carbonation can be very slow or incomplete. If cold crashing before bottling, limit to 24-48 hours and consider adding fresh yeast (CBC-1) at packaging. New England IPAs / Hazy IPAs: haze is desired. Some brewers cold crash NEIPAs, others don\'t - stylistic choice.',
+          'Understand permanent vs temporary haze: Chill haze: temporary haze that appears when beer is cold, disappears when warm. Caused by proteins bonding with polyphenols. Cosmetic only, doesn\'t affect flavor. Prevent with good hot/cold break, Irish Moss in boil, and cold conditioning. Treat with PVPP if desired. Permanent haze: remains regardless of temperature. Caused by starch (insufficient mashing), proteins (wheat, oats), pectin (fruit additions), or infection. Cold crashing helps permanent haze somewhat but won\'t eliminate it. Use appropriate enzymes (Clarex, amylase) or filtration if this is recurring issue.',
+          'Combine cold crashing with other clarity techniques for best results: Multi-stage clarity program: Add Irish Moss during boil (hot break), vigorous boil for cold break, proper fermentation temperature (encourages flocculation), cold crash for 48-72 hours, add gelatin during cold crash (optional), package gently without disturbing sediment. This program produces crystal-clear beer rivaling commercial examples. Competition judges expect clear beer in most categories - haze is considered a defect unless style-appropriate.'
         ],
         tips: [
-          'Cold crashing doesnt affect flavor',
-          'Improves clarity dramatically',
-          'Works for both bottles and kegs',
-          'Use CO2 to purge keg to avoid oxygen'
+          'Cold crashing improves clarity dramatically without affecting flavor - purely cosmetic improvement that makes beer look professional.',
+          'Minimum 24 hours cold, 48-72 hours ideal - longer provides marginal additional benefit. Most improvement happens in first 48 hours.',
+          'Use gelatin finings for maximum clarity - dissolve 1/2 tsp in warm water, add to cold-crashed beer, wait 24-48 hours. Results in brilliant clarity.',
+          'Prevent oxygen ingress during cold crash - use balloon on airlock, purge with CO2, or use spunding valve. Critical for hoppy beers.',
+          'Don\'t cold crash bottle-conditioned beers for more than 2-3 days - extended cold crashes drop out yeast needed for carbonation.',
+          'Skip cold crashing for Hefeweizens, NEIPAs, and other styles where haze is desired - cold crashing removes characteristic cloudiness.',
+          'Combine with Irish Moss/Whirlfloc during boil for best results - these work together for maximum clarity improvement.',
+          'Package carefully to leave sediment behind - losing 1/4 gallon to sediment is better than transferring cloudy beer.',
+          'Temperature as cold as possible without freezing works best - 35-38°F is ideal range. Colder = better flocculation.',
+          'Use cold crashing for lagers, pilsners, and clear ales - these styles benefit most from crystal-clear appearance.'
         ]
       }
     },
@@ -714,20 +756,30 @@ const GUIDES = {
       difficulty: 'Intermediate',
       time: 'Varies',
       content: {
-        overview: 'Natural and forced carbonation techniques',
+        overview: 'Carbonation gives beer its characteristic mouthfeel, carries aromas to your nose, and defines the drinking experience. Different styles require different carbonation levels - measured in volumes of CO2. One volume = beer can hold its own volume of dissolved CO2. Light lagers might have 2.6-2.8 volumes (highly carbonated, crisp), while stouts have 1.6-2.0 volumes (low carbonation, creamy). Carbonation methods fall into two categories: natural (bottle conditioning with priming sugar) and forced (injecting CO2 under pressure in kegs). This guide covers calculating proper carbonation levels, priming sugar calculations, force carbonation techniques, achieving target volumes, and troubleshooting carbonation issues.',
         steps: [
-          'Natural: Add priming sugar and bottle condition',
-          'Forced: Use CO2 under pressure in keg',
-          'Set and forget: Low pressure for 7-14 days',
-          'Fast carb: 30 PSI for 24 hours, then serving pressure',
-          'Shake method: 30 PSI while shaking keg for 5 minutes',
-          'Check carbonation level and adjust'
+          'Understand CO2 volumes for different styles: Volumes of CO2 define carbonation level. Low carbonation (1.5-2.0 vol): British bitters, stouts, porters - subtle carbonation, creamy mouthfeel. Moderate carbonation (2.2-2.7 vol): Most American ales, IPAs, pale ales, ambers - balanced, noticeable but not aggressive. High carbonation (2.7-3.0+ vol): Belgian ales, Hefeweizens, witbiers, saisons - lively, effervescent. Very high carbonation (3.5-4.5 vol): Champagne-like, some Belgians and wheat beers. Use style guidelines to determine appropriate range for your beer. Carbonation affects both perception and actual flavor - higher carbonation accentuates bitterness and dryness.',
+          'Natural carbonation - Calculate priming sugar for bottles: Priming sugar provides food for residual yeast in bottles to produce CO2. Use priming calculators (Northern Brewer, Brewer\'s Friend) - they account for beer temperature and residual CO2. Inputs needed: final beer volume, beer temperature, target CO2 volumes. Common calculations for 5 gallons at 68°F: Pale ale (2.5 vol) = 3/4 cup (5 oz) corn sugar or 2/3 cup (4.3 oz) table sugar. IPA (2.4 vol) = 2/3 cup (4.6 oz) corn sugar. Stout (2.0 vol) = 1/2 cup (3.5 oz) corn sugar. Hefeweizen (3.3 vol) = 1 cup (6.8 oz) corn sugar. Always calculate - don\'t guess.',
+          'Prepare and add priming sugar for natural carbonation: Boil 2 cups water, add calculated sugar amount, stir to dissolve, boil 2 minutes to sterilize. Cover and cool to room temperature. Add cooled priming solution to sanitized bottling bucket. Siphon beer into bucket - beer flowing over sugar mixes them thoroughly. Don\'t stir (introduces oxygen). Fill bottles immediately. Cap and store at room temperature (65-75°F) for 2 weeks. Yeast consume priming sugar, produce CO2, carbonation develops. After 2 weeks, refrigerate and enjoy.',
+          'Forced carbonation for kegs - Set-and-forget method (best results): Connect CO2 to keg, set regulator to target pressure based on temperature and desired volumes. Use carbonation chart. Example: 2.5 volumes at 38°F = 12 PSI. Leave connected for 7-14 days. Slow carbonation produces finest bubbles and most integrated carbonation. After initial period, reduce to serving pressure (typically 10-12 PSI) to maintain carbonation without adding more. This method produces professional results. Patience is key - rushing creates harsh carbonation.',
+          'Forced carbonation - Fast method (24-48 hours): Set regulator to 30 PSI with keg at serving temperature (38-40°F). Leave connected for 24-48 hours - no shaking needed. After 24 hours, reduce to serving pressure and test. If under-carbonated, leave at high pressure another 12-24 hours. Once carbonated, reduce to serving pressure to maintain. This method works well but risks over-carbonation if you forget about it. Set timer/reminder. Carbonation is faster but can be harsher than set-and-forget method.',
+          'Forced carbonation - Shake method (1-2 hours, fast but harsh): Chill keg to 38-40°F. Set regulator to 30 PSI. Lay keg on side, rock and shake vigorously for 5-10 minutes while pressurized. Listen for CO2 absorption (bubbling sound changes). Let rest 20 minutes. Test carbonation. If under-carbonated, repeat. Reduce to serving pressure once desired carbonation achieved. This is fastest method but produces larger, harsher bubbles. Good for parties when you need beer fast, but not ideal for refined carbonation. Can over-carbonate easily - be careful.',
+          'Use carbonation charts or calculators: Carbonation pressure depends on both temperature and desired volumes. Colder beer dissolves CO2 easier (lower pressure needed). Warmer beer needs higher pressure. Example for 2.5 volumes: 32°F needs 7 PSI, 38°F needs 12 PSI, 45°F needs 16 PSI, 50°F needs 19 PSI. Always consult chart for your specific temperature and target volumes. Keep chart posted on kegerator or use mobile apps. Incorrect pressure causes under or over-carbonation.',
+          'Blend carbonation methods for optimal results: Some brewers use hybrid approach: Start with fast method (30 PSI for 24 hours) to quickly dissolve CO2. Reduce to maintenance pressure and let sit 5-7 days for CO2 to fully integrate and smooth out. This combines speed of fast method with refinement of set-and-forget. Another hybrid: Carbonate at 20 PSI for 3-4 days (middle ground between fast and slow), then reduce to serving pressure.',
+          'Troubleshoot carbonation problems: Under-carbonated beer: increase pressure by 2-3 PSI for several days, or add more priming sugar to bottles (risky - can over-carbonate). Over-carbonated beer: release pressure through keg PRV multiple times over 24 hours (reduces carbonation gradually), or wait - over-carbonation decreases naturally over time. Bottles: no fix, live with it or be very careful opening. Flat beer in bottles after 3+ weeks: insufficient priming sugar, yeast too cold, yeast not viable (extended cold crash), infected yeast. Add CBC-1 or champagne yeast to salvage. Gushers (excessive foam): over-primed, infection, bottled too warm, shaken bottles. Refrigerate and open slowly over sink.',
+          'Advanced - Spunding for natural carbonation in kegs: Spunding uses a pressure release valve set to specific PSI during fermentation. As yeast produce CO2, it\'s retained in sealed keg up to set pressure. Excess vents. This naturally carbonates beer during fermentation without adding external CO2. Benefits: no priming sugar, naturally carbonated, German tradition, saves CO2. Drawbacks: requires pressure-rated fermenter, spunding valve ($40-60), careful monitoring. Target pressure depends on temperature and desired volumes. Popular for lagers and traditional German styles. Advanced technique but produces exceptional results.'
         ],
         tips: [
-          'Different styles need different CO2 volumes',
-          'Temperature affects carbonation pressure',
-          'Use carbonation calculator',
-          'Be patient with bottle conditioning'
+          'Different styles need different CO2 volumes - use style guidelines. Stouts: 1.6-2.0 vol, Ales: 2.2-2.7 vol, Wheats: 3.0-4.0 vol. Target affects character significantly.',
+          'Use carbonation calculators for priming sugar - temperature and residual CO2 affect calculations. Never guess amounts or you risk under/over-carbonation or bottle bombs.',
+          'Set-and-forget forced carbonation produces best results - 10-14 days at target pressure creates fine, integrated carbonation. Fast methods work but aren\'t as refined.',
+          'Temperature affects carbonation pressure - colder beer needs less pressure to reach same volumes. Always use charts for your actual serving temperature.',
+          'Be patient with bottle conditioning - 2 weeks minimum at 65-75°F. Week 1: yeast consume sugar, pressure builds. Week 2: CO2 dissolves. Testing early yields flat, disappointing results.',
+          'Monitor first-time batches closely - check bottle after 1 week by opening over sink. If highly carbonated already, move all to refrigerator to prevent over-carbonation.',
+          'Keep detailed records - note priming amounts, carbonation method, times, results. Use this data to dial in perfect carbonation for your system and preferences.',
+          'Don\'t fear over-priming - proper calculation prevents it. Commercial examples: 3/4 cup corn sugar per 5 gallons for ales works for 99% of batches without issue.',
+          'Forced carbonation allows precise control - adjust pressure up or down to dial in exact carbonation level. Bottles are set once you cap - no adjustments possible.',
+          'Consider spunding for natural keg carbonation - retains CO2 from fermentation, produces exceptional carbonation, traditional German method. Requires pressure-capable fermenter and spunding valve.'
         ]
       }
     },
@@ -736,21 +788,30 @@ const GUIDES = {
       difficulty: 'Beginner',
       time: 'Ongoing',
       content: {
-        overview: 'Storing beer to maintain quality',
+        overview: 'Proper storage preserves beer quality and prevents premature staling, oxidation, light damage, and contamination. Most homebrewed beers are best consumed fresh (within 3-6 months), but some styles improve with age. Storage priorities: cool and stable temperature (50-60°F ideal, cold storage even better), complete darkness (light creates skunky off-flavors), upright bottles (minimizes oxidation), and tracking packaging dates. Understanding which beers age well versus which should be drunk fresh helps you prioritize consumption. This guide covers optimal storage conditions, aging vs drinking fresh, recognizing beer degradation, and maximizing shelf life.',
         steps: [
-          'Store bottles upright to minimize oxidation',
-          'Keep in cool, dark place (50-60°F)',
-          'Avoid temperature fluctuations',
-          'Minimize light exposure (UV causes skunking)',
-          'Higher ABV beers age better',
-          'Most beers best within 3-6 months',
-          'Barleywines and imperials can age years'
+          'Store beer in cool, temperature-stable environment: Ideal temperature: 50-60°F (cellar temperature) for long-term aging, 38-45°F (refrigerator) for maintaining freshness. Avoid: room temperature (70°F+) accelerates staling and oxidation. Temperature fluctuations (warm/cold cycles) speed degradation. Hot storage (garage, attic) ruins beer quickly. Cooler is always better for preservation. Each 10°F increase doubles the rate of chemical reactions (staling, oxidation). If you can only choose one factor to control, choose temperature - it matters most.',
+          'Keep beer in complete darkness: Light (especially UV and blue light) reacts with hop compounds (iso-alpha acids) to create 3-methyl-2-butene-1-thiol (MBT), which smells exactly like skunk spray. Even brief light exposure can skunk beer. Brown bottles provide best protection. Green and clear bottles offer little protection - these beers must be stored in complete darkness. Store in: closed cardboard boxes, dark closet, basement, cabinet, or dedicated beer fridge. Never store on counters, by windows, or in glass-front fridges without covering. Once skunked, beer cannot be fixed.',
+          'Store bottles upright to minimize oxidation: Bottles should be stored standing up, not laying down like wine. Reasons: minimizes beer surface area exposed to oxygen in headspace, keeps yeast sediment compact at bottle bottom (easier to pour clear), prevents long-term contact with cap (can extract metallic flavors), reduces risk of carbonation loss through cap. Exception: corked bottles (Belgian styles) can be stored horizontally to keep cork moist, but most homebrewers use caps.',
+          'Understand which beers should be drunk fresh: Drink within 4-8 weeks: IPAs, Pale Ales, any hop-forward beer - hop aroma fades rapidly despite best storage. Drink within 3 months: Session beers, wheat beers, light lagers, blonde ales - delicate flavors fade, not meant for aging. Drink within 6 months: Most standard-gravity ales (stouts, browns, ambers, porters) - drinkable longer but peak quality is early. Fresh beer tastes better - don\'t automatically age everything. Modern brewing culture emphasizes freshness.',
+          'Know which beers improve with age: Age 6-12 months: Strong ales (8%+ ABV), Belgian dubbels/tripels, bocks, doppelbocks. Malt flavors mellow, harsh edges smooth out. Age 1-3 years: Barleywines, imperial stouts, old ales, Belgian strong dark ales, Baltic porters (9%+ ABV). Develop sherry-like oxidation (desirable in these styles), malt complexity deepens, alcohol heat mellows. Age 5-20+ years: Vintage releases of imperial stouts, barleywines, lambics - these are outliers. Aging requirements: high ABV (8%+), malt-forward character (not hoppy), bottle-conditioned (live yeast), proper storage. Even these beers: some prefer fresh, some prefer aged - matter of taste.',
+          'Track packaging dates and organize inventory: Label every bottle/keg with beer name and package date. Use waterproof marker, labels, or tape. Create simple spreadsheet or use apps (Untappd, Homebrew Notes) tracking: beer name, style, ABV, package date, target drink-by date, aging potential, storage location, quantity remaining. Organize stored beer: put newest in back, oldest in front (FIFO - first in, first out). Create "drink soon" section for beers approaching their prime. Review inventory quarterly - identify beers to prioritize drinking.',
+          'Monitor stored beer for degradation signs: Check bottles periodically (every 3-6 months) for: Oxidation (staling): cardboard, papery, wet newspaper flavors - color may darken significantly. Light damage (skunking): obvious skunk/sulfur aroma, particularly in hoppy beers exposed to light. Infection: unexpected sourness, funky barnyard flavors, over-carbonation/gushers, visible contamination (film, pellicle). Wild carbona tion: gushers or flat beer (cap failure, over-priming, infection). When you detect degradation: drink affected batch quickly before it worsens, analyze cause (oxidation? light? infection?), adjust storage for future batches.',
+          'Optimize packaging to maximize shelf life: Minimize oxygen at packaging - use oxygen-absorbing caps for hoppy beers, purge kegs thoroughly with CO2, avoid splashing during transfers, use closed transfer methods. Use appropriate bottle color - brown bottles for all beers, especially hoppy ones. Green/clear bottles require complete darkness. Package at proper carbonation - over-carbonated beer has shorter shelf life (higher pressure stresses closures). Cold storage immediately after carbonation - stops aging clock as much as possible. For long-term aging candidates: bottle condition with strong, healthy yeast (improves aging).',
+          'Create beer cellar for aging enthusiasts: Dedicated storage space optimized for aging: Temperature-controlled space at 50-60°F (wine cellar temps), completely dark (no light leaks), moderate humidity (50-70%) to prevent label damage and rusting, organized shelving with good air circulation, inventory tracking system. Can be: small closet with portable AC unit, basement corner with insulation, unused refrigerator, commercial wine cooler set to 55°F. Even small space allows aging 50-100 bottles of special releases.',
+          'Understand aging is optional and subjective: Common misconception: all beer improves with age. Reality: most beer is best fresh, only specific high-ABV malt-forward styles benefit from aging, personal preference varies widely (some prefer fresh barleywine at 3 months, others prefer 3-year version). Don\'t feel obligated to age beer. Professional brewers design most beers for immediate consumption. Aging experiment: buy/brew multiple bottles of same barleywine/imperial stout. Taste one fresh (3 months), one at 1 year, one at 2 years. Discover your preference. This teaches you more than any guide.'
         ],
         tips: [
-          'Cold and dark preserves freshness',
-          'Hoppy beers drink fresh',
-          'Some beers improve with age',
-          'Track packaging dates'
+          'Cool and dark storage preserves freshness - ideal: 50-60°F in complete darkness. Cold storage (fridge) even better but takes space. Temperature is most important factor.',
+          'Drink hoppy beers fresh within 4-8 weeks - hop aroma fades rapidly regardless of storage. IPAs are not aging candidates. Freshness is key.',
+          'Only age high-ABV (8%+) malt-forward beers - barleywines, imperial stouts, Belgian strong ales, old ales. Most beer does not improve with age.',
+          'Store bottles upright, not laying down - minimizes oxidation, keeps sediment compact, prevents cap interaction. Unlike wine, beer bottles stand up.',
+          'Light creates skunky off-flavors that cannot be fixed - brown bottles in complete darkness. Green/clear bottles require absolute darkness. Never store in light.',
+          'Track packaging dates religiously - label every bottle/keg with name and date. Create spreadsheet to manage inventory and ensure you drink beer at peak quality.',
+          'Use oxygen-absorbing caps for hoppy beers - actively remove oxygen from headspace, preserving hop character significantly longer. Worth the small extra cost.',
+          'Temperature fluctuations accelerate staling - stable cool temp better than cycling between warm and cold. Find stable location and leave beer there.',
+          'Most beer is best within 6 months - embrace freshness culture. Don\'t automatically age everything. Fresh beer usually tastes better.',
+          'Experiment to learn your preferences - age a few bottles of strong beer (1 year, 2 years, 3 years) and compare. Discover whether you prefer fresh or aged versions.'
         ]
       }
     }
