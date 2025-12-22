@@ -133,7 +133,7 @@ export function StarterKitsDisplay({ title, subcategory = 'Equipment Kits', maxD
             >
               <div className="aspect-square relative mb-3 bg-background/50 rounded overflow-hidden">
                 <ProductImage
-                  src={kit.image_url}
+                  imageUrl={kit.image_url}
                   alt={kit.name}
                   fill
                   className="object-cover"

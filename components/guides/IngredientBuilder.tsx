@@ -194,7 +194,7 @@ export function IngredientBuilder({ title, defaultStyle }: IngredientBuilderProp
                     >
                       <div className="w-20 h-20 relative bg-background/50 rounded overflow-hidden flex-shrink-0">
                         <ProductImage
-                          src={kit.image_url}
+                          imageUrl={kit.image_url}
                           alt={kit.name}
                           fill
                           className="object-cover"
