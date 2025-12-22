@@ -241,7 +241,7 @@ Be paranoid about sanitation. It's the difference between great beer and drain p
   {
     id: 'first-brew',
     title: '5. Your First Brew Day (Extract Brewing)',
-    content: `This is it – brew day! Extract brewing is the perfect way to start. You'll make excellent beer while learning the fundamentals. Allow 4-6 hours, though active time is only 2-3 hours.`,
+    content: `This is it – brew day! Extract brewing is the perfect way to start. You'll make excellent beer while learning the fundamentals. Allow 2-3 hours total, though active work time is only 1-2 hours. (Note: The timeline below includes some optional steps that may add time.)`,
     subsections: [
       {
         title: 'Before You Start: Checklist',
