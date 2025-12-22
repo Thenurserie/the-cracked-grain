@@ -55,80 +55,150 @@ export function IngredientBuilder({
 
     const items: IngredientItem[] = [];
 
-    // Add malts
-    selectedStyle.ingredients.malt.forEach(malt => {
-      const searchTerm = malt.toLowerCase().includes('pale') ? 'pale malt' :
-                        malt.toLowerCase().includes('crystal') || malt.toLowerCase().includes('caramel') ? 'crystal malt' :
-                        malt.toLowerCase().includes('munich') ? 'munich malt' :
-                        malt.toLowerCase().includes('wheat') ? 'wheat malt' :
-                        malt.toLowerCase().includes('pilsner') ? 'pilsner malt' :
-                        malt.toLowerCase().includes('chocolate') ? 'chocolate malt' :
-                        malt.toLowerCase().includes('roasted') ? 'roasted barley' :
-                        malt.toLowerCase().includes('black') ? 'black malt' :
-                        malt.toLowerCase().includes('carapils') ? 'carapils' :
-                        malt.toLowerCase().includes('flaked') ? 'flaked barley' :
-                        malt.toLowerCase().includes('honey') ? 'honey malt' : 'malt';
+    // Check if we have specific quantities for this batch size and method
+    const quantities = selectedStyle.quantities?.[batchSize]?.[brewMethod];
 
-      items.push({
-        name: malt,
-        category: 'Grains',
-        searchTerm
-      });
-    });
+    if (quantities) {
+      // Use specific quantities from the data
+      Object.entries(quantities).forEach(([ingredientName, quantity]) => {
+        const lowerName = ingredientName.toLowerCase();
 
-    // Add hops
-    selectedStyle.ingredients.hops.forEach(hop => {
-      const searchTerm = hop.toLowerCase().includes('cascade') ? 'cascade' :
-                        hop.toLowerCase().includes('chinook') ? 'chinook' :
-                        hop.toLowerCase().includes('citra') ? 'citra' :
-                        hop.toLowerCase().includes('centennial') ? 'centennial' :
-                        hop.toLowerCase().includes('columbus') ? 'columbus' :
-                        hop.toLowerCase().includes('goldings') ? 'goldings' :
-                        hop.toLowerCase().includes('fuggles') ? 'fuggles' :
-                        hop.toLowerCase().includes('hallertau') ? 'hallertau' :
-                        hop.toLowerCase().includes('saaz') ? 'saaz' :
-                        hop.toLowerCase().includes('liberty') ? 'liberty' :
-                        hop.toLowerCase().includes('willamette') ? 'willamette' :
-                        hop.toLowerCase().includes('mt') || hop.toLowerCase().includes('hood') ? 'mt hood' : 'hops';
+        // Determine category and search term based on ingredient name
+        let category = 'Chemicals';
+        let searchTerm = lowerName;
 
-      items.push({
-        name: hop,
-        category: 'Hops',
-        searchTerm
-      });
-    });
-
-    // Add yeast
-    items.push({
-      name: selectedStyle.ingredients.yeast,
-      category: 'Yeast',
-      searchTerm: selectedStyle.ingredients.yeast.toLowerCase().includes('ale') ? 'ale yeast' :
-                 selectedStyle.ingredients.yeast.toLowerCase().includes('lager') ? 'lager yeast' :
-                 selectedStyle.ingredients.yeast.toLowerCase().includes('wheat') ? 'wheat yeast' :
-                 selectedStyle.ingredients.yeast.toLowerCase().includes('irish') ? 'irish ale' : 'yeast'
-    });
-
-    // Add other ingredients
-    if (selectedStyle.ingredients.other) {
-      selectedStyle.ingredients.other.forEach(item => {
-        const searchTerm = item.toLowerCase().includes('priming') ? 'priming sugar' :
-                          item.toLowerCase().includes('irish moss') ? 'irish moss' :
-                          item.toLowerCase().includes('nutrient') ? 'yeast nutrient' :
-                          item.toLowerCase().includes('lactose') ? 'lactose' :
-                          item.toLowerCase().includes('coriander') ? 'coriander' :
-                          item.toLowerCase().includes('orange') ? 'orange peel' :
-                          item.toLowerCase().includes('calcium') ? 'calcium' : item.toLowerCase();
+        if (lowerName.includes('malt') || lowerName.includes('extract')) {
+          category = 'Grains';
+          searchTerm = lowerName.includes('pale') ? 'pale malt' :
+                      lowerName.includes('crystal') || lowerName.includes('caramel') ? 'crystal malt' :
+                      lowerName.includes('liquid') ? 'liquid malt extract' :
+                      lowerName.includes('dry') && lowerName.includes('extract') ? 'dry malt extract' :
+                      lowerName.includes('munich') ? 'munich malt' :
+                      lowerName.includes('wheat') ? 'wheat malt' :
+                      lowerName.includes('pilsner') ? 'pilsner malt' :
+                      lowerName.includes('chocolate') ? 'chocolate malt' :
+                      lowerName.includes('roasted') ? 'roasted barley' :
+                      lowerName.includes('black') ? 'black malt' :
+                      lowerName.includes('carapils') ? 'carapils' :
+                      lowerName.includes('flaked') ? 'flaked barley' :
+                      lowerName.includes('honey') ? 'honey malt' : 'malt';
+        } else if (lowerName.includes('hop') || lowerName.includes('cascade') ||
+                   lowerName.includes('chinook') || lowerName.includes('citra') ||
+                   lowerName.includes('centennial') || lowerName.includes('columbus') ||
+                   lowerName.includes('goldings') || lowerName.includes('fuggles') ||
+                   lowerName.includes('hallertau') || lowerName.includes('saaz') ||
+                   lowerName.includes('liberty') || lowerName.includes('willamette')) {
+          category = 'Hops';
+          searchTerm = lowerName.includes('cascade') ? 'cascade' :
+                      lowerName.includes('chinook') ? 'chinook' :
+                      lowerName.includes('citra') ? 'citra' :
+                      lowerName.includes('centennial') ? 'centennial' :
+                      lowerName.includes('columbus') ? 'columbus' :
+                      lowerName.includes('goldings') ? 'goldings' :
+                      lowerName.includes('fuggles') ? 'fuggles' :
+                      lowerName.includes('hallertau') ? 'hallertau' :
+                      lowerName.includes('saaz') ? 'saaz' :
+                      lowerName.includes('liberty') ? 'liberty' :
+                      lowerName.includes('willamette') ? 'willamette' : 'hops';
+        } else if (lowerName.includes('yeast')) {
+          category = 'Yeast';
+          searchTerm = lowerName.includes('ale') ? 'ale yeast' :
+                      lowerName.includes('lager') ? 'lager yeast' :
+                      lowerName.includes('wheat') ? 'wheat yeast' :
+                      lowerName.includes('irish') ? 'irish ale' : 'yeast';
+        } else {
+          searchTerm = lowerName.includes('priming') ? 'priming sugar' :
+                      lowerName.includes('irish moss') ? 'irish moss' :
+                      lowerName.includes('nutrient') ? 'yeast nutrient' :
+                      lowerName.includes('lactose') ? 'lactose' :
+                      lowerName.includes('coriander') ? 'coriander' :
+                      lowerName.includes('orange') ? 'orange peel' :
+                      lowerName.includes('calcium') ? 'calcium' : lowerName;
+        }
 
         items.push({
-          name: item,
-          category: 'Chemicals',
+          name: `${ingredientName} (${quantity})`,
+          category,
           searchTerm
         });
       });
+    } else {
+      // Fallback to generic ingredients (no quantities available)
+      // Add malts
+      selectedStyle.ingredients.malt.forEach(malt => {
+        const searchTerm = malt.toLowerCase().includes('pale') ? 'pale malt' :
+                          malt.toLowerCase().includes('crystal') || malt.toLowerCase().includes('caramel') ? 'crystal malt' :
+                          malt.toLowerCase().includes('munich') ? 'munich malt' :
+                          malt.toLowerCase().includes('wheat') ? 'wheat malt' :
+                          malt.toLowerCase().includes('pilsner') ? 'pilsner malt' :
+                          malt.toLowerCase().includes('chocolate') ? 'chocolate malt' :
+                          malt.toLowerCase().includes('roasted') ? 'roasted barley' :
+                          malt.toLowerCase().includes('black') ? 'black malt' :
+                          malt.toLowerCase().includes('carapils') ? 'carapils' :
+                          malt.toLowerCase().includes('flaked') ? 'flaked barley' :
+                          malt.toLowerCase().includes('honey') ? 'honey malt' : 'malt';
+
+        items.push({
+          name: malt,
+          category: 'Grains',
+          searchTerm
+        });
+      });
+
+      // Add hops
+      selectedStyle.ingredients.hops.forEach(hop => {
+        const searchTerm = hop.toLowerCase().includes('cascade') ? 'cascade' :
+                          hop.toLowerCase().includes('chinook') ? 'chinook' :
+                          hop.toLowerCase().includes('citra') ? 'citra' :
+                          hop.toLowerCase().includes('centennial') ? 'centennial' :
+                          hop.toLowerCase().includes('columbus') ? 'columbus' :
+                          hop.toLowerCase().includes('goldings') ? 'goldings' :
+                          hop.toLowerCase().includes('fuggles') ? 'fuggles' :
+                          hop.toLowerCase().includes('hallertau') ? 'hallertau' :
+                          hop.toLowerCase().includes('saaz') ? 'saaz' :
+                          hop.toLowerCase().includes('liberty') ? 'liberty' :
+                          hop.toLowerCase().includes('willamette') ? 'willamette' :
+                          hop.toLowerCase().includes('mt') || hop.toLowerCase().includes('hood') ? 'mt hood' : 'hops';
+
+        items.push({
+          name: hop,
+          category: 'Hops',
+          searchTerm
+        });
+      });
+
+      // Add yeast
+      items.push({
+        name: selectedStyle.ingredients.yeast,
+        category: 'Yeast',
+        searchTerm: selectedStyle.ingredients.yeast.toLowerCase().includes('ale') ? 'ale yeast' :
+                   selectedStyle.ingredients.yeast.toLowerCase().includes('lager') ? 'lager yeast' :
+                   selectedStyle.ingredients.yeast.toLowerCase().includes('wheat') ? 'wheat yeast' :
+                   selectedStyle.ingredients.yeast.toLowerCase().includes('irish') ? 'irish ale' : 'yeast'
+      });
+
+      // Add other ingredients
+      if (selectedStyle.ingredients.other) {
+        selectedStyle.ingredients.other.forEach(item => {
+          const searchTerm = item.toLowerCase().includes('priming') ? 'priming sugar' :
+                            item.toLowerCase().includes('irish moss') ? 'irish moss' :
+                            item.toLowerCase().includes('nutrient') ? 'yeast nutrient' :
+                            item.toLowerCase().includes('lactose') ? 'lactose' :
+                            item.toLowerCase().includes('coriander') ? 'coriander' :
+                            item.toLowerCase().includes('orange') ? 'orange peel' :
+                            item.toLowerCase().includes('calcium') ? 'calcium' : item.toLowerCase();
+
+          items.push({
+            name: item,
+            category: 'Chemicals',
+            searchTerm
+          });
+        });
+      }
     }
 
     return items;
-  }, [selectedStyle]);
+  }, [selectedStyle, batchSize, brewMethod]);
 
   // Fetch products for ingredients
   useEffect(() => {
@@ -213,6 +283,16 @@ export function IngredientBuilder({
       setSelectedStyle(style);
       setSelectedIngredients(new Set()); // Clear selections when changing style
     }
+  };
+
+  const handleBatchSizeChange = (size: '1-gallon' | '5-gallon') => {
+    setBatchSize(size);
+    setSelectedIngredients(new Set()); // Clear selections when changing batch size
+  };
+
+  const handleBrewMethodChange = (method: 'all-grain' | 'lme' | 'dme') => {
+    setBrewMethod(method);
+    setSelectedIngredients(new Set()); // Clear selections when changing brewing method
   };
 
   const toggleIngredient = (ingredientName: string) => {
@@ -327,7 +407,7 @@ export function IngredientBuilder({
               <label className="text-sm font-medium text-cream">
                 Batch Size
               </label>
-              <Select value={batchSize} onValueChange={(value: '1-gallon' | '5-gallon') => setBatchSize(value)}>
+              <Select value={batchSize} onValueChange={handleBatchSizeChange}>
                 <SelectTrigger className="bg-background/50 border-amber/30 text-cream">
                   <SelectValue />
                 </SelectTrigger>
@@ -344,7 +424,7 @@ export function IngredientBuilder({
               <label className="text-sm font-medium text-cream">
                 Brewing Method
               </label>
-              <Select value={brewMethod} onValueChange={(value: 'all-grain' | 'lme' | 'dme') => setBrewMethod(value)}>
+              <Select value={brewMethod} onValueChange={handleBrewMethodChange}>
                 <SelectTrigger className="bg-background/50 border-amber/30 text-cream">
                   <SelectValue />
                 </SelectTrigger>
