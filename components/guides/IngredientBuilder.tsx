@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { ShoppingCart, Beaker, ExternalLink, Package } from 'lucide-react';
+import { ShoppingCart, Beaker, ExternalLink, Package, Book } from 'lucide-react';
 import { Product } from '@/lib/types';
 import { addToCart } from '@/lib/cartClient';
 import { useToast } from '@/hooks/use-toast';
@@ -46,6 +46,7 @@ export function IngredientBuilder({
   const [products, setProducts] = useState<Record<string, Product>>({});
   const [loadingProducts, setLoadingProducts] = useState(false);
   const [selectedIngredients, setSelectedIngredients] = useState<Set<string>>(new Set());
+  const [ingredientsInitialized, setIngredientsInitialized] = useState(false);
   const [addingToCart, setAddingToCart] = useState(false);
   const { toast } = useToast();
 
@@ -200,6 +201,20 @@ export function IngredientBuilder({
     return items;
   }, [selectedStyle, batchSize, brewMethod]);
 
+  // Auto-select all ingredients when ingredient list changes
+  useEffect(() => {
+    if (ingredientList.length > 0 && !ingredientsInitialized) {
+      const allIngredientNames = new Set(ingredientList.map(item => item.name));
+      setSelectedIngredients(allIngredientNames);
+      setIngredientsInitialized(true);
+    }
+  }, [ingredientList, ingredientsInitialized]);
+
+  // Reset initialization flag when ingredient list changes
+  useEffect(() => {
+    setIngredientsInitialized(false);
+  }, [ingredientList]);
+
   // Fetch products for ingredients
   useEffect(() => {
     async function fetchIngredientProducts() {
@@ -281,18 +296,18 @@ export function IngredientBuilder({
     const style = BEER_STYLES.find(s => s.style === styleName);
     if (style) {
       setSelectedStyle(style);
-      setSelectedIngredients(new Set()); // Clear selections when changing style
+      // Selections will be auto-populated by useEffect
     }
   };
 
   const handleBatchSizeChange = (size: '1-gallon' | '5-gallon') => {
     setBatchSize(size);
-    setSelectedIngredients(new Set()); // Clear selections when changing batch size
+    // Selections will be auto-populated by useEffect
   };
 
   const handleBrewMethodChange = (method: 'all-grain' | 'lme' | 'dme') => {
     setBrewMethod(method);
-    setSelectedIngredients(new Set()); // Clear selections when changing brewing method
+    // Selections will be auto-populated by useEffect
   };
 
   const toggleIngredient = (ingredientName: string) => {
@@ -447,9 +462,14 @@ export function IngredientBuilder({
           <p className="text-sm text-cream/60">Loading ingredients...</p>
         ) : (
           <div className="space-y-4">
-            <p className="text-sm text-cream/70">
-              Ingredients for {batchSize.replace('-', ' ')} of {selectedStyle.style} using {brewMethod === 'lme' ? 'liquid malt extract' : brewMethod === 'dme' ? 'dry malt extract' : 'all-grain'}:
-            </p>
+            <div className="space-y-2">
+              <p className="text-sm text-cream/70">
+                Ingredients for {batchSize.replace('-', ' ')} of {selectedStyle.style} using {brewMethod === 'lme' ? 'liquid malt extract' : brewMethod === 'dme' ? 'dry malt extract' : 'all-grain'}:
+              </p>
+              <p className="text-xs text-cream/60 italic">
+                All ingredients are selected by default. Uncheck any you don't need.
+              </p>
+            </div>
 
             <div className="space-y-2">
               {ingredientList.map((item) => {
@@ -489,26 +509,30 @@ export function IngredientBuilder({
               })}
             </div>
 
-            {selectedIngredients.size > 0 && (
-              <div className="pt-4 border-t border-amber/20 space-y-3">
-                <div className="flex justify-between items-center">
-                  <span className="text-sm text-cream/70">
-                    {selectedIngredients.size} ingredient{selectedIngredients.size !== 1 ? 's' : ''} selected
-                  </span>
-                  <span className="text-lg font-semibold text-gold">
-                    ${selectedTotal.toFixed(2)}
-                  </span>
-                </div>
+            <div className="pt-4 border-t border-amber/20 space-y-3">
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-cream/70">
+                  {selectedIngredients.size} ingredient{selectedIngredients.size !== 1 ? 's' : ''} selected
+                </span>
+                <span className="text-lg font-semibold text-gold">
+                  ${selectedTotal.toFixed(2)}
+                </span>
+              </div>
+              <Link
+                href={`/recipes/beer/${selectedStyle.style.toLowerCase().replace(/\s+/g, '-')}?batchSize=${batchSize}&brewMethod=${brewMethod}`}
+                className="block"
+              >
                 <Button
-                  onClick={handleAddToCart}
-                  disabled={addingToCart}
                   className="w-full bg-amber hover:bg-gold"
                 >
-                  <ShoppingCart className="h-4 w-4 mr-2" />
-                  {addingToCart ? 'Adding to Cart...' : 'Add Selected to Cart'}
+                  <Book className="h-4 w-4 mr-2" />
+                  View Full Recipe & Checkout
                 </Button>
-              </div>
-            )}
+              </Link>
+              <p className="text-xs text-cream/60 text-center">
+                See brewing instructions, similar recipes, and add to cart
+              </p>
+            </div>
 
             <Link href="/shop?category=grains">
               <Button variant="outline" className="w-full border-amber/30 text-cream hover:bg-amber/10">
