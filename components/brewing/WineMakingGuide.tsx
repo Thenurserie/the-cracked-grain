@@ -82,10 +82,6 @@ export function WineMakingGuide() {
             <Award className="h-3 w-3 mr-1" />
             Beginner Friendly
           </Badge>
-          <Badge className="bg-purple-500/20 text-purple-400 border-purple-500/40">
-            <Clock className="h-3 w-3 mr-1" />
-            45 min read
-          </Badge>
         </div>
       </div>
 

@@ -82,10 +82,6 @@ export function KombuchaGuide() {
             <Award className="h-3 w-3 mr-1" />
             Beginner Friendly
           </Badge>
-          <Badge className="bg-teal-500/20 text-teal-400 border-teal-500/40">
-            <Clock className="h-3 w-3 mr-1" />
-            45 min read
-          </Badge>
         </div>
       </div>
 

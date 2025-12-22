@@ -82,10 +82,6 @@ export function MeadMakingGuide() {
             <Award className="h-3 w-3 mr-1" />
             Beginner Friendly
           </Badge>
-          <Badge className="bg-yellow-500/20 text-yellow-500 border-yellow-500/40">
-            <Clock className="h-3 w-3 mr-1" />
-            50 min read
-          </Badge>
         </div>
       </div>
 

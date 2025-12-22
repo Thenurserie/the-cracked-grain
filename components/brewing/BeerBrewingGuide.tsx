@@ -95,10 +95,6 @@ export function BeerBrewingGuide() {
             <Award className="h-3 w-3 mr-1" />
             Beginner Friendly
           </Badge>
-          <Badge className="bg-amber/20 text-gold border-amber/40">
-            <Clock className="h-3 w-3 mr-1" />
-            60 min read
-          </Badge>
         </div>
       </div>
 

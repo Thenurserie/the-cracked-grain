@@ -82,10 +82,6 @@ export function CiderMakingGuide() {
             <Award className="h-3 w-3 mr-1" />
             Beginner Friendly
           </Badge>
-          <Badge className="bg-orange-500/20 text-orange-500 border-orange-500/40">
-            <Clock className="h-3 w-3 mr-1" />
-            40 min read
-          </Badge>
         </div>
       </div>
 
