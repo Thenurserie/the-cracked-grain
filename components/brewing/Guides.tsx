@@ -27,7 +27,7 @@ import {
 } from 'lucide-react';
 
 const GUIDES = {
-  'Getting Started': [
+  'Brewing Procedures': [
     {
       title: 'Extract Brew Day SOP',
       difficulty: 'Beginner',
@@ -129,37 +129,6 @@ const GUIDES = {
     }
   ],
   'Brewing Fundamentals': [
-    {
-      title: 'Getting Started Brew Day',
-      difficulty: 'Beginner',
-      time: '6-8 hours',
-      content: {
-        overview: 'Your first all-grain brew day is a significant milestone in homebrewing, representing the transition from extract brewing to complete control over every aspect of your beer. This comprehensive workflow covers the entire brew day from start to finish, including setup, mashing, lautering, boiling, and cleanup. All-grain brewing takes longer than extract brewing (6-8 hours for your first batch) but gives you complete creative control and typically costs less per batch. The process involves converting starches in crushed grain into fermentable sugars through mashing, collecting those sugars through lautering and sparging, then boiling with hops. While the day is long, most of it involves waiting and monitoring rather than active work. This guide assumes you have basic brewing knowledge and equipment - if this is your very first brew, start with extract brewing first to learn the fundamentals.',
-        steps: [
-          'Preparation (night before or morning of): Gather and organize all ingredients - base malts, specialty grains, hops (labeled by addition time), yeast, and any water treatment salts. Check that all equipment is present and functional: mash tun, brew kettle, burner, thermometer, hydrometer, fermenter, wort chiller, and all small tools. Measure out your grain bill and crush it fresh if possible (pre-crushed is fine). Mix sanitizer solution and fill a spray bottle. Set up your brewing area with clear workspaces for different stages. Having everything organized prevents scrambling mid-brew and reduces mistakes.',
-          'Water preparation and heating (60-90 minutes before mash): Calculate your strike water volume (typically 1.25-1.5 quarts per pound of grain) and heat it to strike temperature (typically 8-15°F higher than your target mash temperature, depending on your system - use a strike water calculator). If treating your water chemistry, add salts to the strike water now. While water heats, prepare your mash tun - if it\'s new or cold, preheat it by filling with hot tap water, letting it sit 10 minutes, then dumping. Heat your sparge water separately (typically 170°F) - you\'ll need enough to collect your target pre-boil volume. This is a good time to double-check your recipe and set timers.',
-          'Dough-in and mash (60-90 minutes): Add heated strike water to your mash tun, then slowly add crushed grain while stirring continuously to prevent dough balls (dry clumps of grain). Stir thoroughly for 2-3 minutes to ensure even water distribution and temperature throughout the mash. Check your mash temperature - target is typically 148-158°F depending on desired body (lower = drier, higher = fuller). If temperature is off by more than 3°F, adjust by adding small amounts of hot or cold water while stirring. Close the mash tun lid and insulate with sleeping bags or blankets. Set timer for 60 minutes. Check temperature every 20 minutes - if it drops more than 2-3°F, consider adding heat or better insulation next time.',
-          'Mash out and vorlauf (20 minutes): Ten minutes before the end of your mash, heat the grain bed to 170°F by adding boiling water or applying direct heat if your system allows (this is called "mash out" and stops enzyme activity while making the wort more fluid). Begin vorlauf by slowly draining wort from the bottom of the mash tun into a pitcher, then gently pouring it back over the top of the grain bed. Repeat this recirculation for 10-15 minutes until the wort runs relatively clear (it won\'t be crystal clear, but should have no grain particles and be translucent rather than cloudy). Vorlauf sets the grain bed as a filter, preventing a stuck sparge later.',
-          'Lautering and sparging (60-90 minutes): Slowly drain the first runnings (the wort beneath the grain bed) into your boil kettle, maintaining a slow, steady flow - target is about 1 quart per minute. As you drain, gently sprinkle or spray your 170°F sparge water over the top of the grain bed to rinse remaining sugars from the grain. Maintain about 1-2 inches of water above the grain bed at all times to prevent channeling and oxidation. Continue until you\'ve collected your target pre-boil volume (typically 6-6.5 gallons for a 5-gallon batch). Take a gravity reading of your wort - this tells you your mash efficiency. If gravity is too low, you can sparge longer; if too high, you can add water.',
-          'Boil and hop additions (60-90 minutes): Bring wort to a vigorous, rolling boil. Watch carefully during the early stages - wort wants to boil over (hot break). Once you achieve steady boiling, start your timer. Add bittering hops at the start of the boil (60 or 90 minutes remaining, depending on recipe). Set alarms for each subsequent hop addition - typical schedule includes additions at 60 min (bittering), 15-20 min (flavor), 5 min (aroma), and sometimes flame-out/whirlpool (0 min). During the boil, sanitize all your fermentation equipment: fermenter, airlock, stopper, thermometer, hydrometer, funnel, and anything else touching cooled wort. A vigorous boil is essential for driving off DMS (cooked corn flavor) and achieving good hot break (protein coagulation).',
-          'Cooling and transfer (30-45 minutes): At the end of the boil, turn off heat and begin cooling wort as rapidly as possible. Target is to get from boiling to pitching temperature (65-75°F for ales) in under 30 minutes. Use a wort chiller (immersion or counterflow) or ice bath. Stir gently during cooling to speed the process and create a whirlpool to settle the trub (hop and protein debris) in the center. Once cooled, carefully transfer wort to your sanitized fermenter, leaving as much trub behind as possible but don\'t stress about perfect clarity. Pour from a height or splash to aerate the wort - yeast need oxygen for healthy reproduction.',
-          'Pitching yeast and final steps (15 minutes): Take and record your Original Gravity (OG) reading with your sanitized hydrometer. Compare to recipe target - being within 0.004 points is excellent. If using dry yeast, you can sprinkle it directly onto the wort surface (though rehydrating in warm water for 15 minutes is ideal). If using liquid yeast, shake the package vigorously and pitch the entire contents. Give the fermenter one final shake or swirl to mix the yeast throughout. Seal with sanitized stopper and airlock (filled with sanitizer or vodka). Place in your fermentation area (stable 65-70°F for ales, away from direct sunlight). Mark your calendar for gravity check in 7-10 days.',
-          'Cleanup (30-45 minutes): Don\'t neglect this crucial step - dried-on wort, hop residue, and grain debris become exponentially harder to remove if left to dry. Immediately rinse all equipment with hot water. Soak anything with stuck-on material in hot water with PBW or OxiClean. Scrub with soft brushes or sponges (don\'t use abrasive pads that can scratch and harbor bacteria). Rinse everything thoroughly - no cleaner residue should remain. Hang tubing and hoses to dry. Store grain for composting (spent grain makes excellent compost or animal feed). Wipe down your brewing area. A clean workspace makes the next brew day more pleasant.'
-        ],
-        tips: [
-          'Prep everything the night before: crush grain, measure hops into labeled containers, check equipment, fill sanitizer spray bottle. Brew day morning should be execution, not preparation.',
-          'Use a detailed brew day checklist - even experienced brewers use them. It prevents forgotten hop additions, missed temperature checks, or skipped sanitization steps. Laminate your checklist so you can check off items with dry-erase marker.',
-          'Keep detailed notes on everything: actual temperatures, volumes, gravities, timing, any deviations from the plan. These notes are invaluable for improving your process and troubleshooting issues. Include observations about clarity, color, and aroma at each stage.',
-          'Stay organized throughout the day: clean as you go, keep a "dirty" area separate from your "clean/sanitized" area, label everything. A chaotic workspace leads to mistakes and contamination risk.',
-          'Don\'t rush - especially during lautering and sparging. Slow and steady produces clearer wort and better efficiency. Rushing can cause stuck sparges, cloudy wort, and tannin extraction.',
-          'Temperature control is critical during mashing - even 5°F can significantly affect your beer\'s body and fermentability. Invest in a good thermometer and check it regularly. Digital thermometers are faster and easier to read than analog.',
-          'If something goes wrong, don\'t panic. Homebrewing is remarkably forgiving. Missed temperature by a few degrees? Off by half a gallon? Forgot a hop addition? Your beer will almost certainly turn out fine. Learn from it and adjust next time.',
-          'Hydration and nutrition: brew day is long. Have water, snacks, and a meal plan. Dehydration and low blood sugar lead to mistakes and make cleanup feel miserable.',
-          'The biggest time-saver for future brews: take notes on your timeline. Note when you started each phase and how long it actually took. This helps you plan more accurately next time and identify bottlenecks to improve.',
-          'Consider having a helper for your first all-grain brew day. An extra pair of hands makes everything easier and safer, especially when handling large volumes of hot water.'
-        ]
-      }
-    },
     {
       title: 'Sanitation 101',
       difficulty: 'Beginner',
@@ -288,7 +257,7 @@ const GUIDES = {
       }
     }
   ],
-  'Advanced Techniques': [
+  'All-Grain Brewing': [
     {
       title: 'Single Infusion Mash',
       difficulty: 'Intermediate',
@@ -839,7 +808,7 @@ const GUIDES = {
 
 // Category configurations with colors and icons
 const CATEGORY_CONFIG = {
-  'Getting Started': {
+  'Brewing Procedures': {
     icon: GraduationCap,
     color: 'emerald',
     borderColor: 'border-emerald-500/30',
@@ -855,7 +824,7 @@ const CATEGORY_CONFIG = {
     textColor: 'text-blue-400',
     badgeColor: 'bg-blue-500/20 text-blue-400 border-blue-500/40'
   },
-  'Advanced Techniques': {
+  'All-Grain Brewing': {
     icon: Wheat,
     color: 'amber',
     borderColor: 'border-amber-500/30',
