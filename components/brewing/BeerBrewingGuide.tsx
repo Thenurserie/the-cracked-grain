@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ChevronUp, Book, Clock, Award, AlertCircle, Lightbulb, ChevronDown, ChevronRight } from 'lucide-react';
 import { BEER_GUIDE_SECTIONS, type BeerGuideSection } from '@/data/guides/beer-brewing';
+import { QuickShopBox } from '@/components/guides/QuickShopBox';
 
 export function BeerBrewingGuide() {
   const [activeSection, setActiveSection] = useState<string | null>(null);
@@ -185,6 +186,42 @@ export function BeerBrewingGuide() {
               </div>
             </CardHeader>
             <CardContent className="space-y-6">
+              {/* Equipment Shopping Box */}
+              {section.id === 'equipment' && (
+                <QuickShopBox
+                  title="Shop Equipment for Beer Brewing"
+                  browseAllCategory="Equipment"
+                  items={[
+                    { name: "Brew Kettle (8+ gallon)", searchTerm: "kettle" },
+                    { name: "Fermenter", searchTerm: "fermenter" },
+                    { name: "Airlock & Stopper", searchTerm: "airlock" },
+                    { name: "Hydrometer", searchTerm: "hydrometer" },
+                    { name: "Thermometer", searchTerm: "thermometer" },
+                    { name: "Auto-Siphon & Tubing", searchTerm: "siphon" },
+                    { name: "Bottles", searchTerm: "bottles" },
+                    { name: "Bottle Capper & Caps", searchTerm: "capper" },
+                    { name: "Sanitizer (Star San)", searchTerm: "star san" },
+                  ]}
+                />
+              )}
+
+              {/* Ingredients Shopping Box */}
+              {section.id === 'ingredients' && (
+                <QuickShopBox
+                  title="Shop Brewing Ingredients"
+                  browseAllCategory="Grains"
+                  items={[
+                    { name: "Malt Extract (LME/DME)", category: "Grains" },
+                    { name: "Specialty Grains", category: "Grains", subcategory: "Specialty Malts" },
+                    { name: "Hops", category: "Hops" },
+                    { name: "Brewing Yeast", category: "Yeast" },
+                    { name: "Priming Sugar", searchTerm: "priming sugar" },
+                    { name: "Irish Moss (Clarifier)", searchTerm: "irish moss" },
+                    { name: "Yeast Nutrient", searchTerm: "yeast nutrient" },
+                  ]}
+                />
+              )}
+
               {/* Main Content */}
               <div className="prose prose-invert max-w-none">
                 {section.content.split('\n\n').map((paragraph, idx) => {

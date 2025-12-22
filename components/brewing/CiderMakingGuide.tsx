@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ChevronUp, Book, Clock, Award, ChevronDown, ChevronRight } from 'lucide-react';
 import { ciderMakingGuide } from '@/data/guides/cider-making';
+import { QuickShopBox } from '@/components/guides/QuickShopBox';
 
 export function CiderMakingGuide() {
   const [activeSection, setActiveSection] = useState<string | null>(null);
@@ -156,6 +157,39 @@ export function CiderMakingGuide() {
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
+              {/* Equipment Shopping Box */}
+              {section.id === 'equipment' && (
+                <QuickShopBox
+                  title="Shop Equipment for Cider Making"
+                  browseAllCategory="Equipment"
+                  items={[
+                    { name: "One-Gallon Glass Jug", searchTerm: "jug" },
+                    { name: "Airlock & Bung", searchTerm: "airlock" },
+                    { name: "Auto-Siphon & Tubing", searchTerm: "siphon" },
+                    { name: "Hydrometer (Optional)", searchTerm: "hydrometer" },
+                    { name: "Bottles", searchTerm: "bottles" },
+                    { name: "Bottle Capper & Caps", searchTerm: "capper" },
+                    { name: "Sanitizer (Star San)", searchTerm: "star san" },
+                    { name: "Funnel", searchTerm: "funnel" },
+                  ]}
+                />
+              )}
+
+              {/* Ingredients Shopping Box */}
+              {section.id === 'ingredients' && (
+                <QuickShopBox
+                  title="Shop Cider Making Ingredients"
+                  browseAllCategory="Yeast"
+                  items={[
+                    { name: "Cider/Wine Yeast", category: "Yeast" },
+                    { name: "Yeast Nutrient", searchTerm: "yeast nutrient" },
+                    { name: "Priming Sugar (for carbonation)", searchTerm: "priming sugar" },
+                    { name: "Potassium Sorbate", searchTerm: "sorbate" },
+                    { name: "Campden Tablets", searchTerm: "campden" },
+                  ]}
+                />
+              )}
+
               {/* Main Content */}
               <div className="prose prose-invert max-w-none">
                 {section.content.split('\n\n').map((paragraph, idx) => {

@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ChevronUp, Book, Clock, Award, ChevronDown, ChevronRight } from 'lucide-react';
 import { kombuchaGuide } from '@/data/guides/kombucha';
+import { QuickShopBox } from '@/components/guides/QuickShopBox';
 
 export function KombuchaGuide() {
   const [activeSection, setActiveSection] = useState<string | null>(null);
@@ -156,6 +157,36 @@ export function KombuchaGuide() {
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
+              {/* Equipment Shopping Box */}
+              {section.id === 'equipment' && (
+                <QuickShopBox
+                  title="Shop Equipment for Kombucha Brewing"
+                  browseAllCategory="Equipment"
+                  items={[
+                    { name: "Glass Jar (1-2 gallon)", searchTerm: "jar" },
+                    { name: "Breathable Cover (Cloth/Coffee Filter)", searchTerm: "cloth" },
+                    { name: "Swing-Top Bottles for F2", searchTerm: "bottles" },
+                    { name: "pH Strips", searchTerm: "ph strips" },
+                    { name: "Thermometer", searchTerm: "thermometer" },
+                    { name: "Funnel", searchTerm: "funnel" },
+                  ]}
+                />
+              )}
+
+              {/* Ingredients Shopping Box */}
+              {section.id === 'ingredients' && (
+                <QuickShopBox
+                  title="Shop Kombucha Ingredients"
+                  browseAllCategory="Yeast"
+                  items={[
+                    { name: "Black or Green Tea", searchTerm: "tea" },
+                    { name: "Organic Cane Sugar", searchTerm: "sugar" },
+                    { name: "SCOBY & Starter Tea", searchTerm: "scoby" },
+                    { name: "Flavoring Ingredients", searchTerm: "flavor" },
+                  ]}
+                />
+              )}
+
               {/* Main Content */}
               <div className="prose prose-invert max-w-none">
                 {section.content.split('\n\n').map((paragraph, idx) => {
