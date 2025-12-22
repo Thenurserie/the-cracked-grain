@@ -214,7 +214,7 @@ export function WineMakingGuide() {
                 {/* Equipment Shopping Box */}
                 {section.id === 'equipment' && (
                   <QuickShopBox
-                    title="Shop Equipment for Wine Making"
+                    title="Sample Starter Equipment for Wine Making"
                     browseAllCategory="Equipment"
                     items={[
                       { name: "Primary Fermenter", searchTerm: "fermenter" },
@@ -232,7 +232,7 @@ export function WineMakingGuide() {
                 {/* Ingredients Shopping Box */}
                 {section.id === 'ingredients' && (
                   <QuickShopBox
-                    title="Shop Wine Making Ingredients"
+                    title="Sample Starter Ingredients for Wine Making"
                     browseAllCategory="Yeast"
                     items={[
                       { name: "Wine Yeast", searchTerm: "wine yeast" },

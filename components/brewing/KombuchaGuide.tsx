@@ -214,7 +214,7 @@ export function KombuchaGuide() {
                 {/* Equipment Shopping Box */}
                 {section.id === 'equipment' && (
                   <QuickShopBox
-                    title="Shop Equipment for Kombucha Brewing"
+                    title="Sample Starter Equipment for Kombucha Brewing"
                     browseAllCategory="Equipment"
                     items={[
                       { name: "Glass Jar (1-2 gallon)", searchTerm: "jar" },
@@ -230,7 +230,7 @@ export function KombuchaGuide() {
                 {/* Ingredients Shopping Box */}
                 {section.id === 'ingredients' && (
                   <QuickShopBox
-                    title="Shop Kombucha Ingredients"
+                    title="Sample Starter Ingredients for Kombucha Brewing"
                     browseAllCategory="Yeast"
                     items={[
                       { name: "Black or Green Tea", searchTerm: "tea" },

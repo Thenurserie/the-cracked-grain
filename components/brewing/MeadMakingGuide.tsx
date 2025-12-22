@@ -214,7 +214,7 @@ export function MeadMakingGuide() {
                 {/* Equipment Shopping Box */}
                 {section.id === 'equipment' && (
                   <QuickShopBox
-                    title="Shop Equipment for Mead Making"
+                    title="Sample Starter Equipment for Mead Making"
                     browseAllCategory="Equipment"
                     items={[
                       { name: "Primary Fermenter", searchTerm: "fermenter" },
@@ -232,7 +232,7 @@ export function MeadMakingGuide() {
                 {/* Ingredients Shopping Box */}
                 {section.id === 'ingredients' && (
                   <QuickShopBox
-                    title="Shop Mead Making Ingredients"
+                    title="Sample Starter Ingredients for Mead Making"
                     browseAllCategory="Yeast"
                     items={[
                       { name: "Honey (Raw/Wildflower)", searchTerm: "honey" },

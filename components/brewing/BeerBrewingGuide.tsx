@@ -258,7 +258,7 @@ export function BeerBrewingGuide() {
                 {/* Equipment Shopping Box */}
                 {section.id === 'equipment' && (
                   <QuickShopBox
-                    title="Shop Equipment for Beer Brewing"
+                    title="Sample Starter Equipment for Beer Brewing"
                     browseAllCategory="Equipment"
                     items={[
                       { name: "Brew Kettle (8+ gallon)", searchTerm: "kettle" },
@@ -277,7 +277,7 @@ export function BeerBrewingGuide() {
                 {/* Ingredients Shopping Box */}
                 {section.id === 'ingredients' && (
                   <QuickShopBox
-                    title="Shop Brewing Ingredients"
+                    title="Sample Starter Ingredients for Your First Brew"
                     browseAllCategory="Grains"
                     items={[
                       { name: "Malt Extract (LME/DME)", category: "Grains" },

@@ -45,7 +45,7 @@ Homebrewing also gives you complete creative control. Want to make a double IPA 
 
 **What to Expect as a Beginner**
 
-Your first brew day will take 4-6 hours, but don't let that intimidate you! Most of that time is waiting for water to boil or the wort to cool. Active work time is maybe 2-3 hours. After brew day, fermentation takes 1-3 weeks, then bottling takes about 2 hours, followed by 2-3 weeks of bottle conditioning before your beer is ready to drink.
+Your first brew day (using extract brewing - the beginner method) will take 2-3 hours, but don't let even that intimidate you! Most of that time is waiting for water to boil or the wort to cool. Active work time is maybe 1-2 hours. After brew day, fermentation takes 1-3 weeks, then bottling takes about 2 hours, followed by 2-3 weeks of bottle conditioning before your beer is ready to drink. (Note: All-grain brewing, which you can move to later, takes 5-6 hours but gives you more control.)
 
 The learning curve is gentle. Your first batch will likely be drinkable, your second will be good, and by your third or fourth, you'll be making beer that impresses your friends. Every batch teaches you something new.
 
@@ -57,7 +57,7 @@ At a high level, brewing follows these steps: You'll extract sugars from malted 
 
 Initial equipment cost: $100-200 for a basic kit, or up to $400-500 if you buy individual high-quality pieces. Ingredients per 5-gallon batch: $30-60 depending on style. Your first batch works out to about $3-4 per beer including equipment, but by batch 10, you're down to $0.80-1.50 per beer for ingredients only.
 
-Time investment: Brew day (4-6 hours), fermentation (1-3 weeks of waiting), bottling (2-3 hours), conditioning (2-3 weeks). Total time from grain to glass: 4-8 weeks for your first batch, with brew days becoming faster as you gain experience.`,
+Time investment: Brew day using extract method (2-3 hours), fermentation (1-3 weeks of waiting), bottling (2-3 hours), conditioning (2-3 weeks). Total time from grain to glass: 4-8 weeks for your first batch, with brew days becoming faster as you gain experience. (All-grain brewing takes 5-6 hours per brew day once you're ready to advance.)`,
   },
   {
     id: 'equipment',

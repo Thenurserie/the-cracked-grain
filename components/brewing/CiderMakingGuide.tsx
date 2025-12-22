@@ -214,7 +214,7 @@ export function CiderMakingGuide() {
                 {/* Equipment Shopping Box */}
                 {section.id === 'equipment' && (
                   <QuickShopBox
-                    title="Shop Equipment for Cider Making"
+                    title="Sample Starter Equipment for Cider Making"
                     browseAllCategory="Equipment"
                     items={[
                       { name: "One-Gallon Glass Jug", searchTerm: "jug" },
@@ -232,7 +232,7 @@ export function CiderMakingGuide() {
                 {/* Ingredients Shopping Box */}
                 {section.id === 'ingredients' && (
                   <QuickShopBox
-                    title="Shop Cider Making Ingredients"
+                    title="Sample Starter Ingredients for Cider Making"
                     browseAllCategory="Yeast"
                     items={[
                       { name: "Cider/Wine Yeast", category: "Yeast" },
