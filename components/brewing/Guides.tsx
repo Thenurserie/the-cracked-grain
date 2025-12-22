@@ -128,7 +128,7 @@ const GUIDES = {
       }
     }
   ],
-  'Fundamentals': [
+  'All-Grain': [
     {
       title: 'Sanitation 101',
       difficulty: 'Beginner',
@@ -257,7 +257,7 @@ const GUIDES = {
       }
     }
   ],
-  'All-Grain Brewing': [
+  'Advanced Techniques': [
     {
       title: 'Single Infusion Mash',
       difficulty: 'Intermediate',
@@ -816,7 +816,7 @@ const CATEGORY_CONFIG = {
     textColor: 'text-emerald-400',
     badgeColor: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/40'
   },
-  'Fundamentals': {
+  'All-Grain': {
     icon: BookOpen,
     color: 'blue',
     borderColor: 'border-blue-500/30',
@@ -824,7 +824,7 @@ const CATEGORY_CONFIG = {
     textColor: 'text-blue-400',
     badgeColor: 'bg-blue-500/20 text-blue-400 border-blue-500/40'
   },
-  'All-Grain Brewing': {
+  'Advanced Techniques': {
     icon: Wheat,
     color: 'amber',
     borderColor: 'border-amber-500/30',
