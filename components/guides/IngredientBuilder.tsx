@@ -519,7 +519,7 @@ export function IngredientBuilder({
                 </span>
               </div>
               <Link
-                href={`/recipes/beer/${selectedStyle.style.toLowerCase().replace(/\s+/g, '-')}?batchSize=${batchSize}&brewMethod=${brewMethod}`}
+                href={`/recipes?type=Beer&style=${encodeURIComponent(selectedStyle.style)}`}
                 className="block"
               >
                 <Button
@@ -530,7 +530,7 @@ export function IngredientBuilder({
                 </Button>
               </Link>
               <p className="text-xs text-cream/60 text-center">
-                See brewing instructions, similar recipes, and add to cart
+                Browse recipes, see instructions, and add to cart
               </p>
             </div>
 
