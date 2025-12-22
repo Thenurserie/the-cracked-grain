@@ -11,7 +11,10 @@ import { QuickShopBox } from '@/components/guides/QuickShopBox';
 export function BeerBrewingGuide() {
   const [activeSection, setActiveSection] = useState<string | null>(null);
   const [showBackToTop, setShowBackToTop] = useState(false);
-  const [expandedSections, setExpandedSections] = useState<Set<string>>(new Set());
+  const [expandedSubsections, setExpandedSubsections] = useState<Set<string>>(new Set());
+  const [expandedMainSections, setExpandedMainSections] = useState<Set<string>>(
+    new Set([BEER_GUIDE_SECTIONS[0]?.id]) // First section expanded by default
+  );
   const [readProgress, setReadProgress] = useState(0);
   const [showTOC, setShowTOC] = useState(false);
 
@@ -58,8 +61,20 @@ export function BeerBrewingGuide() {
     }
   };
 
-  const toggleSection = (sectionId: string) => {
-    setExpandedSections(prev => {
+  const toggleSubsection = (sectionId: string) => {
+    setExpandedSubsections(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(sectionId)) {
+        newSet.delete(sectionId);
+      } else {
+        newSet.add(sectionId);
+      }
+      return newSet;
+    });
+  };
+
+  const toggleMainSection = (sectionId: string) => {
+    setExpandedMainSections(prev => {
       const newSet = new Set(prev);
       if (newSet.has(sectionId)) {
         newSet.delete(sectionId);
@@ -163,29 +178,27 @@ export function BeerBrewingGuide() {
               activeSection === section.id ? 'ring-2 ring-gold shadow-lg shadow-gold/20' : ''
             }`}
           >
-            <CardHeader>
-              <div className="flex items-start justify-between">
-                <CardTitle className="text-2xl text-gold flex items-center gap-2">
+            <CardHeader className="cursor-pointer" onClick={() => toggleMainSection(section.id)}>
+              <CardTitle className="text-2xl text-gold flex items-center justify-between">
+                <div className="flex items-center gap-2">
                   <span className="text-amber/60 text-lg">{index + 1}.</span>
                   {section.title.split('. ')[1] || section.title}
-                </CardTitle>
-                {section.subsections && section.subsections.length > 0 && (
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => toggleSection(section.id)}
-                    className="text-cream/70 hover:text-gold"
-                  >
-                    {expandedSections.has(section.id) ? (
-                      <ChevronDown className="h-5 w-5" />
-                    ) : (
-                      <ChevronRight className="h-5 w-5" />
-                    )}
-                  </Button>
-                )}
-              </div>
+                </div>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="text-gold hover:text-amber hover:bg-amber/10"
+                >
+                  {expandedMainSections.has(section.id) ? (
+                    <ChevronUp className="h-5 w-5" />
+                  ) : (
+                    <ChevronDown className="h-5 w-5" />
+                  )}
+                </Button>
+              </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-6">
+            {expandedMainSections.has(section.id) && (
+              <CardContent className="space-y-6">
               {/* Main Content */}
               <div className="prose prose-invert max-w-none">
                 {section.content.split('\n\n').map((paragraph, idx) => {
@@ -210,7 +223,7 @@ export function BeerBrewingGuide() {
 
               {/* Subsections */}
               {section.subsections && section.subsections.length > 0 && (
-                <div className={`space-y-6 ${expandedSections.has(section.id) ? 'block' : 'hidden'}`}>
+                <div className="space-y-6">
                   {section.subsections.map((subsection, subIdx) => (
                     <div key={subIdx} className="border-l-2 border-amber/30 pl-6 py-2">
                       <h3 className="text-xl font-semibold text-cream mb-3 flex items-center gap-2">
@@ -330,7 +343,8 @@ export function BeerBrewingGuide() {
                   </Button>
                 </div>
               )}
-            </CardContent>
+              </CardContent>
+            )}
           </Card>
         ))}
       </div>

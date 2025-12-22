@@ -13,6 +13,9 @@ export function WineMakingGuide() {
   const [showBackToTop, setShowBackToTop] = useState(false);
   const [readProgress, setReadProgress] = useState(0);
   const [showTOC, setShowTOC] = useState(false);
+  const [expandedSections, setExpandedSections] = useState<Set<string>>(
+    new Set([wineMakingGuide.sections[0]?.id]) // First section expanded by default
+  );
 
   useEffect(() => {
     const handleScroll = () => {
@@ -55,6 +58,18 @@ export function WineMakingGuide() {
       const elementPosition = element.getBoundingClientRect().top + window.scrollY;
       window.scrollTo({ top: elementPosition - offset, behavior: 'smooth' });
     }
+  };
+
+  const toggleSection = (sectionId: string) => {
+    setExpandedSections(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(sectionId)) {
+        newSet.delete(sectionId);
+      } else {
+        newSet.add(sectionId);
+      }
+      return newSet;
+    });
   };
 
   return (
@@ -150,13 +165,27 @@ export function WineMakingGuide() {
               activeSection === section.id ? 'ring-2 ring-purple-400 shadow-lg shadow-purple-400/20' : ''
             }`}
           >
-            <CardHeader>
-              <CardTitle className="text-2xl text-purple-400 flex items-center gap-2">
-                <span className="text-purple-500/60 text-lg">{index + 1}.</span>
-                {section.title}
+            <CardHeader className="cursor-pointer" onClick={() => toggleSection(section.id)}>
+              <CardTitle className="text-2xl text-purple-400 flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <span className="text-purple-500/60 text-lg">{index + 1}.</span>
+                  {section.title}
+                </div>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="text-purple-400 hover:text-purple-400/80 hover:bg-purple-500/10"
+                >
+                  {expandedSections.has(section.id) ? (
+                    <ChevronUp className="h-5 w-5" />
+                  ) : (
+                    <ChevronDown className="h-5 w-5" />
+                  )}
+                </Button>
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-6">
+            {expandedSections.has(section.id) && (
+              <CardContent className="space-y-6">
               {/* Main Content */}
               <div className="prose prose-invert max-w-none">
                 {section.content.split('\n\n').map((paragraph, idx) => {
@@ -216,7 +245,8 @@ export function WineMakingGuide() {
                   ]}
                 />
               )}
-            </CardContent>
+              </CardContent>
+            )}
           </Card>
         ))}
       </div>
