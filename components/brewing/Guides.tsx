@@ -7,6 +7,21 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { BeerBrewingGuide } from './BeerBrewingGuide';
 import { WineMakingGuide } from './WineMakingGuide';
+import {
+  BookOpen,
+  Beaker,
+  Sparkles,
+  FlaskConical,
+  Package,
+  Info,
+  ListOrdered,
+  Lightbulb,
+  GraduationCap,
+  Droplet,
+  Wheat,
+  TestTube,
+  Box
+} from 'lucide-react';
 
 const GUIDES = {
   'Starter Kit': [
@@ -819,6 +834,50 @@ const GUIDES = {
   ]
 };
 
+// Category configurations with colors and icons
+const CATEGORY_CONFIG = {
+  'Starter Kit': {
+    icon: GraduationCap,
+    color: 'emerald',
+    borderColor: 'border-emerald-500/30',
+    bgColor: 'bg-emerald-500/10',
+    textColor: 'text-emerald-400',
+    badgeColor: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/40'
+  },
+  'Brewing Basics': {
+    icon: BookOpen,
+    color: 'blue',
+    borderColor: 'border-blue-500/30',
+    bgColor: 'bg-blue-500/10',
+    textColor: 'text-blue-400',
+    badgeColor: 'bg-blue-500/20 text-blue-400 border-blue-500/40'
+  },
+  'All-Grain Brewing': {
+    icon: Wheat,
+    color: 'amber',
+    borderColor: 'border-amber-500/30',
+    bgColor: 'bg-amber-500/10',
+    textColor: 'text-amber-400',
+    badgeColor: 'bg-amber-500/20 text-amber-400 border-amber-500/40'
+  },
+  'Fermentation': {
+    icon: FlaskConical,
+    color: 'purple',
+    borderColor: 'border-purple-500/30',
+    bgColor: 'bg-purple-500/10',
+    textColor: 'text-purple-400',
+    badgeColor: 'bg-purple-500/20 text-purple-400 border-purple-500/40'
+  },
+  'Packaging': {
+    icon: Package,
+    color: 'orange',
+    borderColor: 'border-orange-500/30',
+    bgColor: 'bg-orange-500/10',
+    textColor: 'text-orange-400',
+    badgeColor: 'bg-orange-500/20 text-orange-400 border-orange-500/40'
+  }
+} as const;
+
 export default function Guides() {
   return (
     <div className="space-y-4">
@@ -849,63 +908,95 @@ export default function Guides() {
           <WineMakingGuide />
         </TabsContent>
 
-        {Object.entries(GUIDES).map(([category, guides]) => (
-          <TabsContent key={category} value={category} className="mt-4">
-            <Accordion type="single" collapsible className="w-full space-y-2">
-              {guides.map((guide, index) => (
-                <AccordionItem key={index} value={`${category}-${index}`} className="border rounded-lg px-4">
-                  <AccordionTrigger className="hover:no-underline">
-                    <div className="flex items-center gap-3">
-                      <div className="text-left">
-                        <div className="font-semibold">{guide.title}</div>
-                        <div className="flex gap-2 mt-1">
-                          <Badge variant="secondary" className="text-xs">
-                            {guide.difficulty}
-                          </Badge>
-                          <Badge variant="outline" className="text-xs">
-                            {guide.time}
-                          </Badge>
+        {Object.entries(GUIDES).map(([category, guides]) => {
+          const config = CATEGORY_CONFIG[category as keyof typeof CATEGORY_CONFIG];
+          const CategoryIcon = config.icon;
+
+          return (
+            <TabsContent key={category} value={category} className="mt-4">
+              <Accordion type="single" collapsible className="w-full space-y-4">
+                {guides.map((guide, index) => (
+                  <AccordionItem
+                    key={index}
+                    value={`${category}-${index}`}
+                    className={`border-2 ${config.borderColor} rounded-lg px-4 ${config.bgColor} transition-all hover:shadow-lg`}
+                  >
+                    <AccordionTrigger className="hover:no-underline py-4">
+                      <div className="flex items-center gap-4 w-full">
+                        <div className={`p-3 rounded-lg ${config.bgColor} ${config.borderColor} border`}>
+                          <CategoryIcon className={`h-6 w-6 ${config.textColor}`} />
+                        </div>
+                        <div className="text-left flex-1">
+                          <div className={`font-semibold text-lg ${config.textColor}`}>{guide.title}</div>
+                          <div className="flex gap-2 mt-2">
+                            <Badge className={`${config.badgeColor} text-xs`}>
+                              {guide.difficulty}
+                            </Badge>
+                            <Badge className={`${config.badgeColor} text-xs`}>
+                              {guide.time}
+                            </Badge>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </AccordionTrigger>
-                  <AccordionContent className="pt-4">
-                    <div className="space-y-6">
-                      <div>
-                        <h4 className="font-semibold mb-3 text-base">Overview</h4>
-                        <p className="text-sm text-muted-foreground leading-relaxed">
-                          {guide.content.overview}
-                        </p>
-                      </div>
+                    </AccordionTrigger>
+                    <AccordionContent className="pt-6 pb-4">
+                      <div className="space-y-6">
+                        {/* Overview Section */}
+                        <div className={`border-l-4 ${config.borderColor} pl-4 ${config.bgColor} py-4 pr-4 rounded-r-lg`}>
+                          <div className="flex items-center gap-2 mb-3">
+                            <Info className={`h-5 w-5 ${config.textColor}`} />
+                            <h4 className={`font-semibold text-lg ${config.textColor}`}>Overview</h4>
+                          </div>
+                          <p className="text-sm text-cream/90 leading-relaxed">
+                            {guide.content.overview}
+                          </p>
+                        </div>
 
-                      <div>
-                        <h4 className="font-semibold mb-3 text-base">Steps</h4>
-                        <ol className="list-decimal list-outside ml-5 space-y-3 text-sm">
-                          {guide.content.steps.map((step, i) => (
-                            <li key={i} className="text-muted-foreground leading-relaxed pl-2">
-                              {step}
-                            </li>
-                          ))}
-                        </ol>
-                      </div>
+                        {/* Steps Section */}
+                        <div className={`border-l-4 ${config.borderColor} pl-4 ${config.bgColor} py-4 pr-4 rounded-r-lg`}>
+                          <div className="flex items-center gap-2 mb-4">
+                            <ListOrdered className={`h-5 w-5 ${config.textColor}`} />
+                            <h4 className={`font-semibold text-lg ${config.textColor}`}>Steps</h4>
+                          </div>
+                          <ol className="space-y-4">
+                            {guide.content.steps.map((step, i) => (
+                              <li key={i} className="flex gap-3">
+                                <span className={`flex-shrink-0 w-7 h-7 rounded-full ${config.bgColor} ${config.borderColor} border-2 flex items-center justify-center font-bold text-sm ${config.textColor}`}>
+                                  {i + 1}
+                                </span>
+                                <span className="text-sm text-cream/90 leading-relaxed pt-0.5 flex-1">
+                                  {step}
+                                </span>
+                              </li>
+                            ))}
+                          </ol>
+                        </div>
 
-                      <div>
-                        <h4 className="font-semibold mb-3 text-base">Pro Tips</h4>
-                        <ul className="list-disc list-outside ml-5 space-y-3 text-sm">
-                          {guide.content.tips.map((tip, i) => (
-                            <li key={i} className="text-muted-foreground leading-relaxed pl-2">
-                              {tip}
-                            </li>
-                          ))}
-                        </ul>
+                        {/* Pro Tips Section */}
+                        <div className={`border-l-4 ${config.borderColor} pl-4 ${config.bgColor} py-4 pr-4 rounded-r-lg`}>
+                          <div className="flex items-center gap-2 mb-4">
+                            <Lightbulb className={`h-5 w-5 ${config.textColor}`} />
+                            <h4 className={`font-semibold text-lg ${config.textColor}`}>Pro Tips</h4>
+                          </div>
+                          <ul className="space-y-3">
+                            {guide.content.tips.map((tip, i) => (
+                              <li key={i} className="flex gap-3">
+                                <Sparkles className={`flex-shrink-0 h-4 w-4 ${config.textColor} mt-1`} />
+                                <span className="text-sm text-cream/90 leading-relaxed flex-1">
+                                  {tip}
+                                </span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
                       </div>
-                    </div>
-                  </AccordionContent>
-                </AccordionItem>
-              ))}
-            </Accordion>
-          </TabsContent>
-        ))}
+                    </AccordionContent>
+                  </AccordionItem>
+                ))}
+              </Accordion>
+            </TabsContent>
+          );
+        })}
       </Tabs>
     </div>
   );
