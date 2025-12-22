@@ -105,18 +105,18 @@ Time investment: Brew day using extract method (2-3 hours), fermentation (1-3 we
 **Kegging Setup**: Skip bottling entirely ($200-400 to start). Many brewers never go back once they start kegging.`,
       },
       {
-        title: 'Equipment Kits vs Buying Separately',
-        content: `Starter kits ($100-150) include most essentials and are convenient for beginners. They often lack a brew kettle (you might have a big pot already) and quality varies. Read reviews carefully.
+        title: 'Upgrading Your Extract Brewing Setup',
+        content: `As you brew more batches, you'll want to upgrade your equipment. Here's the typical path for extract brewers:
 
-Buying separately costs more upfront ($200-300) but gets you better quality pieces that'll last longer. You can also spread purchases over time – start with essentials, add upgrades as you brew more.
+**First Priority Upgrade: Wort Chiller** - This makes brew day SO much easier. Cuts cooling time from 45-60 minutes down to 15-20 minutes. Less risk of infection, clearer beer. Best upgrade you can make for $60-80.
 
-Either way works. Kits are fine for testing the hobby; serious brewers usually upgrade components over time anyway.`,
-      },
-      {
-        title: 'Upgrading Your Setup Over Time',
-        content: `Most brewers follow this upgrade path: Start with basic plastic bucket fermenters and a simple kettle. First upgrade: wort chiller (makes brew day much easier). Second: better fermenter with temperature control. Third: move to all-grain brewing with a mash tun and larger kettle. Fourth: kegging system. Fifth: advanced equipment like conical fermenters, glycol chillers, or a dedicated brew rig.
+**Second Upgrade: Better Temperature Control** - A temperature-controlled fermentation chamber (modified mini-fridge with temperature controller, $100-200) dramatically improves beer quality and consistency.
 
-Take your time. Master each step before adding complexity. Some of the world's best beers are made on simple equipment.`,
+**Third Upgrade: Kegging System** - Skip bottling entirely! Initial cost is $200-400, but you'll save hours on every batch and your beer will be ready faster with more consistent carbonation.
+
+**Optional Upgrades**: Refractometer for quick gravity readings ($30-80), better fermenter with conical bottom for clearer beer ($100-200), larger brew kettle with built-in thermometer and valve ($150-300).
+
+Take your time with upgrades. Master each batch with your current equipment first. Many award-winning beers are made on basic setups!`,
       },
     ],
   },
