@@ -186,8 +186,8 @@ export function WineMakingGuide() {
             </CardHeader>
             {expandedSections.has(section.id) && (
               <CardContent className="space-y-6">
-              {/* Main Content */}
-              <div className="prose prose-invert max-w-none">
+                {/* Main Content */}
+                <div className="prose prose-invert max-w-none">
                 {section.content.split('\n\n').map((paragraph, idx) => {
                   // Skip empty paragraphs
                   if (!paragraph.trim()) return null;
@@ -209,42 +209,42 @@ export function WineMakingGuide() {
                     </p>
                   );
                 })}
-              </div>
+                </div>
 
-              {/* Equipment Shopping Box */}
-              {section.id === 'equipment' && (
-                <QuickShopBox
-                  title="Shop Equipment for Wine Making"
-                  browseAllCategory="Equipment"
-                  items={[
-                    { name: "Primary Fermenter", searchTerm: "fermenter" },
-                    { name: "Glass Carboy", searchTerm: "carboy" },
-                    { name: "Airlock & Stopper", searchTerm: "airlock" },
-                    { name: "Auto-Siphon & Tubing", searchTerm: "siphon" },
-                    { name: "Hydrometer", searchTerm: "hydrometer" },
-                    { name: "Wine Bottles", searchTerm: "wine bottles" },
-                    { name: "Corks & Corker", searchTerm: "corker" },
-                    { name: "Sanitizer (Star San)", searchTerm: "star san" },
-                  ]}
-                />
-              )}
+                {/* Equipment Shopping Box */}
+                {section.id === 'equipment' && (
+                  <QuickShopBox
+                    title="Shop Equipment for Wine Making"
+                    browseAllCategory="Equipment"
+                    items={[
+                      { name: "Primary Fermenter", searchTerm: "fermenter" },
+                      { name: "Glass Carboy", searchTerm: "carboy" },
+                      { name: "Airlock & Stopper", searchTerm: "airlock" },
+                      { name: "Auto-Siphon & Tubing", searchTerm: "siphon" },
+                      { name: "Hydrometer", searchTerm: "hydrometer" },
+                      { name: "Wine Bottles", searchTerm: "wine bottles" },
+                      { name: "Corks & Corker", searchTerm: "corker" },
+                      { name: "Sanitizer (Star San)", searchTerm: "star san" },
+                    ]}
+                  />
+                )}
 
-              {/* Ingredients Shopping Box */}
-              {section.id === 'ingredients' && (
-                <QuickShopBox
-                  title="Shop Wine Making Ingredients"
-                  browseAllCategory="Yeast"
-                  items={[
-                    { name: "Wine Yeast", searchTerm: "wine yeast" },
-                    { name: "Yeast Nutrient", searchTerm: "yeast nutrient" },
-                    { name: "Campden Tablets", searchTerm: "campden" },
-                    { name: "Potassium Sorbate", searchTerm: "sorbate" },
-                    { name: "Pectic Enzyme", searchTerm: "pectic" },
-                    { name: "Acid Blend", searchTerm: "acid blend" },
-                    { name: "Bentonite (Clarifier)", searchTerm: "bentonite" },
-                  ]}
-                />
-              )}
+                {/* Ingredients Shopping Box */}
+                {section.id === 'ingredients' && (
+                  <QuickShopBox
+                    title="Shop Wine Making Ingredients"
+                    browseAllCategory="Yeast"
+                    items={[
+                      { name: "Wine Yeast", searchTerm: "wine yeast" },
+                      { name: "Yeast Nutrient", searchTerm: "yeast nutrient" },
+                      { name: "Campden Tablets", searchTerm: "campden" },
+                      { name: "Potassium Sorbate", searchTerm: "sorbate" },
+                      { name: "Pectic Enzyme", searchTerm: "pectic" },
+                      { name: "Acid Blend", searchTerm: "acid blend" },
+                      { name: "Bentonite (Clarifier)", searchTerm: "bentonite" },
+                    ]}
+                  />
+                )}
               </CardContent>
             )}
           </Card>

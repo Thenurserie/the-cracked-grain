@@ -199,8 +199,8 @@ export function BeerBrewingGuide() {
             </CardHeader>
             {expandedMainSections.has(section.id) && (
               <CardContent className="space-y-6">
-              {/* Main Content */}
-              <div className="prose prose-invert max-w-none">
+                {/* Main Content */}
+                <div className="prose prose-invert max-w-none">
                 {section.content.split('\n\n').map((paragraph, idx) => {
                   // Check if paragraph starts with ** (bold heading)
                   if (paragraph.startsWith('**') && paragraph.includes('**:')) {
@@ -219,130 +219,130 @@ export function BeerBrewingGuide() {
                     </p>
                   );
                 })}
-              </div>
+                </div>
 
-              {/* Subsections */}
-              {section.subsections && section.subsections.length > 0 && (
-                <div className="space-y-6">
-                  {section.subsections.map((subsection, subIdx) => (
-                    <div key={subIdx} className="border-l-2 border-amber/30 pl-6 py-2">
-                      <h3 className="text-xl font-semibold text-cream mb-3 flex items-center gap-2">
-                        <span className="text-amber/60">▸</span>
-                        {subsection.title}
-                      </h3>
-                      <div className="prose prose-invert max-w-none">
-                        {subsection.content.split('\n\n').map((paragraph, pIdx) => {
-                          // Handle bold headings within subsections
-                          if (paragraph.startsWith('**') && paragraph.includes('**:')) {
-                            const [heading, ...rest] = paragraph.split('**:');
-                            const headingText = heading.replace(/\*\*/g, '');
+                {/* Subsections */}
+                {section.subsections && section.subsections.length > 0 && (
+                  <div className="space-y-6">
+                    {section.subsections.map((subsection, subIdx) => (
+                      <div key={subIdx} className="border-l-2 border-amber/30 pl-6 py-2">
+                        <h3 className="text-xl font-semibold text-cream mb-3 flex items-center gap-2">
+                          <span className="text-amber/60">▸</span>
+                          {subsection.title}
+                        </h3>
+                        <div className="prose prose-invert max-w-none">
+                          {subsection.content.split('\n\n').map((paragraph, pIdx) => {
+                            // Handle bold headings within subsections
+                            if (paragraph.startsWith('**') && paragraph.includes('**:')) {
+                              const [heading, ...rest] = paragraph.split('**:');
+                              const headingText = heading.replace(/\*\*/g, '');
+                              return (
+                                <div key={pIdx} className="mb-4">
+                                  <h5 className="text-base font-semibold text-amber mb-2">{headingText}</h5>
+                                  <p className="text-cream/80 leading-relaxed text-sm">{rest.join('').trim()}</p>
+                                </div>
+                              );
+                            }
                             return (
-                              <div key={pIdx} className="mb-4">
-                                <h5 className="text-base font-semibold text-amber mb-2">{headingText}</h5>
-                                <p className="text-cream/80 leading-relaxed text-sm">{rest.join('').trim()}</p>
-                              </div>
+                              <p key={pIdx} className="text-cream/80 leading-relaxed mb-3 text-sm">
+                                {paragraph}
+                              </p>
                             );
-                          }
-                          return (
-                            <p key={pIdx} className="text-cream/80 leading-relaxed mb-3 text-sm">
-                              {paragraph}
-                            </p>
-                          );
-                        })}
+                          })}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {/* Equipment Shopping Box */}
+                {section.id === 'equipment' && (
+                  <QuickShopBox
+                    title="Shop Equipment for Beer Brewing"
+                    browseAllCategory="Equipment"
+                    items={[
+                      { name: "Brew Kettle (8+ gallon)", searchTerm: "kettle" },
+                      { name: "Fermenter", searchTerm: "fermenter" },
+                      { name: "Airlock & Stopper", searchTerm: "airlock" },
+                      { name: "Hydrometer", searchTerm: "hydrometer" },
+                      { name: "Thermometer", searchTerm: "thermometer" },
+                      { name: "Auto-Siphon & Tubing", searchTerm: "siphon" },
+                      { name: "Bottles", searchTerm: "bottles" },
+                      { name: "Bottle Capper & Caps", searchTerm: "capper" },
+                      { name: "Sanitizer (Star San)", searchTerm: "star san" },
+                    ]}
+                  />
+                )}
+
+                {/* Ingredients Shopping Box */}
+                {section.id === 'ingredients' && (
+                  <QuickShopBox
+                    title="Shop Brewing Ingredients"
+                    browseAllCategory="Grains"
+                    items={[
+                      { name: "Malt Extract (LME/DME)", category: "Grains" },
+                      { name: "Specialty Grains", category: "Grains", subcategory: "Specialty Malts" },
+                      { name: "Hops", category: "Hops" },
+                      { name: "Brewing Yeast", category: "Yeast" },
+                      { name: "Priming Sugar", searchTerm: "priming sugar" },
+                      { name: "Irish Moss (Clarifier)", searchTerm: "irish moss" },
+                      { name: "Yeast Nutrient", searchTerm: "yeast nutrient" },
+                    ]}
+                  />
+                )}
+
+                {/* Tips */}
+                {section.tips && section.tips.length > 0 && (
+                  <div className="bg-green-500/10 border border-green-500/30 rounded-lg p-4">
+                    <div className="flex items-start gap-3">
+                      <Lightbulb className="h-5 w-5 text-green-500 flex-shrink-0 mt-1" />
+                      <div className="flex-1">
+                        <h4 className="font-semibold text-green-400 mb-2">Pro Tips</h4>
+                        <ul className="space-y-2">
+                          {section.tips.map((tip, idx) => (
+                            <li key={idx} className="text-sm text-cream/80 leading-relaxed">
+                              • {tip}
+                            </li>
+                          ))}
+                        </ul>
                       </div>
                     </div>
-                  ))}
-                </div>
-              )}
+                  </div>
+                )}
 
-              {/* Equipment Shopping Box */}
-              {section.id === 'equipment' && (
-                <QuickShopBox
-                  title="Shop Equipment for Beer Brewing"
-                  browseAllCategory="Equipment"
-                  items={[
-                    { name: "Brew Kettle (8+ gallon)", searchTerm: "kettle" },
-                    { name: "Fermenter", searchTerm: "fermenter" },
-                    { name: "Airlock & Stopper", searchTerm: "airlock" },
-                    { name: "Hydrometer", searchTerm: "hydrometer" },
-                    { name: "Thermometer", searchTerm: "thermometer" },
-                    { name: "Auto-Siphon & Tubing", searchTerm: "siphon" },
-                    { name: "Bottles", searchTerm: "bottles" },
-                    { name: "Bottle Capper & Caps", searchTerm: "capper" },
-                    { name: "Sanitizer (Star San)", searchTerm: "star san" },
-                  ]}
-                />
-              )}
-
-              {/* Ingredients Shopping Box */}
-              {section.id === 'ingredients' && (
-                <QuickShopBox
-                  title="Shop Brewing Ingredients"
-                  browseAllCategory="Grains"
-                  items={[
-                    { name: "Malt Extract (LME/DME)", category: "Grains" },
-                    { name: "Specialty Grains", category: "Grains", subcategory: "Specialty Malts" },
-                    { name: "Hops", category: "Hops" },
-                    { name: "Brewing Yeast", category: "Yeast" },
-                    { name: "Priming Sugar", searchTerm: "priming sugar" },
-                    { name: "Irish Moss (Clarifier)", searchTerm: "irish moss" },
-                    { name: "Yeast Nutrient", searchTerm: "yeast nutrient" },
-                  ]}
-                />
-              )}
-
-              {/* Tips */}
-              {section.tips && section.tips.length > 0 && (
-                <div className="bg-green-500/10 border border-green-500/30 rounded-lg p-4">
-                  <div className="flex items-start gap-3">
-                    <Lightbulb className="h-5 w-5 text-green-500 flex-shrink-0 mt-1" />
-                    <div className="flex-1">
-                      <h4 className="font-semibold text-green-400 mb-2">Pro Tips</h4>
-                      <ul className="space-y-2">
-                        {section.tips.map((tip, idx) => (
-                          <li key={idx} className="text-sm text-cream/80 leading-relaxed">
-                            • {tip}
-                          </li>
-                        ))}
-                      </ul>
+                {/* Warnings */}
+                {section.warnings && section.warnings.length > 0 && (
+                  <div className="bg-red-500/10 border border-red-500/30 rounded-lg p-4">
+                    <div className="flex items-start gap-3">
+                      <AlertCircle className="h-5 w-5 text-red-500 flex-shrink-0 mt-1" />
+                      <div className="flex-1">
+                        <h4 className="font-semibold text-red-400 mb-2">Important Warnings</h4>
+                        <ul className="space-y-2">
+                          {section.warnings.map((warning, idx) => (
+                            <li key={idx} className="text-sm text-cream/80 leading-relaxed">
+                              ⚠ {warning}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
                     </div>
                   </div>
-                </div>
-              )}
+                )}
 
-              {/* Warnings */}
-              {section.warnings && section.warnings.length > 0 && (
-                <div className="bg-red-500/10 border border-red-500/30 rounded-lg p-4">
-                  <div className="flex items-start gap-3">
-                    <AlertCircle className="h-5 w-5 text-red-500 flex-shrink-0 mt-1" />
-                    <div className="flex-1">
-                      <h4 className="font-semibold text-red-400 mb-2">Important Warnings</h4>
-                      <ul className="space-y-2">
-                        {section.warnings.map((warning, idx) => (
-                          <li key={idx} className="text-sm text-cream/80 leading-relaxed">
-                            ⚠ {warning}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
+                {/* Back to Top Link */}
+                {index > 0 && (
+                  <div className="pt-4 border-t border-amber/20">
+                    <Button
+                      onClick={scrollToTop}
+                      variant="ghost"
+                      size="sm"
+                      className="text-gold hover:text-amber hover:bg-amber/10"
+                    >
+                      <ChevronUp className="h-4 w-4 mr-2" />
+                      Back to Top
+                    </Button>
                   </div>
-                </div>
-              )}
-
-              {/* Back to Top Link */}
-              {index > 0 && (
-                <div className="pt-4 border-t border-amber/20">
-                  <Button
-                    onClick={scrollToTop}
-                    variant="ghost"
-                    size="sm"
-                    className="text-gold hover:text-amber hover:bg-amber/10"
-                  >
-                    <ChevronUp className="h-4 w-4 mr-2" />
-                    Back to Top
-                  </Button>
-                </div>
-              )}
+                )}
               </CardContent>
             )}
           </Card>

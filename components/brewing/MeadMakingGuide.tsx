@@ -186,8 +186,8 @@ export function MeadMakingGuide() {
             </CardHeader>
             {expandedSections.has(section.id) && (
               <CardContent className="space-y-6">
-              {/* Main Content */}
-              <div className="prose prose-invert max-w-none">
+                {/* Main Content */}
+                <div className="prose prose-invert max-w-none">
                 {section.content.split('\n\n').map((paragraph, idx) => {
                   // Skip empty paragraphs
                   if (!paragraph.trim()) return null;
@@ -209,42 +209,42 @@ export function MeadMakingGuide() {
                     </p>
                   );
                 })}
-              </div>
+                </div>
 
-              {/* Equipment Shopping Box */}
-              {section.id === 'equipment' && (
-                <QuickShopBox
-                  title="Shop Equipment for Mead Making"
-                  browseAllCategory="Equipment"
-                  items={[
-                    { name: "Primary Fermenter", searchTerm: "fermenter" },
-                    { name: "Glass Carboy", searchTerm: "carboy" },
-                    { name: "Airlock & Stopper", searchTerm: "airlock" },
-                    { name: "Auto-Siphon & Tubing", searchTerm: "siphon" },
-                    { name: "Hydrometer", searchTerm: "hydrometer" },
-                    { name: "Bottles", searchTerm: "bottles" },
-                    { name: "Bottle Capper/Corker", searchTerm: "capper" },
-                    { name: "Sanitizer (Star San)", searchTerm: "star san" },
-                  ]}
-                />
-              )}
+                {/* Equipment Shopping Box */}
+                {section.id === 'equipment' && (
+                  <QuickShopBox
+                    title="Shop Equipment for Mead Making"
+                    browseAllCategory="Equipment"
+                    items={[
+                      { name: "Primary Fermenter", searchTerm: "fermenter" },
+                      { name: "Glass Carboy", searchTerm: "carboy" },
+                      { name: "Airlock & Stopper", searchTerm: "airlock" },
+                      { name: "Auto-Siphon & Tubing", searchTerm: "siphon" },
+                      { name: "Hydrometer", searchTerm: "hydrometer" },
+                      { name: "Bottles", searchTerm: "bottles" },
+                      { name: "Bottle Capper/Corker", searchTerm: "capper" },
+                      { name: "Sanitizer (Star San)", searchTerm: "star san" },
+                    ]}
+                  />
+                )}
 
-              {/* Ingredients Shopping Box */}
-              {section.id === 'ingredients' && (
-                <QuickShopBox
-                  title="Shop Mead Making Ingredients"
-                  browseAllCategory="Yeast"
-                  items={[
-                    { name: "Honey (Raw/Wildflower)", searchTerm: "honey" },
-                    { name: "Yeast Nutrient (CRITICAL!)", searchTerm: "nutrient" },
-                    { name: "Fermaid-K or Fermaid-O", searchTerm: "fermaid" },
-                    { name: "Go-Ferm (Rehydration Nutrient)", searchTerm: "go-ferm" },
-                    { name: "Wine/Mead Yeast", searchTerm: "wine yeast" },
-                    { name: "Campden Tablets", searchTerm: "campden" },
-                    { name: "Potassium Sorbate", searchTerm: "sorbate" },
-                  ]}
-                />
-              )}
+                {/* Ingredients Shopping Box */}
+                {section.id === 'ingredients' && (
+                  <QuickShopBox
+                    title="Shop Mead Making Ingredients"
+                    browseAllCategory="Yeast"
+                    items={[
+                      { name: "Honey (Raw/Wildflower)", searchTerm: "honey" },
+                      { name: "Yeast Nutrient (CRITICAL!)", searchTerm: "nutrient" },
+                      { name: "Fermaid-K or Fermaid-O", searchTerm: "fermaid" },
+                      { name: "Go-Ferm (Rehydration Nutrient)", searchTerm: "go-ferm" },
+                      { name: "Wine/Mead Yeast", searchTerm: "wine yeast" },
+                      { name: "Campden Tablets", searchTerm: "campden" },
+                      { name: "Potassium Sorbate", searchTerm: "sorbate" },
+                    ]}
+                  />
+                )}
               </CardContent>
             )}
           </Card>

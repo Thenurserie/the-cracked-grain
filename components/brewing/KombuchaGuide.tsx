@@ -186,8 +186,8 @@ export function KombuchaGuide() {
             </CardHeader>
             {expandedSections.has(section.id) && (
               <CardContent className="space-y-6">
-              {/* Main Content */}
-              <div className="prose prose-invert max-w-none">
+                {/* Main Content */}
+                <div className="prose prose-invert max-w-none">
                 {section.content.split('\n\n').map((paragraph, idx) => {
                   // Skip empty paragraphs
                   if (!paragraph.trim()) return null;
@@ -209,37 +209,37 @@ export function KombuchaGuide() {
                     </p>
                   );
                 })}
-              </div>
+                </div>
 
-              {/* Equipment Shopping Box */}
-              {section.id === 'equipment' && (
-                <QuickShopBox
-                  title="Shop Equipment for Kombucha Brewing"
-                  browseAllCategory="Equipment"
-                  items={[
-                    { name: "Glass Jar (1-2 gallon)", searchTerm: "jar" },
-                    { name: "Breathable Cover (Cloth/Coffee Filter)", searchTerm: "cloth" },
-                    { name: "Swing-Top Bottles for F2", searchTerm: "bottles" },
-                    { name: "pH Strips", searchTerm: "ph strips" },
-                    { name: "Thermometer", searchTerm: "thermometer" },
-                    { name: "Funnel", searchTerm: "funnel" },
-                  ]}
-                />
-              )}
+                {/* Equipment Shopping Box */}
+                {section.id === 'equipment' && (
+                  <QuickShopBox
+                    title="Shop Equipment for Kombucha Brewing"
+                    browseAllCategory="Equipment"
+                    items={[
+                      { name: "Glass Jar (1-2 gallon)", searchTerm: "jar" },
+                      { name: "Breathable Cover (Cloth/Coffee Filter)", searchTerm: "cloth" },
+                      { name: "Swing-Top Bottles for F2", searchTerm: "bottles" },
+                      { name: "pH Strips", searchTerm: "ph strips" },
+                      { name: "Thermometer", searchTerm: "thermometer" },
+                      { name: "Funnel", searchTerm: "funnel" },
+                    ]}
+                  />
+                )}
 
-              {/* Ingredients Shopping Box */}
-              {section.id === 'ingredients' && (
-                <QuickShopBox
-                  title="Shop Kombucha Ingredients"
-                  browseAllCategory="Yeast"
-                  items={[
-                    { name: "Black or Green Tea", searchTerm: "tea" },
-                    { name: "Organic Cane Sugar", searchTerm: "sugar" },
-                    { name: "SCOBY & Starter Tea", searchTerm: "scoby" },
-                    { name: "Flavoring Ingredients", searchTerm: "flavor" },
-                  ]}
-                />
-              )}
+                {/* Ingredients Shopping Box */}
+                {section.id === 'ingredients' && (
+                  <QuickShopBox
+                    title="Shop Kombucha Ingredients"
+                    browseAllCategory="Yeast"
+                    items={[
+                      { name: "Black or Green Tea", searchTerm: "tea" },
+                      { name: "Organic Cane Sugar", searchTerm: "sugar" },
+                      { name: "SCOBY & Starter Tea", searchTerm: "scoby" },
+                      { name: "Flavoring Ingredients", searchTerm: "flavor" },
+                    ]}
+                  />
+                )}
               </CardContent>
             )}
           </Card>
