@@ -240,8 +240,8 @@ Be paranoid about sanitation. It's the difference between great beer and drain p
   },
   {
     id: 'first-brew',
-    title: '5. Your First Brew Day (Extract Brewing)',
-    content: `This is it – brew day! Extract brewing is the perfect way to start. You'll make excellent beer while learning the fundamentals. Allow 2-3 hours total, though active work time is only 1-2 hours. (Note: The timeline below includes some optional steps that may add time.)`,
+    title: '5. The Extract Brewing Process',
+    content: `Extract brewing is the perfect way to start homebrewing. You'll make excellent beer while learning the fundamentals. Allow 2-3 hours total for brew day, though active work time is only 1-2 hours. (Note: The timeline below includes some optional steps that may add time.)`,
     subsections: [
       {
         title: 'Before You Start: Checklist',
@@ -423,8 +423,8 @@ Never rely on airlock activity alone – it can stop while fermentation is still
   },
   {
     id: 'bottling',
-    title: '7. Bottling Day: Carbonation and Packaging',
-    content: `Your beer is fermented. Now it's time to bottle and carbonate. Bottling takes 2-3 hours but is straightforward. Patience required: bottles need 2-3 weeks to carbonate.`,
+    title: '7. Bottling and Carbonation',
+    content: `Once fermentation is complete, you'll bottle your beer and allow it to carbonate naturally. Bottling takes 2-3 hours and is straightforward. Patience is required as bottles need 2-3 weeks to carbonate properly.`,
     subsections: [
       {
         title: 'When Your Beer Is Ready to Bottle',
