@@ -27,7 +27,7 @@ import {
 } from 'lucide-react';
 
 const GUIDES = {
-  'Procedures': [
+  'Kit Brew': [
     {
       title: 'Extract Brew Day SOP',
       difficulty: 'Beginner',
@@ -808,7 +808,7 @@ const GUIDES = {
 
 // Category configurations with colors and icons
 const CATEGORY_CONFIG = {
-  'Procedures': {
+  'Kit Brew': {
     icon: GraduationCap,
     color: 'emerald',
     borderColor: 'border-emerald-500/30',
