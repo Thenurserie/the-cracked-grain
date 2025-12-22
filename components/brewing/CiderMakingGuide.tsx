@@ -157,6 +157,31 @@ export function CiderMakingGuide() {
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
+              {/* Main Content */}
+              <div className="prose prose-invert max-w-none">
+                {section.content.split('\n\n').map((paragraph, idx) => {
+                  // Skip empty paragraphs
+                  if (!paragraph.trim()) return null;
+
+                  // Check if paragraph starts with ** (bold heading)
+                  if (paragraph.startsWith('**') && paragraph.includes('**:')) {
+                    const [heading, ...rest] = paragraph.split('**:');
+                    const headingText = heading.replace(/\*\*/g, '');
+                    return (
+                      <div key={idx} className="mb-4">
+                        <h4 className="text-lg font-semibold text-orange-500 mb-2">{headingText}</h4>
+                        <p className="text-cream/90 leading-relaxed">{rest.join('').trim()}</p>
+                      </div>
+                    );
+                  }
+                  return (
+                    <p key={idx} className="text-cream/90 leading-relaxed mb-4">
+                      {paragraph}
+                    </p>
+                  );
+                })}
+              </div>
+
               {/* Equipment Shopping Box */}
               {section.id === 'equipment' && (
                 <QuickShopBox
@@ -189,31 +214,6 @@ export function CiderMakingGuide() {
                   ]}
                 />
               )}
-
-              {/* Main Content */}
-              <div className="prose prose-invert max-w-none">
-                {section.content.split('\n\n').map((paragraph, idx) => {
-                  // Skip empty paragraphs
-                  if (!paragraph.trim()) return null;
-
-                  // Check if paragraph starts with ** (bold heading)
-                  if (paragraph.startsWith('**') && paragraph.includes('**:')) {
-                    const [heading, ...rest] = paragraph.split('**:');
-                    const headingText = heading.replace(/\*\*/g, '');
-                    return (
-                      <div key={idx} className="mb-4">
-                        <h4 className="text-lg font-semibold text-orange-500 mb-2">{headingText}</h4>
-                        <p className="text-cream/90 leading-relaxed">{rest.join('').trim()}</p>
-                      </div>
-                    );
-                  }
-                  return (
-                    <p key={idx} className="text-cream/90 leading-relaxed mb-4">
-                      {paragraph}
-                    </p>
-                  );
-                })}
-              </div>
             </CardContent>
           </Card>
         ))}
