@@ -27,7 +27,7 @@ import {
 } from 'lucide-react';
 
 const GUIDES = {
-  'Starter Kit': [
+  'Getting Started': [
     {
       title: 'Extract Brew Day SOP',
       difficulty: 'Beginner',
@@ -128,7 +128,7 @@ const GUIDES = {
       }
     }
   ],
-  'Brewing Basics': [
+  'Brewing Fundamentals': [
     {
       title: 'Getting Started Brew Day',
       difficulty: 'Beginner',
@@ -288,7 +288,7 @@ const GUIDES = {
       }
     }
   ],
-  'All-Grain Brewing': [
+  'Advanced Techniques': [
     {
       title: 'Single Infusion Mash',
       difficulty: 'Intermediate',
@@ -839,7 +839,7 @@ const GUIDES = {
 
 // Category configurations with colors and icons
 const CATEGORY_CONFIG = {
-  'Starter Kit': {
+  'Getting Started': {
     icon: GraduationCap,
     color: 'emerald',
     borderColor: 'border-emerald-500/30',
@@ -847,7 +847,7 @@ const CATEGORY_CONFIG = {
     textColor: 'text-emerald-400',
     badgeColor: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/40'
   },
-  'Brewing Basics': {
+  'Brewing Fundamentals': {
     icon: BookOpen,
     color: 'blue',
     borderColor: 'border-blue-500/30',
@@ -855,7 +855,7 @@ const CATEGORY_CONFIG = {
     textColor: 'text-blue-400',
     badgeColor: 'bg-blue-500/20 text-blue-400 border-blue-500/40'
   },
-  'All-Grain Brewing': {
+  'Advanced Techniques': {
     icon: Wheat,
     color: 'amber',
     borderColor: 'border-amber-500/30',
