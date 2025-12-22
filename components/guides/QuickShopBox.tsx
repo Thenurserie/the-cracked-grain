@@ -52,8 +52,16 @@ export function QuickShopBox({ title, items, browseAllCategory, className = '' }
 
           // If no category/subcategory, try search term
           if (!item.category && !item.subcategory && item.searchTerm) {
-            // For search terms, we'll fetch from the main category and filter
-            const response = await fetch(`/api/products?limit=5`);
+            // For search terms, fetch from browseAllCategory if available, otherwise fetch more products
+            const searchParams = new URLSearchParams();
+            if (browseAllCategory) {
+              searchParams.append('category', browseAllCategory);
+              searchParams.append('limit', '100'); // Fetch more from category to search through
+            } else {
+              searchParams.append('limit', '100'); // Fetch more products to search through
+            }
+
+            const response = await fetch(`/api/products?${searchParams.toString()}`);
             if (response.ok) {
               const allProducts: Product[] = await response.json();
               // Simple search filter
