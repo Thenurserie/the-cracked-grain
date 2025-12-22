@@ -6,6 +6,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { BeerBrewingGuide } from './BeerBrewingGuide';
+import { WineMakingGuide } from './WineMakingGuide';
 
 const GUIDES = {
   'Starter Kit': [
@@ -824,9 +825,12 @@ export default function Guides() {
       <h2 className="text-2xl font-bold">Brewing Guides</h2>
 
       <Tabs defaultValue="Complete Guide" className="w-full">
-        <TabsList className="grid grid-cols-2 md:grid-cols-6 gap-2 h-auto bg-muted/50 p-2">
+        <TabsList className="grid grid-cols-2 md:grid-cols-7 gap-2 h-auto bg-muted/50 p-2">
           <TabsTrigger value="Complete Guide">
-            Complete Guide
+            Beer Guide
+          </TabsTrigger>
+          <TabsTrigger value="Wine Making">
+            Wine Guide
           </TabsTrigger>
           {Object.keys(GUIDES).map((category) => (
             <TabsTrigger key={category} value={category}>
@@ -838,6 +842,11 @@ export default function Guides() {
         {/* Complete Beer Brewing Guide Tab */}
         <TabsContent value="Complete Guide" className="mt-4">
           <BeerBrewingGuide />
+        </TabsContent>
+
+        {/* Wine Making Guide Tab */}
+        <TabsContent value="Wine Making" className="mt-4">
+          <WineMakingGuide />
         </TabsContent>
 
         {Object.entries(GUIDES).map(([category, guides]) => (
