@@ -11,6 +11,7 @@ export function WineMakingGuide() {
   const [activeSection, setActiveSection] = useState<string | null>(null);
   const [showBackToTop, setShowBackToTop] = useState(false);
   const [readProgress, setReadProgress] = useState(0);
+  const [showTOC, setShowTOC] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -88,36 +89,47 @@ export function WineMakingGuide() {
         </div>
       </div>
 
-      {/* Table of Contents */}
-      <Card className="bg-card border-purple-500/20 mb-8 sticky top-20 z-40">
-        <CardHeader>
-          <CardTitle className="text-purple-400 flex items-center gap-2">
-            <Book className="h-5 w-5" />
-            Table of Contents
+      {/* Table of Contents - Collapsible */}
+      <Card className="bg-card border-purple-500/20 mb-8">
+        <CardHeader className="cursor-pointer" onClick={() => setShowTOC(!showTOC)}>
+          <CardTitle className="text-purple-400 flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Book className="h-5 w-5" />
+              Table of Contents
+            </div>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="text-purple-400 hover:text-purple-400/80 hover:bg-purple-500/10"
+            >
+              {showTOC ? <ChevronUp className="h-5 w-5" /> : <ChevronDown className="h-5 w-5" />}
+            </Button>
           </CardTitle>
         </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-            {wineMakingGuide.sections.map((section, index) => (
-              <Button
-                key={section.id}
-                onClick={() => scrollToSection(section.id)}
-                variant="ghost"
-                className={`justify-start text-left h-auto py-2 px-3 ${
-                  activeSection === section.id
-                    ? 'bg-purple-500/20 text-purple-400 hover:bg-purple-500/30'
-                    : 'text-cream hover:text-purple-400 hover:bg-purple-500/10'
-                }`}
-              >
-                <span className="text-xs mr-2 opacity-70">{index + 1}</span>
-                <span className="flex-1 text-sm">{section.title}</span>
-                {activeSection === section.id && (
-                  <ChevronRight className="h-4 w-4 ml-2 flex-shrink-0" />
-                )}
-              </Button>
-            ))}
-          </div>
-        </CardContent>
+        {showTOC && (
+          <CardContent>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+              {wineMakingGuide.sections.map((section, index) => (
+                <Button
+                  key={section.id}
+                  onClick={() => scrollToSection(section.id)}
+                  variant="ghost"
+                  className={`justify-start text-left h-auto py-2 px-3 ${
+                    activeSection === section.id
+                      ? 'bg-purple-500/20 text-purple-400 hover:bg-purple-500/30'
+                      : 'text-cream hover:text-purple-400 hover:bg-purple-500/10'
+                  }`}
+                >
+                  <span className="text-xs mr-2 opacity-70">{index + 1}</span>
+                  <span className="flex-1 text-sm">{section.title}</span>
+                  {activeSection === section.id && (
+                    <ChevronRight className="h-4 w-4 ml-2 flex-shrink-0" />
+                  )}
+                </Button>
+              ))}
+            </div>
+          </CardContent>
+        )}
       </Card>
 
       {/* Introduction */}

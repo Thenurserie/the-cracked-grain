@@ -12,6 +12,7 @@ export function BeerBrewingGuide() {
   const [showBackToTop, setShowBackToTop] = useState(false);
   const [expandedSections, setExpandedSections] = useState<Set<string>>(new Set());
   const [readProgress, setReadProgress] = useState(0);
+  const [showTOC, setShowTOC] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -101,36 +102,47 @@ export function BeerBrewingGuide() {
         </div>
       </div>
 
-      {/* Table of Contents */}
-      <Card className="bg-card border-amber/20 mb-8 sticky top-20 z-40">
-        <CardHeader>
-          <CardTitle className="text-gold flex items-center gap-2">
-            <Book className="h-5 w-5" />
-            Table of Contents
+      {/* Table of Contents - Collapsible */}
+      <Card className="bg-card border-amber/20 mb-8">
+        <CardHeader className="cursor-pointer" onClick={() => setShowTOC(!showTOC)}>
+          <CardTitle className="text-gold flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Book className="h-5 w-5" />
+              Table of Contents
+            </div>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="text-gold hover:text-gold/80 hover:bg-amber/10"
+            >
+              {showTOC ? <ChevronUp className="h-5 w-5" /> : <ChevronDown className="h-5 w-5" />}
+            </Button>
           </CardTitle>
         </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-            {BEER_GUIDE_SECTIONS.map((section) => (
-              <Button
-                key={section.id}
-                onClick={() => scrollToSection(section.id)}
-                variant="ghost"
-                className={`justify-start text-left h-auto py-2 px-3 ${
-                  activeSection === section.id
-                    ? 'bg-amber/20 text-gold hover:bg-amber/30'
-                    : 'text-cream hover:text-gold hover:bg-amber/10'
-                }`}
-              >
-                <span className="text-xs mr-2 opacity-70">{section.title.split('.')[0]}</span>
-                <span className="flex-1 text-sm">{section.title.split('. ')[1]}</span>
-                {activeSection === section.id && (
-                  <ChevronRight className="h-4 w-4 ml-2 flex-shrink-0" />
-                )}
-              </Button>
-            ))}
-          </div>
-        </CardContent>
+        {showTOC && (
+          <CardContent>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+              {BEER_GUIDE_SECTIONS.map((section) => (
+                <Button
+                  key={section.id}
+                  onClick={() => scrollToSection(section.id)}
+                  variant="ghost"
+                  className={`justify-start text-left h-auto py-2 px-3 ${
+                    activeSection === section.id
+                      ? 'bg-amber/20 text-gold hover:bg-amber/30'
+                      : 'text-cream hover:text-gold hover:bg-amber/10'
+                  }`}
+                >
+                  <span className="text-xs mr-2 opacity-70">{section.title.split('.')[0]}</span>
+                  <span className="flex-1 text-sm">{section.title.split('. ')[1]}</span>
+                  {activeSection === section.id && (
+                    <ChevronRight className="h-4 w-4 ml-2 flex-shrink-0" />
+                  )}
+                </Button>
+              ))}
+            </div>
+          </CardContent>
+        )}
       </Card>
 
       {/* Introduction */}
