@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { supabase } from '@/lib/supabaseStub';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -163,15 +162,15 @@ export default function GrainBillCalculator() {
     let notFoundCount = 0;
 
     for (const fermentable of fermentables) {
-      const { data: products } = await supabase
-        .from('products')
-        .select('id')
-        .ilike('name', `%${fermentable.name}%`)
-        .maybeSingle();
+      const match = productMatches[fermentable.name];
 
-      if (products) {
-        await addToCart(products.id, Math.ceil(fermentable.weight));
-        addedCount++;
+      if (match?.product?.id) {
+        const success = await addToCart(match.product.id, Math.ceil(fermentable.weight));
+        if (success) {
+          addedCount++;
+        } else {
+          notFoundCount++;
+        }
       } else {
         notFoundCount++;
       }

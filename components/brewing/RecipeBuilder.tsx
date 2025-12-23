@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { supabase } from '@/lib/supabaseStub';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -484,46 +483,49 @@ export default function RecipeBuilder() {
     let addedCount = 0;
     let notFoundCount = 0;
 
+    // Add fermentables
     for (const fermentable of fermentables) {
-      const { data: products } = await supabase
-        .from('products')
-        .select('id')
-        .ilike('name', `%${fermentable.name}%`)
-        .maybeSingle();
+      const match = fermentableMatches[fermentable.name];
 
-      if (products) {
-        await addToCart(products.id, Math.ceil(fermentable.weight));
-        addedCount++;
+      if (match?.product?.id) {
+        const success = await addToCart(match.product.id, Math.ceil(fermentable.weight));
+        if (success) {
+          addedCount++;
+        } else {
+          notFoundCount++;
+        }
       } else {
         notFoundCount++;
       }
     }
 
+    // Add hops
     for (const hop of hops) {
-      const { data: products } = await supabase
-        .from('products')
-        .select('id')
-        .ilike('name', `%${hop.name}%`)
-        .maybeSingle();
+      const match = hopMatches[hop.name];
 
-      if (products) {
-        await addToCart(products.id, Math.ceil(hop.weight));
-        addedCount++;
+      if (match?.product?.id) {
+        const success = await addToCart(match.product.id, Math.ceil(hop.weight));
+        if (success) {
+          addedCount++;
+        } else {
+          notFoundCount++;
+        }
       } else {
         notFoundCount++;
       }
     }
 
+    // Add yeast
     if (yeast) {
-      const { data: products } = await supabase
-        .from('products')
-        .select('id')
-        .ilike('name', `%${yeast.name}%`)
-        .maybeSingle();
+      const match = yeastMatch;
 
-      if (products) {
-        await addToCart(products.id, 1);
-        addedCount++;
+      if (match?.product?.id) {
+        const success = await addToCart(match.product.id, 1);
+        if (success) {
+          addedCount++;
+        } else {
+          notFoundCount++;
+        }
       } else {
         notFoundCount++;
       }
@@ -592,46 +594,55 @@ export default function RecipeBuilder() {
     let addedCount = 0;
     let notFoundCount = 0;
 
+    // Add fermentables (using product matcher for all, including converted extract)
     for (const fermentable of kitFermentables) {
-      const { data: products } = await supabase
-        .from('products')
-        .select('id')
-        .ilike('name', `%${fermentable.name}%`)
-        .maybeSingle();
+      // Check if we already have a match cached
+      let match = fermentableMatches[fermentable.name];
 
-      if (products) {
-        await addToCart(products.id, Math.ceil(fermentable.weight));
-        addedCount++;
+      // If not cached (e.g., for converted extract ingredients), fetch it
+      if (!match) {
+        match = await findMatchingProduct(fermentable.name, 'Grains');
+      }
+
+      if (match?.product?.id) {
+        const success = await addToCart(match.product.id, Math.ceil(fermentable.weight));
+        if (success) {
+          addedCount++;
+        } else {
+          notFoundCount++;
+        }
       } else {
         notFoundCount++;
       }
     }
 
+    // Add hops
     for (const hop of hops) {
-      const { data: products } = await supabase
-        .from('products')
-        .select('id')
-        .ilike('name', `%${hop.name}%`)
-        .maybeSingle();
+      const match = hopMatches[hop.name];
 
-      if (products) {
-        await addToCart(products.id, Math.ceil(hop.weight));
-        addedCount++;
+      if (match?.product?.id) {
+        const success = await addToCart(match.product.id, Math.ceil(hop.weight));
+        if (success) {
+          addedCount++;
+        } else {
+          notFoundCount++;
+        }
       } else {
         notFoundCount++;
       }
     }
 
+    // Add yeast
     if (yeast) {
-      const { data: products } = await supabase
-        .from('products')
-        .select('id')
-        .ilike('name', `%${yeast.name}%`)
-        .maybeSingle();
+      const match = yeastMatch;
 
-      if (products) {
-        await addToCart(products.id, 1);
-        addedCount++;
+      if (match?.product?.id) {
+        const success = await addToCart(match.product.id, 1);
+        if (success) {
+          addedCount++;
+        } else {
+          notFoundCount++;
+        }
       } else {
         notFoundCount++;
       }
