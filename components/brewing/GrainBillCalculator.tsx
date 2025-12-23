@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Plus, Trash2, ShoppingCart } from 'lucide-react';
+import { Plus, Trash2, ShoppingCart, CheckCircle2, AlertCircle, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
 import {
   calculateOG,
@@ -18,6 +18,7 @@ import {
   type Fermentable
 } from '@/lib/brewing-calcs';
 import { addToCart } from '@/lib/cartClient';
+import { findMatchingProduct, type ProductMatch } from '@/lib/productMatcher';
 
 export default function GrainBillCalculator() {
   const [batchSize, setBatchSize] = useState(5.0);
@@ -25,6 +26,8 @@ export default function GrainBillCalculator() {
   const [attenuation, setAttenuation] = useState(75);
   const [fermentables, setFermentables] = useState<Fermentable[]>([]);
   const [costs, setCosts] = useState<{ [key: string]: number }>({});
+  const [productMatches, setProductMatches] = useState<{ [key: string]: ProductMatch }>({});
+  const [loadingPrices, setLoadingPrices] = useState<{ [key: string]: boolean }>({});
 
   const [og, setOg] = useState(1.000);
   const [fg, setFg] = useState(1.000);
@@ -106,9 +109,48 @@ export default function GrainBillCalculator() {
     setCosts({ ...costs, [name]: cost });
   };
 
+  // Fetch price for a fermentable
+  const fetchPrice = async (name: string) => {
+    setLoadingPrices(prev => ({ ...prev, [name]: true }));
+
+    try {
+      const match = await findMatchingProduct(name, 'Grains');
+      setProductMatches(prev => ({ ...prev, [name]: match }));
+
+      // Auto-set cost if we found a match and user hasn't manually set it
+      if (match.price) {
+        setCosts(prev => {
+          // Only auto-set if user hasn't manually entered a price
+          if (!prev[name]) {
+            return { ...prev, [name]: match.price };
+          }
+          return prev;
+        });
+      }
+    } catch (error) {
+      console.error('Error fetching price:', error);
+    } finally {
+      setLoadingPrices(prev => ({ ...prev, [name]: false }));
+    }
+  };
+
+  // Fetch prices when fermentables change
+  useEffect(() => {
+    fermentables.forEach(f => {
+      if (!productMatches[f.name] && !loadingPrices[f.name]) {
+        fetchPrice(f.name);
+      }
+    });
+  }, [fermentables.map(f => f.name).join(',')]);
+
   const getPercentage = (weight: number) => {
     if (totalWeight === 0) return 0;
     return ((weight / totalWeight) * 100).toFixed(1);
+  };
+
+  const getLineCost = (fermentable: Fermentable): number => {
+    const pricePerLb = costs[fermentable.name] || 0;
+    return fermentable.weight * pricePerLb;
   };
 
   const addAllToCart = async () => {
@@ -205,56 +247,89 @@ export default function GrainBillCalculator() {
             </div>
           ) : (
             <>
-              {fermentables.map((fermentable, index) => (
-                <div key={index} className="grid grid-cols-12 gap-2 items-end">
-                  <div className="col-span-4">
-                    <Select
-                      value={fermentable.name}
-                      onValueChange={(value) => updateFermentable(index, 'name', value)}
-                    >
-                      <SelectTrigger>
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {GRAIN_DATABASE.map((grain) => (
-                          <SelectItem key={grain.name} value={grain.name}>
-                            {grain.name}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
+              <div className="grid grid-cols-12 gap-2 items-center text-xs text-muted-foreground font-semibold mb-2">
+                <div className="col-span-4">Fermentable</div>
+                <div className="col-span-2">Weight (lbs)</div>
+                <div className="col-span-2">% of Bill</div>
+                <div className="col-span-2">Price/lb</div>
+                <div className="col-span-1 text-right">Cost</div>
+                <div className="col-span-1"></div>
+              </div>
+
+              {fermentables.map((fermentable, index) => {
+                const match = productMatches[fermentable.name];
+                const isLoading = loadingPrices[fermentable.name];
+                const hasPrice = costs[fermentable.name] > 0;
+                const lineCost = getLineCost(fermentable);
+
+                return (
+                  <div key={index} className="grid grid-cols-12 gap-2 items-center border-b border-border pb-2">
+                    <div className="col-span-4">
+                      <Select
+                        value={fermentable.name}
+                        onValueChange={(value) => updateFermentable(index, 'name', value)}
+                      >
+                        <SelectTrigger>
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {GRAIN_DATABASE.map((grain) => (
+                            <SelectItem key={grain.name} value={grain.name}>
+                              {grain.name}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div className="col-span-2">
+                      <Input
+                        type="number"
+                        step="0.1"
+                        value={fermentable.weight}
+                        onChange={(e) => updateFermentable(index, 'weight', e.target.value)}
+                        placeholder="lbs"
+                      />
+                    </div>
+                    <div className="col-span-2 text-sm text-muted-foreground text-center">
+                      {getPercentage(fermentable.weight)}%
+                    </div>
+                    <div className="col-span-2 relative">
+                      <Input
+                        type="number"
+                        step="0.01"
+                        value={costs[fermentable.name] || ''}
+                        placeholder={match?.price ? `$${match.price.toFixed(2)}` : '$/lb'}
+                        onChange={(e) => updateCost(fermentable.name, parseFloat(e.target.value) || 0)}
+                        className={`pr-8 ${match?.confidence === 'exact' || match?.confidence === 'high' ? 'border-green-500/30' : ''}`}
+                      />
+                      <div className="absolute right-2 top-1/2 -translate-y-1/2">
+                        {isLoading ? (
+                          <Loader2 className="h-3 w-3 text-muted-foreground animate-spin" />
+                        ) : match?.confidence === 'exact' || match?.confidence === 'high' ? (
+                          <CheckCircle2 className="h-3 w-3 text-green-500" title="Auto-matched from shop" />
+                        ) : match?.confidence === 'medium' ? (
+                          <AlertCircle className="h-3 w-3 text-yellow-500" title="Possible match" />
+                        ) : (
+                          <AlertCircle className="h-3 w-3 text-muted-foreground/50" title="Not found in shop" />
+                        )}
+                      </div>
+                    </div>
+                    <div className="col-span-1 text-right text-sm font-semibold">
+                      {hasPrice ? `$${lineCost.toFixed(2)}` : '—'}
+                    </div>
+                    <div className="col-span-1">
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => removeFermentable(index)}
+                        className="h-8 w-8 p-0 hover:bg-destructive/10 hover:text-destructive"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </div>
                   </div>
-                  <div className="col-span-2">
-                    <Input
-                      type="number"
-                      step="0.1"
-                      value={fermentable.weight}
-                      onChange={(e) => updateFermentable(index, 'weight', e.target.value)}
-                      placeholder="lbs"
-                    />
-                  </div>
-                  <div className="col-span-2 text-sm text-muted-foreground">
-                    {getPercentage(fermentable.weight)}%
-                  </div>
-                  <div className="col-span-2">
-                    <Input
-                      type="number"
-                      step="0.01"
-                      placeholder="$/lb"
-                      onChange={(e) => updateCost(fermentable.name, parseFloat(e.target.value) || 0)}
-                    />
-                  </div>
-                  <div className="col-span-2">
-                    <Button
-                      variant="destructive"
-                      size="sm"
-                      onClick={() => removeFermentable(index)}
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </>
           )}
         </CardContent>
