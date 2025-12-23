@@ -12,8 +12,9 @@ export function generateStaticParams() {
   }));
 }
 
-export default function RecipeDetailPage({ params }: { params: { slug: string } }) {
-  const recipe = getRecipeBySlug(params.slug);
+export default async function RecipeDetailPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const recipe = getRecipeBySlug(slug);
 
   if (!recipe) {
     notFound();
