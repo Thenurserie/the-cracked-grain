@@ -57,6 +57,9 @@ export default function RecipeBuilder() {
   const [notes, setNotes] = useState('');
 
   // Pricing state
+  const [fermentableCosts, setFermentableCosts] = useState<{ [key: string]: number }>({});
+  const [fermentableMatches, setFermentableMatches] = useState<{ [key: string]: ProductMatch }>({});
+  const [fermentableLoadingPrices, setFermentableLoadingPrices] = useState<{ [key: string]: boolean }>({});
   const [hopCosts, setHopCosts] = useState<{ [key: string]: number }>({});
   const [hopMatches, setHopMatches] = useState<{ [key: string]: ProductMatch }>({});
   const [hopLoadingPrices, setHopLoadingPrices] = useState<{ [key: string]: boolean }>({});
@@ -104,6 +107,15 @@ export default function RecipeBuilder() {
       setSrm(calculatedSRM);
     }
   }, [fermentables, hops, yeast, batchSize, efficiency]);
+
+  // Fetch fermentable prices when fermentables change
+  useEffect(() => {
+    fermentables.forEach(f => {
+      if (!fermentableMatches[f.name] && !fermentableLoadingPrices[f.name]) {
+        fetchFermentablePrice(f.name);
+      }
+    });
+  }, [fermentables.map(f => f.name).join(',')]);
 
   // Fetch hop prices when hops change
   useEffect(() => {
@@ -213,6 +225,30 @@ export default function RecipeBuilder() {
 
   const removeFermentable = (index: number) => {
     setFermentables(fermentables.filter((_, i) => i !== index));
+  };
+
+  // Fetch price for a fermentable
+  const fetchFermentablePrice = async (name: string) => {
+    setFermentableLoadingPrices(prev => ({ ...prev, [name]: true }));
+
+    try {
+      const match = await findMatchingProduct(name, 'Grains');
+      setFermentableMatches(prev => ({ ...prev, [name]: match }));
+
+      // Auto-set cost if we found a match and user hasn't manually set it
+      if (match.price) {
+        setFermentableCosts(prev => {
+          if (!prev[name]) {
+            return { ...prev, [name]: match.price };
+          }
+          return prev;
+        });
+      }
+    } catch (error) {
+      console.error('Error fetching fermentable price:', error);
+    } finally {
+      setFermentableLoadingPrices(prev => ({ ...prev, [name]: false }));
+    }
   };
 
   const addHop = () => {
@@ -735,48 +771,107 @@ export default function RecipeBuilder() {
           </Button>
         </CardHeader>
         <CardContent className="space-y-3">
-          {fermentables.map((fermentable, index) => (
-            <div key={index} className="grid grid-cols-12 gap-2 items-end">
-              <div className="col-span-5">
-                <Select
-                  value={fermentable.name}
-                  onValueChange={(value) => updateFermentable(index, 'name', value)}
-                >
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {GRAIN_DATABASE.map((grain) => (
-                      <SelectItem key={grain.name} value={grain.name}>
-                        {grain.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className="col-span-3">
-                <Input
-                  type="number"
-                  step="0.1"
-                  value={fermentable.weight}
-                  onChange={(e) => updateFermentable(index, 'weight', e.target.value)}
-                  placeholder="lbs"
-                />
-              </div>
-              <div className="col-span-2 text-sm text-muted-foreground">
-                {fermentable.lovibond}L
-              </div>
-              <div className="col-span-2">
-                <Button
-                  variant="destructive"
-                  size="sm"
-                  onClick={() => removeFermentable(index)}
-                >
-                  <Trash2 className="h-4 w-4" />
-                </Button>
-              </div>
+          {fermentables.length > 0 && (
+            <div className="grid grid-cols-12 gap-2 items-center text-xs text-muted-foreground font-semibold mb-2">
+              <div className="col-span-3">Fermentable</div>
+              <div className="col-span-2">lbs</div>
+              <div className="col-span-1">°L</div>
+              <div className="col-span-2">$/lb</div>
+              <div className="col-span-2 text-right">Cost</div>
+              <div className="col-span-2"></div>
             </div>
-          ))}
+          )}
+          {fermentables.map((fermentable, index) => {
+            const match = fermentableMatches[fermentable.name];
+            const isLoading = fermentableLoadingPrices[fermentable.name];
+            const pricePerLb = fermentableCosts[fermentable.name] || 0;
+            const lineCost = fermentable.weight * pricePerLb;
+
+            return (
+              <div key={index} className="grid grid-cols-12 gap-2 items-center border-b border-border pb-2">
+                <div className="col-span-3">
+                  <Select
+                    value={fermentable.name}
+                    onValueChange={(value) => updateFermentable(index, 'name', value)}
+                  >
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {GRAIN_DATABASE.map((grain) => (
+                        <SelectItem key={grain.name} value={grain.name}>
+                          {grain.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="col-span-2">
+                  <Input
+                    type="number"
+                    step="0.1"
+                    value={fermentable.weight}
+                    onChange={(e) => updateFermentable(index, 'weight', e.target.value)}
+                    placeholder="lbs"
+                  />
+                </div>
+                <div className="col-span-1 text-sm text-muted-foreground text-center">
+                  {fermentable.lovibond}L
+                </div>
+                <div className="col-span-2 relative">
+                  <Input
+                    type="number"
+                    step="0.01"
+                    value={fermentableCosts[fermentable.name] || ''}
+                    placeholder={match?.price ? `$${match.price.toFixed(2)}` : '$/lb'}
+                    onChange={(e) => setFermentableCosts({ ...fermentableCosts, [fermentable.name]: parseFloat(e.target.value) || 0 })}
+                    className={`pr-8 ${match?.confidence === 'exact' || match?.confidence === 'high' ? 'border-green-500/30' : ''}`}
+                  />
+                  <div className="absolute right-2 top-1/2 -translate-y-1/2">
+                    {isLoading ? (
+                      <Loader2 className="h-3 w-3 text-muted-foreground animate-spin" />
+                    ) : match?.confidence === 'exact' || match?.confidence === 'high' ? (
+                      <CheckCircle2 className="h-3 w-3 text-green-500" title="Auto-matched from shop" />
+                    ) : match?.confidence === 'medium' ? (
+                      <AlertCircle className="h-3 w-3 text-yellow-500" title="Possible match" />
+                    ) : (
+                      <AlertCircle className="h-3 w-3 text-muted-foreground/50" title="Not found in shop" />
+                    )}
+                  </div>
+                </div>
+                <div className="col-span-2 text-right text-sm font-semibold">
+                  {pricePerLb > 0 ? `$${lineCost.toFixed(2)}` : '—'}
+                </div>
+                <div className="col-span-2">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => removeFermentable(index)}
+                    className="h-8 w-8 p-0 hover:bg-destructive/10 hover:text-destructive"
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </Button>
+                </div>
+              </div>
+            );
+          })}
+
+          {fermentables.length > 0 && (
+            <div className="grid grid-cols-12 gap-2 items-center border-t-2 border-gold/30 pt-3 mt-2">
+              <div className="col-span-3 text-sm font-bold text-gold">
+                Fermentables Total
+              </div>
+              <div className="col-span-2 text-sm font-bold">
+                {fermentables.reduce((sum, f) => sum + f.weight, 0).toFixed(1)} lbs
+              </div>
+              <div className="col-span-1"></div>
+              <div className="col-span-2"></div>
+              <div className="col-span-2 text-right text-lg font-bold text-gold">
+                ${fermentables.reduce((sum, f) => sum + (f.weight * (fermentableCosts[f.name] || 0)), 0).toFixed(2)}
+              </div>
+              <div className="col-span-2"></div>
+            </div>
+          )}
         </CardContent>
       </Card>
 
@@ -1019,6 +1114,74 @@ export default function RecipeBuilder() {
               </div>
             </div>
           )}
+        </CardContent>
+      </Card>
+
+      <Card className="border-gold/30 bg-gradient-to-br from-gold/5 to-amber/5">
+        <CardHeader>
+          <CardTitle className="text-gold">Recipe Cost Summary</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="space-y-3">
+              <div className="flex justify-between items-center py-2 border-b border-border">
+                <span className="text-sm text-muted-foreground">Fermentables</span>
+                <span className="font-semibold">
+                  ${fermentables.reduce((sum, f) => sum + (f.weight * (fermentableCosts[f.name] || 0)), 0).toFixed(2)}
+                </span>
+              </div>
+              <div className="flex justify-between items-center py-2 border-b border-border">
+                <span className="text-sm text-muted-foreground">Hops</span>
+                <span className="font-semibold">
+                  ${hops.reduce((sum, h) => sum + (h.weight * (hopCosts[h.name] || 0)), 0).toFixed(2)}
+                </span>
+              </div>
+              <div className="flex justify-between items-center py-2 border-b border-border">
+                <span className="text-sm text-muted-foreground">Yeast</span>
+                <span className="font-semibold">${yeastCost.toFixed(2)}</span>
+              </div>
+              <div className="flex justify-between items-center py-3 border-t-2 border-gold/30 mt-2">
+                <span className="font-bold text-gold">Total Ingredients</span>
+                <span className="text-2xl font-bold text-gold">
+                  ${(
+                    fermentables.reduce((sum, f) => sum + (f.weight * (fermentableCosts[f.name] || 0)), 0) +
+                    hops.reduce((sum, h) => sum + (h.weight * (hopCosts[h.name] || 0)), 0) +
+                    yeastCost
+                  ).toFixed(2)}
+                </span>
+              </div>
+            </div>
+
+            <div className="space-y-3">
+              <div className="p-4 bg-muted/50 rounded-lg">
+                <div className="text-xs text-muted-foreground mb-1">Cost per 12oz Bottle</div>
+                <div className="text-3xl font-bold text-gold">
+                  ${batchSize > 0 ? (
+                    (fermentables.reduce((sum, f) => sum + (f.weight * (fermentableCosts[f.name] || 0)), 0) +
+                     hops.reduce((sum, h) => sum + (h.weight * (hopCosts[h.name] || 0)), 0) +
+                     yeastCost) / (batchSize * 128 / 12)
+                  ).toFixed(2) : '0.00'}
+                </div>
+                <div className="text-xs text-muted-foreground mt-1">
+                  (~{batchSize > 0 ? Math.floor(batchSize * 128 / 12) : 0} bottles per batch)
+                </div>
+              </div>
+
+              <div className="p-4 bg-muted/50 rounded-lg">
+                <div className="text-xs text-muted-foreground mb-1">Cost per Pint (16oz)</div>
+                <div className="text-3xl font-bold text-gold">
+                  ${batchSize > 0 ? (
+                    (fermentables.reduce((sum, f) => sum + (f.weight * (fermentableCosts[f.name] || 0)), 0) +
+                     hops.reduce((sum, h) => sum + (h.weight * (hopCosts[h.name] || 0)), 0) +
+                     yeastCost) / (batchSize * 8)
+                  ).toFixed(2) : '0.00'}
+                </div>
+                <div className="text-xs text-muted-foreground mt-1">
+                  ({batchSize * 8} pints per batch)
+                </div>
+              </div>
+            </div>
+          </div>
         </CardContent>
       </Card>
 
