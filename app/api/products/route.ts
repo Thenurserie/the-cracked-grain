@@ -8,12 +8,14 @@ export async function GET(request: NextRequest) {
     const subcategory = searchParams.get('subcategory');
     const sortBy = searchParams.get('sortBy') || 'name';
     const limit = parseInt(searchParams.get('limit') || '50');
+    const query = searchParams.get('q'); // Text search query
 
     const products = await getProducts({
       category: category && category !== 'all' ? category : undefined,
       subcategory: subcategory || undefined,
       isActive: true,
       limit: limit,
+      search: query || undefined, // Add search parameter
     });
 
     // Sort products
