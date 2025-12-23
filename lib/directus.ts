@@ -185,8 +185,8 @@ export async function getRecipes(options?: {
   featured?: boolean;
 }): Promise<Recipe[]> {
   try {
-    // Build filter query
-    const filters: string[] = ['filter[status][_eq]=published'];
+    // Build filter query - don't filter by status, get all recipes
+    const filters: string[] = [];
 
     if (options?.type) {
       filters.push(`filter[type][_eq]=${encodeURIComponent(options.type)}`);
@@ -198,8 +198,8 @@ export async function getRecipes(options?: {
       filters.push(`filter[featured][_eq]=${options.featured}`);
     }
 
-    const queryString = filters.join('&');
-    const url = `${DIRECTUS_URL}/items/recipes?${queryString}&sort=-featured,-date_created&limit=-1`;
+    const queryString = filters.length > 0 ? filters.join('&') + '&' : '';
+    const url = `${DIRECTUS_URL}/items/recipes?${queryString}sort=-featured,-date_created&limit=-1`;
 
     const response = await fetch(url, {
       headers: {
@@ -227,7 +227,7 @@ export async function getRecipes(options?: {
  */
 export async function getRecipeBySlug(slug: string): Promise<Recipe | null> {
   try {
-    const url = `${DIRECTUS_URL}/items/recipes?filter[slug][_eq]=${encodeURIComponent(slug)}&filter[status][_eq]=published&limit=1`;
+    const url = `${DIRECTUS_URL}/items/recipes?filter[slug][_eq]=${encodeURIComponent(slug)}&limit=1`;
 
     const response = await fetch(url, {
       headers: {
