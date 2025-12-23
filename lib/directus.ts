@@ -202,9 +202,6 @@ export async function getRecipes(options?: {
     const url = `${DIRECTUS_URL}/items/recipes?${queryString}sort=-featured,-date_created&limit=-1`;
 
     const response = await fetch(url, {
-      headers: {
-        'Authorization': `Bearer ${DIRECTUS_TOKEN}`,
-      },
       next: { revalidate: 60 }, // Revalidate every 60 seconds
     });
 
@@ -230,9 +227,6 @@ export async function getRecipeBySlug(slug: string): Promise<Recipe | null> {
     const url = `${DIRECTUS_URL}/items/recipes?filter[slug][_eq]=${encodeURIComponent(slug)}&limit=1`;
 
     const response = await fetch(url, {
-      headers: {
-        'Authorization': `Bearer ${DIRECTUS_TOKEN}`,
-      },
       next: { revalidate: 60 },
     });
 
@@ -258,9 +252,6 @@ export async function getRecipeIngredients(recipeId: string): Promise<any[]> {
     const url = `${DIRECTUS_URL}/items/recipe_ingredients?filter[recipe_id][_eq]=${recipeId}&fields=*,product_id.*&sort=sort_order`;
 
     const response = await fetch(url, {
-      headers: {
-        'Authorization': `Bearer ${DIRECTUS_TOKEN}`,
-      },
       next: { revalidate: 60 },
     });
 
