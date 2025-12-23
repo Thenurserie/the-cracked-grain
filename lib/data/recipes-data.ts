@@ -274,6 +274,7 @@ export const recipes: Recipe[] = [
     type: "Beer",
     style: "Dry Stout",
     difficulty: "Intermediate",
+    batchSize: "5 gallons",
     brewTime: "3 weeks",
     description: "Classic Irish stout. Roasty, creamy, and sessionable.",
     featured: true,
