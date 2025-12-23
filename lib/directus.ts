@@ -201,9 +201,12 @@ export async function getRecipes(options?: {
     const queryString = filters.length > 0 ? filters.join('&') + '&' : '';
     const url = `${DIRECTUS_URL}/items/recipes?${queryString}sort=-featured,-date_created&limit=-1`;
 
-    const response = await fetch(url, {
-      next: { revalidate: 60 }, // Revalidate every 60 seconds
-    });
+    // Use Next.js revalidation only on server-side
+    const fetchOptions = typeof window === 'undefined'
+      ? { next: { revalidate: 60 } }
+      : {};
+
+    const response = await fetch(url, fetchOptions);
 
     if (!response.ok) {
       throw new Error(`Failed to fetch recipes: ${response.statusText}`);
@@ -226,9 +229,12 @@ export async function getRecipeBySlug(slug: string): Promise<Recipe | null> {
   try {
     const url = `${DIRECTUS_URL}/items/recipes?filter[slug][_eq]=${encodeURIComponent(slug)}&limit=1`;
 
-    const response = await fetch(url, {
-      next: { revalidate: 60 },
-    });
+    // Use Next.js revalidation only on server-side
+    const fetchOptions = typeof window === 'undefined'
+      ? { next: { revalidate: 60 } }
+      : {};
+
+    const response = await fetch(url, fetchOptions);
 
     if (!response.ok) {
       throw new Error(`Failed to fetch recipe: ${response.statusText}`);
@@ -251,9 +257,12 @@ export async function getRecipeIngredients(recipeId: string): Promise<any[]> {
   try {
     const url = `${DIRECTUS_URL}/items/recipe_ingredients?filter[recipe_id][_eq]=${recipeId}&fields=*,product_id.*&sort=sort_order`;
 
-    const response = await fetch(url, {
-      next: { revalidate: 60 },
-    });
+    // Use Next.js revalidation only on server-side
+    const fetchOptions = typeof window === 'undefined'
+      ? { next: { revalidate: 60 } }
+      : {};
+
+    const response = await fetch(url, fetchOptions);
 
     if (!response.ok) {
       throw new Error(`Failed to fetch recipe ingredients: ${response.statusText}`);
