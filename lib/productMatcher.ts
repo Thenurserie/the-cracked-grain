@@ -76,6 +76,25 @@ function determineUnit(product: any): string {
 }
 
 /**
+ * Extract key search terms from ingredient name
+ * Removes generic brewing terms that might limit search results
+ */
+function extractKeyTerms(ingredientName: string): string[] {
+  const genericTerms = ['pale', 'malt', 'grain', 'crystal', 'caramel'];
+  const words = ingredientName.toLowerCase().split(/[\s-]+/);
+
+  // Keep the first 2-3 significant words
+  const keyWords = words.filter((word, index) => {
+    // Always keep numbers and first word
+    if (index === 0 || /\d/.test(word)) return true;
+    // Skip generic terms unless they're part of a compound name
+    return !genericTerms.includes(word) || index < 2;
+  });
+
+  return keyWords;
+}
+
+/**
  * Find the best matching product for an ingredient
  */
 export async function findMatchingProduct(
@@ -83,28 +102,36 @@ export async function findMatchingProduct(
   category?: string
 ): Promise<ProductMatch> {
   try {
-    const params = new URLSearchParams({
-      q: ingredientName,
-      limit: '10'
-    });
+    // Try multiple search strategies
+    const searchTerms = [
+      ingredientName, // First try exact name
+      extractKeyTerms(ingredientName).join(' '), // Then try key terms
+      extractKeyTerms(ingredientName)[0] // Finally try just the first term
+    ];
 
-    if (category) {
-      params.append('category', category);
+    let products: any[] = [];
+
+    // Try each search strategy until we get results
+    for (const searchTerm of searchTerms) {
+      const params = new URLSearchParams({
+        q: searchTerm,
+        limit: '10'
+      });
+
+      if (category) {
+        params.append('category', category);
+      }
+
+      const response = await fetch(`/api/products?${params}`);
+
+      if (response.ok) {
+        const results = await response.json();
+        if (results && results.length > 0) {
+          products = results;
+          break; // Found results, stop searching
+        }
+      }
     }
-
-    const response = await fetch(`/api/products?${params}`);
-
-    if (!response.ok) {
-      return {
-        query: ingredientName,
-        product: null,
-        price: null,
-        unit: 'lb',
-        confidence: 'none'
-      };
-    }
-
-    const products = await response.json();
 
     if (!products || products.length === 0) {
       return {
