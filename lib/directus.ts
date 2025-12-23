@@ -199,7 +199,7 @@ export async function getRecipes(options?: {
     }
 
     const queryString = filters.length > 0 ? filters.join('&') + '&' : '';
-    const url = `${DIRECTUS_URL}/items/recipes?${queryString}sort=-featured,-date_created&limit=-1`;
+    const url = `${DIRECTUS_URL}/items/recipes?${queryString}sort=-featured,-created_at&limit=-1`;
 
     // Use Next.js revalidation only on server-side
     const fetchOptions = typeof window === 'undefined'
