@@ -330,6 +330,25 @@ export default function GrainBillCalculator() {
                   </div>
                 );
               })}
+
+              {fermentables.length > 0 && (
+                <div className="grid grid-cols-12 gap-2 items-center border-t-2 border-gold/30 pt-3 mt-2">
+                  <div className="col-span-4 text-sm font-bold text-gold">
+                    Grain Bill Total
+                  </div>
+                  <div className="col-span-2 text-sm font-bold">
+                    {totalWeight.toFixed(2)} lbs
+                  </div>
+                  <div className="col-span-2"></div>
+                  <div className="col-span-2 text-sm text-muted-foreground">
+                    Avg: ${totalWeight > 0 ? (totalCost / totalWeight).toFixed(2) : '0.00'}/lb
+                  </div>
+                  <div className="col-span-1 text-right text-lg font-bold text-gold">
+                    ${totalCost.toFixed(2)}
+                  </div>
+                  <div className="col-span-1"></div>
+                </div>
+              )}
             </>
           )}
         </CardContent>
