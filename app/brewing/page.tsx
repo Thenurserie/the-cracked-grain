@@ -60,7 +60,15 @@ export default function BrewingToolsPage() {
 
       {/* Quick Tip Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <div className="relative h-[160px] rounded-lg overflow-hidden border border-amber/20 bg-gradient-to-br from-amber/20 to-amber/5 group hover:border-gold transition-all">
+        <div className="relative h-[160px] rounded-lg overflow-hidden border border-amber/20 group hover:border-gold transition-all">
+          <Image
+            src="/images/brewing/Craft your recipe.png"
+            alt="Craft Your Recipe"
+            fill
+            className="object-cover"
+            sizes="(max-width: 768px) 100vw, 33vw"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
           <div className="relative z-10 h-full flex flex-col justify-end p-6">
             <h3 className="text-xl font-bold text-cream mb-1 group-hover:text-gold transition-colors">
               Craft Your Recipe
@@ -71,7 +79,15 @@ export default function BrewingToolsPage() {
           </div>
         </div>
 
-        <div className="relative h-[160px] rounded-lg overflow-hidden border border-amber/20 bg-gradient-to-br from-gold/20 to-gold/5 group hover:border-gold transition-all">
+        <div className="relative h-[160px] rounded-lg overflow-hidden border border-amber/20 group hover:border-gold transition-all">
+          <Image
+            src="/images/brewing/Track your brews.png"
+            alt="Track Your Brews"
+            fill
+            className="object-cover"
+            sizes="(max-width: 768px) 100vw, 33vw"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
           <div className="relative z-10 h-full flex flex-col justify-end p-6">
             <h3 className="text-xl font-bold text-cream mb-1 group-hover:text-gold transition-colors">
               Track Your Brews
@@ -82,7 +98,15 @@ export default function BrewingToolsPage() {
           </div>
         </div>
 
-        <div className="relative h-[160px] rounded-lg overflow-hidden border border-amber/20 bg-gradient-to-br from-amber/30 to-amber/10 group hover:border-gold transition-all">
+        <div className="relative h-[160px] rounded-lg overflow-hidden border border-amber/20 group hover:border-gold transition-all">
+          <Image
+            src="/images/brewing/Perfect your process.png"
+            alt="Perfect Your Process"
+            fill
+            className="object-cover"
+            sizes="(max-width: 768px) 100vw, 33vw"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
           <div className="relative z-10 h-full flex flex-col justify-end p-6">
             <h3 className="text-xl font-bold text-cream mb-1 group-hover:text-gold transition-colors">
               Perfect Your Process
