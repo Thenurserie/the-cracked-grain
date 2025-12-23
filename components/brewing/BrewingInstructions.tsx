@@ -56,6 +56,24 @@ const INSTRUCTIONS: Record<string, Instruction> = {
       {
         heading: 'Fermentables',
         content: 'Click \'+ Add Grain\' to build your grain bill. Base malts typically make up 80-90% of the recipe. Specialty malts add color, body, and flavor.'
+      },
+      {
+        heading: 'Auto-Pricing',
+        content: 'Ingredient prices are automatically looked up from our shop database:',
+        list: [
+          { desc: 'Green checkmark: High-confidence match found' },
+          { desc: 'Yellow alert: Possible match, verify pricing' },
+          { desc: 'Gray alert: Not found in shop, enter manually' },
+          { desc: 'You can always override prices by typing in the price field' }
+        ]
+      },
+      {
+        heading: 'Recipe Cost Summary',
+        content: 'View estimated costs broken down by ingredient type. The summary includes cost per 12oz bottle and cost per pint to help you understand the economics of your brew.'
+      },
+      {
+        heading: 'Shopping List',
+        content: 'Click \'Generate Shopping List\' to create a printable list of all ingredients with quantities and prices. You can copy to clipboard or print directly.'
       }
     ]
   },
@@ -192,7 +210,20 @@ const INSTRUCTIONS: Record<string, Instruction> = {
           { desc: 'Total grain weight needed' },
           { desc: 'Estimated OG (Original Gravity)' },
           { desc: 'Estimated color (SRM)' },
-          { desc: 'Fermentability percentage' }
+          { desc: 'Fermentability percentage' },
+          { desc: 'Line-item costs and total grain bill cost' }
+        ]
+      },
+      {
+        heading: 'Pricing Features',
+        content: 'Each grain is automatically matched to products in our shop:',
+        list: [
+          { desc: 'Prices appear with a confidence indicator' },
+          { desc: 'Green = exact or high-confidence match' },
+          { desc: 'Yellow = possible match (verify accuracy)' },
+          { desc: 'Gray = not found (enter price manually)' },
+          { desc: 'Override any auto-price by typing in the price field' },
+          { desc: 'Totals update automatically as you adjust amounts' }
         ]
       }
     ]
