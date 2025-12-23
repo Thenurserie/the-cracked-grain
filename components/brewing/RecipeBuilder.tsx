@@ -80,7 +80,6 @@ export default function RecipeBuilder() {
   const [error, setError] = useState('');
   const [currentRecipeId, setCurrentRecipeId] = useState<string | null>(null);
   const [showSavedRecipes, setShowSavedRecipes] = useState(false);
-  const [matchingStyles, setMatchingStyles] = useState<any[]>([]);
   const [showShoppingList, setShowShoppingList] = useState(false);
 
   // Load saved recipes when logged in
