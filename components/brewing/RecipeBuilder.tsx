@@ -8,7 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Plus, Trash2, Download, Save, ShoppingCart, Loader2, AlertCircle, LogIn, BookOpen } from 'lucide-react';
+import { Plus, Trash2, Download, Save, ShoppingCart, Loader2, AlertCircle, CheckCircle2, LogIn, BookOpen } from 'lucide-react';
 import { toast } from 'sonner';
 import { addToCart } from '@/lib/cartClient';
 import { useAuth } from '@/contexts/AuthContext';
@@ -28,6 +28,7 @@ import {
   type Yeast
 } from '@/lib/brewing-calcs';
 import { findMatchingStyle } from '@/lib/bjcp-styles';
+import { findMatchingProduct, type ProductMatch } from '@/lib/productMatcher';
 
 type BrewMethod = 'all-grain' | 'extract-lme' | 'extract-dme' | 'partial-mash';
 
@@ -54,6 +55,14 @@ export default function RecipeBuilder() {
   const [hops, setHops] = useState<Hop[]>([]);
   const [yeast, setYeast] = useState<Yeast | null>(null);
   const [notes, setNotes] = useState('');
+
+  // Pricing state
+  const [hopCosts, setHopCosts] = useState<{ [key: string]: number }>({});
+  const [hopMatches, setHopMatches] = useState<{ [key: string]: ProductMatch }>({});
+  const [hopLoadingPrices, setHopLoadingPrices] = useState<{ [key: string]: boolean }>({});
+  const [yeastCost, setYeastCost] = useState<number>(0);
+  const [yeastMatch, setYeastMatch] = useState<ProductMatch | null>(null);
+  const [yeastLoadingPrice, setYeastLoadingPrice] = useState<boolean>(false);
 
   const [og, setOg] = useState(1.050);
   const [fg, setFg] = useState(1.010);
@@ -95,6 +104,22 @@ export default function RecipeBuilder() {
       setSrm(calculatedSRM);
     }
   }, [fermentables, hops, yeast, batchSize, efficiency]);
+
+  // Fetch hop prices when hops change
+  useEffect(() => {
+    hops.forEach(hop => {
+      if (!hopMatches[hop.name] && !hopLoadingPrices[hop.name]) {
+        fetchHopPrice(hop.name);
+      }
+    });
+  }, [hops.map(h => h.name).join(',')]);
+
+  // Fetch yeast price when yeast changes
+  useEffect(() => {
+    if (yeast && !yeastMatch && !yeastLoadingPrice) {
+      fetchYeastPrice(yeast.name);
+    }
+  }, [yeast?.name]);
 
   const loadSavedRecipes = async () => {
     if (!isLoggedIn) return;
@@ -225,6 +250,49 @@ export default function RecipeBuilder() {
 
   const removeHop = (index: number) => {
     setHops(hops.filter((_, i) => i !== index));
+  };
+
+  // Fetch price for a hop
+  const fetchHopPrice = async (name: string) => {
+    setHopLoadingPrices(prev => ({ ...prev, [name]: true }));
+
+    try {
+      const match = await findMatchingProduct(name, 'Hops');
+      setHopMatches(prev => ({ ...prev, [name]: match }));
+
+      // Auto-set cost if we found a match and user hasn't manually set it
+      if (match.price) {
+        setHopCosts(prev => {
+          if (!prev[name]) {
+            return { ...prev, [name]: match.price };
+          }
+          return prev;
+        });
+      }
+    } catch (error) {
+      console.error('Error fetching hop price:', error);
+    } finally {
+      setHopLoadingPrices(prev => ({ ...prev, [name]: false }));
+    }
+  };
+
+  // Fetch price for yeast
+  const fetchYeastPrice = async (name: string) => {
+    setYeastLoadingPrice(true);
+
+    try {
+      const match = await findMatchingProduct(name, 'Yeast');
+      setYeastMatch(match);
+
+      // Auto-set cost if we found a match and user hasn't manually set it
+      if (match.price && yeastCost === 0) {
+        setYeastCost(match.price);
+      }
+    } catch (error) {
+      console.error('Error fetching yeast price:', error);
+    } finally {
+      setYeastLoadingPrice(false);
+    }
   };
 
   const saveRecipe = async () => {
@@ -721,68 +789,128 @@ export default function RecipeBuilder() {
           </Button>
         </CardHeader>
         <CardContent className="space-y-3">
-          {hops.map((hop, index) => (
-            <div key={index} className="grid grid-cols-12 gap-2 items-end">
-              <div className="col-span-4">
-                <Select
-                  value={hop.name}
-                  onValueChange={(value) => updateHop(index, 'name', value)}
-                >
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {HOP_DATABASE.map((h) => (
-                      <SelectItem key={h.name} value={h.name}>
-                        {h.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className="col-span-2">
-                <Input
-                  type="number"
-                  step="0.1"
-                  value={hop.weight}
-                  onChange={(e) => updateHop(index, 'weight', e.target.value)}
-                  placeholder="oz"
-                />
-              </div>
-              <div className="col-span-2">
-                <Input
-                  type="number"
-                  value={hop.time}
-                  onChange={(e) => updateHop(index, 'time', e.target.value)}
-                  placeholder="min"
-                />
-              </div>
-              <div className="col-span-2">
-                <Select
-                  value={hop.use}
-                  onValueChange={(value) => updateHop(index, 'use', value)}
-                >
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="Boil">Boil</SelectItem>
-                    <SelectItem value="Dry Hop">Dry Hop</SelectItem>
-                    <SelectItem value="Whirlpool">Whirlpool</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className="col-span-2">
-                <Button
-                  variant="destructive"
-                  size="sm"
-                  onClick={() => removeHop(index)}
-                >
-                  <Trash2 className="h-4 w-4" />
-                </Button>
-              </div>
+          {hops.length > 0 && (
+            <div className="grid grid-cols-12 gap-2 items-center text-xs text-muted-foreground font-semibold mb-2">
+              <div className="col-span-3">Hop Variety</div>
+              <div className="col-span-1">oz</div>
+              <div className="col-span-1">min</div>
+              <div className="col-span-2">Use</div>
+              <div className="col-span-2">$/oz</div>
+              <div className="col-span-2 text-right">Cost</div>
+              <div className="col-span-1"></div>
             </div>
-          ))}
+          )}
+          {hops.map((hop, index) => {
+            const match = hopMatches[hop.name];
+            const isLoading = hopLoadingPrices[hop.name];
+            const pricePerOz = hopCosts[hop.name] || 0;
+            const lineCost = hop.weight * pricePerOz;
+
+            return (
+              <div key={index} className="grid grid-cols-12 gap-2 items-center border-b border-border pb-2">
+                <div className="col-span-3">
+                  <Select
+                    value={hop.name}
+                    onValueChange={(value) => updateHop(index, 'name', value)}
+                  >
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {HOP_DATABASE.map((h) => (
+                        <SelectItem key={h.name} value={h.name}>
+                          {h.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="col-span-1">
+                  <Input
+                    type="number"
+                    step="0.1"
+                    value={hop.weight}
+                    onChange={(e) => updateHop(index, 'weight', e.target.value)}
+                    placeholder="oz"
+                  />
+                </div>
+                <div className="col-span-1">
+                  <Input
+                    type="number"
+                    value={hop.time}
+                    onChange={(e) => updateHop(index, 'time', e.target.value)}
+                    placeholder="min"
+                  />
+                </div>
+                <div className="col-span-2">
+                  <Select
+                    value={hop.use}
+                    onValueChange={(value) => updateHop(index, 'use', value)}
+                  >
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="Boil">Boil</SelectItem>
+                      <SelectItem value="Dry Hop">Dry Hop</SelectItem>
+                      <SelectItem value="Whirlpool">Whirlpool</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="col-span-2 relative">
+                  <Input
+                    type="number"
+                    step="0.01"
+                    value={hopCosts[hop.name] || ''}
+                    placeholder={match?.price ? `$${match.price.toFixed(2)}` : '$/oz'}
+                    onChange={(e) => setHopCosts({ ...hopCosts, [hop.name]: parseFloat(e.target.value) || 0 })}
+                    className={`pr-8 ${match?.confidence === 'exact' || match?.confidence === 'high' ? 'border-green-500/30' : ''}`}
+                  />
+                  <div className="absolute right-2 top-1/2 -translate-y-1/2">
+                    {isLoading ? (
+                      <Loader2 className="h-3 w-3 text-muted-foreground animate-spin" />
+                    ) : match?.confidence === 'exact' || match?.confidence === 'high' ? (
+                      <CheckCircle2 className="h-3 w-3 text-green-500" title="Auto-matched from shop" />
+                    ) : match?.confidence === 'medium' ? (
+                      <AlertCircle className="h-3 w-3 text-yellow-500" title="Possible match" />
+                    ) : (
+                      <AlertCircle className="h-3 w-3 text-muted-foreground/50" title="Not found in shop" />
+                    )}
+                  </div>
+                </div>
+                <div className="col-span-2 text-right text-sm font-semibold">
+                  {pricePerOz > 0 ? `$${lineCost.toFixed(2)}` : '—'}
+                </div>
+                <div className="col-span-1">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => removeHop(index)}
+                    className="h-8 w-8 p-0 hover:bg-destructive/10 hover:text-destructive"
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </Button>
+                </div>
+              </div>
+            );
+          })}
+
+          {hops.length > 0 && (
+            <div className="grid grid-cols-12 gap-2 items-center border-t-2 border-gold/30 pt-3 mt-2">
+              <div className="col-span-3 text-sm font-bold text-gold">
+                Hops Total
+              </div>
+              <div className="col-span-1 text-sm font-bold">
+                {hops.reduce((sum, h) => sum + h.weight, 0).toFixed(1)} oz
+              </div>
+              <div className="col-span-3"></div>
+              <div className="col-span-2"></div>
+              <div className="col-span-2 text-right text-lg font-bold text-gold">
+                ${hops.reduce((sum, h) => sum + (h.weight * (hopCosts[h.name] || 0)), 0).toFixed(2)}
+              </div>
+              <div className="col-span-1"></div>
+            </div>
+          )}
         </CardContent>
       </Card>
 
@@ -790,25 +918,64 @@ export default function RecipeBuilder() {
         <CardHeader>
           <CardTitle>Yeast</CardTitle>
         </CardHeader>
-        <CardContent>
-          <Select
-            value={yeast?.name || ''}
-            onValueChange={(value) => {
-              const selectedYeast = YEAST_DATABASE.find(y => y.name === value);
-              if (selectedYeast) setYeast(selectedYeast as Yeast);
-            }}
-          >
-            <SelectTrigger>
-              <SelectValue placeholder="Select yeast" />
-            </SelectTrigger>
-            <SelectContent>
-              {YEAST_DATABASE.map((y) => (
-                <SelectItem key={y.name} value={y.name}>
-                  {y.lab} {y.name} ({y.attenuation}%)
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+        <CardContent className="space-y-4">
+          <div>
+            <Label htmlFor="yeast-select">Yeast Strain</Label>
+            <Select
+              value={yeast?.name || ''}
+              onValueChange={(value) => {
+                const selectedYeast = YEAST_DATABASE.find(y => y.name === value);
+                if (selectedYeast) setYeast(selectedYeast as Yeast);
+              }}
+            >
+              <SelectTrigger id="yeast-select">
+                <SelectValue placeholder="Select yeast" />
+              </SelectTrigger>
+              <SelectContent>
+                {YEAST_DATABASE.map((y) => (
+                  <SelectItem key={y.name} value={y.name}>
+                    {y.lab} {y.name} ({y.attenuation}%)
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          {yeast && (
+            <div className="grid grid-cols-2 gap-4 p-4 bg-muted/30 rounded-md border border-border">
+              <div>
+                <Label htmlFor="yeast-price" className="text-xs text-muted-foreground">Price per packet</Label>
+                <div className="relative mt-1">
+                  <Input
+                    id="yeast-price"
+                    type="number"
+                    step="0.01"
+                    value={yeastCost || ''}
+                    placeholder={yeastMatch?.price ? `$${yeastMatch.price.toFixed(2)}` : '$/pkg'}
+                    onChange={(e) => setYeastCost(parseFloat(e.target.value) || 0)}
+                    className={`pr-8 ${yeastMatch?.confidence === 'exact' || yeastMatch?.confidence === 'high' ? 'border-green-500/30' : ''}`}
+                  />
+                  <div className="absolute right-2 top-1/2 -translate-y-1/2">
+                    {yeastLoadingPrice ? (
+                      <Loader2 className="h-3 w-3 text-muted-foreground animate-spin" />
+                    ) : yeastMatch?.confidence === 'exact' || yeastMatch?.confidence === 'high' ? (
+                      <CheckCircle2 className="h-3 w-3 text-green-500" title="Auto-matched from shop" />
+                    ) : yeastMatch?.confidence === 'medium' ? (
+                      <AlertCircle className="h-3 w-3 text-yellow-500" title="Possible match" />
+                    ) : (
+                      <AlertCircle className="h-3 w-3 text-muted-foreground/50" title="Not found in shop" />
+                    )}
+                  </div>
+                </div>
+              </div>
+              <div>
+                <div className="text-xs text-muted-foreground">Yeast Cost</div>
+                <div className="text-2xl font-bold text-gold mt-1">
+                  {yeastCost > 0 ? `$${yeastCost.toFixed(2)}` : '—'}
+                </div>
+              </div>
+            </div>
+          )}
         </CardContent>
       </Card>
 
