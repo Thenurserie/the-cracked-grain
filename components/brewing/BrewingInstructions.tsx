@@ -562,9 +562,9 @@ const INSTRUCTIONS: Record<string, Instruction> = {
         content: 'The ABV calculator determines your beer\'s alcohol content based on the sugar consumed during fermentation. You\'ll need two measurements:',
         list: [
           { label: 'OG (Original Gravity)', desc: 'The density of your wort before fermentation, measured with a hydrometer or refractometer. Take this reading at the same temperature as your hydrometer calibration (usually 60°F/15.5°C), or use temperature correction. Typical range: 1.040-1.060 for most ales, 1.070+ for big beers.' },
-          { label: 'FG (Final Gravity)', desc: 'The density after fermentation is complete. "Complete" means the gravity hasn\'t changed for 2-3 consecutive days. Typical range: 1.008-1.016 for most beers. Lower FG = drier beer, higher FG = sweeter beer with more body.' }
+          { label: 'FG (Final Gravity)', desc: 'The density after fermentation is complete. "Complete" means the gravity hasn\'t changed for 2-3 consecutive days. Typical range: 1.008-1.016 for most beers. Lower FG = drier beer, higher FG = sweeter beer with more body.' },
+          { label: 'Formula', desc: 'ABV = (OG - FG) × 131.25. This is the standard formula used by most brewers and is accurate for beers up to about 8% ABV. For higher-gravity beers, slight adjustments improve accuracy, but the difference is minimal for most homebrewing applications.' }
         ],
-        content: 'Formula used: ABV = (OG - FG) × 131.25. This is the standard formula used by most brewers and is accurate for beers up to about 8% ABV. For higher-gravity beers, slight adjustments improve accuracy, but the difference is minimal for most homebrewing applications.',
         proTip: 'Always take gravity readings at the same temperature for consistency. Hydrometers are calibrated at 60°F - warmer samples read low, colder samples read high. Use the temperature correction calculator if needed!'
       },
       {
