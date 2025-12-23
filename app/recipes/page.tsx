@@ -1,28 +1,31 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { RecipeCard } from '@/components/RecipeCard';
-import { Recipe, getRecipes } from '@/lib/directus';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import Link from 'next/link';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Beaker, Filter } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
+import { Beaker, Clock, ChevronRight } from 'lucide-react';
+import { getRecipes, Recipe } from '@/lib/directus';
+
+type RecipeType = 'All' | 'Beer' | 'Wine' | 'Mead' | 'Cider' | 'Kombucha';
+type RecipeDifficulty = 'All' | 'Beginner' | 'Intermediate' | 'Advanced';
+
+const TYPE_FILTERS: RecipeType[] = ['All', 'Beer', 'Wine', 'Mead', 'Cider', 'Kombucha'];
+const DIFFICULTY_FILTERS: RecipeDifficulty[] = ['All', 'Beginner', 'Intermediate', 'Advanced'];
 
 export default function RecipesPage() {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
-  const [filteredRecipes, setFilteredRecipes] = useState<Recipe[]>([]);
   const [loading, setLoading] = useState(true);
-  const [selectedType, setSelectedType] = useState<string>('all');
-  const [selectedDifficulty, setSelectedDifficulty] = useState<string>('all');
-  const [showFilters, setShowFilters] = useState(false);
+  const [typeFilter, setTypeFilter] = useState<RecipeType>('All');
+  const [difficultyFilter, setDifficultyFilter] = useState<RecipeDifficulty>('All');
 
-  // Fetch recipes on mount
   useEffect(() => {
     async function fetchRecipes() {
       setLoading(true);
       try {
         const data = await getRecipes();
         setRecipes(data);
-        setFilteredRecipes(data);
       } catch (error) {
         console.error('Error fetching recipes:', error);
       } finally {
@@ -32,114 +35,99 @@ export default function RecipesPage() {
     fetchRecipes();
   }, []);
 
-  // Filter recipes when filters change
-  useEffect(() => {
-    let filtered = [...recipes];
+  const filteredRecipes = recipes.filter(recipe => {
+    const matchesType = typeFilter === 'All' || recipe.type === typeFilter;
+    const matchesDifficulty = difficultyFilter === 'All' || recipe.difficulty === difficultyFilter;
+    return matchesType && matchesDifficulty;
+  });
 
-    if (selectedType !== 'all') {
-      filtered = filtered.filter(r => r.type === selectedType);
+  const getDifficultyColor = (difficulty: string) => {
+    switch (difficulty) {
+      case 'Beginner':
+        return 'bg-green-500/20 text-green-500 border-green-500/40';
+      case 'Intermediate':
+        return 'bg-amber-500/20 text-amber-500 border-amber-500/40';
+      case 'Advanced':
+        return 'bg-red-500/20 text-red-500 border-red-500/40';
+      default:
+        return 'bg-cream/20 text-cream border-cream/40';
     }
-
-    if (selectedDifficulty !== 'all') {
-      filtered = filtered.filter(r => r.difficulty === selectedDifficulty);
-    }
-
-    setFilteredRecipes(filtered);
-  }, [recipes, selectedType, selectedDifficulty]);
-
-  // Get unique types and difficulties
-  const types = ['all', ...Array.from(new Set(recipes.map(r => r.type)))];
-  const difficulties = ['all', ...Array.from(new Set(recipes.map(r => r.difficulty)))];
+  };
 
   return (
     <div className="min-h-screen bg-background">
       {/* Hero Section */}
       <div className="bg-gradient-to-b from-amber/10 to-background border-b border-amber/20">
         <div className="container mx-auto px-4 py-16 md:py-24">
-          <div className="max-w-6xl mx-auto text-center">
-            <Beaker className="h-16 w-16 text-gold mx-auto mb-4" />
+          <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-4xl md:text-5xl font-bold text-cream mb-4">
               Brewing Recipes
             </h1>
             <p className="text-lg md:text-xl text-cream/80">
-              Explore our collection of carefully crafted brewing recipes
+              From beginner-friendly to award-winning
             </p>
           </div>
         </div>
       </div>
 
-      {/* Content */}
+      {/* Filters and Content */}
       <div className="container mx-auto px-4 py-12">
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-7xl mx-auto space-y-8">
           {/* Filters */}
-          <div className="mb-8">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl font-semibold text-cream">
-                {filteredRecipes.length} {filteredRecipes.length === 1 ? 'Recipe' : 'Recipes'}
-              </h2>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setShowFilters(!showFilters)}
-                className="border-amber/20 text-cream hover:bg-amber/10 md:hidden"
-              >
-                <Filter className="h-4 w-4 mr-2" />
-                Filters
-              </Button>
-            </div>
-
-            <div className={`flex flex-wrap gap-4 ${showFilters ? 'block' : 'hidden md:flex'}`}>
-              <div className="w-full sm:w-auto">
-                <label className="text-sm text-cream/70 mb-1 block">Type</label>
-                <Select value={selectedType} onValueChange={setSelectedType}>
-                  <SelectTrigger className="w-full sm:w-[180px] border-amber/20 bg-card text-cream">
-                    <SelectValue placeholder="All Types" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {types.map(type => (
-                      <SelectItem key={type} value={type}>
-                        {type === 'all' ? 'All Types' : type}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="w-full sm:w-auto">
-                <label className="text-sm text-cream/70 mb-1 block">Difficulty</label>
-                <Select value={selectedDifficulty} onValueChange={setSelectedDifficulty}>
-                  <SelectTrigger className="w-full sm:w-[180px] border-amber/20 bg-card text-cream">
-                    <SelectValue placeholder="All Levels" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {difficulties.map(diff => (
-                      <SelectItem key={diff} value={diff}>
-                        {diff === 'all' ? 'All Levels' : diff}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-
-              {(selectedType !== 'all' || selectedDifficulty !== 'all') && (
-                <div className="w-full sm:w-auto flex items-end">
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => {
-                      setSelectedType('all');
-                      setSelectedDifficulty('all');
-                    }}
-                    className="text-gold hover:text-gold/80"
-                  >
-                    Clear Filters
-                  </Button>
+          <Card className="bg-card border-amber/20">
+            <CardHeader>
+              <CardTitle className="text-gold">Filter Recipes</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              {/* Type Filter */}
+              <div>
+                <p className="text-sm font-medium text-cream/70 mb-2">Recipe Type</p>
+                <div className="flex flex-wrap gap-2">
+                  {TYPE_FILTERS.map((type) => (
+                    <Button
+                      key={type}
+                      onClick={() => setTypeFilter(type)}
+                      variant={typeFilter === type ? 'default' : 'outline'}
+                      className={typeFilter === type ? 'bg-amber hover:bg-gold' : 'border-amber/30 text-cream hover:bg-amber/10'}
+                      size="sm"
+                    >
+                      {type}
+                    </Button>
+                  ))}
                 </div>
-              )}
-            </div>
+              </div>
+
+              {/* Difficulty Filter */}
+              <div>
+                <p className="text-sm font-medium text-cream/70 mb-2">Difficulty Level</p>
+                <div className="flex flex-wrap gap-2">
+                  {DIFFICULTY_FILTERS.map((difficulty) => (
+                    <Button
+                      key={difficulty}
+                      onClick={() => setDifficultyFilter(difficulty)}
+                      variant={difficultyFilter === difficulty ? 'default' : 'outline'}
+                      className={difficultyFilter === difficulty ? 'bg-amber hover:bg-gold' : 'border-amber/30 text-cream hover:bg-amber/10'}
+                      size="sm"
+                    >
+                      {difficulty}
+                    </Button>
+                  ))}
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Recipe Count */}
+          <div className="flex items-center justify-between">
+            <p className="text-cream/70">
+              Showing {filteredRecipes.length} {filteredRecipes.length === 1 ? 'recipe' : 'recipes'}
+            </p>
+            <Button variant="outline" className="border-amber/30 text-cream hover:bg-amber/10">
+              Submit Your Recipe
+            </Button>
           </div>
 
-          {/* Recipe Grid */}
+          {/* Loading State */}
           {loading ? (
             <div className="flex justify-center items-center py-20">
               <div className="text-center">
@@ -151,20 +139,51 @@ export default function RecipesPage() {
             <div className="flex justify-center items-center py-20">
               <div className="text-center">
                 <Beaker className="h-16 w-16 mx-auto mb-4 text-gold/40" />
-                <h3 className="text-xl font-semibold text-cream mb-2">
-                  No recipes found
-                </h3>
-                <p className="text-cream/70">
-                  Try adjusting your filters or check back later for new recipes.
-                </p>
+                <h3 className="text-xl font-semibold text-cream mb-2">No recipes found</h3>
+                <p className="text-cream/70">Try adjusting your filters or check back later for new recipes.</p>
               </div>
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {filteredRecipes.map(recipe => (
-                <RecipeCard key={recipe.id} recipe={recipe} />
-              ))}
-            </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredRecipes.map((recipe) => (
+              <Link key={recipe.id} href={`/recipes/${recipe.slug}`}>
+                <Card className="bg-card border-amber/20 hover:border-gold transition-all cursor-pointer group h-full">
+                  <CardHeader>
+                    <div className="flex items-start justify-between gap-2 mb-2">
+                      <Beaker className="h-5 w-5 text-gold flex-shrink-0 mt-1" />
+                      <Badge className={getDifficultyColor(recipe.difficulty)}>
+                        {recipe.difficulty}
+                      </Badge>
+                    </div>
+                    <CardTitle className="text-cream group-hover:text-gold transition-colors">
+                      {recipe.name}
+                    </CardTitle>
+                    <div className="flex items-center gap-4 text-sm text-cream/60">
+                      <span className="text-gold">{recipe.type}</span>
+                      <span>•</span>
+                      <span>{recipe.style}</span>
+                    </div>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <p className="text-sm text-cream/80 line-clamp-3">
+                      {recipe.description}
+                    </p>
+                    <div className="flex items-center gap-2 text-sm text-cream/60">
+                      <Clock className="h-4 w-4" />
+                      <span>{recipe.brew_time}</span>
+                    </div>
+                    <Button
+                      variant="ghost"
+                      className="w-full text-gold hover:text-amber hover:bg-amber/10 group-hover:bg-amber/10"
+                    >
+                      View Recipe
+                      <ChevronRight className="h-4 w-4 ml-2" />
+                    </Button>
+                  </CardContent>
+                </Card>
+              </Link>
+            ))}
+          </div>
           )}
         </div>
       </div>

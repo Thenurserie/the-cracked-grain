@@ -1,14 +1,11 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Clock, Gauge, Thermometer, Beaker, BookmarkPlus, ShoppingCart } from 'lucide-react';
-import { getRecipeBySlug, getRecipes } from '@/lib/directus';
+import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-
-interface RecipePageProps {
-  params: Promise<{ slug: string }>;
-}
+import { ArrowLeft, Beaker, Clock, TrendingUp, Droplet, Flame, AlertCircle, CheckCircle, Wine } from 'lucide-react';
+import { getRecipeBySlug, getRecipes } from '@/lib/directus';
 
 export async function generateStaticParams() {
   const recipes = await getRecipes();
@@ -17,13 +14,28 @@ export async function generateStaticParams() {
   }));
 }
 
-export default async function RecipeDetailPage({ params }: RecipePageProps) {
+export default async function RecipeDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const recipe = await getRecipeBySlug(slug);
 
   if (!recipe) {
     notFound();
   }
+
+  const getDifficultyColor = (difficulty: string) => {
+    switch (difficulty) {
+      case 'Beginner':
+        return 'bg-green-500/20 text-green-500 border-green-500/40';
+      case 'Intermediate':
+        return 'bg-amber-500/20 text-amber-500 border-amber-500/40';
+      case 'Advanced':
+        return 'bg-red-500/20 text-red-500 border-red-500/40';
+      default:
+        return 'bg-cream/20 text-cream border-cream/40';
+    }
+  };
+
+  const hasFullDetails = recipe.methods.length > 0;
 
   return (
     <div className="min-h-screen bg-background">
@@ -38,270 +50,443 @@ export default async function RecipeDetailPage({ params }: RecipePageProps) {
               </Button>
             </Link>
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-              {/* Main Info */}
-              <div className="lg:col-span-2">
-                <div className="flex items-start gap-3 mb-4">
-                  <Beaker className="h-10 w-10 text-gold flex-shrink-0 mt-1" />
-                  <div>
-                    <h1 className="text-4xl md:text-5xl font-bold text-cream mb-2">
-                      {recipe.name}
-                    </h1>
-                    <p className="text-xl text-gold">{recipe.style}</p>
-                    {recipe.bjcp_style && (
-                      <p className="text-sm text-cream/60 mt-1">BJCP Style: {recipe.bjcp_style}</p>
-                    )}
+            <div className="flex items-start justify-between gap-4 mb-6">
+              <div>
+                <h1 className="text-4xl md:text-5xl font-bold text-cream mb-4">
+                  {recipe.name}
+                </h1>
+                <div className="flex flex-wrap items-center gap-3">
+                  <Badge className={getDifficultyColor(recipe.difficulty)}>
+                    {recipe.difficulty}
+                  </Badge>
+                  <span className="text-gold">{recipe.style}</span>
+                  {recipe.bjcpStyle && (
+                    <>
+                      <span className="text-cream/60">•</span>
+                      <span className="text-cream/60 text-sm">{recipe.bjcpStyle}</span>
+                    </>
+                  )}
+                  <span className="text-cream/60">•</span>
+                  <div className="flex items-center gap-2 text-cream/60">
+                    <Clock className="h-4 w-4" />
+                    <span>{recipe.brewTime}</span>
                   </div>
+                  <span className="text-cream/60">•</span>
+                  <span className="text-cream/60">{recipe.batchSize}</span>
                 </div>
-
-                <p className="text-lg text-cream/80 leading-relaxed">
-                  {recipe.description}
-                </p>
               </div>
-
-              {/* Stats Card */}
-              <div className="lg:col-span-1">
-                <Card className="bg-card/50 border-amber/20 backdrop-blur">
-                  <CardContent className="p-6">
-                    <div className="space-y-4">
-                      <div className="flex items-center justify-between pb-3 border-b border-amber/20">
-                        <span className="text-cream/70">Difficulty</span>
-                        <span className="font-semibold text-gold">{recipe.difficulty}</span>
-                      </div>
-                      <div className="flex items-center justify-between pb-3 border-b border-amber/20">
-                        <span className="text-cream/70">Batch Size</span>
-                        <span className="font-semibold text-cream">{recipe.batch_size}</span>
-                      </div>
-                      <div className="flex items-center justify-between pb-3 border-b border-amber/20">
-                        <span className="text-cream/70">Brew Time</span>
-                        <span className="font-semibold text-cream">{recipe.brew_time}</span>
-                      </div>
-                      {recipe.abv && (
-                        <div className="flex items-center justify-between pb-3 border-b border-amber/20">
-                          <span className="text-cream/70">ABV</span>
-                          <span className="font-semibold text-gold">{recipe.abv}</span>
-                        </div>
-                      )}
-                      {recipe.ibu && (
-                        <div className="flex items-center justify-between pb-3 border-b border-amber/20">
-                          <span className="text-cream/70">IBU</span>
-                          <span className="font-semibold text-cream">{recipe.ibu}</span>
-                        </div>
-                      )}
-                      {recipe.og && recipe.fg && (
-                        <>
-                          <div className="flex items-center justify-between pb-3 border-b border-amber/20">
-                            <span className="text-cream/70">OG</span>
-                            <span className="font-semibold text-cream">{recipe.og}</span>
-                          </div>
-                          <div className="flex items-center justify-between">
-                            <span className="text-cream/70">FG</span>
-                            <span className="font-semibold text-cream">{recipe.fg}</span>
-                          </div>
-                        </>
-                      )}
-                    </div>
-
-                    <div className="mt-6 space-y-2">
-                      <Button className="w-full bg-amber hover:bg-gold text-white">
-                        <ShoppingCart className="h-4 w-4 mr-2" />
-                        Add Ingredients to Cart
-                      </Button>
-                      <Button variant="outline" className="w-full border-amber/20 text-cream hover:bg-amber/10">
-                        <BookmarkPlus className="h-4 w-4 mr-2" />
-                        Save Recipe
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
+              <Beaker className="h-12 w-12 text-gold flex-shrink-0" />
             </div>
+
+            <p className="text-lg text-cream/80 leading-relaxed">
+              {recipe.description}
+            </p>
           </div>
         </div>
       </div>
 
-      {/* Recipe Details */}
+      {/* Recipe Content */}
       <div className="container mx-auto px-4 py-12">
-        <div className="max-w-6xl mx-auto">
-          <Tabs defaultValue={recipe.methods?.[0]?.type || 'all-grain'} className="w-full">
-            <TabsList className="grid w-full grid-cols-3 mb-8">
-              {recipe.methods?.map((method) => (
-                <TabsTrigger key={method.type} value={method.type} className="data-[state=active]:bg-amber data-[state=active]:text-white">
-                  {method.type === 'all-grain' && 'All Grain'}
-                  {method.type === 'lme' && 'Extract (LME)'}
-                  {method.type === 'dme' && 'Extract (DME)'}
-                </TabsTrigger>
-              ))}
-            </TabsList>
+        <div className="max-w-6xl mx-auto space-y-8">
 
-            {recipe.methods?.map((method) => (
-              <TabsContent key={method.type} value={method.type} className="space-y-8">
-                {/* Fermentables */}
+          {/* Vital Statistics */}
+          <Card className="bg-card border-amber/20">
+            <CardHeader>
+              <CardTitle className="text-gold">Vital Statistics</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-2 md:grid-cols-5 gap-6">
+                <div>
+                  <div className="flex items-center gap-2 text-sm text-cream/60 mb-1">
+                    <Droplet className="h-4 w-4" />
+                    <span>OG</span>
+                  </div>
+                  <div className="text-2xl font-bold text-cream">{recipe.stats.og}</div>
+                </div>
+                <div>
+                  <div className="flex items-center gap-2 text-sm text-cream/60 mb-1">
+                    <Droplet className="h-4 w-4" />
+                    <span>FG</span>
+                  </div>
+                  <div className="text-2xl font-bold text-cream">{recipe.stats.fg}</div>
+                </div>
+                <div>
+                  <div className="flex items-center gap-2 text-sm text-cream/60 mb-1">
+                    <TrendingUp className="h-4 w-4" />
+                    <span>ABV</span>
+                  </div>
+                  <div className="text-2xl font-bold text-cream">{recipe.stats.abv}</div>
+                </div>
+                <div>
+                  <div className="text-sm text-cream/60 mb-1">IBU</div>
+                  <div className="text-2xl font-bold text-cream">{recipe.stats.ibu}</div>
+                </div>
+                <div>
+                  <div className="text-sm text-cream/60 mb-1">SRM</div>
+                  <div className="text-2xl font-bold text-cream">{recipe.stats.srm}</div>
+                  {recipe.stats.color && (
+                    <div className="text-xs text-cream/60 mt-1">{recipe.stats.color}</div>
+                  )}
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {!hasFullDetails && (
+            <Card className="bg-card border-amber/20">
+              <CardContent className="py-12 text-center">
+                <Beaker className="h-16 w-16 text-gold/40 mx-auto mb-4" />
+                <h3 className="text-xl font-semibold text-cream mb-2">
+                  Detailed Instructions Coming Soon
+                </h3>
+                <p className="text-cream/70 max-w-md mx-auto">
+                  We're adding comprehensive brewing instructions for this recipe. Check back soon!
+                </p>
+              </CardContent>
+            </Card>
+          )}
+
+          {hasFullDetails && (
+            <>
+              {/* Brewing Methods */}
+              {recipe.methods && recipe.methods.length > 0 && (
                 <Card className="bg-card border-amber/20">
-                  <CardContent className="p-6">
-                    <h3 className="text-2xl font-bold text-cream mb-4">Fermentables</h3>
-                    <div className="space-y-2">
-                      {method.fermentables.map((ferm, idx) => (
-                        <div key={idx} className="flex items-center justify-between py-2 border-b border-amber/10 last:border-0">
-                          <span className="text-cream">{ferm.name}</span>
+                  <CardHeader>
+                    <CardTitle className="text-gold">Brewing Instructions</CardTitle>
+                    <p className="text-sm text-cream/60">Choose your brewing method below</p>
+                  </CardHeader>
+                  <CardContent>
+                    <Tabs defaultValue="all-grain" className="w-full">
+                      <TabsList className="grid w-full grid-cols-3 bg-muted/50">
+                        {recipe.methods.map((method) => (
+                          <TabsTrigger key={method.type} value={method.type} className="uppercase">
+                            {method.type === 'lme' ? 'LME' : method.type === 'dme' ? 'DME' : 'All-Grain'}
+                          </TabsTrigger>
+                        ))}
+                      </TabsList>
+
+                      {recipe.methods.map((method) => (
+                        <TabsContent key={method.type} value={method.type} className="space-y-6 mt-6">
+                          {/* Fermentables */}
+                          <div>
+                            <h3 className="text-lg font-semibold text-gold mb-3">Fermentables</h3>
+                            <div className="space-y-2">
+                              {method.fermentables.map((fermentable, idx) => (
+                                <div key={idx} className="flex items-center justify-between bg-muted/30 p-3 rounded border border-amber/10">
+                                  <div>
+                                    <div className="font-medium text-cream">{fermentable.name}</div>
+                                    {fermentable.notes && (
+                                      <div className="text-sm text-cream/60">{fermentable.notes}</div>
+                                    )}
+                                  </div>
+                                  <div className="text-right">
+                                    <div className="font-semibold text-gold">{fermentable.amount} {fermentable.unit}</div>
+                                    {fermentable.percentage && (
+                                      <div className="text-sm text-cream/60">{fermentable.percentage}</div>
+                                    )}
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+
+                          {/* Water Volumes */}
+                          {method.waterVolumes && (
+                            <div>
+                              <h3 className="text-lg font-semibold text-gold mb-3">Water Volumes</h3>
+                              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                                {method.waterVolumes.strike && (
+                                  <div className="bg-muted/30 p-3 rounded border border-amber/10">
+                                    <div className="text-sm text-cream/60 mb-1">Strike Water</div>
+                                    <div className="font-semibold text-cream">{method.waterVolumes.strike}</div>
+                                  </div>
+                                )}
+                                {method.waterVolumes.sparge && (
+                                  <div className="bg-muted/30 p-3 rounded border border-amber/10">
+                                    <div className="text-sm text-cream/60 mb-1">Sparge Water</div>
+                                    <div className="font-semibold text-cream">{method.waterVolumes.sparge}</div>
+                                  </div>
+                                )}
+                                {method.waterVolumes.preboil && (
+                                  <div className="bg-muted/30 p-3 rounded border border-amber/10">
+                                    <div className="text-sm text-cream/60 mb-1">Pre-Boil Volume</div>
+                                    <div className="font-semibold text-cream">{method.waterVolumes.preboil}</div>
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+                          )}
+
+                          {/* Instructions */}
+                          <div>
+                            <h3 className="text-lg font-semibold text-gold mb-3">Step-by-Step Instructions</h3>
+                            <ol className="space-y-3">
+                              {method.instructions.map((instruction, idx) => (
+                                <li key={idx} className="flex gap-3">
+                                  <span className="flex-shrink-0 w-6 h-6 rounded-full bg-gold/20 text-gold flex items-center justify-center text-sm font-semibold">
+                                    {idx + 1}
+                                  </span>
+                                  <span className="text-cream/90">{instruction}</span>
+                                </li>
+                              ))}
+                            </ol>
+                          </div>
+
+                          {/* Method Notes */}
+                          {method.notes && method.notes.length > 0 && (
+                            <div className="bg-amber/10 border border-amber/30 rounded-lg p-4">
+                              <div className="flex items-start gap-2">
+                                <AlertCircle className="h-5 w-5 text-amber flex-shrink-0 mt-0.5" />
+                                <div>
+                                  <div className="font-semibold text-amber mb-2">Important Notes</div>
+                                  <ul className="space-y-1">
+                                    {method.notes.map((note, idx) => (
+                                      <li key={idx} className="text-sm text-cream/80">{note}</li>
+                                    ))}
+                                  </ul>
+                                </div>
+                              </div>
+                            </div>
+                          )}
+                        </TabsContent>
+                      ))}
+                    </Tabs>
+                  </CardContent>
+                </Card>
+              )}
+
+              {/* Hops Schedule */}
+              {recipe.hops && recipe.hops.length > 0 && (
+                <Card className="bg-card border-amber/20">
+                  <CardHeader>
+                    <CardTitle className="text-gold">Hops Schedule</CardTitle>
+                    <p className="text-sm text-cream/60">
+                      {recipe.totalHops} | {recipe.boilTime} boil
+                    </p>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-3">
+                      {recipe.hops.map((hop, idx) => (
+                        <div key={idx} className="flex items-center justify-between bg-muted/30 p-3 rounded border border-amber/10">
                           <div className="flex items-center gap-4">
-                            {ferm.percentage && (
-                              <span className="text-gold text-sm">{ferm.percentage}</span>
+                            <Flame className="h-5 w-5 text-amber" />
+                            <div>
+                              <div className="font-medium text-cream">{hop.name}</div>
+                              <div className="text-sm text-cream/60 capitalize">{hop.purpose}</div>
+                            </div>
+                          </div>
+                          <div className="text-right">
+                            <div className="font-semibold text-gold">{hop.amount}</div>
+                            <div className="text-sm text-cream/60">{hop.time}</div>
+                            {hop.ibu !== undefined && hop.ibu > 0 && (
+                              <div className="text-xs text-cream/60">{hop.ibu} IBU</div>
                             )}
-                            <span className="text-cream/80 font-semibold">{ferm.amount} {ferm.unit}</span>
                           </div>
                         </div>
                       ))}
                     </div>
                   </CardContent>
                 </Card>
+              )}
 
-                {/* Instructions */}
+              {/* Yeast & Fermentation */}
+              <div className="grid md:grid-cols-2 gap-6">
+                {recipe.yeast && recipe.yeast.length > 0 && (
+                  <Card className="bg-card border-amber/20">
+                    <CardHeader>
+                      <CardTitle className="text-gold">Yeast Options</CardTitle>
+                      <p className="text-sm text-cream/60">Ferment at {recipe.fermentationTemp}</p>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="space-y-3">
+                        {recipe.yeast.map((y, idx) => (
+                          <div key={idx} className="bg-muted/30 p-3 rounded border border-amber/10">
+                            <div className="flex items-center justify-between mb-1">
+                              <div className="font-medium text-cream">{y.name}</div>
+                              <Badge variant="outline" className="text-xs">{y.type}</Badge>
+                            </div>
+                            <div className="text-sm text-cream/60">{y.lab}</div>
+                            {y.notes && (
+                              <div className="text-sm text-cream/70 mt-2">{y.notes}</div>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    </CardContent>
+                  </Card>
+                )}
+
+                {recipe.fermentation && recipe.fermentation.length > 0 && (
+                  <Card className="bg-card border-amber/20">
+                    <CardHeader>
+                      <CardTitle className="text-gold">Fermentation Schedule</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="space-y-3">
+                        {recipe.fermentation.map((step, idx) => (
+                          <div key={idx} className="border-l-2 border-gold/30 pl-3">
+                            <div className="font-semibold text-amber text-sm">{step.day}</div>
+                            <div className="text-cream/90 text-sm">{step.instruction}</div>
+                            {step.notes && (
+                              <div className="text-cream/60 text-xs mt-1">{step.notes}</div>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    </CardContent>
+                  </Card>
+                )}
+              </div>
+
+              {/* Packaging */}
+              {recipe.packaging && (
                 <Card className="bg-card border-amber/20">
-                  <CardContent className="p-6">
-                    <h3 className="text-2xl font-bold text-cream mb-4">Instructions</h3>
-                    <ol className="space-y-3">
-                      {method.instructions.map((instruction, idx) => (
-                        <li key={idx} className="flex gap-3">
-                          <span className="flex-shrink-0 w-7 h-7 rounded-full bg-amber text-white flex items-center justify-center text-sm font-bold">
-                            {idx + 1}
-                          </span>
-                          <span className="text-cream/90 pt-0.5">{instruction}</span>
-                        </li>
-                      ))}
-                    </ol>
-                  </CardContent>
-                </Card>
-              </TabsContent>
-            ))}
-          </Tabs>
-
-          {/* Hops Schedule */}
-          {recipe.hops && recipe.hops.length > 0 && (
-            <Card className="bg-card border-amber/20 mt-8">
-              <CardContent className="p-6">
-                <h3 className="text-2xl font-bold text-cream mb-4">Hop Schedule</h3>
-                <div className="space-y-2">
-                  {recipe.hops.map((hop, idx) => (
-                    <div key={idx} className="flex items-center justify-between py-2 border-b border-amber/10 last:border-0">
-                      <div className="flex-1">
-                        <span className="text-cream font-semibold">{hop.name}</span>
-                        <span className="text-cream/60 text-sm ml-2">({hop.purpose})</span>
+                  <CardHeader>
+                    <CardTitle className="text-gold">Packaging</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="grid md:grid-cols-2 gap-6">
+                      <div>
+                        <h4 className="font-semibold text-amber mb-3 flex items-center gap-2">
+                          <Wine className="h-4 w-4" />
+                          Bottling
+                        </h4>
+                        <div className="space-y-2 text-sm">
+                          <div className="flex justify-between">
+                            <span className="text-cream/60">Priming Sugar:</span>
+                            <span className="text-cream">{recipe.packaging.bottling.primingSugar}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-cream/60">CO₂ Volumes:</span>
+                            <span className="text-cream">{recipe.packaging.bottling.co2Volumes}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-cream/60">Bottles:</span>
+                            <span className="text-cream">{recipe.packaging.bottling.bottleCount}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-cream/60">Conditioning:</span>
+                            <span className="text-cream">{recipe.packaging.bottling.conditionTime} at {recipe.packaging.bottling.conditionTemp}</span>
+                          </div>
+                        </div>
                       </div>
-                      <div className="flex items-center gap-4">
-                        <span className="text-cream/80">{hop.amount}</span>
-                        <span className="text-gold text-sm min-w-[100px] text-right">{hop.time}</span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          )}
-
-          {/* Yeast */}
-          {recipe.yeast && recipe.yeast.length > 0 && (
-            <Card className="bg-card border-amber/20 mt-8">
-              <CardContent className="p-6">
-                <h3 className="text-2xl font-bold text-cream mb-4">Yeast Options</h3>
-                <div className="space-y-3">
-                  {recipe.yeast.map((yeast, idx) => (
-                    <div key={idx} className="p-3 bg-background/50 rounded border border-amber/10">
-                      <div className="flex items-start justify-between">
-                        <div>
-                          <span className="text-cream font-semibold">{yeast.name}</span>
-                          <span className="text-gold/80 text-sm ml-2">({yeast.lab})</span>
-                          {yeast.type === 'primary' && (
-                            <span className="ml-2 px-2 py-0.5 bg-amber rounded text-xs text-white font-semibold">Recommended</span>
+                      <div>
+                        <h4 className="font-semibold text-amber mb-3 flex items-center gap-2">
+                          <Beaker className="h-4 w-4" />
+                          Kegging
+                        </h4>
+                        <div className="space-y-2 text-sm">
+                          <div className="flex justify-between">
+                            <span className="text-cream/60">PSI:</span>
+                            <span className="text-cream">{recipe.packaging.kegging.psi}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-cream/60">Temperature:</span>
+                            <span className="text-cream">{recipe.packaging.kegging.temp}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-cream/60">Ready In:</span>
+                            <span className="text-cream">{recipe.packaging.kegging.readyTime}</span>
+                          </div>
+                          {recipe.packaging.kegging.notes && (
+                            <div className="text-cream/70 text-xs mt-2 pt-2 border-t border-amber/10">
+                              {recipe.packaging.kegging.notes}
+                            </div>
                           )}
                         </div>
                       </div>
-                      {yeast.notes && (
-                        <p className="text-cream/70 text-sm mt-1">{yeast.notes}</p>
-                      )}
                     </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          )}
+                  </CardContent>
+                </Card>
+              )}
 
-          {/* Fermentation */}
-          {recipe.fermentation && recipe.fermentation.length > 0 && (
-            <Card className="bg-card border-amber/20 mt-8">
-              <CardContent className="p-6">
-                <h3 className="text-2xl font-bold text-cream mb-4">Fermentation Schedule</h3>
-                <div className="space-y-3">
-                  {recipe.fermentation.map((step, idx) => (
-                    <div key={idx} className="flex gap-4 p-3 bg-background/50 rounded border border-amber/10">
-                      <div className="flex-shrink-0 w-20 text-gold font-semibold text-sm">
-                        {step.day}
-                      </div>
-                      <div className="flex-1">
-                        <p className="text-cream">{step.instruction}</p>
-                        {step.notes && (
-                          <p className="text-cream/60 text-sm mt-1">{step.notes}</p>
+              {/* Tips */}
+              {recipe.tips && (recipe.tips.dos.length > 0 || recipe.tips.donts.length > 0) && (
+                <div className="grid md:grid-cols-2 gap-6">
+                  {recipe.tips.dos.length > 0 && (
+                    <Card className="bg-card border-amber/20">
+                      <CardHeader>
+                        <CardTitle className="text-gold flex items-center gap-2">
+                          <CheckCircle className="h-5 w-5" />
+                          Do's
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <ul className="space-y-2">
+                          {recipe.tips.dos.map((tip, idx) => (
+                            <li key={idx} className="flex gap-2 text-sm text-cream/80">
+                              <span className="text-green-500 flex-shrink-0">✓</span>
+                              <span>{tip}</span>
+                            </li>
+                          ))}
+                        </ul>
+                        {recipe.tips.waterChemistry && (
+                          <div className="mt-4 pt-4 border-t border-amber/10 text-sm">
+                            <div className="font-semibold text-amber mb-1">Water Chemistry:</div>
+                            <div className="text-cream/80">{recipe.tips.waterChemistry}</div>
+                          </div>
                         )}
-                      </div>
+                      </CardContent>
+                    </Card>
+                  )}
+
+                  {recipe.tips.donts.length > 0 && (
+                    <Card className="bg-card border-amber/20">
+                      <CardHeader>
+                        <CardTitle className="text-gold flex items-center gap-2">
+                          <AlertCircle className="h-5 w-5" />
+                          Don'ts
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <ul className="space-y-2">
+                          {recipe.tips.donts.map((tip, idx) => (
+                            <li key={idx} className="flex gap-2 text-sm text-cream/80">
+                              <span className="text-red-500 flex-shrink-0">✗</span>
+                              <span>{tip}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </CardContent>
+                    </Card>
+                  )}
+                </div>
+              )}
+
+              {/* Food Pairing */}
+              {recipe.foodPairing && recipe.foodPairing.length > 0 && (
+                <Card className="bg-card border-amber/20">
+                  <CardHeader>
+                    <CardTitle className="text-gold">Food Pairing</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="flex flex-wrap gap-2">
+                      {recipe.foodPairing.map((food, idx) => (
+                        <Badge key={idx} variant="outline" className="text-cream border-amber/30">
+                          {food}
+                        </Badge>
+                      ))}
                     </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          )}
-
-          {/* Tips */}
-          {recipe.tips && (recipe.tips.dos || recipe.tips.donts) && (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
-              {recipe.tips.dos && recipe.tips.dos.length > 0 && (
-                <Card className="bg-card border-green-500/20">
-                  <CardContent className="p-6">
-                    <h3 className="text-xl font-bold text-green-500 mb-4">Do's</h3>
-                    <ul className="space-y-2">
-                      {recipe.tips.dos.map((tip, idx) => (
-                        <li key={idx} className="flex gap-2 text-cream/90">
-                          <span className="text-green-500">✓</span>
-                          <span>{tip}</span>
-                        </li>
-                      ))}
-                    </ul>
                   </CardContent>
                 </Card>
               )}
-
-              {recipe.tips.donts && recipe.tips.donts.length > 0 && (
-                <Card className="bg-card border-red-500/20">
-                  <CardContent className="p-6">
-                    <h3 className="text-xl font-bold text-red-500 mb-4">Don'ts</h3>
-                    <ul className="space-y-2">
-                      {recipe.tips.donts.map((tip, idx) => (
-                        <li key={idx} className="flex gap-2 text-cream/90">
-                          <span className="text-red-500">✗</span>
-                          <span>{tip}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </CardContent>
-                </Card>
-              )}
-            </div>
+            </>
           )}
 
-          {/* Food Pairing */}
-          {recipe.food_pairing && recipe.food_pairing.length > 0 && (
-            <Card className="bg-card border-amber/20 mt-8">
-              <CardContent className="p-6">
-                <h3 className="text-2xl font-bold text-cream mb-4">Food Pairing</h3>
-                <div className="flex flex-wrap gap-2">
-                  {recipe.food_pairing.map((food, idx) => (
-                    <span key={idx} className="px-3 py-1 bg-amber/20 text-gold rounded-full text-sm">
-                      {food}
-                    </span>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          )}
+          {/* Actions */}
+          <div className="flex gap-4">
+            <Link href="/brewing" className="flex-1">
+              <Button className="w-full bg-amber hover:bg-gold">
+                <Beaker className="h-5 w-5 mr-2" />
+                Use Brewing Tools
+              </Button>
+            </Link>
+            <Link href="/shop?category=Grains" className="flex-1">
+              <Button variant="outline" className="w-full border-amber/30 text-cream hover:bg-amber/10">
+                Shop Ingredients
+              </Button>
+            </Link>
+          </div>
         </div>
       </div>
     </div>
