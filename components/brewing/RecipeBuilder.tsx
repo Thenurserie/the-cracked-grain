@@ -238,10 +238,10 @@ export default function RecipeBuilder() {
       setFermentableMatches(prev => ({ ...prev, [name]: match }));
 
       // Auto-set cost if we found a match and user hasn't manually set it
-      if (match.price) {
+      if (match.price !== null && match.price !== undefined) {
         setFermentableCosts(prev => {
           if (!prev[name]) {
-            return { ...prev, [name]: match.price };
+            return { ...prev, [name]: match.price! };
           }
           return prev;
         });
@@ -299,10 +299,10 @@ export default function RecipeBuilder() {
       setHopMatches(prev => ({ ...prev, [name]: match }));
 
       // Auto-set cost if we found a match and user hasn't manually set it
-      if (match.price) {
+      if (match.price !== null && match.price !== undefined) {
         setHopCosts(prev => {
           if (!prev[name]) {
-            return { ...prev, [name]: match.price };
+            return { ...prev, [name]: match.price! };
           }
           return prev;
         });
@@ -323,7 +323,7 @@ export default function RecipeBuilder() {
       setYeastMatch(match);
 
       // Auto-set cost if we found a match and user hasn't manually set it
-      if (match.price && yeastCost === 0) {
+      if (match.price !== null && match.price !== undefined && yeastCost === 0) {
         setYeastCost(match.price);
       }
     } catch (error) {

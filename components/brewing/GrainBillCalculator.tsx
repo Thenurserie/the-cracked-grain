@@ -118,11 +118,11 @@ export default function GrainBillCalculator() {
       setProductMatches(prev => ({ ...prev, [name]: match }));
 
       // Auto-set cost if we found a match and user hasn't manually set it
-      if (match.price) {
+      if (match.price !== null && match.price !== undefined) {
         setCosts(prev => {
           // Only auto-set if user hasn't manually entered a price
           if (!prev[name]) {
-            return { ...prev, [name]: match.price };
+            return { ...prev, [name]: match.price! };
           }
           return prev;
         });
