@@ -28,7 +28,8 @@ import {
   type Yeast
 } from '@/lib/brewing-calcs';
 import { findMatchingStyle } from '@/lib/bjcp-styles';
-import { findMatchingProduct, type ProductMatch } from '@/lib/productMatcher';
+import { findMatchingProduct, type ProductMatch, type ShoppingListItem } from '@/lib/productMatcher';
+import ShoppingListModal from './ShoppingListModal';
 
 type BrewMethod = 'all-grain' | 'extract-lme' | 'extract-dme' | 'partial-mash';
 
@@ -79,6 +80,8 @@ export default function RecipeBuilder() {
   const [error, setError] = useState('');
   const [currentRecipeId, setCurrentRecipeId] = useState<string | null>(null);
   const [showSavedRecipes, setShowSavedRecipes] = useState(false);
+  const [matchingStyles, setMatchingStyles] = useState<any[]>([]);
+  const [showShoppingList, setShowShoppingList] = useState(false);
 
   // Load saved recipes when logged in
   useEffect(() => {
@@ -423,6 +426,54 @@ export default function RecipeBuilder() {
     a.click();
     URL.revokeObjectURL(url);
     toast.success('BeerXML exported!');
+  };
+
+  const generateShoppingListItems = (): ShoppingListItem[] => {
+    const items: ShoppingListItem[] = [];
+
+    // Add fermentables
+    fermentables.forEach(f => {
+      items.push({
+        name: f.name,
+        quantity: f.weight,
+        unit: 'lb',
+        category: 'Grains',
+        price: fermentableCosts[f.name] ? fermentableCosts[f.name] * f.weight : undefined,
+        productId: fermentableMatches[f.name]?.product?.id
+      });
+    });
+
+    // Add hops
+    hops.forEach(h => {
+      items.push({
+        name: h.name,
+        quantity: h.weight,
+        unit: 'oz',
+        category: 'Hops',
+        price: hopCosts[h.name] ? hopCosts[h.name] * h.weight : undefined,
+        productId: hopMatches[h.name]?.product?.id
+      });
+    });
+
+    // Add yeast
+    if (yeast) {
+      items.push({
+        name: yeast.name,
+        quantity: 1,
+        unit: 'pkg',
+        category: 'Yeast',
+        price: yeastCost || undefined,
+        productId: yeastMatch?.product?.id
+      });
+    }
+
+    return items;
+  };
+
+  const getTotalCost = (): number => {
+    const fermentableCost = fermentables.reduce((sum, f) => sum + (f.weight * (fermentableCosts[f.name] || 0)), 0);
+    const hopCost = hops.reduce((sum, h) => sum + (h.weight * (hopCosts[h.name] || 0)), 0);
+    return fermentableCost + hopCost + yeastCost;
   };
 
   const addIngredientsToCart = async () => {
@@ -1241,7 +1292,26 @@ export default function RecipeBuilder() {
             Export BeerXML
           </Button>
         </div>
+
+        <Button
+          onClick={() => setShowShoppingList(true)}
+          variant="outline"
+          size="lg"
+          disabled={fermentables.length === 0 && hops.length === 0 && !yeast}
+          className="w-full border-gold/30 hover:bg-gold/10"
+        >
+          <BookOpen className="h-5 w-5 mr-2" />
+          Generate Shopping List
+        </Button>
       </div>
+
+      <ShoppingListModal
+        isOpen={showShoppingList}
+        onClose={() => setShowShoppingList(false)}
+        recipeName={recipeName || 'Untitled Recipe'}
+        items={generateShoppingListItems()}
+        totalCost={getTotalCost()}
+      />
     </div>
   );
 }
