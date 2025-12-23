@@ -306,11 +306,11 @@ export default function GrainBillCalculator() {
                         {isLoading ? (
                           <Loader2 className="h-3 w-3 text-muted-foreground animate-spin" />
                         ) : match?.confidence === 'exact' || match?.confidence === 'high' ? (
-                          <CheckCircle2 className="h-3 w-3 text-green-500" title="Auto-matched from shop" />
+                          <CheckCircle2 className="h-3 w-3 text-green-500" />
                         ) : match?.confidence === 'medium' ? (
-                          <AlertCircle className="h-3 w-3 text-yellow-500" title="Possible match" />
+                          <AlertCircle className="h-3 w-3 text-yellow-500" />
                         ) : (
-                          <AlertCircle className="h-3 w-3 text-muted-foreground/50" title="Not found in shop" />
+                          <AlertCircle className="h-3 w-3 text-muted-foreground/50" />
                         )}
                       </div>
                     </div>
