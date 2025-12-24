@@ -4,7 +4,11 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import Guides from '@/components/brewing/Guides';
+import { KitBrewGuide } from '@/components/brewing/KitBrewGuide';
+import { AllGrainGuide } from '@/components/brewing/AllGrainGuide';
+import { AdvancedBrewingGuide } from '@/components/brewing/AdvancedBrewingGuide';
+import { FermentationGuideContent } from '@/components/brewing/FermentationGuideContent';
+import { PackagingGuide } from '@/components/brewing/PackagingGuide';
 import { WineMakingGuide } from '@/components/brewing/WineMakingGuide';
 import { MeadMakingGuide } from '@/components/brewing/MeadMakingGuide';
 import { KombuchaGuide } from '@/components/brewing/KombuchaGuide';
@@ -16,20 +20,58 @@ import {
   Droplet,
   Apple,
   Sparkles,
-  ChevronRight
+  ChevronRight,
+  FlaskConical,
+  Package
 } from 'lucide-react';
 
-type GuideType = 'beer' | 'wine' | 'mead' | 'kombucha' | 'cider' | null;
+type GuideType = 'kit-brew' | 'all-grain' | 'advanced' | 'fermentation' | 'packaging' | 'wine' | 'mead' | 'kombucha' | 'cider' | null;
 
 const GUIDE_CARDS = [
   {
-    id: 'beer' as GuideType,
-    title: 'Beer Brewing',
-    description: 'Complete guide to brewing beer from extract to all-grain',
+    id: 'kit-brew' as GuideType,
+    title: 'Extract/Kit Brewing',
+    description: 'Perfect for beginners - extract brew day, fermentation, and bottling',
     icon: Beaker,
     image: '/images/brewing/Craft your recipe.png',
     color: 'from-amber-500/20 to-gold/10',
-    difficulty: 'Beginner to Advanced'
+    difficulty: 'Beginner'
+  },
+  {
+    id: 'all-grain' as GuideType,
+    title: 'All-Grain Brewing',
+    description: 'Advanced brewing with full grain mashing and sparging',
+    icon: Beaker,
+    image: '/images/brewing/Track your brews.png',
+    color: 'from-orange-500/20 to-amber-500/10',
+    difficulty: 'Intermediate to Advanced'
+  },
+  {
+    id: 'advanced' as GuideType,
+    title: 'Advanced Techniques',
+    description: 'Master advanced brewing techniques and processes',
+    icon: Beaker,
+    image: '/images/brewing/Craft your recipe.png',
+    color: 'from-red-500/20 to-orange-500/10',
+    difficulty: 'Advanced'
+  },
+  {
+    id: 'fermentation' as GuideType,
+    title: 'Fermentation Guide',
+    description: 'Deep dive into fermentation science and techniques',
+    icon: FlaskConical,
+    image: '/images/brewing/Track your brews.png',
+    color: 'from-blue-500/20 to-cyan-500/10',
+    difficulty: 'All Levels'
+  },
+  {
+    id: 'packaging' as GuideType,
+    title: 'Packaging Guide',
+    description: 'Bottling, kegging, and carbonation techniques',
+    icon: Package,
+    image: '/images/brewing/Craft your recipe.png',
+    color: 'from-green-500/20 to-emerald-500/10',
+    difficulty: 'All Levels'
   },
   {
     id: 'wine' as GuideType,
@@ -75,7 +117,8 @@ export default function GuidesPage() {
   // Handle hash navigation
   useEffect(() => {
     const hash = window.location.hash.replace('#', '') as GuideType;
-    if (hash && ['beer', 'wine', 'mead', 'kombucha', 'cider'].includes(hash)) {
+    const validGuides = ['kit-brew', 'all-grain', 'advanced', 'fermentation', 'packaging', 'wine', 'mead', 'kombucha', 'cider'];
+    if (hash && validGuides.includes(hash)) {
       setSelectedGuide(hash);
       // Small delay to ensure content is rendered before scrolling
       setTimeout(() => {
@@ -197,9 +240,33 @@ export default function GuidesPage() {
 
         {/* Individual Guide Content */}
         <div className="space-y-12">
-          {selectedGuide === 'beer' && (
-            <div id="beer">
-              <Guides />
+          {selectedGuide === 'kit-brew' && (
+            <div id="kit-brew">
+              <KitBrewGuide />
+            </div>
+          )}
+
+          {selectedGuide === 'all-grain' && (
+            <div id="all-grain">
+              <AllGrainGuide />
+            </div>
+          )}
+
+          {selectedGuide === 'advanced' && (
+            <div id="advanced">
+              <AdvancedBrewingGuide />
+            </div>
+          )}
+
+          {selectedGuide === 'fermentation' && (
+            <div id="fermentation">
+              <FermentationGuideContent />
+            </div>
+          )}
+
+          {selectedGuide === 'packaging' && (
+            <div id="packaging">
+              <PackagingGuide />
             </div>
           )}
 
