@@ -8,7 +8,9 @@ import { Label } from '@/components/ui/label';
 import {
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
+  SelectLabel,
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select';
@@ -25,160 +27,25 @@ import {
   Beaker,
   FlaskConical,
   Thermometer,
-  Droplets
+  Droplets,
+  RotateCcw,
+  Zap,
+  Award
 } from 'lucide-react';
-
-interface EquipmentProfile {
-  id: string;
-  name: string;
-  isDefault: boolean;
-
-  // Mash Tun
-  mashTunType: 'cooler' | 'stainless' | 'aluminum' | 'biab';
-  mashTunVolume: number;
-  mashTunDeadSpace: number;
-  mashTunHeatLoss: number;
-
-  // Boil Kettle
-  kettleVolume: number;
-  kettleDeadSpace: number;
-  boilOffRate: number;
-
-  // Fermenter
-  fermenterType: 'bucket' | 'carboy' | 'conical' | 'other';
-  fermenterVolume: number;
-  fermenterDeadSpace: number;
-
-  // Efficiency
-  mashEfficiency: number;
-  breweryEfficiency: number;
-
-  // Batch Size
-  targetBatchSize: number;
-
-  // Optional Equipment
-  hasWortChiller: boolean;
-  chillerType?: 'immersion' | 'counterflow' | 'plate';
-  hasPump: boolean;
-  hasSpargingSetup: boolean;
-
-  createdAt: string;
-  updatedAt: string;
-}
-
-const PRESET_PROFILES: Omit<EquipmentProfile, 'id' | 'createdAt' | 'updatedAt'>[] = [
-  {
-    name: '5 Gallon Starter Kit',
-    isDefault: false,
-    mashTunType: 'cooler',
-    mashTunVolume: 10,
-    mashTunDeadSpace: 0.5,
-    mashTunHeatLoss: 2,
-    kettleVolume: 8,
-    kettleDeadSpace: 0.5,
-    boilOffRate: 1.0,
-    fermenterType: 'bucket',
-    fermenterVolume: 6.5,
-    fermenterDeadSpace: 0.25,
-    mashEfficiency: 70,
-    breweryEfficiency: 68,
-    targetBatchSize: 5,
-    hasWortChiller: false,
-    hasPump: false,
-    hasSpargingSetup: true
-  },
-  {
-    name: '5 Gallon All-Grain',
-    isDefault: false,
-    mashTunType: 'cooler',
-    mashTunVolume: 10,
-    mashTunDeadSpace: 0.5,
-    mashTunHeatLoss: 2,
-    kettleVolume: 10,
-    kettleDeadSpace: 0.5,
-    boilOffRate: 1.25,
-    fermenterType: 'carboy',
-    fermenterVolume: 6.5,
-    fermenterDeadSpace: 0.5,
-    mashEfficiency: 75,
-    breweryEfficiency: 72,
-    targetBatchSize: 5,
-    hasWortChiller: true,
-    chillerType: 'immersion',
-    hasPump: false,
-    hasSpargingSetup: true
-  },
-  {
-    name: '10 Gallon System',
-    isDefault: false,
-    mashTunType: 'stainless',
-    mashTunVolume: 20,
-    mashTunDeadSpace: 0.75,
-    mashTunHeatLoss: 3,
-    kettleVolume: 15,
-    kettleDeadSpace: 0.75,
-    boilOffRate: 1.5,
-    fermenterType: 'conical',
-    fermenterVolume: 14,
-    fermenterDeadSpace: 0.5,
-    mashEfficiency: 78,
-    breweryEfficiency: 75,
-    targetBatchSize: 10,
-    hasWortChiller: true,
-    chillerType: 'counterflow',
-    hasPump: true,
-    hasSpargingSetup: true
-  },
-  {
-    name: 'BIAB Setup',
-    isDefault: false,
-    mashTunType: 'biab',
-    mashTunVolume: 10,
-    mashTunDeadSpace: 0.25,
-    mashTunHeatLoss: 4,
-    kettleVolume: 10,
-    kettleDeadSpace: 0.5,
-    boilOffRate: 1.25,
-    fermenterType: 'bucket',
-    fermenterVolume: 6.5,
-    fermenterDeadSpace: 0.25,
-    mashEfficiency: 73,
-    breweryEfficiency: 70,
-    targetBatchSize: 5,
-    hasWortChiller: true,
-    chillerType: 'immersion',
-    hasPump: false,
-    hasSpargingSetup: false
-  },
-  {
-    name: '3 Gallon Apartment Brewer',
-    isDefault: false,
-    mashTunType: 'cooler',
-    mashTunVolume: 5,
-    mashTunDeadSpace: 0.25,
-    mashTunHeatLoss: 2,
-    kettleVolume: 5,
-    kettleDeadSpace: 0.25,
-    boilOffRate: 0.75,
-    fermenterType: 'carboy',
-    fermenterVolume: 3,
-    fermenterDeadSpace: 0.15,
-    mashEfficiency: 72,
-    breweryEfficiency: 69,
-    targetBatchSize: 2.5,
-    hasWortChiller: false,
-    hasPump: false,
-    hasSpargingSetup: true
-  }
-];
+import { EquipmentProfile, EquipmentPreset } from '@/lib/equipment-types';
+import { EQUIPMENT_PRESETS, PRESET_CATEGORIES } from '@/data/equipment-presets';
 
 const TOOLTIPS = {
-  deadSpace: "Volume of liquid that remains in the vessel and cannot be transferred (typically 0.25-0.75 gallons)",
-  boilOffRate: "How much water evaporates per hour during a vigorous boil (measure by boiling water for 1 hour and checking volume loss)",
-  mashEfficiency: "Percentage of potential sugars extracted from grain during mashing (70-80% typical for homebrewers)",
-  breweryEfficiency: "Overall efficiency from grain to fermenter, accounting for all losses (usually 2-5% lower than mash efficiency)",
-  trubLoss: "Volume lost to sediment (trub) in the fermenter, typically 0.25-0.5 gallons",
-  heatLoss: "How many degrees Fahrenheit your mash tun loses per hour (coolers: 2-3°F, kettles: 5-8°F)"
+  boilOffRate: "How much water evaporates per hour. Electric systems are lower (~0.5-1.0 gal/hr), propane higher (~1.5 gal/hr)",
+  grainAbsorption: "Water absorbed by grain. ~0.12 gal/lb typical, ~0.10 for BIAB (squeeze the bag)",
+  trubLoss: "Wort left behind in kettle (hops, proteins). Varies with chiller type (0.4-0.75 gal typical)",
+  deadSpace: "Volume below mash tun's false bottom or valve that cannot be drained",
+  breweryEfficiency: "Overall efficiency from grain to fermenter. 70-75% is good for homebrewers",
+  mashEfficiency: "Conversion efficiency during mashing. Usually 2-5% higher than brewery efficiency",
+  waterGrainRatio: "Quarts of water per pound of grain in mash. 1.25-1.5 qt/lb is typical",
+  boilVolume: "For partial boil extract: volume actually boiled. Add top-up water to reach batch size",
+  topUpWater: "Cold water added to fermenter after boil to reach final batch volume (extract brewing)",
+  hopUtilization: "Adjustment factor for hop bitterness. Partial boils extract less bitterness (~85%)"
 };
 
 export default function EquipmentProfiles() {
@@ -186,32 +53,31 @@ export default function EquipmentProfiles() {
   const [isCreating, setIsCreating] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [showInstructions, setShowInstructions] = useState(false);
+  const [selectedPresetSlug, setSelectedPresetSlug] = useState<string>('');
 
   // Form state
   const [formData, setFormData] = useState<Omit<EquipmentProfile, 'id' | 'createdAt' | 'updatedAt'>>({
     name: '',
-    isDefault: false,
-    mashTunType: 'cooler',
+    slug: '',
+    type: 'cooler',
+    isPreset: false,
+    batchVolume: 5,
     mashTunVolume: 10,
-    mashTunDeadSpace: 0.5,
-    mashTunHeatLoss: 2,
     kettleVolume: 10,
-    kettleDeadSpace: 0.5,
-    boilOffRate: 1.25,
-    fermenterType: 'bucket',
     fermenterVolume: 6.5,
-    fermenterDeadSpace: 0.25,
-    mashEfficiency: 72,
-    breweryEfficiency: 68,
-    targetBatchSize: 5,
-    hasWortChiller: false,
-    hasPump: false,
-    hasSpargingSetup: true
+    boilOffRate: 1.25,
+    trubLoss: 0.5,
+    mashTunDeadSpace: 0.5,
+    grainAbsorption: 0.12,
+    breweryEfficiency: 72,
+    mashEfficiency: 75,
+    waterGrainRatio: 1.5,
+    boilTime: 60
   });
 
   // Load profiles from localStorage
   useEffect(() => {
-    const saved = localStorage.getItem('equipmentProfiles');
+    const saved = localStorage.getItem('equipmentProfilesV2');
     if (saved) {
       try {
         setProfiles(JSON.parse(saved));
@@ -224,7 +90,7 @@ export default function EquipmentProfiles() {
   // Save profiles to localStorage
   const saveProfiles = (newProfiles: EquipmentProfile[]) => {
     setProfiles(newProfiles);
-    localStorage.setItem('equipmentProfiles', JSON.stringify(newProfiles));
+    localStorage.setItem('equipmentProfilesV2', JSON.stringify(newProfiles));
   };
 
   // Create new profile
@@ -232,34 +98,29 @@ export default function EquipmentProfiles() {
     const newProfile: EquipmentProfile = {
       ...formData,
       id: Date.now().toString(),
+      slug: formData.slug || formData.name.toLowerCase().replace(/\s+/g, '-'),
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString()
     };
 
-    // If this is set as default, unset others
-    let updatedProfiles = formData.isDefault
-      ? profiles.map(p => ({ ...p, isDefault: false }))
-      : profiles;
-
-    saveProfiles([...updatedProfiles, newProfile]);
+    saveProfiles([...profiles, newProfile]);
     setIsCreating(false);
     resetForm();
   };
 
   // Update existing profile
   const updateProfile = (id: string) => {
-    const updatedProfiles = profiles.map(p => {
-      if (p.id === id) {
-        return {
-          ...formData,
-          id: p.id,
-          createdAt: p.createdAt,
-          updatedAt: new Date().toISOString()
-        };
-      }
-      // If setting this as default, unset others
-      return formData.isDefault ? { ...p, isDefault: false } : p;
-    });
+    const updatedProfiles = profiles.map(p =>
+      p.id === id
+        ? {
+            ...formData,
+            id: p.id,
+            slug: formData.slug || formData.name.toLowerCase().replace(/\s+/g, '-'),
+            createdAt: p.createdAt,
+            updatedAt: new Date().toISOString()
+          }
+        : p
+    );
 
     saveProfiles(updatedProfiles);
     setEditingId(null);
@@ -279,7 +140,9 @@ export default function EquipmentProfiles() {
       ...profile,
       id: Date.now().toString(),
       name: `${profile.name} (Copy)`,
-      isDefault: false,
+      slug: `${profile.slug}-copy`,
+      userId: undefined,
+      isPreset: false,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString()
     };
@@ -287,72 +150,57 @@ export default function EquipmentProfiles() {
     saveProfiles([...profiles, duplicated]);
   };
 
-  // Set default profile
-  const setDefaultProfile = (id: string) => {
-    const updatedProfiles = profiles.map(p => ({
-      ...p,
-      isDefault: p.id === id,
-      updatedAt: p.id === id ? new Date().toISOString() : p.updatedAt
-    }));
-
-    saveProfiles(updatedProfiles);
+  // Load preset
+  const loadPreset = (category: string, slug: string) => {
+    const preset = EQUIPMENT_PRESETS[category]?.find(p => p.slug === slug);
+    if (preset) {
+      setFormData(preset);
+      setSelectedPresetSlug(slug);
+      setIsCreating(true);
+    }
   };
 
-  // Load preset
-  const loadPreset = (preset: typeof PRESET_PROFILES[0]) => {
-    setFormData(preset);
-    setIsCreating(true);
+  // Reset to preset defaults (when editing a profile based on preset)
+  const resetToPresetDefaults = () => {
+    if (selectedPresetSlug) {
+      const allPresets = Object.values(EQUIPMENT_PRESETS).flat();
+      const preset = allPresets.find(p => p.slug === selectedPresetSlug);
+      if (preset) {
+        setFormData({ ...preset, name: formData.name });
+      }
+    }
   };
 
   // Edit profile
   const startEditing = (profile: EquipmentProfile) => {
-    setFormData({
-      name: profile.name,
-      isDefault: profile.isDefault,
-      mashTunType: profile.mashTunType,
-      mashTunVolume: profile.mashTunVolume,
-      mashTunDeadSpace: profile.mashTunDeadSpace,
-      mashTunHeatLoss: profile.mashTunHeatLoss,
-      kettleVolume: profile.kettleVolume,
-      kettleDeadSpace: profile.kettleDeadSpace,
-      boilOffRate: profile.boilOffRate,
-      fermenterType: profile.fermenterType,
-      fermenterVolume: profile.fermenterVolume,
-      fermenterDeadSpace: profile.fermenterDeadSpace,
-      mashEfficiency: profile.mashEfficiency,
-      breweryEfficiency: profile.breweryEfficiency,
-      targetBatchSize: profile.targetBatchSize,
-      hasWortChiller: profile.hasWortChiller,
-      chillerType: profile.chillerType,
-      hasPump: profile.hasPump,
-      hasSpargingSetup: profile.hasSpargingSetup
-    });
+    const { id, createdAt, updatedAt, ...rest } = profile;
+    setFormData(rest);
     setEditingId(profile.id);
     setIsCreating(false);
+    setSelectedPresetSlug(profile.slug);
   };
 
   // Reset form
   const resetForm = () => {
     setFormData({
       name: '',
-      isDefault: false,
-      mashTunType: 'cooler',
+      slug: '',
+      type: 'cooler',
+      isPreset: false,
+      batchVolume: 5,
       mashTunVolume: 10,
-      mashTunDeadSpace: 0.5,
-      mashTunHeatLoss: 2,
       kettleVolume: 10,
-      kettleDeadSpace: 0.5,
-      boilOffRate: 1.25,
-      fermenterType: 'bucket',
       fermenterVolume: 6.5,
-      fermenterDeadSpace: 0.25,
-      mashEfficiency: 72,
-      breweryEfficiency: 68,
-      targetBatchSize: 5,
-      hasWortChiller: false,
-      hasPump: false,
-      hasSpargingSetup: true
+      boilOffRate: 1.25,
+      trubLoss: 0.5,
+      mashTunDeadSpace: 0.5,
+      grainAbsorption: 0.12,
+      breweryEfficiency: 72,
+      mashEfficiency: 75,
+      waterGrainRatio: 1.5,
+      boilTime: 60
     });
+    setSelectedPresetSlug('');
   };
 
   // Cancel editing/creating
@@ -366,13 +214,13 @@ export default function EquipmentProfiles() {
   const Tooltip = ({ text }: { text: string }) => (
     <div className="group relative inline-block ml-1">
       <HelpCircle className="h-4 w-4 text-cream/40 cursor-help" />
-      <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 hidden group-hover:block bg-background border border-amber/30 rounded px-3 py-2 text-xs text-cream w-64 z-10">
+      <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 hidden group-hover:block bg-background border border-amber/30 rounded px-3 py-2 text-xs text-cream w-64 z-10 shadow-lg">
         {text}
       </div>
     </div>
   );
 
-  const defaultProfile = profiles.find(p => p.isDefault);
+  const defaultProfile = profiles.find(p => p.userId === 'default');
 
   return (
     <div className="space-y-6">
@@ -400,85 +248,18 @@ export default function EquipmentProfiles() {
           <CardHeader>
             <CardTitle className="text-gold">How to Use Equipment Profiles</CardTitle>
           </CardHeader>
-          <CardContent className="space-y-4 text-cream/80">
+          <CardContent className="space-y-4 text-cream/80 text-sm">
+            <p>
+              Equipment profiles store your brewing system's specifications for accurate water, gravity, and efficiency calculations.
+              Start with a preset that matches your equipment, then customize as needed.
+            </p>
             <div>
-              <h4 className="font-semibold text-cream mb-2">Why Equipment Profiles Matter</h4>
-              <p className="text-sm">
-                Every brewing system is unique. Dead space, boil-off rates, and efficiency vary based on your
-                equipment. By creating an accurate profile, all brewing calculators will use your specific values,
-                resulting in more predictable and consistent batches.
-              </p>
-            </div>
-
-            <div>
-              <h4 className="font-semibold text-cream mb-2">How to Determine Your Efficiency</h4>
-              <p className="text-sm mb-2">
-                Efficiency measures how well you extract sugars from grain. To calculate:
-              </p>
-              <ol className="text-sm space-y-1 list-decimal list-inside">
-                <li>Brew a batch and record your actual Original Gravity (OG)</li>
-                <li>Compare actual OG to predicted OG from brewing software</li>
-                <li>Efficiency % = (Actual OG / Predicted OG) × 100</li>
-                <li>Track 3-5 batches and use the average</li>
-              </ol>
-              <p className="text-sm mt-2">
-                Typical ranges: Extract brewing: 100%, All-grain beginners: 65-70%, Experienced: 75-80%
-              </p>
-            </div>
-
-            <div>
-              <h4 className="font-semibold text-cream mb-2">Measuring Dead Space</h4>
-              <p className="text-sm">
-                Fill your vessel with water and mark the level. Drain completely, then measure what's left in the
-                bottom (or measure what you transferred out and subtract from starting volume). This is your dead space.
-              </p>
-            </div>
-
-            <div>
-              <h4 className="font-semibold text-cream mb-2">Measuring Boil-Off Rate</h4>
-              <p className="text-sm">
-                Bring 5 gallons of water to a vigorous boil. Maintain that boil for exactly 60 minutes. Measure
-                remaining volume. The difference is your boil-off rate per hour.
-              </p>
-            </div>
-
-            <div>
-              <h4 className="font-semibold text-cream mb-2">When to Update Your Profile</h4>
-              <ul className="text-sm space-y-1 list-disc list-inside">
-                <li>After upgrading equipment</li>
-                <li>After tracking 5+ batches and calculating average efficiency</li>
-                <li>When switching brewing methods (e.g., from cooler mash tun to BIAB)</li>
-                <li>If you consistently over/undershoot your target volumes or gravity</li>
+              <h4 className="font-semibold text-cream mb-2">Measuring Your System:</h4>
+              <ul className="space-y-1 list-disc list-inside">
+                <li><strong>Boil-Off Rate:</strong> Boil 5 gal water for 60 min, measure loss</li>
+                <li><strong>Dead Space:</strong> Fill vessel, drain, measure what remains</li>
+                <li><strong>Efficiency:</strong> Track 3-5 batches, compare actual vs predicted OG</li>
               </ul>
-            </div>
-          </CardContent>
-        </Card>
-      )}
-
-      {/* Preset Profiles */}
-      {(isCreating || editingId) && (
-        <Card className="bg-card/50 border-amber/20">
-          <CardHeader>
-            <CardTitle className="text-gold flex items-center gap-2">
-              <Beaker className="h-5 w-5" />
-              Quick Start: Load a Preset Profile
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
-              {PRESET_PROFILES.map((preset, index) => (
-                <Button
-                  key={index}
-                  variant="outline"
-                  onClick={() => loadPreset(preset)}
-                  className="border-amber/30 hover:bg-amber/10 hover:border-gold text-left justify-start h-auto py-3"
-                >
-                  <div>
-                    <div className="font-semibold text-cream text-sm">{preset.name}</div>
-                    <div className="text-xs text-cream/60">{preset.targetBatchSize} gal batch</div>
-                  </div>
-                </Button>
-              ))}
             </div>
           </CardContent>
         </Card>
@@ -506,8 +287,7 @@ export default function EquipmentProfiles() {
                   No Equipment Profiles Yet
                 </h3>
                 <p className="text-cream/60 mb-6 max-w-md mx-auto">
-                  Create your first equipment profile to unlock accurate calculations across all brewing tools.
-                  Start with a preset or build your own from scratch.
+                  Create your first equipment profile to unlock accurate calculations. Start with a preset for your system!
                 </p>
                 <Button
                   onClick={() => setIsCreating(true)}
@@ -519,81 +299,62 @@ export default function EquipmentProfiles() {
               </CardContent>
             </Card>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {profiles.map((profile) => (
                 <Card
                   key={profile.id}
-                  className={`bg-card/50 ${
-                    profile.isDefault ? 'border-gold' : 'border-amber/20'
-                  }`}
+                  className="bg-card/50 border-amber/20"
                 >
                   <CardHeader>
                     <div className="flex items-start justify-between">
                       <div className="flex-1">
-                        <CardTitle className="text-cream flex items-center gap-2">
+                        <CardTitle className="text-cream flex items-center gap-2 text-base">
                           {profile.name}
-                          {profile.isDefault && (
-                            <Star className="h-4 w-4 fill-gold text-gold" />
+                          {profile.isPreset && (
+                            <Award className="h-4 w-4 text-gold" title="Preset" />
                           )}
                         </CardTitle>
-                        <p className="text-xs text-cream/60 mt-1">
-                          {profile.targetBatchSize} gal batch • {profile.breweryEfficiency}% efficiency
-                        </p>
-                      </div>
-                      <div className="flex gap-1">
-                        {!profile.isDefault && (
-                          <Button
-                            size="sm"
-                            variant="ghost"
-                            onClick={() => setDefaultProfile(profile.id)}
-                            className="h-8 w-8 p-0 hover:bg-amber/10"
-                            title="Set as default"
-                          >
-                            <Star className="h-4 w-4 text-cream/40" />
-                          </Button>
+                        {profile.manufacturer && (
+                          <p className="text-xs text-cream/50 mt-1">
+                            {profile.manufacturer} {profile.model}
+                          </p>
                         )}
+                        <p className="text-xs text-cream/60 mt-1">
+                          {profile.batchVolume} gal • {profile.breweryEfficiency}% efficiency
+                        </p>
                       </div>
                     </div>
                   </CardHeader>
-                  <CardContent className="space-y-4">
-                    <div className="grid grid-cols-2 gap-3 text-sm">
+                  <CardContent className="space-y-3">
+                    <div className="grid grid-cols-2 gap-2 text-xs">
                       <div className="bg-background/30 rounded p-2">
-                        <div className="text-cream/60 text-xs mb-1">Mash Tun</div>
+                        <div className="text-cream/60 mb-1">Type</div>
                         <div className="text-cream font-semibold capitalize">
-                          {profile.mashTunType}
-                        </div>
-                        <div className="text-cream/60 text-xs">
-                          {profile.mashTunVolume} gal
+                          {profile.type === 'all-in-one' ? 'All-in-One' : profile.type}
                         </div>
                       </div>
 
                       <div className="bg-background/30 rounded p-2">
-                        <div className="text-cream/60 text-xs mb-1">Kettle</div>
+                        <div className="text-cream/60 mb-1">Boil-Off</div>
                         <div className="text-cream font-semibold">
-                          {profile.kettleVolume} gal
-                        </div>
-                        <div className="text-cream/60 text-xs">
-                          {profile.boilOffRate} gal/hr boil-off
+                          {profile.boilOffRate} gal/hr
                         </div>
                       </div>
 
-                      <div className="bg-background/30 rounded p-2">
-                        <div className="text-cream/60 text-xs mb-1">Fermenter</div>
-                        <div className="text-cream font-semibold capitalize">
-                          {profile.fermenterType}
+                      {profile.voltage && (
+                        <div className="bg-background/30 rounded p-2">
+                          <div className="text-cream/60 mb-1">Power</div>
+                          <div className="text-cream font-semibold flex items-center gap-1">
+                            <Zap className="h-3 w-3" />
+                            {profile.voltage}
+                          </div>
                         </div>
-                        <div className="text-cream/60 text-xs">
-                          {profile.fermenterVolume} gal
-                        </div>
-                      </div>
+                      )}
 
                       <div className="bg-background/30 rounded p-2">
-                        <div className="text-cream/60 text-xs mb-1">Extras</div>
-                        <div className="text-cream text-xs">
-                          {profile.hasWortChiller && '✓ Chiller'}
-                          {profile.hasPump && ' ✓ Pump'}
-                          {profile.hasSpargingSetup && ' ✓ Sparge'}
-                          {!profile.hasWortChiller && !profile.hasPump && !profile.hasSpargingSetup && 'None'}
+                        <div className="text-cream/60 mb-1">Grain Abs</div>
+                        <div className="text-cream font-semibold">
+                          {profile.grainAbsorption} gal/lb
                         </div>
                       </div>
                     </div>
@@ -603,7 +364,7 @@ export default function EquipmentProfiles() {
                         size="sm"
                         variant="outline"
                         onClick={() => startEditing(profile)}
-                        className="flex-1 border-amber/30 hover:bg-amber/10"
+                        className="flex-1 border-amber/30 hover:bg-amber/10 text-xs"
                       >
                         <Edit className="h-3 w-3 mr-1" />
                         Edit
@@ -612,10 +373,10 @@ export default function EquipmentProfiles() {
                         size="sm"
                         variant="outline"
                         onClick={() => duplicateProfile(profile)}
-                        className="flex-1 border-amber/30 hover:bg-amber/10"
+                        className="flex-1 border-amber/30 hover:bg-amber/10 text-xs"
                       >
                         <Copy className="h-3 w-3 mr-1" />
-                        Duplicate
+                        Copy
                       </Button>
                       <Button
                         size="sm"
@@ -642,224 +403,196 @@ export default function EquipmentProfiles() {
               <CardTitle className="text-gold">
                 {editingId ? 'Edit Equipment Profile' : 'Create Equipment Profile'}
               </CardTitle>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={cancel}
-                className="hover:bg-amber/10"
-              >
-                <X className="h-4 w-4" />
-              </Button>
+              <div className="flex gap-2">
+                {selectedPresetSlug && (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={resetToPresetDefaults}
+                    className="border-amber/30 hover:bg-amber/10"
+                  >
+                    <RotateCcw className="h-3 w-3 mr-1" />
+                    Reset to Preset
+                  </Button>
+                )}
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={cancel}
+                  className="hover:bg-amber/10"
+                >
+                  <X className="h-4 w-4" />
+                </Button>
+              </div>
             </div>
           </CardHeader>
           <CardContent className="space-y-6">
-            {/* Profile Info */}
-            <div className="space-y-4">
-              <h3 className="text-lg font-semibold text-cream flex items-center gap-2">
-                <Save className="h-5 w-5 text-gold" />
-                Profile Info
-              </h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="md:col-span-2">
-                  <Label htmlFor="name" className="text-cream">Profile Name</Label>
-                  <Input
-                    id="name"
-                    value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    placeholder="My 5 Gallon Setup"
-                    className="bg-background border-amber/30"
-                  />
-                </div>
-                <div className="md:col-span-2 flex items-center gap-2">
-                  <input
-                    type="checkbox"
-                    id="isDefault"
-                    checked={formData.isDefault}
-                    onChange={(e) => setFormData({ ...formData, isDefault: e.target.checked })}
-                    className="rounded border-amber/30"
-                  />
-                  <Label htmlFor="isDefault" className="text-cream cursor-pointer">
-                    Set as default profile
-                  </Label>
-                </div>
-              </div>
-            </div>
-
-            {/* Mash Tun */}
-            <div className="space-y-4 pt-4 border-t border-amber/20">
-              <h3 className="text-lg font-semibold text-cream flex items-center gap-2">
-                <Thermometer className="h-5 w-5 text-gold" />
-                Mash Tun
-              </h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {/* Preset Selector */}
+            {isCreating && !editingId && (
+              <div className="space-y-4 pb-6 border-b border-amber/20">
+                <h3 className="text-lg font-semibold text-cream flex items-center gap-2">
+                  <Award className="h-5 w-5 text-gold" />
+                  Start with a Preset
+                </h3>
                 <div>
-                  <Label htmlFor="mashTunType" className="text-cream">Mash Tun Type</Label>
-                  <Select
-                    value={formData.mashTunType}
-                    onValueChange={(value: any) => setFormData({ ...formData, mashTunType: value })}
-                  >
+                  <Label className="text-cream">Choose Your Equipment</Label>
+                  <Select onValueChange={(value) => {
+                    const [category, slug] = value.split(':');
+                    loadPreset(category, slug);
+                  }}>
                     <SelectTrigger className="bg-background border-amber/30">
-                      <SelectValue />
+                      <SelectValue placeholder="Select a brewing system..." />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="cooler">Cooler/Igloo (Best Insulation)</SelectItem>
-                      <SelectItem value="stainless">Stainless Steel Kettle</SelectItem>
-                      <SelectItem value="aluminum">Aluminum Kettle</SelectItem>
-                      <SelectItem value="biab">BIAB (Brew in a Bag)</SelectItem>
+                      {PRESET_CATEGORIES.map(category => (
+                        <SelectGroup key={category.value}>
+                          <SelectLabel>{category.label}</SelectLabel>
+                          {EQUIPMENT_PRESETS[category.value]?.map(preset => (
+                            <SelectItem key={preset.slug} value={`${category.value}:${preset.slug}`}>
+                              {preset.name}
+                            </SelectItem>
+                          ))}
+                        </SelectGroup>
+                      ))}
+                      <SelectGroup>
+                        <SelectLabel>Other</SelectLabel>
+                        <SelectItem value="custom:custom">Custom (start from scratch)</SelectItem>
+                      </SelectGroup>
                     </SelectContent>
                   </Select>
                 </div>
+              </div>
+            )}
 
-                <div>
-                  <Label htmlFor="mashTunVolume" className="text-cream">
-                    Volume (gallons)
-                  </Label>
+            {/* Basic Info */}
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold text-cream">Profile Info</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="md:col-span-2">
+                  <Label className="text-cream">Profile Name</Label>
                   <Input
-                    id="mashTunVolume"
-                    type="number"
-                    value={formData.mashTunVolume}
-                    onChange={(e) => setFormData({ ...formData, mashTunVolume: Number(e.target.value) })}
+                    value={formData.name}
+                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    placeholder="My Brewing System"
                     className="bg-background border-amber/30"
-                    step="0.5"
-                  />
-                </div>
-
-                <div>
-                  <Label htmlFor="mashTunDeadSpace" className="text-cream flex items-center">
-                    Dead Space (gallons)
-                    <Tooltip text={TOOLTIPS.deadSpace} />
-                  </Label>
-                  <Input
-                    id="mashTunDeadSpace"
-                    type="number"
-                    value={formData.mashTunDeadSpace}
-                    onChange={(e) => setFormData({ ...formData, mashTunDeadSpace: Number(e.target.value) })}
-                    className="bg-background border-amber/30"
-                    step="0.1"
-                  />
-                </div>
-
-                <div>
-                  <Label htmlFor="mashTunHeatLoss" className="text-cream flex items-center">
-                    Heat Loss (°F/hour)
-                    <Tooltip text={TOOLTIPS.heatLoss} />
-                  </Label>
-                  <Input
-                    id="mashTunHeatLoss"
-                    type="number"
-                    value={formData.mashTunHeatLoss}
-                    onChange={(e) => setFormData({ ...formData, mashTunHeatLoss: Number(e.target.value) })}
-                    className="bg-background border-amber/30"
-                    step="0.5"
                   />
                 </div>
               </div>
             </div>
 
-            {/* Boil Kettle */}
-            <div className="space-y-4 pt-4 border-t border-amber/20">
-              <h3 className="text-lg font-semibold text-cream flex items-center gap-2">
-                <FlaskConical className="h-5 w-5 text-gold" />
-                Boil Kettle
-              </h3>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div>
-                  <Label htmlFor="kettleVolume" className="text-cream">
-                    Volume (gallons)
-                  </Label>
-                  <Input
-                    id="kettleVolume"
-                    type="number"
-                    value={formData.kettleVolume}
-                    onChange={(e) => setFormData({ ...formData, kettleVolume: Number(e.target.value) })}
-                    className="bg-background border-amber/30"
-                    step="0.5"
-                  />
-                </div>
-
-                <div>
-                  <Label htmlFor="kettleDeadSpace" className="text-cream flex items-center">
-                    Dead Space (gallons)
-                    <Tooltip text={TOOLTIPS.deadSpace} />
-                  </Label>
-                  <Input
-                    id="kettleDeadSpace"
-                    type="number"
-                    value={formData.kettleDeadSpace}
-                    onChange={(e) => setFormData({ ...formData, kettleDeadSpace: Number(e.target.value) })}
-                    className="bg-background border-amber/30"
-                    step="0.1"
-                  />
-                </div>
-
-                <div>
-                  <Label htmlFor="boilOffRate" className="text-cream flex items-center">
-                    Boil-Off Rate (gal/hr)
-                    <Tooltip text={TOOLTIPS.boilOffRate} />
-                  </Label>
-                  <Input
-                    id="boilOffRate"
-                    type="number"
-                    value={formData.boilOffRate}
-                    onChange={(e) => setFormData({ ...formData, boilOffRate: Number(e.target.value) })}
-                    className="bg-background border-amber/30"
-                    step="0.1"
-                  />
-                </div>
-              </div>
-            </div>
-
-            {/* Fermenter */}
+            {/* Volumes */}
             <div className="space-y-4 pt-4 border-t border-amber/20">
               <h3 className="text-lg font-semibold text-cream flex items-center gap-2">
                 <Beaker className="h-5 w-5 text-gold" />
-                Fermenter
+                Volumes & Capacity
               </h3>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <div>
-                  <Label htmlFor="fermenterType" className="text-cream">Fermenter Type</Label>
-                  <Select
-                    value={formData.fermenterType}
-                    onValueChange={(value: any) => setFormData({ ...formData, fermenterType: value })}
-                  >
-                    <SelectTrigger className="bg-background border-amber/30">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="bucket">Bucket</SelectItem>
-                      <SelectItem value="carboy">Carboy (Glass/Plastic)</SelectItem>
-                      <SelectItem value="conical">Conical Fermenter</SelectItem>
-                      <SelectItem value="other">Other</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div>
-                  <Label htmlFor="fermenterVolume" className="text-cream">
-                    Volume (gallons)
-                  </Label>
+                  <Label className="text-cream">Batch Size (gal)</Label>
                   <Input
-                    id="fermenterVolume"
                     type="number"
-                    value={formData.fermenterVolume}
-                    onChange={(e) => setFormData({ ...formData, fermenterVolume: Number(e.target.value) })}
-                    className="bg-background border-amber/30"
                     step="0.5"
+                    value={formData.batchVolume}
+                    onChange={(e) => setFormData({ ...formData, batchVolume: Number(e.target.value) })}
+                    className="bg-background border-amber/30"
                   />
                 </div>
 
                 <div>
-                  <Label htmlFor="fermenterDeadSpace" className="text-cream flex items-center">
-                    Trub Loss (gallons)
+                  <Label className="text-cream">Mash Tun (gal)</Label>
+                  <Input
+                    type="number"
+                    step="0.5"
+                    value={formData.mashTunVolume}
+                    onChange={(e) => setFormData({ ...formData, mashTunVolume: Number(e.target.value) })}
+                    className="bg-background border-amber/30"
+                  />
+                </div>
+
+                <div>
+                  <Label className="text-cream">Kettle (gal)</Label>
+                  <Input
+                    type="number"
+                    step="0.5"
+                    value={formData.kettleVolume}
+                    onChange={(e) => setFormData({ ...formData, kettleVolume: Number(e.target.value) })}
+                    className="bg-background border-amber/30"
+                  />
+                </div>
+
+                <div>
+                  <Label className="text-cream">Fermenter (gal)</Label>
+                  <Input
+                    type="number"
+                    step="0.5"
+                    value={formData.fermenterVolume}
+                    onChange={(e) => setFormData({ ...formData, fermenterVolume: Number(e.target.value) })}
+                    className="bg-background border-amber/30"
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Losses */}
+            <div className="space-y-4 pt-4 border-t border-amber/20">
+              <h3 className="text-lg font-semibold text-cream flex items-center gap-2">
+                <Droplets className="h-5 w-5 text-gold" />
+                Losses & Absorption
+              </h3>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div>
+                  <Label className="text-cream flex items-center">
+                    Boil-Off (gal/hr)
+                    <Tooltip text={TOOLTIPS.boilOffRate} />
+                  </Label>
+                  <Input
+                    type="number"
+                    step="0.1"
+                    value={formData.boilOffRate}
+                    onChange={(e) => setFormData({ ...formData, boilOffRate: Number(e.target.value) })}
+                    className="bg-background border-amber/30"
+                  />
+                </div>
+
+                <div>
+                  <Label className="text-cream flex items-center">
+                    Trub Loss (gal)
                     <Tooltip text={TOOLTIPS.trubLoss} />
                   </Label>
                   <Input
-                    id="fermenterDeadSpace"
                     type="number"
-                    value={formData.fermenterDeadSpace}
-                    onChange={(e) => setFormData({ ...formData, fermenterDeadSpace: Number(e.target.value) })}
-                    className="bg-background border-amber/30"
                     step="0.05"
+                    value={formData.trubLoss}
+                    onChange={(e) => setFormData({ ...formData, trubLoss: Number(e.target.value) })}
+                    className="bg-background border-amber/30"
+                  />
+                </div>
+
+                <div>
+                  <Label className="text-cream flex items-center">
+                    Dead Space (gal)
+                    <Tooltip text={TOOLTIPS.deadSpace} />
+                  </Label>
+                  <Input
+                    type="number"
+                    step="0.05"
+                    value={formData.mashTunDeadSpace}
+                    onChange={(e) => setFormData({ ...formData, mashTunDeadSpace: Number(e.target.value) })}
+                    className="bg-background border-amber/30"
+                  />
+                </div>
+
+                <div>
+                  <Label className="text-cream flex items-center">
+                    Grain Abs (gal/lb)
+                    <Tooltip text={TOOLTIPS.grainAbsorption} />
+                  </Label>
+                  <Input
+                    type="number"
+                    step="0.01"
+                    value={formData.grainAbsorption}
+                    onChange={(e) => setFormData({ ...formData, grainAbsorption: Number(e.target.value) })}
+                    className="bg-background border-amber/30"
                   />
                 </div>
               </div>
@@ -868,151 +601,107 @@ export default function EquipmentProfiles() {
             {/* Efficiency */}
             <div className="space-y-4 pt-4 border-t border-amber/20">
               <h3 className="text-lg font-semibold text-cream flex items-center gap-2">
-                <Droplets className="h-5 w-5 text-gold" />
+                <FlaskConical className="h-5 w-5 text-gold" />
                 Efficiency
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <Label htmlFor="mashEfficiency" className="text-cream flex items-center">
-                    Mash Efficiency (%)
-                    <Tooltip text={TOOLTIPS.mashEfficiency} />
-                  </Label>
-                  <Input
-                    id="mashEfficiency"
-                    type="number"
-                    value={formData.mashEfficiency}
-                    onChange={(e) => setFormData({ ...formData, mashEfficiency: Number(e.target.value) })}
-                    className="bg-background border-amber/30"
-                    min="50"
-                    max="100"
-                    step="1"
-                  />
-                  <div className="mt-2">
-                    <input
-                      type="range"
-                      value={formData.mashEfficiency}
-                      onChange={(e) => setFormData({ ...formData, mashEfficiency: Number(e.target.value) })}
-                      min="50"
-                      max="90"
-                      step="1"
-                      className="w-full"
-                    />
-                    <div className="flex justify-between text-xs text-cream/60 mt-1">
-                      <span>50%</span>
-                      <span>90%</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div>
-                  <Label htmlFor="breweryEfficiency" className="text-cream flex items-center">
+                  <Label className="text-cream flex items-center">
                     Brewery Efficiency (%)
                     <Tooltip text={TOOLTIPS.breweryEfficiency} />
                   </Label>
                   <Input
-                    id="breweryEfficiency"
                     type="number"
                     value={formData.breweryEfficiency}
                     onChange={(e) => setFormData({ ...formData, breweryEfficiency: Number(e.target.value) })}
                     className="bg-background border-amber/30"
                     min="50"
-                    max="100"
-                    step="1"
+                    max="95"
                   />
-                  <div className="mt-2">
-                    <input
-                      type="range"
-                      value={formData.breweryEfficiency}
-                      onChange={(e) => setFormData({ ...formData, breweryEfficiency: Number(e.target.value) })}
-                      min="50"
-                      max="90"
-                      step="1"
-                      className="w-full"
-                    />
-                    <div className="flex justify-between text-xs text-cream/60 mt-1">
-                      <span>50%</span>
-                      <span>90%</span>
-                    </div>
-                  </div>
+                  <input
+                    type="range"
+                    value={formData.breweryEfficiency}
+                    onChange={(e) => setFormData({ ...formData, breweryEfficiency: Number(e.target.value) })}
+                    min="50"
+                    max="90"
+                    className="w-full mt-2"
+                  />
+                </div>
+
+                <div>
+                  <Label className="text-cream flex items-center">
+                    Mash Efficiency (%)
+                    <Tooltip text={TOOLTIPS.mashEfficiency} />
+                  </Label>
+                  <Input
+                    type="number"
+                    value={formData.mashEfficiency}
+                    onChange={(e) => setFormData({ ...formData, mashEfficiency: Number(e.target.value) })}
+                    className="bg-background border-amber/30"
+                    min="50"
+                    max="95"
+                  />
+                  <input
+                    type="range"
+                    value={formData.mashEfficiency}
+                    onChange={(e) => setFormData({ ...formData, mashEfficiency: Number(e.target.value) })}
+                    min="50"
+                    max="95"
+                    className="w-full mt-2"
+                  />
                 </div>
               </div>
             </div>
 
-            {/* Target Batch */}
+            {/* Mash Parameters */}
             <div className="space-y-4 pt-4 border-t border-amber/20">
-              <h3 className="text-lg font-semibold text-cream">Target Batch Size</h3>
-              <div>
-                <Label htmlFor="targetBatchSize" className="text-cream">
-                  Batch Size (gallons into fermenter)
-                </Label>
-                <Input
-                  id="targetBatchSize"
-                  type="number"
-                  value={formData.targetBatchSize}
-                  onChange={(e) => setFormData({ ...formData, targetBatchSize: Number(e.target.value) })}
-                  className="bg-background border-amber/30"
-                  step="0.5"
-                />
-              </div>
-            </div>
-
-            {/* Additional Equipment */}
-            <div className="space-y-4 pt-4 border-t border-amber/20">
-              <h3 className="text-lg font-semibold text-cream">Additional Equipment</h3>
-              <div className="space-y-3">
-                <div className="flex items-center gap-2">
-                  <input
-                    type="checkbox"
-                    id="hasWortChiller"
-                    checked={formData.hasWortChiller}
-                    onChange={(e) => setFormData({ ...formData, hasWortChiller: e.target.checked })}
-                    className="rounded border-amber/30"
-                  />
-                  <Label htmlFor="hasWortChiller" className="text-cream cursor-pointer flex-1">
-                    Wort Chiller
+              <h3 className="text-lg font-semibold text-cream flex items-center gap-2">
+                <Thermometer className="h-5 w-5 text-gold" />
+                Mash Parameters
+              </h3>
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                <div>
+                  <Label className="text-cream flex items-center">
+                    Water/Grain (qt/lb)
+                    <Tooltip text={TOOLTIPS.waterGrainRatio} />
                   </Label>
-                  {formData.hasWortChiller && (
+                  <Input
+                    type="number"
+                    step="0.25"
+                    value={formData.waterGrainRatio}
+                    onChange={(e) => setFormData({ ...formData, waterGrainRatio: Number(e.target.value) })}
+                    className="bg-background border-amber/30"
+                  />
+                </div>
+
+                <div>
+                  <Label className="text-cream">Boil Time (min)</Label>
+                  <Input
+                    type="number"
+                    value={formData.boilTime}
+                    onChange={(e) => setFormData({ ...formData, boilTime: Number(e.target.value) })}
+                    className="bg-background border-amber/30"
+                  />
+                </div>
+
+                {formData.voltage && (
+                  <div>
+                    <Label className="text-cream">Voltage</Label>
                     <Select
-                      value={formData.chillerType}
-                      onValueChange={(value: any) => setFormData({ ...formData, chillerType: value })}
+                      value={formData.voltage}
+                      onValueChange={(value: any) => setFormData({ ...formData, voltage: value })}
                     >
-                      <SelectTrigger className="w-[180px] bg-background border-amber/30">
-                        <SelectValue placeholder="Chiller type" />
+                      <SelectTrigger className="bg-background border-amber/30">
+                        <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="immersion">Immersion</SelectItem>
-                        <SelectItem value="counterflow">Counterflow</SelectItem>
-                        <SelectItem value="plate">Plate Chiller</SelectItem>
+                        <SelectItem value="110V">110V</SelectItem>
+                        <SelectItem value="120V">120V</SelectItem>
+                        <SelectItem value="240V">240V</SelectItem>
                       </SelectContent>
                     </Select>
-                  )}
-                </div>
-
-                <div className="flex items-center gap-2">
-                  <input
-                    type="checkbox"
-                    id="hasPump"
-                    checked={formData.hasPump}
-                    onChange={(e) => setFormData({ ...formData, hasPump: e.target.checked })}
-                    className="rounded border-amber/30"
-                  />
-                  <Label htmlFor="hasPump" className="text-cream cursor-pointer">
-                    Pump (for wort transfer)
-                  </Label>
-                </div>
-
-                <div className="flex items-center gap-2">
-                  <input
-                    type="checkbox"
-                    id="hasSpargingSetup"
-                    checked={formData.hasSpargingSetup}
-                    onChange={(e) => setFormData({ ...formData, hasSpargingSetup: e.target.checked })}
-                    className="rounded border-amber/30"
-                  />
-                  <Label htmlFor="hasSpargingSetup" className="text-cream cursor-pointer">
-                    Sparging Setup (fly or batch sparge)
-                  </Label>
-                </div>
+                  </div>
+                )}
               </div>
             </div>
 
@@ -1033,25 +722,6 @@ export default function EquipmentProfiles() {
               >
                 Cancel
               </Button>
-            </div>
-          </CardContent>
-        </Card>
-      )}
-
-      {/* Default Profile Notice */}
-      {!isCreating && !editingId && defaultProfile && (
-        <Card className="bg-gradient-to-br from-gold/10 to-amber/5 border-gold/30">
-          <CardContent className="py-4">
-            <div className="flex items-center gap-3">
-              <Star className="h-5 w-5 fill-gold text-gold flex-shrink-0" />
-              <div>
-                <p className="text-cream font-semibold">
-                  {defaultProfile.name} is your default profile
-                </p>
-                <p className="text-sm text-cream/70">
-                  This profile will be automatically used in Recipe Builder, Mash Schedule Designer, and other brewing tools.
-                </p>
-              </div>
             </div>
           </CardContent>
         </Card>
