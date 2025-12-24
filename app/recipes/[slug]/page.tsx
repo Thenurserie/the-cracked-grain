@@ -35,7 +35,7 @@ export default async function RecipeDetailPage({ params }: { params: Promise<{ s
     }
   };
 
-  const hasFullDetails = recipe.methods.length > 0;
+  const hasFullDetails = (recipe.methods?.length ?? 0) > 0;
 
   return (
     <div className="min-h-screen bg-background">
@@ -60,19 +60,19 @@ export default async function RecipeDetailPage({ params }: { params: Promise<{ s
                     {recipe.difficulty}
                   </Badge>
                   <span className="text-gold">{recipe.style}</span>
-                  {recipe.bjcpStyle && (
+                  {recipe.bjcp_style && (
                     <>
                       <span className="text-cream/60">•</span>
-                      <span className="text-cream/60 text-sm">{recipe.bjcpStyle}</span>
+                      <span className="text-cream/60 text-sm">{recipe.bjcp_style}</span>
                     </>
                   )}
                   <span className="text-cream/60">•</span>
                   <div className="flex items-center gap-2 text-cream/60">
                     <Clock className="h-4 w-4" />
-                    <span>{recipe.brewTime}</span>
+                    <span>{recipe.brew_time}</span>
                   </div>
                   <span className="text-cream/60">•</span>
-                  <span className="text-cream/60">{recipe.batchSize}</span>
+                  <span className="text-cream/60">{recipe.batch_size}</span>
                 </div>
               </div>
               <Beaker className="h-12 w-12 text-gold flex-shrink-0" />
@@ -101,31 +101,31 @@ export default async function RecipeDetailPage({ params }: { params: Promise<{ s
                     <Droplet className="h-4 w-4" />
                     <span>OG</span>
                   </div>
-                  <div className="text-2xl font-bold text-cream">{recipe.stats.og}</div>
+                  <div className="text-2xl font-bold text-cream">{recipe.og}</div>
                 </div>
                 <div>
                   <div className="flex items-center gap-2 text-sm text-cream/60 mb-1">
                     <Droplet className="h-4 w-4" />
                     <span>FG</span>
                   </div>
-                  <div className="text-2xl font-bold text-cream">{recipe.stats.fg}</div>
+                  <div className="text-2xl font-bold text-cream">{recipe.fg}</div>
                 </div>
                 <div>
                   <div className="flex items-center gap-2 text-sm text-cream/60 mb-1">
                     <TrendingUp className="h-4 w-4" />
                     <span>ABV</span>
                   </div>
-                  <div className="text-2xl font-bold text-cream">{recipe.stats.abv}</div>
+                  <div className="text-2xl font-bold text-cream">{recipe.abv}</div>
                 </div>
                 <div>
                   <div className="text-sm text-cream/60 mb-1">IBU</div>
-                  <div className="text-2xl font-bold text-cream">{recipe.stats.ibu}</div>
+                  <div className="text-2xl font-bold text-cream">{recipe.ibu}</div>
                 </div>
                 <div>
                   <div className="text-sm text-cream/60 mb-1">SRM</div>
-                  <div className="text-2xl font-bold text-cream">{recipe.stats.srm}</div>
-                  {recipe.stats.color && (
-                    <div className="text-xs text-cream/60 mt-1">{recipe.stats.color}</div>
+                  <div className="text-2xl font-bold text-cream">{recipe.srm}</div>
+                  {recipe.color && (
+                    <div className="text-xs text-cream/60 mt-1">{recipe.color}</div>
                   )}
                 </div>
               </div>
@@ -191,26 +191,26 @@ export default async function RecipeDetailPage({ params }: { params: Promise<{ s
                           </div>
 
                           {/* Water Volumes */}
-                          {method.waterVolumes && (
+                          {method.water_volumes && (
                             <div>
                               <h3 className="text-lg font-semibold text-gold mb-3">Water Volumes</h3>
                               <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                                {method.waterVolumes.strike && (
+                                {method.water_volumes.strike && (
                                   <div className="bg-muted/30 p-3 rounded border border-amber/10">
                                     <div className="text-sm text-cream/60 mb-1">Strike Water</div>
-                                    <div className="font-semibold text-cream">{method.waterVolumes.strike}</div>
+                                    <div className="font-semibold text-cream">{method.water_volumes.strike}</div>
                                   </div>
                                 )}
-                                {method.waterVolumes.sparge && (
+                                {method.water_volumes.sparge && (
                                   <div className="bg-muted/30 p-3 rounded border border-amber/10">
                                     <div className="text-sm text-cream/60 mb-1">Sparge Water</div>
-                                    <div className="font-semibold text-cream">{method.waterVolumes.sparge}</div>
+                                    <div className="font-semibold text-cream">{method.water_volumes.sparge}</div>
                                   </div>
                                 )}
-                                {method.waterVolumes.preboil && (
+                                {method.water_volumes.preboil && (
                                   <div className="bg-muted/30 p-3 rounded border border-amber/10">
                                     <div className="text-sm text-cream/60 mb-1">Pre-Boil Volume</div>
-                                    <div className="font-semibold text-cream">{method.waterVolumes.preboil}</div>
+                                    <div className="font-semibold text-cream">{method.water_volumes.preboil}</div>
                                   </div>
                                 )}
                               </div>
@@ -261,7 +261,7 @@ export default async function RecipeDetailPage({ params }: { params: Promise<{ s
                   <CardHeader>
                     <CardTitle className="text-gold">Hops Schedule</CardTitle>
                     <p className="text-sm text-cream/60">
-                      {recipe.totalHops} | {recipe.boilTime} boil
+                      {recipe.total_hops} | {recipe.boil_time} boil
                     </p>
                   </CardHeader>
                   <CardContent>
@@ -295,7 +295,7 @@ export default async function RecipeDetailPage({ params }: { params: Promise<{ s
                   <Card className="bg-card border-amber/20">
                     <CardHeader>
                       <CardTitle className="text-gold">Yeast Options</CardTitle>
-                      <p className="text-sm text-cream/60">Ferment at {recipe.fermentationTemp}</p>
+                      <p className="text-sm text-cream/60">Ferment at {recipe.fermentation_temp}</p>
                     </CardHeader>
                     <CardContent>
                       <div className="space-y-3">
@@ -354,19 +354,19 @@ export default async function RecipeDetailPage({ params }: { params: Promise<{ s
                         <div className="space-y-2 text-sm">
                           <div className="flex justify-between">
                             <span className="text-cream/60">Priming Sugar:</span>
-                            <span className="text-cream">{recipe.packaging.bottling.primingSugar}</span>
+                            <span className="text-cream">{recipe.packaging.bottling?.priming_sugar}</span>
                           </div>
                           <div className="flex justify-between">
                             <span className="text-cream/60">CO₂ Volumes:</span>
-                            <span className="text-cream">{recipe.packaging.bottling.co2Volumes}</span>
+                            <span className="text-cream">{recipe.packaging.bottling?.co2_volumes}</span>
                           </div>
                           <div className="flex justify-between">
                             <span className="text-cream/60">Bottles:</span>
-                            <span className="text-cream">{recipe.packaging.bottling.bottleCount}</span>
+                            <span className="text-cream">{recipe.packaging.bottling?.bottle_count}</span>
                           </div>
                           <div className="flex justify-between">
                             <span className="text-cream/60">Conditioning:</span>
-                            <span className="text-cream">{recipe.packaging.bottling.conditionTime} at {recipe.packaging.bottling.conditionTemp}</span>
+                            <span className="text-cream">{recipe.packaging.bottling?.condition_time} at {recipe.packaging.bottling?.condition_temp}</span>
                           </div>
                         </div>
                       </div>
@@ -378,17 +378,17 @@ export default async function RecipeDetailPage({ params }: { params: Promise<{ s
                         <div className="space-y-2 text-sm">
                           <div className="flex justify-between">
                             <span className="text-cream/60">PSI:</span>
-                            <span className="text-cream">{recipe.packaging.kegging.psi}</span>
+                            <span className="text-cream">{recipe.packaging.kegging?.psi}</span>
                           </div>
                           <div className="flex justify-between">
                             <span className="text-cream/60">Temperature:</span>
-                            <span className="text-cream">{recipe.packaging.kegging.temp}</span>
+                            <span className="text-cream">{recipe.packaging.kegging?.temp}</span>
                           </div>
                           <div className="flex justify-between">
                             <span className="text-cream/60">Ready In:</span>
-                            <span className="text-cream">{recipe.packaging.kegging.readyTime}</span>
+                            <span className="text-cream">{recipe.packaging.kegging?.ready_time}</span>
                           </div>
-                          {recipe.packaging.kegging.notes && (
+                          {recipe.packaging.kegging?.notes && (
                             <div className="text-cream/70 text-xs mt-2 pt-2 border-t border-amber/10">
                               {recipe.packaging.kegging.notes}
                             </div>
@@ -401,9 +401,9 @@ export default async function RecipeDetailPage({ params }: { params: Promise<{ s
               )}
 
               {/* Tips */}
-              {recipe.tips && (recipe.tips.dos.length > 0 || recipe.tips.donts.length > 0) && (
+              {recipe.tips && ((recipe.tips.dos?.length ?? 0) > 0 || (recipe.tips.donts?.length ?? 0) > 0) && (
                 <div className="grid md:grid-cols-2 gap-6">
-                  {recipe.tips.dos.length > 0 && (
+                  {(recipe.tips.dos?.length ?? 0) > 0 && (
                     <Card className="bg-card border-amber/20">
                       <CardHeader>
                         <CardTitle className="text-gold flex items-center gap-2">
@@ -413,24 +413,24 @@ export default async function RecipeDetailPage({ params }: { params: Promise<{ s
                       </CardHeader>
                       <CardContent>
                         <ul className="space-y-2">
-                          {recipe.tips.dos.map((tip, idx) => (
+                          {recipe.tips.dos?.map((tip, idx) => (
                             <li key={idx} className="flex gap-2 text-sm text-cream/80">
                               <span className="text-green-500 flex-shrink-0">✓</span>
                               <span>{tip}</span>
                             </li>
                           ))}
                         </ul>
-                        {recipe.tips.waterChemistry && (
+                        {recipe.tips.water_chemistry && (
                           <div className="mt-4 pt-4 border-t border-amber/10 text-sm">
                             <div className="font-semibold text-amber mb-1">Water Chemistry:</div>
-                            <div className="text-cream/80">{recipe.tips.waterChemistry}</div>
+                            <div className="text-cream/80">{recipe.tips.water_chemistry}</div>
                           </div>
                         )}
                       </CardContent>
                     </Card>
                   )}
 
-                  {recipe.tips.donts.length > 0 && (
+                  {(recipe.tips.donts?.length ?? 0) > 0 && (
                     <Card className="bg-card border-amber/20">
                       <CardHeader>
                         <CardTitle className="text-gold flex items-center gap-2">
@@ -440,7 +440,7 @@ export default async function RecipeDetailPage({ params }: { params: Promise<{ s
                       </CardHeader>
                       <CardContent>
                         <ul className="space-y-2">
-                          {recipe.tips.donts.map((tip, idx) => (
+                          {recipe.tips.donts?.map((tip, idx) => (
                             <li key={idx} className="flex gap-2 text-sm text-cream/80">
                               <span className="text-red-500 flex-shrink-0">✗</span>
                               <span>{tip}</span>
@@ -454,14 +454,14 @@ export default async function RecipeDetailPage({ params }: { params: Promise<{ s
               )}
 
               {/* Food Pairing */}
-              {recipe.foodPairing && recipe.foodPairing.length > 0 && (
+              {recipe.food_pairing && recipe.food_pairing.length > 0 && (
                 <Card className="bg-card border-amber/20">
                   <CardHeader>
                     <CardTitle className="text-gold">Food Pairing</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="flex flex-wrap gap-2">
-                      {recipe.foodPairing.map((food, idx) => (
+                      {recipe.food_pairing.map((food: string, idx: number) => (
                         <Badge key={idx} variant="outline" className="text-cream border-amber/30">
                           {food}
                         </Badge>
