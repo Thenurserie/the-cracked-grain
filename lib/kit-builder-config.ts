@@ -23,6 +23,16 @@ export interface KitBuilderStep {
 
 export const kitBuilderSteps: KitBuilderStep[] = [
   {
+    id: 'experience-level',
+    title: "What's your brewing experience?",
+    type: 'choice',
+    options: [
+      { value: 'beginner', label: 'Complete Beginner', description: "I've never brewed before" },
+      { value: 'some', label: 'Some Experience', description: "I've brewed a few batches" },
+      { value: 'experienced', label: 'Experienced', description: 'I know what I need' },
+    ],
+  },
+  {
     id: 'beverage-type',
     title: 'What are you brewing?',
     type: 'choice',
@@ -50,8 +60,7 @@ export const kitBuilderSteps: KitBuilderStep[] = [
     type: 'choice',
     showIf: { beverageType: 'beer' },  // Only show for beer
     options: [
-      { value: 'extract', label: 'Extract Brewing', description: 'Beginner-friendly, less equipment needed' },
-      { value: 'biab', label: 'Brew in a Bag (BIAB)', description: 'All-grain flavor, simpler process' },
+      { value: 'extract', label: 'Extract Brewing (DME/LME)', description: 'Beginner-friendly, less equipment needed' },
       { value: 'all-grain', label: 'All-Grain', description: 'Full control, traditional method' },
     ],
   },
@@ -113,6 +122,7 @@ export const kitBuilderSteps: KitBuilderStep[] = [
         required: true,
         allowSkip: true,
         productFilter: {
+          category: 'Equipment',
           tags: ['siphon', 'auto-siphon', 'racking'],
           searchTerms: ['auto siphon', 'racking cane'],
         },
@@ -124,6 +134,7 @@ export const kitBuilderSteps: KitBuilderStep[] = [
         required: true,
         allowSkip: true,
         productFilter: {
+          category: 'Equipment',
           tags: ['hydrometer', 'testing'],
           searchTerms: ['hydrometer', 'triple scale hydrometer'],
         },
@@ -135,6 +146,7 @@ export const kitBuilderSteps: KitBuilderStep[] = [
         required: true,
         allowSkip: true,
         productFilter: {
+          category: 'Equipment',
           tags: ['thermometer', 'temperature'],
           searchTerms: ['brewing thermometer', 'dial thermometer'],
         },
@@ -146,6 +158,7 @@ export const kitBuilderSteps: KitBuilderStep[] = [
         required: true,
         allowSkip: true,
         productFilter: {
+          category: 'Equipment',
           tags: ['airlock', 'stopper', 'bung'],
           searchTerms: ['airlock', 'stopper', '3-piece airlock'],
         },
@@ -157,6 +170,7 @@ export const kitBuilderSteps: KitBuilderStep[] = [
         required: true,
         allowSkip: false,  // Everyone needs sanitizer
         productFilter: {
+          category: 'Chemicals',
           tags: ['sanitizer', 'star san', 'cleaning'],
           searchTerms: ['star san', 'sanitizer', 'no rinse sanitizer'],
         },
@@ -175,6 +189,7 @@ export const kitBuilderSteps: KitBuilderStep[] = [
         required: false,
         allowSkip: true,
         productFilter: {
+          category: 'Equipment',
           tags: ['wort chiller', 'chiller', 'immersion chiller'],
           searchTerms: ['wort chiller', 'immersion chiller'],
         },
@@ -186,6 +201,7 @@ export const kitBuilderSteps: KitBuilderStep[] = [
         required: false,
         allowSkip: true,
         productFilter: {
+          category: 'Equipment',
           tags: ['brew bag', 'biab', 'grain bag'],
           searchTerms: ['brew bag', 'biab bag', 'grain bag'],
         },
@@ -197,6 +213,7 @@ export const kitBuilderSteps: KitBuilderStep[] = [
         required: false,
         allowSkip: true,
         productFilter: {
+          category: 'Equipment',
           tags: ['refractometer'],
           searchTerms: ['refractometer', 'brix refractometer'],
         },
@@ -208,6 +225,7 @@ export const kitBuilderSteps: KitBuilderStep[] = [
         required: false,
         allowSkip: true,
         productFilter: {
+          category: 'Equipment',
           tags: ['ph meter', 'ph tester'],
           searchTerms: ['ph meter', 'ph tester'],
         },
@@ -219,6 +237,7 @@ export const kitBuilderSteps: KitBuilderStep[] = [
         required: false,
         allowSkip: true,
         productFilter: {
+          category: 'Equipment',
           tags: ['temperature controller', 'fermentation chamber', 'inkbird'],
           searchTerms: ['temperature controller', 'inkbird', 'fermentation control'],
         },
