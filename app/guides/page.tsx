@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { BeerBrewingGuide } from '@/components/brewing/BeerBrewingGuide';
+import Guides from '@/components/brewing/Guides';
 import { WineMakingGuide } from '@/components/brewing/WineMakingGuide';
 import { MeadMakingGuide } from '@/components/brewing/MeadMakingGuide';
 import { KombuchaGuide } from '@/components/brewing/KombuchaGuide';
@@ -199,7 +199,7 @@ export default function GuidesPage() {
         <div className="space-y-12">
           {selectedGuide === 'beer' && (
             <div id="beer">
-              <BeerBrewingGuide />
+              <Guides />
             </div>
           )}
 
