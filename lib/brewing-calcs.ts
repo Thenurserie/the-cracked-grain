@@ -239,6 +239,113 @@ export function calculateCalciumAddition(
   return Math.round(grams * 10) / 10;
 }
 
+// Brix Converter - SG to Brix
+export function sgToBrix(sg: number): number {
+  const brix = (((182.4601 * sg - 775.6821) * sg + 1262.7794) * sg - 669.5622);
+  return Math.round(brix * 10) / 10;
+}
+
+// Chaptalization Calculator (for wine)
+export function calculateChaptalization(
+  currentBrix: number,
+  targetBrix: number,
+  volumeGallons: number
+): number {
+  const sugarOz = volumeGallons * (targetBrix - currentBrix) * 1.5;
+  return Math.round(sugarOz * 10) / 10;
+}
+
+// LME/DME Conversion
+export function convertLMEtoDME(lmePounds: number): number {
+  return Math.round(lmePounds * 0.8 * 100) / 100;
+}
+
+export function convertDMEtoLME(dmePounds: number): number {
+  return Math.round(dmePounds * 1.25 * 100) / 100;
+}
+
+// Extract to Grain Conversion
+export function convertExtractToGrain(
+  extractPounds: number,
+  extractType: 'LME' | 'DME',
+  efficiency: number
+): number {
+  // LME PPG = 37, DME PPG = 44, Base grain average PPG = 37
+  const extractPPG = extractType === 'LME' ? 37 : 44;
+  const grainPPG = 37;
+
+  // Account for efficiency
+  const grainPounds = (extractPounds * extractPPG) / (grainPPG * (efficiency / 100));
+  return Math.round(grainPounds * 100) / 100;
+}
+
+// Brewhouse Efficiency Calculator
+export function calculateBrewhouseEfficiency(
+  grainWeight: number,
+  actualOG: number,
+  batchSize: number,
+  averagePPG: number = 37
+): { efficiency: number; actualPPG: number } {
+  const potentialPoints = grainWeight * averagePPG;
+  const actualPoints = (actualOG - 1) * 1000 * batchSize;
+  const efficiency = (actualPoints / potentialPoints) * 100;
+  const actualPPG = actualPoints / (grainWeight * batchSize);
+
+  return {
+    efficiency: Math.round(efficiency * 10) / 10,
+    actualPPG: Math.round(actualPPG * 10) / 10
+  };
+}
+
+// Quick Infusion Calculator (for step mashing)
+export function calculateQuickInfusion(
+  currentTemp: number,
+  targetTemp: number,
+  grainWeight: number,
+  currentWaterVolume: number,
+  boilingWaterTemp: number = 212
+): number {
+  // Wa = (T2-T1)(0.2G + W1) / (Tw - T2)
+  const waterToAdd =
+    ((targetTemp - currentTemp) * (0.2 * grainWeight + currentWaterVolume)) /
+    (boilingWaterTemp - targetTemp);
+
+  return Math.round(waterToAdd * 100) / 100;
+}
+
+// Bottling Calculator
+export function calculateBottles(batchSizeGallons: number): {
+  bottles12oz: number;
+  bottles16oz: number;
+  bottles22oz: number;
+  bottles750ml: number;
+  bottles500ml: number;
+} {
+  const totalOz = batchSizeGallons * 128;
+
+  return {
+    bottles12oz: Math.floor(totalOz / 12),
+    bottles16oz: Math.floor(totalOz / 16),
+    bottles22oz: Math.floor(totalOz / 22),
+    bottles750ml: Math.floor(totalOz / 25.36),
+    bottles500ml: Math.floor(totalOz / 16.9)
+  };
+}
+
+// Gyle/Krausen Priming Calculator
+export function calculateGylePriming(
+  batchSizeGallons: number,
+  gyleOG: number,
+  targetCO2Volumes: number
+): number {
+  // CO2 produced per gravity point: ~0.5 volumes per 1 gravity point per gallon
+  const co2Needed = targetCO2Volumes * batchSizeGallons;
+  const gravityPoints = (gyleOG - 1) * 1000;
+  const gyleGallons = co2Needed / (gravityPoints * 0.5);
+
+  return Math.round(gyleGallons * 100) / 100;
+}
+
 export function exportBeerXML(recipe: any): string {
   return `<?xml version="1.0" encoding="UTF-8"?>
 <RECIPES>
