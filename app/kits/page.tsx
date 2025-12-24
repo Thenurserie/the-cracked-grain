@@ -6,7 +6,7 @@ import { Product } from '@/lib/types';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Package, Sparkles, BookOpen, Loader2 } from 'lucide-react';
+import { Package, Sparkles, BookOpen, Loader2, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
 
 const KIT_SUBCATEGORIES = [
@@ -81,6 +81,31 @@ export default function KitsPage() {
             <p className="text-base text-cream/60">
               Perfect for beginners or experienced brewers looking for convenience
             </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Build Your Own Kit Banner */}
+      <div className="container mx-auto px-4 py-8">
+        <div className="bg-gradient-to-r from-amber-900/50 to-amber-800/50 border border-amber-600 rounded-xl p-8">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+            <div>
+              <h2 className="text-2xl font-bold text-white mb-2">
+                🛠️ Build Your Own Kit
+              </h2>
+              <p className="text-amber-200">
+                Already have some equipment? Build a custom kit with only what you need.
+                <br />
+                <span className="text-amber-400 font-medium">Save 10-15% when you bundle 5+ items!</span>
+              </p>
+            </div>
+            <Link
+              href="/kits/build"
+              className="flex items-center gap-2 px-6 py-3 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition-colors font-medium whitespace-nowrap"
+            >
+              Start Building
+              <ChevronRight className="w-5 h-5" />
+            </Link>
           </div>
         </div>
       </div>
