@@ -153,14 +153,14 @@ export default async function Home() {
             <div className="flex items-center justify-between gap-4 flex-wrap">
               {/* Left side - Icon and text */}
               <div className="flex items-center gap-3 flex-1 min-w-0">
-                <div
-                  className="p-2 rounded-lg flex-shrink-0"
-                  style={{ backgroundColor: '#d97706' }}
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5 text-white">
-                    <rect width="7" height="13" x="5" y="9" rx="1"></rect>
-                    <rect width="7" height="13" x="12" y="9" rx="1"></rect>
-                  </svg>
+                <div className="flex-shrink-0">
+                  <Image
+                    src="/tcg-logo-icon.png"
+                    alt="The Cracked Grain"
+                    width={48}
+                    height={48}
+                    className="w-12 h-12"
+                  />
                 </div>
                 <div className="min-w-0">
                   <h3
