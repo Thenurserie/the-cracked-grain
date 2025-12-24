@@ -8,6 +8,8 @@ import { AgeVerification } from '@/components/AgeVerification';
 import { CookieConsent } from '@/components/CookieConsent';
 import { OrganizationSchema, WebsiteSchema } from '@/components/StructuredData';
 import { AuthProvider } from '@/contexts/AuthContext';
+import PWAInstallPrompt from '@/components/PWAInstallPrompt';
+import NetworkStatus from '@/components/NetworkStatus';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -35,6 +37,12 @@ export const metadata: Metadata = {
     description: 'Shop quality brewing ingredients, equipment, and supplies. Free shipping over $75.',
     images: ['/og-image.jpg'],
   },
+  manifest: '/manifest.json',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'black-translucent',
+    title: 'Cracked Grain',
+  },
 };
 
 export default function RootLayout({
@@ -50,6 +58,7 @@ export default function RootLayout({
       </head>
       <body className={inter.className}>
         <AuthProvider>
+          <NetworkStatus />
           <AgeVerification />
           <div className="flex flex-col min-h-screen">
             <Header />
@@ -58,6 +67,7 @@ export default function RootLayout({
           </div>
           <CookieConsent />
           <Toaster />
+          <PWAInstallPrompt />
         </AuthProvider>
       </body>
     </html>

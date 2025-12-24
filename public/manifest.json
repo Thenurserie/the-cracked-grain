@@ -1,0 +1,39 @@
+{
+  "name": "The Cracked Grain - Homebrew Supplies",
+  "short_name": "Cracked Grain",
+  "description": "Premium homebrew supplies, recipes, and brewing tools for craft beer enthusiasts",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#1a1a1a",
+  "theme_color": "#d97706",
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Brewing Tools",
+      "url": "/brewing"
+    },
+    {
+      "name": "Recipes",
+      "url": "/recipes"
+    },
+    {
+      "name": "Shop",
+      "url": "/shop"
+    }
+  ]
+}
