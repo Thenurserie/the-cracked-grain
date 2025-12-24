@@ -5,7 +5,7 @@ import { ProductCard } from '@/components/ProductCard';
 import { CategoryCard } from '@/components/CategoryCard';
 import { prisma } from '@/lib/db';
 import { Product, Category } from '@/lib/types';
-import { ArrowRight, Smartphone, Wifi, Beaker, BookOpen } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 
 // Force this route to be dynamic (not statically generated)
 // This prevents database access during build time
@@ -139,60 +139,10 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* PWA Install Promotion Banner */}
+      {/* Promotional Banner Slot 1 */}
       <section className="container mx-auto px-4 py-8">
-        <div className="bg-gradient-to-r from-amber-900/40 to-amber-800/40 border-2 border-amber/40 rounded-lg p-8 md:p-10">
-          <div className="max-w-4xl mx-auto">
-            <div className="flex flex-col md:flex-row items-center gap-6">
-              {/* Icon */}
-              <div className="flex-shrink-0">
-                <div className="p-4 bg-amber-600 rounded-2xl">
-                  <Smartphone className="w-12 h-12 text-white" />
-                </div>
-              </div>
-
-              {/* Content */}
-              <div className="flex-1 text-center md:text-left">
-                <h2 className="text-2xl md:text-3xl font-bold text-cream mb-2">
-                  Get The Cracked Grain App
-                </h2>
-                <p className="text-cream/80 text-lg mb-4">
-                  Install our app for offline brewing tools, recipes in your pocket, and more. Works even without internet in your garage or brewery.
-                </p>
-
-                {/* Features */}
-                <div className="flex flex-wrap gap-4 justify-center md:justify-start text-sm text-cream/70">
-                  <div className="flex items-center gap-2">
-                    <Wifi className="w-4 h-4 text-amber-400" />
-                    <span>Works offline</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Beaker className="w-4 h-4 text-amber-400" />
-                    <span>Brewing calculators</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <BookOpen className="w-4 h-4 text-amber-400" />
-                    <span>Recipe access</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Instructions */}
-              <div className="flex-shrink-0 bg-neutral-900/50 border border-amber/20 rounded-lg p-6 max-w-xs">
-                <h3 className="font-semibold text-cream mb-3 text-center">How to Install:</h3>
-                <div className="space-y-3 text-sm text-cream/70">
-                  <div>
-                    <p className="font-medium text-amber-400 mb-1">Android / Chrome:</p>
-                    <p>Tap "Install" when prompted</p>
-                  </div>
-                  <div className="border-t border-amber/10 pt-3">
-                    <p className="font-medium text-amber-400 mb-1">iPhone / Safari:</p>
-                    <p>Tap <span className="inline-flex items-center mx-1">Share ⬆️</span> → Add to Home Screen</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+        <div className="border-2 border-dashed border-amber/30 rounded-lg p-8 text-center">
+          <p className="text-cream/50 text-sm">Promotional Banner Slot 1</p>
         </div>
       </section>
 
