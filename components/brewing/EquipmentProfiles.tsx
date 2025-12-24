@@ -311,7 +311,7 @@ export default function EquipmentProfiles() {
                         <CardTitle className="text-cream flex items-center gap-2 text-base">
                           {profile.name}
                           {profile.isPreset && (
-                            <Award className="h-4 w-4 text-gold" title="Preset" />
+                            <Award className="h-4 w-4 text-gold" />
                           )}
                         </CardTitle>
                         {profile.manufacturer && (
