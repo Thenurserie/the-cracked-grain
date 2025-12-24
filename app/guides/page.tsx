@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { BeerBrewingGuide } from '@/components/brewing/BeerBrewingGuide';
 import { KitBrewGuide } from '@/components/brewing/KitBrewGuide';
 import { AllGrainGuide } from '@/components/brewing/AllGrainGuide';
 import { AdvancedBrewingGuide } from '@/components/brewing/AdvancedBrewingGuide';
@@ -25,9 +26,18 @@ import {
   Package
 } from 'lucide-react';
 
-type GuideType = 'kit-brew' | 'all-grain' | 'advanced' | 'fermentation' | 'packaging' | 'wine' | 'mead' | 'kombucha' | 'cider' | null;
+type GuideType = 'beer' | 'kit-brew' | 'all-grain' | 'advanced' | 'fermentation' | 'packaging' | 'wine' | 'mead' | 'kombucha' | 'cider' | null;
 
 const GUIDE_CARDS = [
+  {
+    id: 'beer' as GuideType,
+    title: 'Beer Brewing',
+    description: 'Complete guide to brewing beer from start to finish',
+    icon: Beaker,
+    image: '/images/brewing/Craft your recipe.png',
+    color: 'from-amber-500/20 to-gold/10',
+    difficulty: 'All Levels'
+  },
   {
     id: 'kit-brew' as GuideType,
     title: 'Extract/Kit Brewing',
@@ -117,7 +127,7 @@ export default function GuidesPage() {
   // Handle hash navigation
   useEffect(() => {
     const hash = window.location.hash.replace('#', '') as GuideType;
-    const validGuides = ['kit-brew', 'all-grain', 'advanced', 'fermentation', 'packaging', 'wine', 'mead', 'kombucha', 'cider'];
+    const validGuides = ['beer', 'kit-brew', 'all-grain', 'advanced', 'fermentation', 'packaging', 'wine', 'mead', 'kombucha', 'cider'];
     if (hash && validGuides.includes(hash)) {
       setSelectedGuide(hash);
       // Small delay to ensure content is rendered before scrolling
@@ -240,6 +250,12 @@ export default function GuidesPage() {
 
         {/* Individual Guide Content */}
         <div className="space-y-12">
+          {selectedGuide === 'beer' && (
+            <div id="beer">
+              <BeerBrewingGuide />
+            </div>
+          )}
+
           {selectedGuide === 'kit-brew' && (
             <div id="kit-brew">
               <KitBrewGuide />
