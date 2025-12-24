@@ -150,7 +150,7 @@ export default async function Home() {
       <section className="container mx-auto px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
           {/* New to Homebrewing Card */}
-          <Link href="/brewing?tab=guides" className="group">
+          <Link href="/guides" className="group">
             <div className="bg-card border-2 border-amber/20 rounded-lg p-8 hover:border-gold hover:bg-amber/5 transition-all h-full flex flex-col">
               <h3 className="text-2xl font-bold text-cream mb-2 group-hover:text-gold transition-colors">
                 New to Homebrewing?

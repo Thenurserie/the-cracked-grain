@@ -1,7 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
   Beaker,
@@ -15,14 +16,14 @@ import {
   Droplet,
   Flame,
   FlaskConical,
-  Play
+  Play,
+  ChevronRight
 } from 'lucide-react';
 import RecipeBuilder from '@/components/brewing/RecipeBuilder';
 import RecipeLibrary from '@/components/brewing/RecipeLibrary';
 import EquipmentProfiles from '@/components/brewing/EquipmentProfiles';
 import GrainBillCalculator from '@/components/brewing/GrainBillCalculator';
 import Calculators from '@/components/brewing/Calculators';
-import Guides from '@/components/brewing/Guides';
 import BrewBatches from '@/components/brewing/BrewBatches';
 import Inventory from '@/components/brewing/Inventory';
 import { WaterChemistry } from '@/components/brewing/WaterChemistry';
@@ -33,6 +34,28 @@ import { BrewingInstructions } from '@/components/brewing/BrewingInstructions';
 
 export default function BrewingToolsPage() {
   const [activeTab, setActiveTab] = useState('recipe-builder');
+
+  // Handle hash navigation
+  useEffect(() => {
+    const hash = window.location.hash.replace('#', '');
+    const validTabs = ['recipe-builder', 'recipe-library', 'brew-session', 'equipment', 'grain-bill', 'water-chemistry', 'mash-schedule', 'calculators', 'advanced-calculators', 'batches', 'inventory'];
+
+    if (hash && validTabs.includes(hash)) {
+      setActiveTab(hash);
+      // Small delay to ensure content is rendered before scrolling
+      setTimeout(() => {
+        const yOffset = -120; // Header offset
+        const y = window.pageYOffset + yOffset;
+        window.scrollTo({ top: y, behavior: 'smooth' });
+      }, 100);
+    }
+  }, []);
+
+  // Update URL hash when tab changes
+  const handleTabChange = (value: string) => {
+    setActiveTab(value);
+    window.history.pushState(null, '', `#${value}`);
+  };
 
   return (
     <div>
@@ -118,7 +141,24 @@ export default function BrewingToolsPage() {
         </div>
       </div>
 
-      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+      {/* Banner */}
+      <div className="mb-6 bg-gradient-to-r from-amber/10 to-gold/5 border border-amber/20 rounded-lg p-4">
+        <div className="flex items-center justify-between">
+          <div>
+            <h3 className="text-lg font-semibold text-cream mb-1">New to Brewing?</h3>
+            <p className="text-cream/70 text-sm">Start with our comprehensive brewing guides for step-by-step instructions.</p>
+          </div>
+          <Link
+            href="/guides"
+            className="flex items-center gap-2 px-4 py-2 bg-amber hover:bg-gold text-white rounded-lg transition-colors whitespace-nowrap"
+          >
+            View Guides
+            <ChevronRight className="h-4 w-4" />
+          </Link>
+        </div>
+      </div>
+
+      <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full">
         <TabsList className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2 h-auto bg-muted/50 p-2 overflow-x-auto">
           <TabsTrigger value="recipe-builder" className="flex items-center gap-1 text-xs md:text-sm whitespace-nowrap">
             <Beaker className="h-3 w-3 md:h-4 md:w-4 flex-shrink-0" />
@@ -155,10 +195,6 @@ export default function BrewingToolsPage() {
           <TabsTrigger value="advanced-calculators" className="flex items-center gap-1 text-xs md:text-sm whitespace-nowrap">
             <FlaskConical className="h-3 w-3 md:h-4 md:w-4 flex-shrink-0" />
             <span>Advanced</span>
-          </TabsTrigger>
-          <TabsTrigger value="guides" className="flex items-center gap-1 text-xs md:text-sm whitespace-nowrap">
-            <BookOpen className="h-3 w-3 md:h-4 md:w-4 flex-shrink-0" />
-            <span>Guides</span>
           </TabsTrigger>
           <TabsTrigger value="batches" className="flex items-center gap-1 text-xs md:text-sm whitespace-nowrap">
             <Calendar className="h-3 w-3 md:h-4 md:w-4 flex-shrink-0" />
@@ -208,10 +244,6 @@ export default function BrewingToolsPage() {
 
           <TabsContent value="advanced-calculators" className="m-0">
             <AdvancedCalculators />
-          </TabsContent>
-
-          <TabsContent value="guides" className="m-0">
-            <Guides />
           </TabsContent>
 
           <TabsContent value="batches" className="m-0">

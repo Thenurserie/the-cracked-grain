@@ -101,7 +101,7 @@ export default function KitsPage() {
                   </p>
                 </div>
               </div>
-              <Link href="/brewing?tab=guides">
+              <Link href="/guides">
                 <Button className="bg-amber hover:bg-gold text-white whitespace-nowrap">
                   <BookOpen className="h-4 w-4 mr-2" />
                   Beginner Guides

@@ -99,6 +99,9 @@ export function Header() {
           <Link href="/kits" className="text-sm font-medium text-cream hover:text-gold transition-colors">
             Kits
           </Link>
+          <Link href="/guides" className="text-sm font-medium text-cream hover:text-gold transition-colors">
+            Brew Guides
+          </Link>
           <Link href="/brewing" className="text-sm font-medium text-cream hover:text-gold transition-colors">
             Brewing Tools
           </Link>
@@ -300,6 +303,13 @@ export function Header() {
               onClick={() => setMobileMenuOpen(false)}
             >
               Kits
+            </Link>
+            <Link
+              href="/guides"
+              className="text-sm font-medium text-cream hover:text-gold transition-colors"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Brew Guides
             </Link>
             <Link
               href="/brewing"
