@@ -139,10 +139,58 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Promotional Banner Slot 1 */}
+      {/* PWA Install Banner */}
       <section className="container mx-auto px-4 py-8">
-        <div className="border-2 border-dashed border-amber/30 rounded-lg p-8 text-center">
-          <p className="text-cream/50 text-sm">Promotional Banner Slot 1</p>
+        <div
+          className="rounded-lg overflow-hidden"
+          style={{
+            background: 'linear-gradient(to right, #1c1917, #292524)',
+            borderTop: '1px solid #d97706',
+            borderBottom: '1px solid #d97706',
+          }}
+        >
+          <div className="max-w-6xl mx-auto px-4 py-4">
+            <div className="flex items-center justify-between gap-4 flex-wrap">
+              {/* Left side - Icon and text */}
+              <div className="flex items-center gap-3 flex-1 min-w-0">
+                <div
+                  className="p-2 rounded-lg flex-shrink-0"
+                  style={{ backgroundColor: '#d97706' }}
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5 text-white">
+                    <rect width="7" height="13" x="5" y="9" rx="1"></rect>
+                    <rect width="7" height="13" x="12" y="9" rx="1"></rect>
+                  </svg>
+                </div>
+                <div className="min-w-0">
+                  <h3
+                    className="font-semibold text-sm sm:text-base"
+                    style={{ color: '#fbbf24' }}
+                  >
+                    Install The Cracked Grain App
+                  </h3>
+                  <p
+                    className="text-xs sm:text-sm"
+                    style={{ color: '#a8a29e' }}
+                  >
+                    Get offline brewing tools & recipes on your phone
+                  </p>
+                </div>
+              </div>
+
+              {/* Right side - Instructions */}
+              <div className="flex flex-col sm:flex-row gap-3 text-sm">
+                <div className="flex items-center gap-2 px-3 py-2 rounded-lg" style={{ backgroundColor: '#292524' }}>
+                  <span style={{ color: '#d97706' }} className="font-medium">Android:</span>
+                  <span style={{ color: '#a8a29e' }}>Tap "Install"</span>
+                </div>
+                <div className="flex items-center gap-2 px-3 py-2 rounded-lg" style={{ backgroundColor: '#292524' }}>
+                  <span style={{ color: '#d97706' }} className="font-medium">iPhone:</span>
+                  <span style={{ color: '#a8a29e' }}>Share → Add to Home</span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 

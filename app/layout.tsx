@@ -8,7 +8,6 @@ import { AgeVerification } from '@/components/AgeVerification';
 import { CookieConsent } from '@/components/CookieConsent';
 import { OrganizationSchema, WebsiteSchema } from '@/components/StructuredData';
 import { AuthProvider } from '@/contexts/AuthContext';
-import PWAInstallPrompt from '@/components/PWAInstallPrompt';
 import NetworkStatus from '@/components/NetworkStatus';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -67,7 +66,6 @@ export default function RootLayout({
           </div>
           <CookieConsent />
           <Toaster />
-          <PWAInstallPrompt />
         </AuthProvider>
       </body>
     </html>
