@@ -122,8 +122,8 @@ export default function RecipesPage() {
             <p className="text-cream/70">
               Showing {filteredRecipes.length} {filteredRecipes.length === 1 ? 'recipe' : 'recipes'}
             </p>
-            <Button variant="outline" className="border-amber/30 text-cream hover:bg-amber/10">
-              Submit Your Recipe
+            <Button variant="outline" className="border-amber/30 text-cream hover:bg-amber/10" asChild>
+              <Link href="/recipes/submit">Submit Your Recipe</Link>
             </Button>
           </div>
 
