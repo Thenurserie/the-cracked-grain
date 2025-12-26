@@ -36,14 +36,22 @@ export default function RecipeLibrary() {
 
   async function fetchRecipes() {
     try {
+      console.log('[RecipeLibrary] Fetching recipes from /api/recipes...');
       const response = await fetch('/api/recipes');
-      if (!response.ok) throw new Error('Failed to fetch recipes');
+      console.log('[RecipeLibrary] API response status:', response.status, response.statusText);
+
+      if (!response.ok) {
+        throw new Error(`Failed to fetch recipes: ${response.status} ${response.statusText}`);
+      }
 
       const data = await response.json();
+      console.log('[RecipeLibrary] Recipes loaded successfully. Count:', data.length);
+      console.log('[RecipeLibrary] Recipe data:', data);
+
       setRecipes(data);
     } catch (err) {
-      console.error('Error fetching recipes:', err);
-      setError('Failed to load recipes');
+      console.error('[RecipeLibrary] Error fetching recipes:', err);
+      setError(`Failed to load recipes: ${err instanceof Error ? err.message : 'Unknown error'}`);
     } finally {
       setLoading(false);
     }
