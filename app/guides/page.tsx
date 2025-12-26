@@ -14,6 +14,8 @@ import { WineMakingGuide } from '@/components/brewing/WineMakingGuide';
 import { MeadMakingGuide } from '@/components/brewing/MeadMakingGuide';
 import { KombuchaGuide } from '@/components/brewing/KombuchaGuide';
 import { CiderMakingGuide } from '@/components/brewing/CiderMakingGuide';
+import { HopSubstitutionsGuide } from '@/components/brewing/HopSubstitutionsGuide';
+import { YeastSubstitutionsGuide } from '@/components/brewing/YeastSubstitutionsGuide';
 import {
   BookOpen,
   Beaker,
@@ -23,10 +25,11 @@ import {
   Sparkles,
   ChevronRight,
   FlaskConical,
-  Package
+  Package,
+  Wheat
 } from 'lucide-react';
 
-type GuideType = 'beer' | 'kit-brew' | 'all-grain' | 'advanced' | 'fermentation' | 'packaging' | 'wine' | 'mead' | 'kombucha' | 'cider' | null;
+type GuideType = 'beer' | 'kit-brew' | 'all-grain' | 'advanced' | 'fermentation' | 'packaging' | 'wine' | 'mead' | 'kombucha' | 'cider' | 'hop-substitutions' | 'yeast-substitutions' | null;
 
 const GUIDE_CARDS = [
   {
@@ -118,6 +121,24 @@ const GUIDE_CARDS = [
     image: '/images/brewing/Craft your recipe.png',
     color: 'from-red-500/20 to-orange-500/10',
     difficulty: 'Beginner to Intermediate'
+  },
+  {
+    id: 'hop-substitutions' as GuideType,
+    title: 'Hop Substitutions',
+    description: 'Comprehensive hop substitution chart for 80+ hop varieties',
+    icon: Wheat,
+    image: '/images/brewing/Track your brews.png',
+    color: 'from-green-500/20 to-lime-500/10',
+    difficulty: 'All Levels'
+  },
+  {
+    id: 'yeast-substitutions' as GuideType,
+    title: 'Yeast Substitutions',
+    description: 'Cross-brand yeast equivalents for all major manufacturers',
+    icon: Droplet,
+    image: '/images/brewing/Craft your recipe.png',
+    color: 'from-cyan-500/20 to-blue-500/10',
+    difficulty: 'All Levels'
   }
 ];
 
@@ -127,7 +148,7 @@ export default function GuidesPage() {
   // Handle hash navigation
   useEffect(() => {
     const hash = window.location.hash.replace('#', '') as GuideType;
-    const validGuides = ['beer', 'kit-brew', 'all-grain', 'advanced', 'fermentation', 'packaging', 'wine', 'mead', 'kombucha', 'cider'];
+    const validGuides = ['beer', 'kit-brew', 'all-grain', 'advanced', 'fermentation', 'packaging', 'wine', 'mead', 'kombucha', 'cider', 'hop-substitutions', 'yeast-substitutions'];
     if (hash && validGuides.includes(hash)) {
       setSelectedGuide(hash);
       // Small delay to ensure content is rendered before scrolling
@@ -307,6 +328,18 @@ export default function GuidesPage() {
           {selectedGuide === 'cider' && (
             <div id="cider">
               <CiderMakingGuide />
+            </div>
+          )}
+
+          {selectedGuide === 'hop-substitutions' && (
+            <div id="hop-substitutions">
+              <HopSubstitutionsGuide />
+            </div>
+          )}
+
+          {selectedGuide === 'yeast-substitutions' && (
+            <div id="yeast-substitutions">
+              <YeastSubstitutionsGuide />
             </div>
           )}
         </div>
