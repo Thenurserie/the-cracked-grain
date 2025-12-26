@@ -49,8 +49,11 @@ export interface RecipeYeast {
 }
 
 export interface RecipeFermentationStep {
-  day: string;
-  instruction: string;
+  day?: string;
+  instruction?: string;
+  step?: string;
+  temp?: string;
+  duration?: string;
   notes?: string;
 }
 
@@ -105,6 +108,7 @@ export interface Recipe {
   packaging?: RecipePackaging;
   tips?: RecipeTips;
   food_pairing?: string[];
+  notes?: string;
   date_created?: string;
   date_updated?: string;
 }
