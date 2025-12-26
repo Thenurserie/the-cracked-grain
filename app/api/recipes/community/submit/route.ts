@@ -7,7 +7,7 @@ const DIRECTUS_TOKEN = process.env.DIRECTUS_API_TOKEN;
 export async function POST(request: Request) {
   try {
     // Check authentication
-    const user = await getCurrentUser(request);
+    const user = await getCurrentUser();
 
     if (!user) {
       return NextResponse.json({ error: 'You must be signed in to submit a recipe' }, { status: 401 });
