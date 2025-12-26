@@ -363,6 +363,9 @@ export default function KitBuilder() {
 
                                 <div className="flex-grow">
                                   <div className="font-medium text-white">{product.name}</div>
+                                  {product.description && (
+                                    <p className="text-xs text-neutral-400 mt-1 line-clamp-2">{product.description}</p>
+                                  )}
                                   {!product.inStock && (
                                     <span className="text-xs text-red-400">Out of stock</span>
                                   )}
@@ -510,6 +513,9 @@ export default function KitBuilder() {
 
                                 <div className="flex-grow">
                                   <div className="font-medium text-white">{product.name}</div>
+                                  {product.description && (
+                                    <p className="text-xs text-neutral-400 mt-1 line-clamp-2">{product.description}</p>
+                                  )}
                                   {!product.inStock && (
                                     <span className="text-xs text-red-400">Out of stock</span>
                                   )}
@@ -561,13 +567,13 @@ export default function KitBuilder() {
 
           {/* Sidebar - Checklist & Summary */}
           <div className="lg:col-span-1">
-            <div className="bg-neutral-800 rounded-lg p-6 sticky top-4">
+            <div className="bg-neutral-800 rounded-lg p-6 sticky top-20 max-h-[calc(100vh-6rem)] overflow-y-auto">
               <h2 className="text-lg font-semibold text-white mb-4">
                 {selectedTier ? `${selectedTier.name} Checklist` : 'Your Kit'}
               </h2>
 
               {selectedTier && (
-                <div className="mb-6 p-3 bg-amber-500/10 border border-amber-500/30 rounded-lg">
+                <div className="mb-4 p-3 bg-amber-500/10 border border-amber-500/30 rounded-lg">
                   <p className="text-xs text-amber-300">
                     {selectedTier.name} includes: {selectedTier.includedCategories.length} categories
                   </p>
@@ -575,8 +581,8 @@ export default function KitBuilder() {
               )}
 
               {/* Equipment Checklist */}
-              <div className="space-y-2 mb-6">
-                <h3 className="text-sm font-semibold text-neutral-400 uppercase mb-3">Equipment</h3>
+              <div className="space-y-2 mb-4">
+                <h3 className="text-sm font-semibold text-neutral-400 uppercase mb-2">Equipment</h3>
                 {equipmentCategories.map(category => {
                   const isComplete = isCategoryComplete(category.id);
                   const isInTier = isCategoryInTier(category.id);
@@ -600,8 +606,8 @@ export default function KitBuilder() {
               </div>
 
               {/* Ingredients Checklist */}
-              <div className="space-y-2 mb-6 pt-4 border-t border-neutral-700">
-                <h3 className="text-sm font-semibold text-neutral-400 uppercase mb-3">Ingredients</h3>
+              <div className="space-y-2 mb-4 pt-4 border-t border-neutral-700">
+                <h3 className="text-sm font-semibold text-neutral-400 uppercase mb-2">Ingredients</h3>
                 {ingredientCategories.map(category => {
                   const isComplete = isCategoryComplete(category.id);
 
@@ -623,8 +629,8 @@ export default function KitBuilder() {
               {itemCount > 0 && (
                 <>
                   <div className="border-t border-neutral-700 pt-4 mb-4">
-                    <h3 className="text-sm font-semibold text-neutral-400 uppercase mb-3">Selected Items</h3>
-                    <div className="space-y-2 max-h-64 overflow-y-auto">
+                    <h3 className="text-sm font-semibold text-neutral-400 uppercase mb-2">Selected Items</h3>
+                    <div className="space-y-2 max-h-40 overflow-y-auto">
                       {selectedProducts.map(({ product, quantity, categoryId }) => (
                         <div key={`${categoryId}-${product.id}`} className="flex items-center justify-between text-sm gap-2">
                           <span className="text-neutral-300 truncate flex-1">{product.name}</span>
@@ -639,7 +645,7 @@ export default function KitBuilder() {
                     </div>
                   </div>
 
-                  <div className="border-t border-neutral-700 pt-4 space-y-2">
+                  <div className="border-t border-neutral-700 pt-4 space-y-2 bg-neutral-800 sticky bottom-0 pb-2">
                     <div className="flex justify-between text-sm">
                       <span className="text-neutral-400">Subtotal ({itemCount} items)</span>
                       <span className="text-white">${subtotal.toFixed(2)}</span>
