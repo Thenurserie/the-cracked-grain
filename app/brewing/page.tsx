@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -33,7 +33,7 @@ import { AdvancedCalculators } from '@/components/brewing/AdvancedCalculators';
 import { BrewSessionTracker } from '@/components/brewing/BrewSessionTracker';
 import { BrewingInstructions } from '@/components/brewing/BrewingInstructions';
 
-export default function BrewingToolsPage() {
+function BrewingToolsContent() {
   const searchParams = useSearchParams();
   const [activeTab, setActiveTab] = useState('recipe-builder');
 
@@ -266,5 +266,13 @@ export default function BrewingToolsPage() {
       </Tabs>
       </div>
     </div>
+  );
+}
+
+export default function BrewingToolsPage() {
+  return (
+    <Suspense fallback={<div className="container mx-auto px-4 py-8">Loading brewing tools...</div>}>
+      <BrewingToolsContent />
+    </Suspense>
   );
 }
