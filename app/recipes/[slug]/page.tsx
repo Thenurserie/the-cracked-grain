@@ -132,6 +132,31 @@ export default async function RecipeDetailPage({ params }: { params: Promise<{ s
             </CardContent>
           </Card>
 
+          {/* New to Brewing? Callout */}
+          <div className="bg-amber-900/20 border border-amber-600/30 rounded-lg p-4">
+            <h4 className="text-amber-500 font-medium mb-2">New to Brewing?</h4>
+            <p className="text-gray-300 text-sm mb-3">
+              Check out our comprehensive guides for step-by-step brewing fundamentals.
+            </p>
+            <div className="flex flex-wrap gap-2">
+              <Link href="/brew-guides/getting-started" className="text-amber-400 hover:text-amber-300 text-sm underline">
+                Getting Started Guide
+              </Link>
+              <span className="text-gray-500">•</span>
+              <Link href="/brew-guides/all-grain" className="text-amber-400 hover:text-amber-300 text-sm underline">
+                All-Grain Brewing 101
+              </Link>
+              <span className="text-gray-500">•</span>
+              <Link href="/brew-guides/extract" className="text-amber-400 hover:text-amber-300 text-sm underline">
+                Extract Brewing Basics
+              </Link>
+              <span className="text-gray-500">•</span>
+              <Link href="/brew-guides/equipment" className="text-amber-400 hover:text-amber-300 text-sm underline">
+                Essential Equipment
+              </Link>
+            </div>
+          </div>
+
           {!hasFullDetails && (
             <Card className="bg-card border-amber/20">
               <CardContent className="py-12 text-center">
@@ -325,13 +350,28 @@ export default async function RecipeDetailPage({ params }: { params: Promise<{ s
                       <CardTitle className="text-gold">Fermentation Schedule</CardTitle>
                     </CardHeader>
                     <CardContent>
-                      <div className="space-y-3">
+                      <div className="space-y-4">
                         {recipe.fermentation.map((step, idx) => (
-                          <div key={idx} className="border-l-2 border-gold/30 pl-3">
-                            <div className="font-semibold text-amber text-sm">{step.day}</div>
-                            <div className="text-cream/90 text-sm">{step.instruction}</div>
-                            {step.notes && (
-                              <div className="text-cream/60 text-xs mt-1">{step.notes}</div>
+                          <div key={idx} className="bg-muted/30 p-3 rounded border border-amber/10">
+                            <div className="font-semibold text-amber mb-1">{step.step || step.day}</div>
+                            <div className="grid grid-cols-2 gap-2 text-sm mb-2">
+                              {step.temp && (
+                                <div>
+                                  <span className="text-cream/60">Temperature: </span>
+                                  <span className="text-cream">{step.temp}</span>
+                                </div>
+                              )}
+                              {step.duration && (
+                                <div>
+                                  <span className="text-cream/60">Duration: </span>
+                                  <span className="text-cream">{step.duration}</span>
+                                </div>
+                              )}
+                            </div>
+                            {(step.notes || step.instruction) && (
+                              <div className="text-cream/70 text-sm mt-2 pt-2 border-t border-amber/10">
+                                {step.notes || step.instruction}
+                              </div>
                             )}
                           </div>
                         ))}
@@ -403,6 +443,52 @@ export default async function RecipeDetailPage({ params }: { params: Promise<{ s
                 </Card>
               )}
 
+              {/* Water Chemistry */}
+              {recipe.water_chemistry && (
+                <Card className="bg-card border-amber/20">
+                  <CardHeader>
+                    <CardTitle className="text-gold flex items-center gap-2">
+                      <Droplet className="h-5 w-5" />
+                      Water Chemistry
+                    </CardTitle>
+                    <p className="text-sm text-cream/60">{recipe.water_chemistry.target}</p>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+                      {recipe.water_chemistry.calcium && (
+                        <div className="bg-muted/30 p-3 rounded border border-amber/10">
+                          <div className="text-sm text-cream/60 mb-1">Calcium</div>
+                          <div className="font-semibold text-cream">{recipe.water_chemistry.calcium}</div>
+                        </div>
+                      )}
+                      {recipe.water_chemistry.sulfate && (
+                        <div className="bg-muted/30 p-3 rounded border border-amber/10">
+                          <div className="text-sm text-cream/60 mb-1">Sulfate</div>
+                          <div className="font-semibold text-cream">{recipe.water_chemistry.sulfate}</div>
+                        </div>
+                      )}
+                      {recipe.water_chemistry.chloride && (
+                        <div className="bg-muted/30 p-3 rounded border border-amber/10">
+                          <div className="text-sm text-cream/60 mb-1">Chloride</div>
+                          <div className="font-semibold text-cream">{recipe.water_chemistry.chloride}</div>
+                        </div>
+                      )}
+                      {recipe.water_chemistry.ratio && (
+                        <div className="bg-muted/30 p-3 rounded border border-amber/10">
+                          <div className="text-sm text-cream/60 mb-1">Ratio</div>
+                          <div className="font-semibold text-cream text-xs">{recipe.water_chemistry.ratio}</div>
+                        </div>
+                      )}
+                    </div>
+                    {recipe.water_chemistry.notes && (
+                      <div className="bg-amber/10 border border-amber/30 rounded-lg p-3">
+                        <div className="text-sm text-cream/80">{recipe.water_chemistry.notes}</div>
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+              )}
+
               {/* Tips */}
               {recipe.tips && ((recipe.tips.dos?.length ?? 0) > 0 || (recipe.tips.donts?.length ?? 0) > 0) && (
                 <div className="grid md:grid-cols-2 gap-6">
@@ -470,6 +556,21 @@ export default async function RecipeDetailPage({ params }: { params: Promise<{ s
                         </Badge>
                       ))}
                     </div>
+                  </CardContent>
+                </Card>
+              )}
+
+              {/* Brewer's Notes */}
+              {recipe.notes && (
+                <Card className="bg-card border-amber/20">
+                  <CardHeader>
+                    <CardTitle className="text-gold flex items-center gap-2">
+                      <Beaker className="h-5 w-5" />
+                      Brewer's Notes
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-cream/80 leading-relaxed">{recipe.notes}</p>
                   </CardContent>
                 </Card>
               )}
