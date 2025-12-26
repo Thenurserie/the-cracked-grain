@@ -475,7 +475,7 @@ export default async function RecipeDetailPage({ params }: { params: Promise<{ s
 
           {/* Actions */}
           <div className="flex gap-4">
-            <Link href="/brewing" className="flex-1">
+            <Link href={`/brewing?import=${slug}#recipe-builder`} className="flex-1">
               <Button className="w-full bg-amber hover:bg-gold">
                 <Beaker className="h-5 w-5 mr-2" />
                 Use Brewing Tools

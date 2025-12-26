@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -33,12 +34,20 @@ import { BrewSessionTracker } from '@/components/brewing/BrewSessionTracker';
 import { BrewingInstructions } from '@/components/brewing/BrewingInstructions';
 
 export default function BrewingToolsPage() {
+  const searchParams = useSearchParams();
   const [activeTab, setActiveTab] = useState('recipe-builder');
 
-  // Handle hash navigation
+  // Handle hash navigation and import parameter
   useEffect(() => {
     const hash = window.location.hash.replace('#', '');
     const validTabs = ['recipe-builder', 'recipe-library', 'brew-session', 'equipment', 'grain-bill', 'water-chemistry', 'mash-schedule', 'calculators', 'advanced-calculators', 'batches', 'inventory'];
+
+    // If there's an import parameter, switch to recipe-builder tab
+    const importSlug = searchParams.get('import');
+    if (importSlug) {
+      setActiveTab('recipe-builder');
+      return;
+    }
 
     if (hash && validTabs.includes(hash)) {
       setActiveTab(hash);
@@ -49,7 +58,7 @@ export default function BrewingToolsPage() {
         window.scrollTo({ top: y, behavior: 'smooth' });
       }, 100);
     }
-  }, []);
+  }, [searchParams]);
 
   // Update URL hash when tab changes
   const handleTabChange = (value: string) => {

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -45,6 +46,7 @@ interface SavedRecipe {
 
 export default function RecipeBuilder() {
   const { isLoggedIn, isLoading: authLoading } = useAuth();
+  const searchParams = useSearchParams();
   const [recipeName, setRecipeName] = useState('');
   const [style, setStyle] = useState('');
   const [batchSize, setBatchSize] = useState(5.0);
@@ -88,6 +90,14 @@ export default function RecipeBuilder() {
       loadSavedRecipes();
     }
   }, [isLoggedIn, authLoading]);
+
+  // Handle recipe import from URL parameter
+  useEffect(() => {
+    const importSlug = searchParams.get('import');
+    if (importSlug) {
+      loadRecipeFromDirectus(importSlug);
+    }
+  }, [searchParams]);
 
   useEffect(() => {
     if (fermentables.length > 0) {
@@ -174,6 +184,48 @@ export default function RecipeBuilder() {
 
     toast.success(`Loaded "${recipe.name}"`);
     setShowSavedRecipes(false);
+  };
+
+  const loadRecipeFromDirectus = async (slug: string) => {
+    try {
+      const response = await fetch(`/api/recipes/${slug}`);
+      if (!response.ok) throw new Error('Failed to fetch recipe');
+
+      const recipe = await response.json();
+
+      // Find the method based on current brew method selection (or default to first all-grain method)
+      const methodData = recipe.methods?.find((m: any) =>
+        m.type.toLowerCase().includes(brewMethod.toLowerCase())
+      ) || recipe.methods?.find((m: any) =>
+        m.type.toLowerCase().includes('all-grain')
+      ) || recipe.methods?.[0];
+
+      // Update form state with recipe data
+      setRecipeName(recipe.name);
+      setStyle(recipe.style);
+      setBatchSize(recipe.batch_size || 5.0);
+      setBoilTime(recipe.boil_time || 60);
+
+      // Load fermentables from selected method
+      if (methodData?.fermentables) {
+        setFermentables(methodData.fermentables);
+      }
+
+      // Load hops
+      if (recipe.hops && recipe.hops.length > 0) {
+        setHops(recipe.hops);
+      }
+
+      // Load yeast (first one if multiple)
+      if (recipe.yeast && recipe.yeast.length > 0) {
+        setYeast(recipe.yeast[0]);
+      }
+
+      toast.success(`Loaded: ${recipe.name}`);
+    } catch (error) {
+      console.error('Error loading recipe from Directus:', error);
+      toast.error('Failed to load recipe');
+    }
   };
 
   const clearRecipe = () => {
