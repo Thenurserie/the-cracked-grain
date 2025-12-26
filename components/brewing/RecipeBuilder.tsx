@@ -83,6 +83,10 @@ export default function RecipeBuilder() {
   const [showSavedRecipes, setShowSavedRecipes] = useState(false);
   const [showShoppingList, setShowShoppingList] = useState(false);
 
+  // Directus recipe library state
+  const [directusRecipes, setDirectusRecipes] = useState<any[]>([]);
+  const [isLoadingDirectusRecipes, setIsLoadingDirectusRecipes] = useState(false);
+
   // Load saved recipes when logged in
   useEffect(() => {
     if (authLoading) return;
@@ -98,6 +102,11 @@ export default function RecipeBuilder() {
       loadRecipeFromDirectus(importSlug);
     }
   }, [searchParams]);
+
+  // Load Directus recipes for the recipe selector
+  useEffect(() => {
+    loadDirectusRecipes();
+  }, []);
 
   useEffect(() => {
     if (fermentables.length > 0) {
@@ -184,6 +193,21 @@ export default function RecipeBuilder() {
 
     toast.success(`Loaded "${recipe.name}"`);
     setShowSavedRecipes(false);
+  };
+
+  const loadDirectusRecipes = async () => {
+    setIsLoadingDirectusRecipes(true);
+    try {
+      const response = await fetch('/api/recipes');
+      if (!response.ok) throw new Error('Failed to fetch recipes');
+      const data = await response.json();
+      setDirectusRecipes(data);
+    } catch (error) {
+      console.error('Failed to load recipe library:', error);
+      toast.error('Failed to load recipe library');
+    } finally {
+      setIsLoadingDirectusRecipes(false);
+    }
   };
 
   const loadRecipeFromDirectus = async (slug: string) => {
@@ -739,6 +763,39 @@ export default function RecipeBuilder() {
           </CardContent>
         </Card>
       )}
+
+      {/* Recipe Library Selector */}
+      <Card className="bg-gradient-to-r from-amber/10 to-gold/5 border-amber/20">
+        <CardHeader>
+          <CardTitle className="text-gold flex items-center gap-2">
+            <BookOpen className="h-5 w-5" />
+            Load Recipe from Library
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-2">
+            <Label htmlFor="recipe-selector" className="text-cream">Select a recipe to load:</Label>
+            <Select
+              onValueChange={(slug) => slug && loadRecipeFromDirectus(slug)}
+              disabled={isLoadingDirectusRecipes}
+            >
+              <SelectTrigger id="recipe-selector" className="bg-background/50">
+                <SelectValue placeholder={isLoadingDirectusRecipes ? "Loading recipes..." : "Choose a recipe..."} />
+              </SelectTrigger>
+              <SelectContent>
+                {directusRecipes.map((recipe) => (
+                  <SelectItem key={recipe.slug} value={recipe.slug}>
+                    {recipe.name} - {recipe.style} ({recipe.difficulty})
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <p className="text-xs text-cream/60">
+              Or browse all recipes in the <Link href="/brewing#recipe-library" className="text-gold hover:underline">Recipe Library tab</Link>
+            </p>
+          </div>
+        </CardContent>
+      </Card>
 
       {/* Saved Recipes Section */}
       {isLoggedIn && (
