@@ -52,7 +52,7 @@ export async function POST(request: Request) {
       },
       // Community recipe fields
       submitted_by_user_id: user.id,
-      submitted_by_username: user.username || user.email?.split('@')[0] || 'Anonymous',
+      submitted_by_username: user.firstName || user.email?.split('@')[0] || 'Anonymous',
       submitter_agreed_to_terms: true,
       submitter_agreed_at: new Date().toISOString(),
       status: 'pending', // Requires admin approval
