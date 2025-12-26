@@ -1,6 +1,11 @@
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
+import type { Metadata } from 'next';
 import Link from 'next/link';
+import { ArrowLeft, Search, Beaker } from 'lucide-react';
+
+export const metadata: Metadata = {
+  title: 'Hop Substitutions | The Cracked Grain',
+  description: 'Comprehensive hop substitution chart for homebrewing. Find suitable hop alternatives for 80+ hop varieties when your recipe calls for hops you can\'t find.',
+};
 
 const hopSubstitutions = [
   { hop: "Admiral (GBR)", subs: ["Target (GBR)", "Northdown (GBR)", "Challenger (GBR)"] },
