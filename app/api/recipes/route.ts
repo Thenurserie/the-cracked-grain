@@ -5,7 +5,7 @@ const DIRECTUS_URL = process.env.NEXT_PUBLIC_DIRECTUS_URL || 'https://admin.thec
 export async function GET() {
   try {
     const response = await fetch(
-      `${DIRECTUS_URL}/items/recipes?sort=-featured,-date_created&limit=-1`,
+      `${DIRECTUS_URL}/items/recipes?sort=-featured&limit=-1`,
       {
         headers: {
           'Content-Type': 'application/json',
