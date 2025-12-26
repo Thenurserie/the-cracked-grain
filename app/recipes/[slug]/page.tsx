@@ -160,7 +160,10 @@ export default async function RecipeDetailPage({ params }: { params: Promise<{ s
                       <TabsList className="grid w-full grid-cols-3 bg-muted/50">
                         {recipe.methods.map((method) => (
                           <TabsTrigger key={method.type} value={method.type} className="uppercase">
-                            {method.type === 'lme' ? 'LME' : method.type === 'dme' ? 'DME' : 'All-Grain'}
+                            {method.type.toLowerCase() === 'lme' ? 'LME' :
+                             method.type.toLowerCase() === 'dme' ? 'DME' :
+                             method.type.toLowerCase() === 'extract' ? 'Extract' :
+                             'All-Grain'}
                           </TabsTrigger>
                         ))}
                       </TabsList>

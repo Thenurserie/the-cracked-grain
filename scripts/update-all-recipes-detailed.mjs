@@ -46,9 +46,9 @@ const completeRecipes = {
       {name: "WLP001 California Ale", type: "Liquid", attenuation: "73-80%", notes: "West Coast classic"}
     ],
     fermentation: [
-      {step: "Primary", temp: "66-68°F", duration: "10-14 days"},
-      {step: "Dry hop", temp: "66°F", duration: "5 days"},
-      {step: "Cold crash", temp: "35°F", duration: "2-3 days"}
+      {day: "Days 1-14", instruction: "Primary fermentation at 66-68°F"},
+      {day: "Days 15-19", instruction: "Dry hop at 66°F for 5 days"},
+      {day: "Days 20-22", instruction: "Cold crash at 35°F for 2-3 days"}
     ],
     tips: {
       dos: ["Use fresh hops - preferably <6 months old", "Drink fresh - hop character fades quickly", "Oxygen-free transfers preserve hop aroma"],
@@ -95,8 +95,8 @@ const completeRecipes = {
       {name: "WLP004 Irish Ale", type: "Liquid", attenuation: "69-74%", notes: "Authentic Irish character"}
     ],
     fermentation: [
-      {step: "Primary", temp: "65-68°F", duration: "7-10 days"},
-      {step: "Conditioning", temp: "65°F", duration: "2 weeks"}
+      {day: "Days 1-10", instruction: "Primary fermentation at 65-68°F for 7-10 days"},
+      {day: "Days 11-24", instruction: "Conditioning at 65°F for 2 weeks"}
     ],
     tips: {
       dos: ["Serve on nitro if possible for creamy head", "Keep fermentation cool for clean flavor", "Use soft water or add calcium"],
@@ -141,8 +141,8 @@ const completeRecipes = {
       {name: "WLP400 Belgian Wit", type: "Liquid", attenuation: "72-76%", notes: "Classic witbier strain"}
     ],
     fermentation: [
-      {step: "Primary", temp: "65-70°F", duration: "7 days"},
-      {step: "Bottle/Keg", temp: "room temp", duration: "2 weeks carbonation"}
+      {day: "Days 1-7", instruction: "Primary fermentation at 65-70°F"},
+      {day: "Days 8-21", instruction: "Bottle/keg conditioning at room temp for 2 weeks"}
     ],
     tips: {
       dos: ["Add coriander and orange peel at 5 min", "Serve cold with orange wheel garnish", "Use Belgian yeast for authentic flavor"],
@@ -188,7 +188,7 @@ const completeRecipes = {
       {name: "WLP300 Hefeweizen Ale", type: "Liquid", attenuation: "72-76%", notes: "Classic German wheat strain"}
     ],
     fermentation: [
-      {step: "Primary", temp: "62-68°F", duration: "5-7 days", notes: "Lower temp = more clove, higher temp = more banana"}
+      {day: "Days 1-7", instruction: "Primary fermentation at 62-68°F for 5-7 days", notes: "Lower temp = more clove, higher temp = more banana"}
     ],
     tips: {
       dos: ["Ferment cool (62°F) for clove, warm (68°F) for banana", "Don't filter - haze is traditional", "Serve in tall wheat beer glass"],
@@ -234,8 +234,8 @@ const completeRecipes = {
       {name: "WLP001 California Ale", type: "Liquid", attenuation: "73-80%", notes: "Crisp, clean fermentation"}
     ],
     fermentation: [
-      {step: "Primary", temp: "60-65°F", duration: "10-14 days"},
-      {step: "Cold crash", temp: "35°F", duration: "3-5 days", notes: "For crystal-clear beer"}
+      {day: "Days 1-14", instruction: "Primary fermentation at 60-65°F for 10-14 days"},
+      {day: "Days 15-19", instruction: "Cold crash at 35°F for 3-5 days", notes: "For crystal-clear beer"}
     ],
     tips: {
       dos: ["Ferment cool for clean flavor", "Cold crash for clarity", "Lager if possible for authentic style"],
@@ -283,8 +283,8 @@ const completeRecipes = {
       {name: "WLP002 English Ale", type: "Liquid", attenuation: "63-70%", notes: "Malty, slightly fruity"}
     ],
     fermentation: [
-      {step: "Primary", temp: "65-68°F", duration: "7-10 days"},
-      {step: "Conditioning", temp: "room temp", duration: "2 weeks"}
+      {day: "Days 1-10", instruction: "Primary fermentation at 65-68°F for 7-10 days"},
+      {day: "Days 11-24", instruction: "Conditioning at room temp for 2 weeks"}
     ],
     tips: {
       dos: ["Let it condition - improves with age", "Serve at cellar temp (50-55°F)", "Use English ale yeast"],
@@ -331,9 +331,9 @@ const completeRecipes = {
       {name: "WLP530 Abbey Ale", type: "Liquid", attenuation: "75-80%", notes: "Classic Tripel strain"}
     ],
     fermentation: [
-      {step: "Primary", temp: "64-72°F", duration: "14-21 days", notes: "Start cool, let rise slowly"},
-      {step: "Secondary", temp: "65°F", duration: "2-4 weeks"},
-      {step: "Bottle conditioning", temp: "room temp", duration: "4-6 weeks"}
+      {day: "Days 1-21", instruction: "Primary fermentation at 64-72°F for 14-21 days", notes: "Start cool, let rise slowly"},
+      {day: "Days 22-49", instruction: "Secondary fermentation at 65°F for 2-4 weeks"},
+      {day: "Days 50-92", instruction: "Bottle conditioning at room temp for 4-6 weeks"}
     ],
     tips: {
       dos: ["Pitch plenty of yeast - high gravity beer", "Age 2+ months for best flavor", "Serve in goblet at 45-50°F"],
@@ -379,9 +379,9 @@ const completeRecipes = {
       {name: "WLP820 Oktoberfest", type: "Liquid", attenuation: "65-73%", notes: "Traditional Märzen strain"}
     ],
     fermentation: [
-      {step: "Primary", temp: "50-52°F", duration: "2-3 weeks"},
-      {step: "Diacetyl rest", temp: "65°F", duration: "2 days"},
-      {step: "Lagering", temp: "34°F", duration: "6-8 weeks"}
+      {day: "Days 1-21", instruction: "Primary fermentation at 50-52°F for 2-3 weeks"},
+      {day: "Days 22-23", instruction: "Diacetyl rest at 65°F for 2 days"},
+      {day: "Days 24-80", instruction: "Lagering at 34°F for 6-8 weeks"}
     ],
     tips: {
       dos: ["Lager for 6+ weeks minimum", "Use temp control - critical for lagers", "Brew in March for October"],
