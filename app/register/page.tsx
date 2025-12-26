@@ -101,6 +101,7 @@ export default function RegisterPage() {
               <div>
                 <label className="text-sm text-cream/70 mb-1 block">First Name *</label>
                 <Input
+                  name="firstName"
                   type="text"
                   value={formData.firstName}
                   onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
@@ -113,6 +114,7 @@ export default function RegisterPage() {
               <div>
                 <label className="text-sm text-cream/70 mb-1 block">Last Name *</label>
                 <Input
+                  name="lastName"
                   type="text"
                   value={formData.lastName}
                   onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
@@ -126,6 +128,7 @@ export default function RegisterPage() {
             <div>
               <label className="text-sm text-cream/70 mb-1 block">Email Address *</label>
               <Input
+                name="email"
                 type="email"
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
@@ -138,6 +141,7 @@ export default function RegisterPage() {
             <div>
               <label className="text-sm text-cream/70 mb-1 block">Phone Number (Optional)</label>
               <Input
+                name="phone"
                 type="tel"
                 value={formData.phone}
                 onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
@@ -149,6 +153,7 @@ export default function RegisterPage() {
             <div>
               <label className="text-sm text-cream/70 mb-1 block">Password *</label>
               <Input
+                name="password"
                 type="password"
                 value={formData.password}
                 onChange={(e) => setFormData({ ...formData, password: e.target.value })}
@@ -175,6 +180,7 @@ export default function RegisterPage() {
             <div>
               <label className="text-sm text-cream/70 mb-1 block">Confirm Password *</label>
               <Input
+                name="confirmPassword"
                 type="password"
                 value={formData.confirmPassword}
                 onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
@@ -201,6 +207,7 @@ export default function RegisterPage() {
 
             <div className="flex items-start gap-2 pt-2">
               <input
+                name="terms"
                 type="checkbox"
                 id="terms"
                 checked={formData.acceptTerms}

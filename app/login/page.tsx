@@ -68,6 +68,7 @@ export default function LoginPage() {
             <div>
               <label className="text-sm text-cream/70 mb-1 block">Email Address</label>
               <Input
+                name="email"
                 type="email"
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
@@ -80,6 +81,7 @@ export default function LoginPage() {
             <div>
               <label className="text-sm text-cream/70 mb-1 block">Password</label>
               <Input
+                name="password"
                 type="password"
                 value={formData.password}
                 onChange={(e) => setFormData({ ...formData, password: e.target.value })}
