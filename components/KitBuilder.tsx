@@ -269,7 +269,7 @@ export default function KitBuilder() {
                     <p className="text-neutral-300 mb-2">{tier.description}</p>
                     <p className="text-sm text-neutral-400 italic">{tier.recommended}</p>
                     <div className="mt-4 pt-4 border-t border-neutral-700">
-                      <p className="text-xs text-neutral-500 mb-2">Includes:</p>
+                      <p className="text-xs text-neutral-300 mb-2">Includes:</p>
                       <div className="flex flex-wrap gap-2">
                         {tier.includedCategories.map(catId => {
                           const category = [...equipmentCategories, ...ingredientCategories].find(c => c.id === catId);
@@ -326,7 +326,7 @@ export default function KitBuilder() {
                           <Loader2 className="w-6 h-6 text-amber-500 animate-spin" />
                         </div>
                       ) : products.length === 0 ? (
-                        <div className="text-center py-8 text-neutral-500">
+                        <div className="text-center py-8 text-neutral-300">
                           No products found in this category
                         </div>
                       ) : (
@@ -356,7 +356,7 @@ export default function KitBuilder() {
                                     />
                                   ) : (
                                     <div className="w-full h-full flex items-center justify-center">
-                                      <Package className="w-6 h-6 text-neutral-500" />
+                                      <Package className="w-6 h-6 text-neutral-400" />
                                     </div>
                                   )}
                                 </div>
@@ -476,7 +476,7 @@ export default function KitBuilder() {
                           <Loader2 className="w-6 h-6 text-amber-500 animate-spin" />
                         </div>
                       ) : products.length === 0 ? (
-                        <div className="text-center py-8 text-neutral-500">
+                        <div className="text-center py-8 text-neutral-300">
                           No products found
                         </div>
                       ) : (
@@ -506,7 +506,7 @@ export default function KitBuilder() {
                                     />
                                   ) : (
                                     <div className="w-full h-full flex items-center justify-center">
-                                      <Package className="w-6 h-6 text-neutral-500" />
+                                      <Package className="w-6 h-6 text-neutral-400" />
                                     </div>
                                   )}
                                 </div>
@@ -592,9 +592,9 @@ export default function KitBuilder() {
                       {isComplete ? (
                         <CheckSquare className="w-4 h-4 text-green-500 flex-shrink-0" />
                       ) : (
-                        <Square className="w-4 h-4 text-neutral-600 flex-shrink-0" />
+                        <Square className="w-4 h-4 text-neutral-400 flex-shrink-0" />
                       )}
-                      <span className={`flex-1 ${isComplete ? 'text-neutral-300' : 'text-neutral-500'}`}>
+                      <span className={`flex-1 ${isComplete ? 'text-neutral-300' : 'text-neutral-300'}`}>
                         {category.name}
                       </span>
                       {isInTier && (
@@ -616,9 +616,9 @@ export default function KitBuilder() {
                       {isComplete ? (
                         <CheckSquare className="w-4 h-4 text-green-500 flex-shrink-0" />
                       ) : (
-                        <Square className="w-4 h-4 text-neutral-600 flex-shrink-0" />
+                        <Square className="w-4 h-4 text-neutral-400 flex-shrink-0" />
                       )}
-                      <span className={`flex-1 ${isComplete ? 'text-neutral-300' : 'text-neutral-500'}`}>
+                      <span className={`flex-1 ${isComplete ? 'text-neutral-300' : 'text-neutral-300'}`}>
                         {category.name}
                       </span>
                     </div>
@@ -635,7 +635,7 @@ export default function KitBuilder() {
                         <div key={`${categoryId}-${product.id}`} className="flex items-center justify-between text-sm gap-2">
                           <span className="text-neutral-300 truncate flex-1">{product.name}</span>
                           {quantity > 1 && (
-                            <span className="text-neutral-500">×{quantity}</span>
+                            <span className="text-neutral-300">×{quantity}</span>
                           )}
                           <span className="text-white font-medium flex-shrink-0">
                             ${(product.price * quantity).toFixed(2)}

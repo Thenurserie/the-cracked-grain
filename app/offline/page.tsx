@@ -37,7 +37,7 @@ export default function OfflinePage() {
           </Link>
         </div>
 
-        <p className="mt-8 text-sm text-neutral-500">
+        <p className="mt-8 text-sm text-neutral-300">
           You'll be automatically redirected when your connection is restored.
         </p>
       </div>

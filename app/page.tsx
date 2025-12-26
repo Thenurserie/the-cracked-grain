@@ -107,6 +107,7 @@ export default async function Home() {
           alt="Craft beer brewing ingredients"
           fill
           priority
+          fetchPriority="high"
           className="object-cover"
           sizes="100vw"
         />
@@ -132,7 +133,7 @@ export default async function Home() {
                 variant="outline"
                 className="border-2 border-gold text-gold hover:bg-gold hover:text-white font-semibold text-lg px-8 py-6"
               >
-                Learn More
+                About Our Homebrew Story
               </Button>
             </Link>
           </div>
@@ -164,12 +165,12 @@ export default async function Home() {
 
               {/* Text */}
               <div className="flex-1 min-w-0">
-                <h3
+                <p
                   className="font-semibold text-xs sm:text-sm"
                   style={{ color: '#fbbf24' }}
                 >
                   Install The Cracked Grain App
-                </h3>
+                </p>
                 <p
                   className="text-xs hidden sm:block"
                   style={{ color: '#a8a29e' }}
@@ -188,9 +189,9 @@ export default async function Home() {
           {/* New to Homebrewing Card */}
           <Link href="/guides" className="group">
             <div className="bg-card border-2 border-amber/20 rounded-lg p-8 hover:border-gold hover:bg-amber/5 transition-all h-full flex flex-col">
-              <h3 className="text-2xl font-bold text-cream mb-2 group-hover:text-gold transition-colors">
+              <h2 className="text-2xl font-bold text-cream mb-2 group-hover:text-gold transition-colors">
                 New to Homebrewing?
-              </h3>
+              </h2>
               <p className="text-cream/70 mb-4 flex-grow">
                 Check out our beginner guides and get started on your brewing journey
               </p>
@@ -203,9 +204,9 @@ export default async function Home() {
           {/* Seasoned Brewer Card */}
           <Link href="/brewing" className="group">
             <div className="bg-card border-2 border-amber/20 rounded-lg p-8 hover:border-gold hover:bg-amber/5 transition-all h-full flex flex-col">
-              <h3 className="text-2xl font-bold text-cream mb-2 group-hover:text-gold transition-colors">
+              <h2 className="text-2xl font-bold text-cream mb-2 group-hover:text-gold transition-colors">
                 Seasoned Brewer?
-              </h3>
+              </h2>
               <p className="text-cream/70 mb-4 flex-grow">
                 Explore our free brewing tools to perfect your recipes
               </p>
