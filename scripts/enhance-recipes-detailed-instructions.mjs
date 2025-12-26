@@ -74,17 +74,10 @@ const enhancedRecipes = {
     ],
     tips: {
       dos: ["Use fresh hops - preferably less than 6 months old", "Drink fresh - hop character fades quickly", "Oxygen-free transfers preserve hop aroma", "Keep fermentation temperature steady"],
-      donts: ["Don't over-bitter - let late hops shine", "Don't age this beer - IPAs are meant fresh", "Don't skimp on dry hopping", "Don't ferment above 70°F - creates off-flavors"]
+      donts: ["Don't over-bitter - let late hops shine", "Don't age this beer - IPAs are meant fresh", "Don't skimp on dry hopping", "Don't ferment above 70°F - creates off-flavors"],
+      water_chemistry: "Sulfate-forward for hop brightness: Ca 100-150ppm, SO₄ 200-300ppm, Cl 50-75ppm (3:1 ratio). Add gypsum to tap water if needed."
     },
     food_pairing: ["Spicy wings", "Blue cheese burger", "Aged cheddar", "Carrot cake", "Thai curry"],
-    water_chemistry: {
-      target: "Sulfate-forward for hop brightness",
-      calcium: "100-150 ppm",
-      sulfate: "200-300 ppm",
-      chloride: "50-75 ppm",
-      ratio: "Sulfate to Chloride ratio of 3:1 or higher",
-      notes: "If using tap water, consider adding gypsum to boost sulfate."
-    },
     notes: "This Double IPA is a tribute to the West Coast style - dry, bitter, and bursting with hop flavor. The low mash temp and dextrose addition ensure high attenuation for a crisp finish that lets the hops shine. Drink within 6-8 weeks of packaging for peak hop character."
   }
 };
