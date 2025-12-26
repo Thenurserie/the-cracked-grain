@@ -118,45 +118,71 @@ export default function HopSubstitutionsPage() {
   const letters = Object.keys(grouped).sort();
 
   return (
-    <>
-      <Header />
-      <main className="min-h-screen bg-zinc-900 pt-24 pb-16">
-        <div className="max-w-6xl mx-auto px-4">
-          <div className="mb-8">
-            <Link href="/brew-guides" className="text-amber-500 hover:text-amber-400 text-sm">
-              ← Back to Brew Guides
-            </Link>
+    <div className="min-h-screen bg-gradient-to-b from-zinc-900 via-zinc-800 to-zinc-900">
+      <div className="container mx-auto px-4 py-12 max-w-7xl">
+        {/* Header */}
+        <div className="mb-8">
+          <Link
+            href="/brew-guides"
+            className="inline-flex items-center text-amber-400 hover:text-amber-300 mb-4 transition-colors"
+          >
+            <ArrowLeft className="h-4 w-4 mr-2" />
+            Back to Brew Guides
+          </Link>
+
+          <div className="flex items-center gap-3 mb-4">
+            <Beaker className="h-8 w-8 text-amber-500" />
+            <h1 className="text-4xl md:text-5xl font-bold text-amber-500">
+              Hop Substitutions
+            </h1>
           </div>
 
-          <h1 className="text-3xl font-bold text-white mb-2">Hop Substitution Chart</h1>
-          <p className="text-gray-400 mb-6">
-            Can't find the hop you need? This comprehensive guide covers 80+ hop varieties with suitable replacements.
+          <p className="text-xl text-gray-300 max-w-3xl">
+            Can't find the hop you need? This comprehensive guide covers 80+ hop varieties with suitable replacements for brewing.
           </p>
+        </div>
 
-          <div className="bg-amber-900/20 border border-amber-600/30 rounded-lg p-4 mb-6">
-            <h4 className="text-amber-500 font-medium mb-2">💡 Substitution Tips</h4>
-            <ul className="text-gray-300 text-sm space-y-1">
-              <li>• <strong>Bittering hops:</strong> Match alpha acid levels and adjust quantity using IBU calculations</li>
-              <li>• <strong>Aroma/Flavor hops:</strong> Substitute 1:1 by weight, focus on similar flavor profiles</li>
-              <li>• <strong>Origin codes:</strong> AUS=Australia, CZE=Czech, DEU=Germany, GBR=Great Britain, NZL=New Zealand, SVN=Slovenia</li>
-            </ul>
+        {/* Quick Navigation */}
+        <div className="bg-zinc-800/50 border border-amber-600/30 rounded-lg p-6 mb-8">
+          <h2 className="text-lg font-semibold text-amber-400 mb-3 flex items-center gap-2">
+            <Search className="h-5 w-5" />
+            Quick Navigation
+          </h2>
+          <div className="flex flex-wrap gap-2">
+            {letters.map(letter => (
+              <a
+                key={letter}
+                href={`#letter-${letter}`}
+                className="bg-zinc-700 hover:bg-amber-600 text-white px-4 py-2 rounded transition-colors text-sm font-medium"
+              >
+                {letter}
+              </a>
+            ))}
           </div>
+        </div>
 
-          {/* Quick Jump Navigation */}
-          <div className="bg-zinc-800 rounded-lg p-4 mb-8">
-            <span className="text-gray-400 text-sm mr-2">Jump to:</span>
-            <div className="flex flex-wrap gap-2 mt-2">
-              {letters.map(letter => (
-                <a
-                  key={letter}
-                  href={`#letter-${letter}`}
-                  className="bg-zinc-700 hover:bg-amber-600 text-white px-3 py-1 rounded text-sm transition-colors"
-                >
-                  {letter}
-                </a>
-              ))}
-            </div>
-          </div>
+        {/* Substitution Tips */}
+        <div className="bg-amber-900/20 border border-amber-600/30 rounded-lg p-6 mb-8">
+          <h3 className="text-lg font-semibold text-amber-400 mb-3">Substitution Tips</h3>
+          <ul className="space-y-2 text-gray-300">
+            <li className="flex gap-2">
+              <span className="text-amber-500 font-bold">•</span>
+              <span><strong>Bittering hops:</strong> Match alpha acid levels and adjust quantity using IBU calculations</span>
+            </li>
+            <li className="flex gap-2">
+              <span className="text-amber-500 font-bold">•</span>
+              <span><strong>Aroma/Flavor hops:</strong> Substitute 1:1 by weight, focus on similar flavor profiles</span>
+            </li>
+            <li className="flex gap-2">
+              <span className="text-amber-500 font-bold">•</span>
+              <span><strong>Origin codes:</strong> AUS=Australia, CZE=Czech, DEU=Germany, GBR=Great Britain, NZL=New Zealand, SVN=Slovenia</span>
+            </li>
+            <li className="flex gap-2">
+              <span className="text-amber-500 font-bold">•</span>
+              <span><strong>Availability:</strong> Your local homebrew shop may carry only certain hop varieties. These charts help you find alternatives.</span>
+            </li>
+          </ul>
+        </div>
 
           {/* Hop List */}
           {letters.map(letter => (
@@ -221,14 +247,22 @@ export default function HopSubstitutionsPage() {
             </div>
           </div>
 
-          <div className="mt-8 text-center">
-            <Link href="/shop?category=hops" className="bg-amber-600 hover:bg-amber-700 text-white px-6 py-3 rounded-lg inline-block">
-              Shop Our Hops Selection
-            </Link>
-          </div>
+        {/* Footer CTA */}
+        <div className="mt-12 bg-gradient-to-r from-amber-900/30 to-amber-800/30 border border-amber-600/30 rounded-lg p-8 text-center">
+          <h3 className="text-2xl font-bold text-amber-400 mb-3">
+            Need Hops for Your Next Brew?
+          </h3>
+          <p className="text-gray-300 mb-6 max-w-2xl mx-auto">
+            Shop our selection of fresh hops from around the world. American, German, English, New Zealand, and more.
+          </p>
+          <Link
+            href="/shop?category=hops"
+            className="inline-block bg-amber-600 hover:bg-amber-700 text-white font-semibold px-8 py-3 rounded-lg transition-colors"
+          >
+            Shop Hops
+          </Link>
         </div>
-      </main>
-      <Footer />
-    </>
+      </div>
+    </div>
   );
 }
