@@ -124,3 +124,21 @@ export async function getCartCount(): Promise<number> {
     return 0;
   }
 }
+
+export async function clearCart(): Promise<boolean> {
+  const sessionId = getSessionId();
+  if (!sessionId) return false;
+
+  try {
+    // Clear session ID from localStorage
+    localStorage.removeItem('cart_session_id');
+
+    // Trigger cart update event
+    window.dispatchEvent(new Event('cartUpdated'));
+
+    return true;
+  } catch (error) {
+    console.error('Error clearing cart:', error);
+    return false;
+  }
+}

@@ -62,3 +62,8 @@
     border-color: #F59E0B;
   }
 }
+
+/* Square Web Payments SDK styles */
+#card-container iframe {
+  min-height: 50px;
+}

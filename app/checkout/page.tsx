@@ -4,18 +4,40 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
-import { ShoppingBag, CheckCircle2 } from 'lucide-react';
+import Script from 'next/script';
+import { ShoppingBag } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { CartItem } from '@/lib/types';
-import { getCartItems } from '@/lib/cartClient';
+import { getCartItems, clearCart } from '@/lib/cartClient';
 import { useToast } from '@/hooks/use-toast';
+
+declare global {
+  interface Window {
+    Square: any;
+  }
+}
 
 export default function CheckoutPage() {
   const router = useRouter();
   const { toast } = useToast();
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [loading, setLoading] = useState(true);
-  const [checkoutLoading, setCheckoutLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [card, setCard] = useState<any>(null);
+  const [squareLoaded, setSquareLoaded] = useState(false);
+
+  // Shipping info state
+  const [shippingInfo, setShippingInfo] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+    address: '',
+    city: '',
+    state: '',
+    zip: ''
+  });
 
   useEffect(() => {
     loadCart();
@@ -28,56 +50,101 @@ export default function CheckoutPage() {
     setLoading(false);
   }
 
-  const subtotal = cartItems.reduce((sum, item) => {
+  const cartTotal = cartItems.reduce((sum, item) => {
     const price = item.product?.price || 0;
     return sum + price * item.quantity;
   }, 0);
 
-  const shipping = subtotal > 50 ? 0 : 8.99;
-  const total = subtotal + shipping;
+  // Initialize Square Web Payments SDK
+  useEffect(() => {
+    if (!squareLoaded || !window.Square) return;
 
-  async function handleCheckout() {
-    setCheckoutLoading(true);
+    async function initializeSquare() {
+      try {
+        const payments = window.Square.payments(
+          process.env.NEXT_PUBLIC_SQUARE_APPLICATION_ID,
+          process.env.NEXT_PUBLIC_SQUARE_LOCATION_ID
+        );
+
+        const card = await payments.card();
+        await card.attach('#card-container');
+        setCard(card);
+      } catch (e) {
+        console.error('Failed to initialize Square:', e);
+        setError('Failed to load payment form. Please refresh the page.');
+      }
+    }
+
+    initializeSquare();
+  }, [squareLoaded]);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    setShippingInfo(prev => ({
+      ...prev,
+      [e.target.name]: e.target.value
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!card) {
+      setError('Payment form not loaded. Please refresh.');
+      return;
+    }
+
+    // Validate shipping info
+    if (!shippingInfo.firstName || !shippingInfo.lastName || !shippingInfo.email ||
+        !shippingInfo.address || !shippingInfo.city || !shippingInfo.state || !shippingInfo.zip) {
+      setError('Please fill in all required fields.');
+      return;
+    }
+
+    setIsLoading(true);
+    setError('');
 
     try {
-      // Prepare items for Square checkout
-      const items = cartItems.map((item) => ({
-        name: item.product?.name || 'Unknown Product',
-        price: item.product?.price || 0,
-        quantity: item.quantity,
-      }));
+      // Tokenize the card
+      const result = await card.tokenize();
 
-      // Call Square checkout API
-      const response = await fetch('/api/checkout', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ items }),
-      });
+      if (result.status === 'OK') {
+        // Prepare items for payment
+        const items = cartItems.map((item) => ({
+          name: item.product?.name || 'Unknown Product',
+          price: item.product?.price || 0,
+          quantity: item.quantity,
+        }));
 
-      const data = await response.json();
+        // Send payment to our API
+        const response = await fetch('/api/checkout/process', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            sourceId: result.token,
+            items,
+            shippingInfo,
+            amount: Math.round(cartTotal * 100) // cents
+          })
+        });
 
-      if (!response.ok) {
-        throw new Error(data.error || 'Failed to create checkout');
-      }
+        const data = await response.json();
 
-      // Redirect to Square checkout
-      if (data.checkoutUrl) {
-        window.location.href = data.checkoutUrl;
+        if (data.success) {
+          await clearCart();
+          router.push(`/checkout/success?orderId=${data.orderId}`);
+        } else {
+          setError(data.error || 'Payment failed. Please try again.');
+        }
       } else {
-        throw new Error('No checkout URL received');
+        setError(result.errors?.[0]?.message || 'Card validation failed.');
       }
-    } catch (error: any) {
-      console.error('Checkout error:', error);
-      toast({
-        title: 'Checkout Error',
-        description: error.message || 'Failed to initiate checkout. Please try again.',
-        variant: 'destructive',
-      });
-      setCheckoutLoading(false);
+    } catch (err: any) {
+      console.error('Checkout error:', err);
+      setError('Payment failed. Please try again.');
+    } finally {
+      setIsLoading(false);
     }
-  }
+  };
 
   if (loading) {
     return (
@@ -113,148 +180,213 @@ export default function CheckoutPage() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-12">
-      <h1 className="text-4xl font-bold text-cream mb-8">Checkout</h1>
+    <>
+      <Script
+        src={process.env.NODE_ENV === 'production'
+          ? "https://web.squarecdn.com/v1/square.js"
+          : "https://sandbox.web.squarecdn.com/v1/square.js"
+        }
+        onLoad={() => setSquareLoaded(true)}
+      />
 
-      <div className="grid lg:grid-cols-3 gap-8">
-        {/* Order Review */}
-        <div className="lg:col-span-2 space-y-6">
-          <div className="bg-card border border-amber/20 rounded-lg p-6">
-            <h2 className="text-2xl font-bold text-cream mb-6">Order Review</h2>
+      <div className="container mx-auto px-4 py-12">
+        <h1 className="text-4xl font-bold text-cream mb-8">Checkout</h1>
 
-            <div className="space-y-4">
-              {cartItems.map((item) => {
-                const product = item.product;
-                if (!product) return null;
+        {error && (
+          <div className="bg-red-900/50 border border-red-500 text-red-200 px-4 py-3 rounded-lg mb-6">
+            {error}
+          </div>
+        )}
 
-                return (
-                  <div
-                    key={item.id}
-                    className="flex gap-4 pb-4 border-b border-amber/10 last:border-0 last:pb-0"
-                  >
-                    <div className="relative w-20 h-20 flex-shrink-0 rounded overflow-hidden bg-[#2a2a2a]">
-                      <Image
-                        src={product.image_url}
-                        alt={product.name}
-                        fill
-                        className="object-cover"
-                      />
-                    </div>
-                    <div className="flex-1">
-                      <h3 className="font-semibold text-cream">{product.name}</h3>
-                      <p className="text-sm text-cream/70 line-clamp-2">
-                        {product.short_description}
-                      </p>
-                      <div className="mt-2 flex justify-between items-center">
-                        <span className="text-sm text-cream/60">Qty: {item.quantity}</span>
-                        <span className="font-bold text-gold">
-                          ${(product.price * item.quantity).toFixed(2)}
-                        </span>
-                      </div>
-                    </div>
+        <form onSubmit={handleSubmit}>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {/* Left Column - Shipping & Payment */}
+            <div className="space-y-6">
+              {/* Shipping Information */}
+              <div className="bg-card border border-amber/20 rounded-lg p-6">
+                <h2 className="text-2xl font-bold text-amber mb-4">Shipping Information</h2>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm text-cream/80 mb-1">First Name *</label>
+                    <input
+                      type="text"
+                      name="firstName"
+                      value={shippingInfo.firstName}
+                      onChange={handleInputChange}
+                      className="w-full bg-background border border-amber/20 rounded-lg px-4 py-2 text-cream"
+                      required
+                    />
                   </div>
-                );
-              })}
+                  <div>
+                    <label className="block text-sm text-cream/80 mb-1">Last Name *</label>
+                    <input
+                      type="text"
+                      name="lastName"
+                      value={shippingInfo.lastName}
+                      onChange={handleInputChange}
+                      className="w-full bg-background border border-amber/20 rounded-lg px-4 py-2 text-cream"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4 mt-4">
+                  <div>
+                    <label className="block text-sm text-cream/80 mb-1">Email *</label>
+                    <input
+                      type="email"
+                      name="email"
+                      value={shippingInfo.email}
+                      onChange={handleInputChange}
+                      className="w-full bg-background border border-amber/20 rounded-lg px-4 py-2 text-cream"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm text-cream/80 mb-1">Phone</label>
+                    <input
+                      type="tel"
+                      name="phone"
+                      value={shippingInfo.phone}
+                      onChange={handleInputChange}
+                      className="w-full bg-background border border-amber/20 rounded-lg px-4 py-2 text-cream"
+                    />
+                  </div>
+                </div>
+
+                <div className="mt-4">
+                  <label className="block text-sm text-cream/80 mb-1">Address *</label>
+                  <input
+                    type="text"
+                    name="address"
+                    value={shippingInfo.address}
+                    onChange={handleInputChange}
+                    className="w-full bg-background border border-amber/20 rounded-lg px-4 py-2 text-cream"
+                    required
+                  />
+                </div>
+
+                <div className="grid grid-cols-3 gap-4 mt-4">
+                  <div>
+                    <label className="block text-sm text-cream/80 mb-1">City *</label>
+                    <input
+                      type="text"
+                      name="city"
+                      value={shippingInfo.city}
+                      onChange={handleInputChange}
+                      className="w-full bg-background border border-amber/20 rounded-lg px-4 py-2 text-cream"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm text-cream/80 mb-1">State *</label>
+                    <input
+                      type="text"
+                      name="state"
+                      value={shippingInfo.state}
+                      onChange={handleInputChange}
+                      className="w-full bg-background border border-amber/20 rounded-lg px-4 py-2 text-cream"
+                      maxLength={2}
+                      placeholder="AR"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm text-cream/80 mb-1">ZIP *</label>
+                    <input
+                      type="text"
+                      name="zip"
+                      value={shippingInfo.zip}
+                      onChange={handleInputChange}
+                      className="w-full bg-background border border-amber/20 rounded-lg px-4 py-2 text-cream"
+                      required
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Payment */}
+              <div className="bg-card border border-amber/20 rounded-lg p-6">
+                <h2 className="text-2xl font-bold text-amber mb-4">Payment</h2>
+
+                <div id="card-container" className="min-h-[100px] bg-background rounded-lg p-4">
+                  {!squareLoaded && (
+                    <p className="text-cream/60 text-center">Loading payment form...</p>
+                  )}
+                </div>
+
+                <p className="text-cream/50 text-xs mt-2">
+                  Payments securely processed by Square
+                </p>
+              </div>
             </div>
 
-            <div className="mt-6 pt-6 border-t border-amber/20 space-y-3 text-sm text-cream/70">
-              <div className="flex items-start gap-2">
-                <CheckCircle2 className="h-5 w-5 text-gold flex-shrink-0 mt-0.5" />
-                <div>
-                  <p className="font-semibold text-cream">Secure Square Payment</p>
-                  <p className="text-xs">Your payment information is processed securely by Square</p>
+            {/* Right Column - Order Summary */}
+            <div>
+              <div className="bg-card border border-amber/20 rounded-lg p-6 sticky top-24">
+                <h2 className="text-2xl font-bold text-amber mb-4">Order Summary</h2>
+
+                <div className="space-y-4 mb-6 max-h-64 overflow-y-auto">
+                  {cartItems.map((item) => {
+                    const product = item.product;
+                    if (!product) return null;
+
+                    return (
+                      <div key={item.id} className="flex justify-between items-center gap-3">
+                        <div className="flex items-center gap-3 flex-1 min-w-0">
+                          {product.image_url && (
+                            <div className="relative w-12 h-12 flex-shrink-0 rounded overflow-hidden bg-[#2a2a2a]">
+                              <Image
+                                src={product.image_url}
+                                alt={product.name}
+                                fill
+                                className="object-cover"
+                              />
+                            </div>
+                          )}
+                          <div className="flex-1 min-w-0">
+                            <p className="text-cream text-sm font-medium truncate">{product.name}</p>
+                            <p className="text-cream/60 text-xs">Qty: {item.quantity}</p>
+                          </div>
+                        </div>
+                        <p className="text-cream font-semibold">${(product.price * item.quantity).toFixed(2)}</p>
+                      </div>
+                    );
+                  })}
                 </div>
-              </div>
-              <div className="flex items-start gap-2">
-                <CheckCircle2 className="h-5 w-5 text-gold flex-shrink-0 mt-0.5" />
-                <div>
-                  <p className="font-semibold text-cream">Shipping Address</p>
-                  <p className="text-xs">You'll provide your shipping address on the next page</p>
+
+                <div className="border-t border-amber/20 pt-4 space-y-2">
+                  <div className="flex justify-between text-cream/80">
+                    <span>Subtotal</span>
+                    <span>${cartTotal.toFixed(2)}</span>
+                  </div>
+                  <div className="flex justify-between text-cream/80 text-sm">
+                    <span>Shipping</span>
+                    <span>Calculated after checkout</span>
+                  </div>
+                  <div className="flex justify-between text-cream text-lg font-bold pt-2 border-t border-amber/20">
+                    <span>Total</span>
+                    <span className="text-gold">${cartTotal.toFixed(2)}</span>
+                  </div>
                 </div>
-              </div>
-              <div className="flex items-start gap-2">
-                <CheckCircle2 className="h-5 w-5 text-gold flex-shrink-0 mt-0.5" />
-                <div>
-                  <p className="font-semibold text-cream">Order Confirmation</p>
-                  <p className="text-xs">You'll receive a confirmation email after checkout</p>
-                </div>
+
+                <button
+                  type="submit"
+                  disabled={isLoading || !card}
+                  className="w-full bg-amber hover:bg-gold disabled:bg-amber/50 disabled:cursor-not-allowed text-white py-3 rounded-lg font-medium mt-6 transition-colors"
+                >
+                  {isLoading ? 'Processing...' : `Pay $${cartTotal.toFixed(2)}`}
+                </button>
+
+                <p className="text-cream/50 text-xs text-center mt-4">
+                  🔒 Your payment information is secure and encrypted
+                </p>
               </div>
             </div>
           </div>
-        </div>
-
-          {/* Order Summary */}
-          <div className="lg:col-span-1">
-            <div className="bg-card border border-amber/20 rounded-lg p-6 sticky top-24">
-              <h2 className="text-2xl font-bold text-cream mb-6">Order Summary</h2>
-
-              <div className="space-y-4 mb-6">
-                {cartItems.map((item) => {
-                  const product = item.product;
-                  if (!product) return null;
-
-                  return (
-                    <div key={item.id} className="flex gap-4">
-                      <div className="relative w-16 h-16 flex-shrink-0 rounded overflow-hidden bg-[#2a2a2a]">
-                        <Image
-                          src={product.image_url}
-                          alt={product.name}
-                          fill
-                          className="object-cover"
-                        />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium text-cream truncate">
-                          {product.name}
-                        </p>
-                        <p className="text-xs text-cream/70">
-                          Qty: {item.quantity}
-                        </p>
-                        <p className="text-sm font-bold text-gold">
-                          ${(product.price * item.quantity).toFixed(2)}
-                        </p>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-
-              <div className="space-y-3 mb-6 pt-6 border-t border-amber/20">
-                <div className="flex justify-between text-cream/80">
-                  <span>Subtotal</span>
-                  <span>${subtotal.toFixed(2)}</span>
-                </div>
-                <div className="flex justify-between text-cream/80">
-                  <span>Shipping</span>
-                  <span>{shipping === 0 ? 'Free' : `$${shipping.toFixed(2)}`}</span>
-                </div>
-                {subtotal < 50 && subtotal > 0 && (
-                  <p className="text-xs text-amber">
-                    Add ${(50 - subtotal).toFixed(2)} more for free shipping!
-                  </p>
-                )}
-                <div className="border-t border-amber/20 pt-3 flex justify-between text-xl font-bold text-cream">
-                  <span>Total</span>
-                  <span className="text-gold">${total.toFixed(2)}</span>
-                </div>
-              </div>
-
-              <Button
-                onClick={handleCheckout}
-                disabled={checkoutLoading}
-                size="lg"
-                className="w-full bg-amber hover:bg-gold text-white disabled:opacity-50"
-              >
-                {checkoutLoading ? 'Redirecting to Square...' : 'Proceed to Payment'}
-              </Button>
-
-              <p className="mt-4 text-xs text-cream/50 text-center">
-                Secure payment powered by Square
-              </p>
-            </div>
-          </div>
-        </div>
+        </form>
       </div>
-    </div>
+    </>
   );
 }
