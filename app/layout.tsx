@@ -4,7 +4,6 @@ import { Inter } from 'next/font/google';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { Toaster } from '@/components/ui/toaster';
-import { AgeVerification } from '@/components/AgeVerification';
 import { CookieConsent } from '@/components/CookieConsent';
 import { OrganizationSchema, WebsiteSchema } from '@/components/StructuredData';
 import { AuthProvider } from '@/contexts/AuthContext';
@@ -58,7 +57,6 @@ export default function RootLayout({
       <body className={inter.className}>
         <AuthProvider>
           <NetworkStatus />
-          <AgeVerification />
           <div className="flex flex-col min-h-screen">
             <Header />
             <main className="flex-1">{children}</main>
