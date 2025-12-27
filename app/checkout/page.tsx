@@ -6,8 +6,6 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { ShoppingBag, CheckCircle2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { CartItem } from '@/lib/types';
 import { getCartItems } from '@/lib/cartClient';
 import { useToast } from '@/hooks/use-toast';
@@ -17,17 +15,7 @@ export default function CheckoutPage() {
   const { toast } = useToast();
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [loading, setLoading] = useState(true);
-  const [orderPlaced, setOrderPlaced] = useState(false);
-
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    address: '',
-    city: '',
-    state: '',
-    zip: '',
-  });
+  const [checkoutLoading, setCheckoutLoading] = useState(false);
 
   useEffect(() => {
     loadCart();
@@ -48,44 +36,47 @@ export default function CheckoutPage() {
   const shipping = subtotal > 50 ? 0 : 8.99;
   const total = subtotal + shipping;
 
-  function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  }
+  async function handleCheckout() {
+    setCheckoutLoading(true);
 
-  async function handlePlaceOrder(e: React.FormEvent) {
-    e.preventDefault();
+    try {
+      // Prepare items for Square checkout
+      const items = cartItems.map((item) => ({
+        name: item.product?.name || 'Unknown Product',
+        price: item.product?.price || 0,
+        quantity: item.quantity,
+      }));
 
-    // Validate form
-    const requiredFields = ['name', 'email', 'phone', 'address', 'city', 'state', 'zip'];
-    const emptyFields = requiredFields.filter((field) => !formData[field as keyof typeof formData]);
+      // Call Square checkout API
+      const response = await fetch('/api/checkout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ items }),
+      });
 
-    if (emptyFields.length > 0) {
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to create checkout');
+      }
+
+      // Redirect to Square checkout
+      if (data.checkoutUrl) {
+        window.location.href = data.checkoutUrl;
+      } else {
+        throw new Error('No checkout URL received');
+      }
+    } catch (error: any) {
+      console.error('Checkout error:', error);
       toast({
-        title: 'Missing Information',
-        description: 'Please fill in all required fields.',
+        title: 'Checkout Error',
+        description: error.message || 'Failed to initiate checkout. Please try again.',
         variant: 'destructive',
       });
-      return;
+      setCheckoutLoading(false);
     }
-
-    // For now, just show confirmation and clear cart
-    setOrderPlaced(true);
-    localStorage.removeItem('session-id');
-    window.dispatchEvent(new Event('cartUpdated'));
-
-    toast({
-      title: 'Order Placed!',
-      description: 'Thank you for your order. You will receive a confirmation email shortly.',
-    });
-
-    // Redirect to home after 3 seconds
-    setTimeout(() => {
-      router.push('/');
-    }, 3000);
   }
 
   if (loading) {
@@ -102,7 +93,7 @@ export default function CheckoutPage() {
     );
   }
 
-  if (cartItems.length === 0 && !orderPlaced) {
+  if (cartItems.length === 0) {
     return (
       <div className="container mx-auto px-4 py-12">
         <div className="max-w-2xl mx-auto text-center py-16">
@@ -121,144 +112,76 @@ export default function CheckoutPage() {
     );
   }
 
-  if (orderPlaced) {
-    return (
-      <div className="container mx-auto px-4 py-12">
-        <div className="max-w-2xl mx-auto text-center py-16">
-          <CheckCircle2 className="h-24 w-24 text-green-500 mx-auto mb-6" />
-          <h1 className="text-3xl font-bold text-cream mb-4">Order Confirmed!</h1>
-          <p className="text-cream/70 mb-8">
-            Thank you for your order. You will receive a confirmation email shortly.
-          </p>
-          <p className="text-sm text-cream/50">
-            Redirecting to home page...
-          </p>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="container mx-auto px-4 py-12">
       <h1 className="text-4xl font-bold text-cream mb-8">Checkout</h1>
 
-      <form onSubmit={handlePlaceOrder}>
-        <div className="grid lg:grid-cols-3 gap-8">
-          {/* Shipping Form */}
-          <div className="lg:col-span-2 space-y-6">
-            <div className="bg-card border border-amber/20 rounded-lg p-6">
-              <h2 className="text-2xl font-bold text-cream mb-6">Shipping Information</h2>
+      <div className="grid lg:grid-cols-3 gap-8">
+        {/* Order Review */}
+        <div className="lg:col-span-2 space-y-6">
+          <div className="bg-card border border-amber/20 rounded-lg p-6">
+            <h2 className="text-2xl font-bold text-cream mb-6">Order Review</h2>
 
-              <div className="space-y-4">
-                <div>
-                  <Label htmlFor="name" className="text-cream">
-                    Full Name *
-                  </Label>
-                  <Input
-                    id="name"
-                    name="name"
-                    type="text"
-                    required
-                    value={formData.name}
-                    onChange={handleInputChange}
-                    className="mt-1 bg-background border-amber/20 text-cream"
-                  />
-                </div>
+            <div className="space-y-4">
+              {cartItems.map((item) => {
+                const product = item.product;
+                if (!product) return null;
 
-                <div>
-                  <Label htmlFor="email" className="text-cream">
-                    Email *
-                  </Label>
-                  <Input
-                    id="email"
-                    name="email"
-                    type="email"
-                    required
-                    value={formData.email}
-                    onChange={handleInputChange}
-                    className="mt-1 bg-background border-amber/20 text-cream"
-                  />
-                </div>
-
-                <div>
-                  <Label htmlFor="phone" className="text-cream">
-                    Phone *
-                  </Label>
-                  <Input
-                    id="phone"
-                    name="phone"
-                    type="tel"
-                    required
-                    value={formData.phone}
-                    onChange={handleInputChange}
-                    className="mt-1 bg-background border-amber/20 text-cream"
-                  />
-                </div>
-
-                <div>
-                  <Label htmlFor="address" className="text-cream">
-                    Address *
-                  </Label>
-                  <Input
-                    id="address"
-                    name="address"
-                    type="text"
-                    required
-                    value={formData.address}
-                    onChange={handleInputChange}
-                    className="mt-1 bg-background border-amber/20 text-cream"
-                  />
-                </div>
-
-                <div className="grid md:grid-cols-3 gap-4">
-                  <div>
-                    <Label htmlFor="city" className="text-cream">
-                      City *
-                    </Label>
-                    <Input
-                      id="city"
-                      name="city"
-                      type="text"
-                      required
-                      value={formData.city}
-                      onChange={handleInputChange}
-                      className="mt-1 bg-background border-amber/20 text-cream"
-                    />
+                return (
+                  <div
+                    key={item.id}
+                    className="flex gap-4 pb-4 border-b border-amber/10 last:border-0 last:pb-0"
+                  >
+                    <div className="relative w-20 h-20 flex-shrink-0 rounded overflow-hidden bg-[#2a2a2a]">
+                      <Image
+                        src={product.image_url}
+                        alt={product.name}
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="font-semibold text-cream">{product.name}</h3>
+                      <p className="text-sm text-cream/70 line-clamp-2">
+                        {product.short_description}
+                      </p>
+                      <div className="mt-2 flex justify-between items-center">
+                        <span className="text-sm text-cream/60">Qty: {item.quantity}</span>
+                        <span className="font-bold text-gold">
+                          ${(product.price * item.quantity).toFixed(2)}
+                        </span>
+                      </div>
+                    </div>
                   </div>
+                );
+              })}
+            </div>
 
-                  <div>
-                    <Label htmlFor="state" className="text-cream">
-                      State *
-                    </Label>
-                    <Input
-                      id="state"
-                      name="state"
-                      type="text"
-                      required
-                      value={formData.state}
-                      onChange={handleInputChange}
-                      className="mt-1 bg-background border-amber/20 text-cream"
-                    />
-                  </div>
-
-                  <div>
-                    <Label htmlFor="zip" className="text-cream">
-                      ZIP Code *
-                    </Label>
-                    <Input
-                      id="zip"
-                      name="zip"
-                      type="text"
-                      required
-                      value={formData.zip}
-                      onChange={handleInputChange}
-                      className="mt-1 bg-background border-amber/20 text-cream"
-                    />
-                  </div>
+            <div className="mt-6 pt-6 border-t border-amber/20 space-y-3 text-sm text-cream/70">
+              <div className="flex items-start gap-2">
+                <CheckCircle2 className="h-5 w-5 text-gold flex-shrink-0 mt-0.5" />
+                <div>
+                  <p className="font-semibold text-cream">Secure Square Payment</p>
+                  <p className="text-xs">Your payment information is processed securely by Square</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-2">
+                <CheckCircle2 className="h-5 w-5 text-gold flex-shrink-0 mt-0.5" />
+                <div>
+                  <p className="font-semibold text-cream">Shipping Address</p>
+                  <p className="text-xs">You'll provide your shipping address on the next page</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-2">
+                <CheckCircle2 className="h-5 w-5 text-gold flex-shrink-0 mt-0.5" />
+                <div>
+                  <p className="font-semibold text-cream">Order Confirmation</p>
+                  <p className="text-xs">You'll receive a confirmation email after checkout</p>
                 </div>
               </div>
             </div>
           </div>
+        </div>
 
           {/* Order Summary */}
           <div className="lg:col-span-1">
@@ -317,20 +240,21 @@ export default function CheckoutPage() {
               </div>
 
               <Button
-                type="submit"
+                onClick={handleCheckout}
+                disabled={checkoutLoading}
                 size="lg"
-                className="w-full bg-amber hover:bg-gold text-white"
+                className="w-full bg-amber hover:bg-gold text-white disabled:opacity-50"
               >
-                Place Order
+                {checkoutLoading ? 'Redirecting to Square...' : 'Proceed to Payment'}
               </Button>
 
               <p className="mt-4 text-xs text-cream/50 text-center">
-                Payment integration coming soon with Stripe
+                Secure payment powered by Square
               </p>
             </div>
           </div>
         </div>
-      </form>
+      </div>
     </div>
   );
 }
