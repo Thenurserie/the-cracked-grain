@@ -57,25 +57,75 @@ export default function CheckoutPage() {
 
   // Initialize Square Web Payments SDK
   useEffect(() => {
-    if (!squareLoaded || !window.Square) return;
+    if (!squareLoaded || !window.Square) {
+      console.log('Square SDK not loaded yet');
+      return;
+    }
+
+    // Wait for DOM to be ready
+    const cardContainer = document.getElementById('card-container');
+    if (!cardContainer) {
+      console.error('Card container not found in DOM');
+      setError('Payment form container not found. Please refresh.');
+      return;
+    }
 
     async function initializeSquare() {
-      try {
-        const payments = window.Square.payments(
-          process.env.NEXT_PUBLIC_SQUARE_APPLICATION_ID,
-          process.env.NEXT_PUBLIC_SQUARE_LOCATION_ID
-        );
+      const appId = process.env.NEXT_PUBLIC_SQUARE_APPLICATION_ID;
+      const locationId = process.env.NEXT_PUBLIC_SQUARE_LOCATION_ID;
 
-        const card = await payments.card();
+      console.log('Initializing Square with:', { appId, locationId });
+
+      if (!appId || !locationId) {
+        console.error('Missing Square credentials');
+        setError('Payment configuration error. Please contact support.');
+        return;
+      }
+
+      try {
+        const payments = window.Square.payments(appId, locationId);
+        console.log('Square payments object created');
+
+        const cardOptions = {
+          style: {
+            '.input-container': {
+              borderColor: '#52525b',
+              borderRadius: '8px',
+            },
+            '.input-container.is-focus': {
+              borderColor: '#d97706',
+            },
+            input: {
+              backgroundColor: '#3f3f46',
+              color: '#ffffff',
+              fontFamily: 'inherit',
+            },
+            'input::placeholder': {
+              color: '#9ca3af',
+            },
+          },
+        };
+
+        const card = await payments.card(cardOptions);
+        console.log('Card object created');
+
         await card.attach('#card-container');
+        console.log('Card attached successfully');
+
         setCard(card);
-      } catch (e) {
-        console.error('Failed to initialize Square:', e);
-        setError('Failed to load payment form. Please refresh the page.');
+        setError(''); // Clear any previous error
+
+      } catch (e: any) {
+        console.error('Square initialization error:', e);
+        console.error('Error details:', JSON.stringify(e, null, 2));
+        setError(`Payment form error: ${e.message || 'Unknown error'}. Please refresh or try a different browser.`);
       }
     }
 
-    initializeSquare();
+    // Small delay to ensure DOM is fully ready
+    const timer = setTimeout(initializeSquare, 100);
+    return () => clearTimeout(timer);
+
   }, [squareLoaded]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -182,11 +232,16 @@ export default function CheckoutPage() {
   return (
     <>
       <Script
-        src={process.env.NODE_ENV === 'production'
-          ? "https://web.squarecdn.com/v1/square.js"
-          : "https://sandbox.web.squarecdn.com/v1/square.js"
-        }
-        onLoad={() => setSquareLoaded(true)}
+        src="https://web.squarecdn.com/v1/square.js"
+        strategy="afterInteractive"
+        onLoad={() => {
+          console.log('Square SDK script loaded');
+          setSquareLoaded(true);
+        }}
+        onError={(e) => {
+          console.error('Square SDK failed to load:', e);
+          setError('Payment system unavailable. Please try again later.');
+        }}
       />
 
       <div className="container mx-auto px-4 py-12">
@@ -312,13 +367,31 @@ export default function CheckoutPage() {
 
                 <div id="card-container" className="min-h-[100px] bg-background rounded-lg p-4">
                   {!squareLoaded && (
-                    <p className="text-cream/60 text-center">Loading payment form...</p>
+                    <div className="flex items-center justify-center h-full py-8">
+                      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-amber"></div>
+                      <span className="ml-3 text-cream/60">Loading payment form...</span>
+                    </div>
                   )}
                 </div>
 
-                <p className="text-cream/50 text-xs mt-2">
-                  Payments securely processed by Square
-                </p>
+                {error && !card && (
+                  <div className="mt-4 p-4 bg-red-900/30 border border-red-500/50 rounded-lg">
+                    <p className="text-red-300 text-sm mb-2">{error}</p>
+                    <button
+                      type="button"
+                      onClick={() => window.location.reload()}
+                      className="text-amber hover:text-gold text-sm underline"
+                    >
+                      Click here to refresh and try again
+                    </button>
+                  </div>
+                )}
+
+                {card && (
+                  <p className="text-cream/50 text-xs mt-2">
+                    🔒 Payments securely processed by Square
+                  </p>
+                )}
               </div>
             </div>
 
