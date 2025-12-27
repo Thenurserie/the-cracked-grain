@@ -284,7 +284,15 @@ function SubscriptionContent() {
                 </div>
                 <div className="flex items-start gap-2">
                   <Sparkles className="h-5 w-5 text-gold flex-shrink-0 mt-0.5" />
-                  <span className="text-sm font-medium text-cream">Advanced tools (coming soon)</span>
+                  <span className="text-sm font-medium text-cream">Advanced brewing calculators</span>
+                </div>
+                <div className="flex items-start gap-2">
+                  <Sparkles className="h-5 w-5 text-gold flex-shrink-0 mt-0.5" />
+                  <span className="text-sm font-medium text-cream">Recipe scaling tools</span>
+                </div>
+                <div className="flex items-start gap-2">
+                  <Sparkles className="h-5 w-5 text-gold flex-shrink-0 mt-0.5" />
+                  <span className="text-sm font-medium text-cream">Water chemistry calculator</span>
                 </div>
                 <div className="flex items-start gap-2">
                   <Sparkles className="h-5 w-5 text-gold flex-shrink-0 mt-0.5" />
