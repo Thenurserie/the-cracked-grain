@@ -1,9 +1,9 @@
 import { NextResponse } from 'next/server';
 import { randomUUID } from 'crypto';
-import { Client } from 'square';
+import { SquareClient } from 'square';
 
-const squareClient = new Client({
-  accessToken: process.env.SQUARE_ACCESS_TOKEN,
+const squareClient = new SquareClient({
+  token: process.env.SQUARE_ACCESS_TOKEN,
   environment: process.env.SQUARE_ENVIRONMENT === 'production' ? 'production' : 'sandbox'
 });
 
@@ -16,7 +16,7 @@ export async function POST(request: Request) {
     }
 
     // Create the payment
-    const paymentResponse = await squareClient.paymentsApi.createPayment({
+    const paymentResponse = await squareClient.payments.create({
       sourceId,
       idempotencyKey: randomUUID(),
       amountMoney: {
@@ -37,19 +37,19 @@ export async function POST(request: Request) {
       note: `Online order: ${items.map((i: any) => `${i.quantity}x ${i.name}`).join(', ')}`
     });
 
-    if (paymentResponse.result.payment?.status === 'COMPLETED') {
+    if (paymentResponse.payment?.status === 'COMPLETED') {
       // Payment successful
       // TODO: Create order in your database, send confirmation email, etc.
 
       return NextResponse.json({
         success: true,
-        orderId: paymentResponse.result.payment.id,
-        receiptUrl: paymentResponse.result.payment.receiptUrl
+        orderId: paymentResponse.payment.id,
+        receiptUrl: paymentResponse.payment.receiptUrl
       });
     } else {
       return NextResponse.json({
         error: 'Payment not completed',
-        status: paymentResponse.result.payment?.status
+        status: paymentResponse.payment?.status
       }, { status: 400 });
     }
 
